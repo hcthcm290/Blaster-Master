@@ -17,6 +17,7 @@ class CGame
 public:
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom);
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX);
 	LPDIRECT3DTEXTURE9 LoadTexture(LPCWSTR texturePath);
 
 

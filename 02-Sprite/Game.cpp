@@ -63,7 +63,42 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+
+	D3DXVECTOR3 center((right - left) / 2, (bottom - top) / 2, 0);
+	spriteHandler->Draw(texture, &r, &center, &p, D3DCOLOR_XRGB(255, 255, 255));
+}
+
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX)
+{
+	D3DXVECTOR3 p(x, y, 0);
+	RECT r;
+	r.left = left;
+	r.top = top;
+	r.right = right;
+	r.bottom = bottom;
+
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+
+	D3DXMATRIX translate;
+	D3DXMatrixTranslation(&translate, x, y, 0);
+
+	D3DXMATRIX flip;
+	if (flipX)
+	{
+		D3DXMatrixScaling(&flip, -1, 1, 0);
+	}
+	else
+	{
+		D3DXMatrixScaling(&flip, 1, 1, 0);
+	}
+
+	mat *= flip;
+	mat *= translate;
+
+	spriteHandler->SetTransform(&mat);
+
+	spriteHandler->Draw(texture, &r, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 /*

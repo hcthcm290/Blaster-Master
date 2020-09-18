@@ -134,7 +134,7 @@ void InitDirectX(HWND hWnd)
 		D3DADAPTER_DEFAULT,			// use default video card in the system, some systems have more than one video cards
 		D3DDEVTYPE_HAL,				// HAL = Hardware Abstraction Layer - a "thin" software layer to allow application to directly interact with video card hardware
 		hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+		D3DCREATE_HARDWARE_VERTEXPROCESSING,
 		&d3dpp,
 		&d3ddv);
 
@@ -192,22 +192,22 @@ void Update(DWORD dt)
 {
 	//Uncomment the whole function to see the brick moves and bounces back when hitting left and right edges
 	
-	//brick_x += brick_vx*dt; 
+	brick_x += brick_vx*dt; 
 
-	//if (brick_x <= 0 || brick_x >= BackBufferWidth - BRICK_WIDTH) { 
-	//	
-	//	brick_vx = -brick_vx;
+	if (brick_x <= 0 || brick_x >= BackBufferWidth - BRICK_WIDTH) { 
+		
+		brick_vx = -brick_vx;
 
-	//	//Why not having these logics would make the brick disappear sometimes?  
-	//	if (brick_x <= 0)
-	//	{
-	//		brick_x = 0;
-	//	}
-	//	else if (brick_x >= BackBufferWidth - BRICK_WIDTH)
-	//	{
-	//		brick_x = BackBufferWidth - BRICK_WIDTH;
-	//	}
-	//} 
+		//Why not having these logics would make the brick disappear sometimes?  
+		if (brick_x <= 0)
+		{
+			brick_x = 0;
+		}
+		else if (brick_x >= BackBufferWidth - BRICK_WIDTH)
+		{
+			brick_x = BackBufferWidth - BRICK_WIDTH;
+		}
+	} 
 }
 
 /*
@@ -252,7 +252,7 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 	wc.cbWndExtra = 0;
 	wc.hIcon = (HICON)LoadImage(hInstance, WINDOW_ICON_PATH, IMAGE_ICON, 0,0, LR_LOADFROMFILE);;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	wc.hbrBackground = CreateSolidBrush(RGB(255, 255, 255));
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = WINDOW_CLASS_NAME;
 	wc.hIconSm = NULL;
@@ -281,7 +281,7 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 	}
 
 	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+	//UpdateWindow(hWnd);
 
 	return hWnd;
 }

@@ -22,11 +22,13 @@ void CGameObject::Render()
 	LPANIMATION ani;
 	//if (vx>0) ani = animations[0]; else ani = animations[1];
 
-	if (vx>0) ani = CAnimations::GetInstance()->Get(500); 
-	else ani = CAnimations::GetInstance()->Get(501);
+	/*if (vx>0) ani = CAnimations::GetInstance()->Get(500); 
+	else ani = CAnimations::GetInstance()->Get(501);*/
 
+	ani = CAnimations::GetInstance()->Get(500);
 	//ani = animations[0];
-	ani->Render(x, y);
+	if (vx > 0) ani->Render(x, y, true);
+	else ani->Render(x, y, false);
 }
 
 CGameObject::~CGameObject()
