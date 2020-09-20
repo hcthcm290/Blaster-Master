@@ -45,6 +45,14 @@ LPSPRITE CSprites::Get(int id)
 
 
 
+CAnimation::CAnimation(CAnimationInfo* animInfo)
+{
+	frames = animInfo->frames;
+	defaultTime = animInfo->defaultTime;
+	lastFrameTime = -1;
+	currentFrame = -1;
+}
+
 void CAnimation::Add(int spriteId, DWORD time)
 {
 	int t = time;
@@ -105,12 +113,6 @@ void CAnimation::Render(float x, float y, bool flipX)
 
 CAnimations * CAnimations::__instance = NULL;
 
-CAnimations * CAnimations::GetInstance()
-{
-	if (__instance == NULL) __instance = new CAnimations();
-	return __instance;
-}
-
 void CAnimations::Add(int id, LPANIMATION ani)
 {
 	animations[id] = ani;
@@ -119,4 +121,14 @@ void CAnimations::Add(int id, LPANIMATION ani)
 LPANIMATION CAnimations::Get(int id)
 {
 	return animations[id];
+}
+
+void CAnimationInfo::Add(int spriteID, DWORD time)
+{
+	int t = time;
+	if (time == 0) t = this->defaultTime;
+
+	LPSPRITE sprite = CSprites::GetInstance()->Get(spriteID);
+	LPANIMATION_FRAME frame = new CAnimationFrame(sprite, t);
+	frames.push_back(frame);
 }

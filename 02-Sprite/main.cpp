@@ -36,6 +36,10 @@
 
 CGame *game;
 CGameObject *mario;
+CGameObject* mario2;
+
+int delay = 0;
+bool s = false;
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -83,30 +87,27 @@ void LoadResources()
 	sprites->Add(20003, 336, 117, 351, 132, texMisc);
 	sprites->Add(20004, 354, 117, 369, 132, texMisc);*/
 	
+	CAnimationInfo* ani;
 
-	CAnimations * animations = CAnimations::GetInstance();
-	LPANIMATION ani;
+	ani = new CAnimationInfo(300);
+	ani->Add(10001);
+	ani->Add(10002);
+	ani->Add(10003);
 
-	ani = new CAnimation(100);
+	CGameObject::AddAnimation("Running", ani);
+
+	/*ani = new CAnimation(300);
 	ani->Add(10001);
 	ani->Add(10002);
 	ani->Add(10003);
 	animations->Add(500, ani);
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(300);
 	ani->Add(10011);
 	ani->Add(10012);
 	ani->Add(10013);
-	animations->Add(501, ani);
+	animations->Add(501, ani);*/
 
-	/*
-	ani = new CAnimation(100);
-	ani->Add(20001,1000);
-	ani->Add(20002);
-	ani->Add(20003);
-	ani->Add(20004);
-	animations->Add(510, ani);
-	*/
 	
 	mario = new CGameObject();
 	mario->SetPosition(10.0f, 100.0f);
@@ -119,6 +120,21 @@ void LoadResources()
 void Update(DWORD dt)
 {
 	mario->Update(dt);
+
+	if (s == false)
+	{
+		delay += dt;
+		if (delay >= 600)
+		{
+			mario2 = new CGameObject();
+			mario2->SetPosition(10, 150);
+			s = true;
+		}
+	}
+	else
+	{
+		mario2->Update(dt);
+	}
 }
 
 /*
@@ -138,6 +154,8 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		mario->Render();
+
+		if (s)	mario2->Render();
 
 		//
 		// TEST SPRITE DRAW

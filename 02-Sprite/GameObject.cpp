@@ -5,10 +5,23 @@
 #include "GameObject.h"
 #include "Sprites.h"
 
+std::unordered_map<string, CAnimationInfo*> CGameObject::animationInfos;
+
+void CGameObject::AddAnimation(string id, CAnimationInfo* animInfo)
+{
+	animationInfos[id] = animInfo;
+}
+
 CGameObject::CGameObject()
 {
 	x = y = 0;
 	vx = 0.07f;
+
+	for (std::pair<std::string, CAnimationInfo*> element : animationInfos)
+	{
+		CAnimation* anim = new CAnimation(element.second);
+		animations[element.first] = anim;
+	}
 }
 
 void CGameObject::Update(DWORD dt)
@@ -25,7 +38,7 @@ void CGameObject::Render()
 	/*if (vx>0) ani = CAnimations::GetInstance()->Get(500); 
 	else ani = CAnimations::GetInstance()->Get(501);*/
 
-	ani = CAnimations::GetInstance()->Get(500);
+	ani = animations["Running"];
 	//ani = animations[0];
 	if (vx > 0) ani->Render(x, y, true);
 	else ani->Render(x, y, false);
@@ -33,4 +46,8 @@ void CGameObject::Render()
 
 CGameObject::~CGameObject()
 {
+	for (std::pair<std::string, CAnimation*> element : animations)
+	{
+		delete element.second;
+	}
 }

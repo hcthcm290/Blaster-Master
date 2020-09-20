@@ -56,6 +56,17 @@ public:
 
 typedef CAnimationFrame *LPANIMATION_FRAME;
 
+class CAnimationInfo
+{
+public:
+	int defaultTime;
+	vector<LPANIMATION_FRAME> frames;
+
+public:
+	CAnimationInfo(int defaultTime) { this->defaultTime = defaultTime; }
+	void Add(int spriteID, DWORD time = 0);
+};
+
 class CAnimation
 {
 	DWORD lastFrameTime;
@@ -64,6 +75,7 @@ class CAnimation
 	vector<LPANIMATION_FRAME> frames;
 public:
 	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
+	CAnimation(CAnimationInfo* animInfo);
 	void Add(int spriteId, DWORD time = 0);
 	void Render(float x, float y);
 	void Render(float x, float y, bool flipX);
@@ -80,7 +92,5 @@ class CAnimations
 public:
 	void Add(int id, LPANIMATION ani);
 	LPANIMATION Get(int id);
-
-	static CAnimations * GetInstance();
 };
 

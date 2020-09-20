@@ -1,1 +1,2 @@
 Cần làm rõ pivot của nhân vật nằm ở đâu để vẽ và tính physics
+id của Csprite nên là một string
