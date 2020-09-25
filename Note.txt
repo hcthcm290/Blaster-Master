@@ -1,2 +1,9 @@
 Cần làm rõ pivot của nhân vật nằm ở đâu để vẽ và tính physics
-id của Csprite nên là một string
+id của Csprite nên là một string (csprites id = int)
+Thống nhất lại hướng của trục tọa độ (lấy trục bth)
+Hỏi cô về area 2 overworld
+Hỏi cô về video demo quá trình chơi
+Homing misle lấy từ màn trước, vậy nếu bắt đầu từ màn 2 thì mình được cung cấp những loại đạn nào trước không
+Tạo class Timer
+Thêm hàm start vào GameObject
+
