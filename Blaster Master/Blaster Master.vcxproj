@@ -148,11 +148,25 @@
   <ItemGroup>
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Orb.cpp" />
+    <ClCompile Include="Sprites.cpp" />
+    <ClCompile Include="Textures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="Jumper.h" />
+    <ClInclude Include="Orb.h" />
+    <ClInclude Include="Sprites.h" />
+    <ClInclude Include="Textures.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Sprite\FlyingEye.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
