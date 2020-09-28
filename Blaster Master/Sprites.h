@@ -83,14 +83,3 @@ public:
 
 typedef CAnimation* LPANIMATION;
 
-class CAnimations
-{
-	static CAnimations* __instance;
-
-	unordered_map<int, LPANIMATION> animations;
-
-public:
-	void Add(int id, LPANIMATION ani);
-	LPANIMATION Get(int id);
-};
-

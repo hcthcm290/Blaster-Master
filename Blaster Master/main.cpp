@@ -121,6 +121,7 @@ void LoadJumper()
 void LoadResource()
 {
     LoadOrb();
+    LoadJumper();
 }
 
 void CreateGameObject()
