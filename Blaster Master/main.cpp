@@ -166,7 +166,9 @@ void CreateGameObject()
 
 void Update(DWORD dt)
 {
-
+    orb->Update(dt);
+    dome->Update(dt);
+    jumper->Update(dt);
 }
 
 void Render()
@@ -185,8 +187,8 @@ void Render()
         spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
         orb->Render();
-        //jumper->Render();
-        //dome->Render();
+        jumper->Render();
+        dome->Render();
 
         spriteHandler->End();
         d3ddv->EndScene();
@@ -218,6 +220,8 @@ int Run()
         // dt: the time between (beginning of last frame) and now
         // this frame: the frame we are about to render
         DWORD dt = now - frameStart;
+
+        CGame::GetInstance()->ProcessKeyboard();
 
         if (dt >= tickPerFrame)
         {

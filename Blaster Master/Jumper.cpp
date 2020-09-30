@@ -1,6 +1,6 @@
 #include "Jumper.h"
 
-void Jumper::Update()
+void Jumper::Update(DWORD dt) 
 {
 }
 

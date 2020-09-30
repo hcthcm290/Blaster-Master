@@ -4,6 +4,6 @@
 class Jumper : public DynamicObject
 {
 public:
-	void Update();
+	void Update(DWORD dt);
 	void Render();
 };
