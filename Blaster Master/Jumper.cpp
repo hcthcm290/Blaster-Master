@@ -6,5 +6,5 @@ void Jumper::Update()
 
 void Jumper::Render()
 {
-	animations["moving"]->Render(x, y);
+	animator.Draw(1002, x, y, false);
 }

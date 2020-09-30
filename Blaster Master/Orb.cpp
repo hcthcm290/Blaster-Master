@@ -7,5 +7,5 @@ void Orb::Update(DWORD dt)
 
 void Orb::Render()
 {
-	animations["Spinning"]->Render(x, y);
+	animator.Draw(1001, x, y, false);
 }

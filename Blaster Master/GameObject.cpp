@@ -5,22 +5,11 @@
 #include "GameObject.h"
 #include "Sprites.h"
 
-std::unordered_map<string, CAnimationInfo*> CGameObject::animationInfos;
-
-void CGameObject::AddAnimation(string id, CAnimationInfo* animInfo)
-{
-	animationInfos[id] = animInfo;
-}
 
 CGameObject::CGameObject()
 {
 	x = y = 0;
-
-	for (std::pair<std::string, CAnimationInfo*> element : animationInfos)
-	{
-		CAnimation* anim = new CAnimation(element.second);
-		animations[element.first] = anim;
-	}
+	currentState = 0;
 }
 
 void CGameObject::Update(DWORD dt)

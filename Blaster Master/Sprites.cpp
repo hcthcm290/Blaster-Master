@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "debug.h"
 
-CSprite::CSprite(std::string id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
 	this->id = id;
 	this->left = left;
@@ -32,28 +32,18 @@ void CSprite::Draw(float x, float y, bool flipX)
 	game->Draw(x, y, texture, left, top, right, bottom, flipX);
 }
 
-void CSprites::Add(std::string id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
 	LPSPRITE s = new CSprite(id, left, top, right, bottom, tex);
 	sprites[id] = s;
 }
 
-LPSPRITE CSprites::Get(std::string id)
+LPSPRITE CSprites::Get(int id)
 {
 	return sprites[id];
 }
 
-
-
-CAnimation::CAnimation(CAnimationInfo* animInfo)
-{
-	frames = animInfo->frames;
-	defaultTime = animInfo->defaultTime;
-	lastFrameTime = -1;
-	currentFrame = -1;
-}
-
-void CAnimation::Add(std::string spriteId, DWORD time)
+void CAnimation::Add(int spriteId, DWORD time)
 {
 	int t = time;
 	if (time == 0) t = this->defaultTime;
@@ -63,7 +53,7 @@ void CAnimation::Add(std::string spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
-void CAnimation::Render(float x, float y)
+int CAnimation::Render(int currentFrame, float x, float y)
 {
 	DWORD now = GetTickCount64();
 	if (currentFrame == -1)
@@ -85,9 +75,11 @@ void CAnimation::Render(float x, float y)
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(x, y);
+
+	return currentFrame;
 }
 
-void CAnimation::Render(float x, float y, bool flipX)
+int CAnimation::Render(int currentFrame, float x, float y, bool flipX)
 {
 	DWORD now = GetTickCount64();
 	if (currentFrame == -1)
@@ -109,14 +101,38 @@ void CAnimation::Render(float x, float y, bool flipX)
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(x, y, flipX);
+
+	return currentFrame;
 }
 
-void CAnimationInfo::Add(std::string spriteID, DWORD time)
-{
-	int t = time;
-	if (time == 0) t = this->defaultTime;
+CAnimations* CAnimations::__instance = NULL;
 
-	LPSPRITE sprite = CSprites::GetInstance()->Get(spriteID);
-	LPANIMATION_FRAME frame = new CAnimationFrame(sprite, t);
-	frames.push_back(frame);
+CAnimations* CAnimations::GetInstance()
+{
+	if (__instance == NULL) __instance = new CAnimations();
+	return __instance;
+}
+
+void CAnimations::Add(int id, LPANIMATION ani)
+{
+	animations[id] = ani;
+}
+
+LPANIMATION CAnimations::Get(int id)
+{
+	LPANIMATION ani = animations[id];
+	if (ani == NULL)
+		DebugOut(L"[ERROR] Failed to find animation id: %d\n", id);
+	return ani;
+}
+
+void CAnimations::Clear()
+{
+	for (auto x : animations)
+	{
+		LPANIMATION ani = x.second;
+		delete ani;
+	}
+
+	animations.clear();
 }

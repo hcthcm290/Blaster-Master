@@ -7,7 +7,7 @@ using namespace std;
 
 class CSprite
 {
-	std::string id;				// Sprite ID in the sprite database
+	int id;				// Sprite ID in the sprite database
 
 	int left;
 	int top;
@@ -16,7 +16,7 @@ class CSprite
 
 	LPDIRECT3DTEXTURE9 texture;
 public:
-	CSprite(std::string id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 
 	void Draw(float x, float y);
 	void Draw(float x, float y, bool flipX);
@@ -31,11 +31,11 @@ class CSprites
 {
 	static CSprites* __instance;
 
-	unordered_map<std::string, LPSPRITE> sprites;
+	unordered_map<int, LPSPRITE> sprites;
 
 public:
-	void Add(std::string id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
-	LPSPRITE Get(std::string id);
+	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	LPSPRITE Get(int id);
 
 	static CSprites* GetInstance();
 };
@@ -56,30 +56,30 @@ public:
 
 typedef CAnimationFrame* LPANIMATION_FRAME;
 
-class CAnimationInfo
-{
-public:
-	int defaultTime;
-	vector<LPANIMATION_FRAME> frames;
-
-public:
-	CAnimationInfo(int defaultTime) { this->defaultTime = defaultTime; }
-	void Add(std::string spriteID, DWORD time = 0);
-};
-
 class CAnimation
 {
 	DWORD lastFrameTime;
 	int defaultTime;
-	int currentFrame;
 	vector<LPANIMATION_FRAME> frames;
 public:
-	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
-	CAnimation(CAnimationInfo* animInfo);
-	void Add(std::string spriteId, DWORD time = 0);
-	void Render(float x, float y);
-	void Render(float x, float y, bool flipX);
+	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; }
+	void Add(int spriteId, DWORD time = 0);
+	int Render(int currentFrame, float x, float y);
+	int Render(int currentFrame, float x, float y, bool flipX);
 };
 
 typedef CAnimation* LPANIMATION;
 
+class CAnimations
+{
+	static CAnimations* __instance;
+
+	unordered_map<int, LPANIMATION> animations;
+
+public:
+	void Add(int id, LPANIMATION ani);
+	LPANIMATION Get(int id);
+	void Clear();
+
+	static CAnimations* GetInstance();
+};

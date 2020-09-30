@@ -4,6 +4,7 @@
 #include "Sprites.h"
 #include "Orb.h"
 #include "Jumper.h"
+#include "Dome.h"
 
 #define MAX_FRAME_RATE 60
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
@@ -14,8 +15,12 @@
 #define JUMPER_HEIGHT 26
 #define JUMPER_WIDTH 17
 
+#define DOME_HEIGHT 17
+#define DOME_WIDTH 18
+
 Orb* orb;
 Jumper* jumper;
+Dome* dome;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -72,24 +77,24 @@ void LoadOrb()
 
     LPDIRECT3DTEXTURE9 orbTexture = textures->Get("Flying eye");
 
-    sprites->Add("Orb_01", 18 * 0, 0, 18 * 1, 18, orbTexture);
-    sprites->Add("Orb_02", 18 * 1, 0, 18 * 2, 18, orbTexture);
-    sprites->Add("Orb_03", 18 * 2, 0, 18 * 3, 18, orbTexture);
-    sprites->Add("Orb_04", 18 * 3, 0, 18 * 4, 18, orbTexture);
-    sprites->Add("Orb_05", 18 * 4, 0, 18 * 5, 18, orbTexture);
+    sprites->Add(1, 18 * 0, 0, 18 * 1, 18, orbTexture);
+    sprites->Add(2, 18 * 1, 0, 18 * 2, 18, orbTexture);
+    sprites->Add(3, 18 * 2, 0, 18 * 3, 18, orbTexture);
+    sprites->Add(4, 18 * 3, 0, 18 * 4, 18, orbTexture);
+    sprites->Add(5, 18 * 4, 0, 18 * 5, 18, orbTexture);
 
-    CAnimationInfo* OrbAnimSpinning = new CAnimationInfo(200);
-    OrbAnimSpinning->Add("Orb_01");
-    OrbAnimSpinning->Add("Orb_02");
-    OrbAnimSpinning->Add("Orb_03");
-    OrbAnimSpinning->Add("Orb_04");
-    OrbAnimSpinning->Add("Orb_05");
+    CAnimation* OrbAnimSpinning = new CAnimation(100);
+    OrbAnimSpinning->Add(1);
+    OrbAnimSpinning->Add(2);
+    OrbAnimSpinning->Add(3);
+    OrbAnimSpinning->Add(4);
+    OrbAnimSpinning->Add(5);
 
-    CAnimationInfo* OrbAnimIdle = new CAnimationInfo(200);
-    OrbAnimSpinning->Add("Orb_01");
+    CAnimation* OrbAnimIdle = new CAnimation(100);
+    OrbAnimSpinning->Add(1);
 
-    Orb::AddAnimation("idle", OrbAnimSpinning);
-    Orb::AddAnimation("Spinning", OrbAnimSpinning);
+    CAnimations::GetInstance()->Add(1000, OrbAnimIdle);
+    CAnimations::GetInstance()->Add(1001, OrbAnimSpinning);
 }
 
 void LoadJumper()
@@ -102,26 +107,51 @@ void LoadJumper()
 
     LPDIRECT3DTEXTURE9 orbTexture = textures->Get("Jumper");
 
-    sprites->Add("JUMPER_01", JUMPER_WIDTH * 0, 0, JUMPER_WIDTH * 1, JUMPER_HEIGHT, orbTexture);
-    sprites->Add("JUMPER_02", JUMPER_WIDTH * 1, 0, JUMPER_WIDTH * 2, JUMPER_HEIGHT, orbTexture);
-    sprites->Add("JUMPER_03", JUMPER_WIDTH * 2, 0, JUMPER_WIDTH * 3, JUMPER_HEIGHT, orbTexture);
+    sprites->Add(11, JUMPER_WIDTH * 0, 0, JUMPER_WIDTH * 1, JUMPER_HEIGHT, orbTexture);
+    sprites->Add(12, JUMPER_WIDTH * 1, 0, JUMPER_WIDTH * 2, JUMPER_HEIGHT, orbTexture);
+    sprites->Add(13, JUMPER_WIDTH * 2, 0, JUMPER_WIDTH * 3, JUMPER_HEIGHT, orbTexture);
 
-    CAnimationInfo* moving = new CAnimationInfo(200);
-    moving->Add("JUMPER_01");
-    moving->Add("JUMPER_02");
-    moving->Add("JUMPER_03");
+    CAnimation* moving = new CAnimation(100);
+    moving->Add(11);
+    moving->Add(12);
+    moving->Add(13);
 
-    CAnimationInfo* idle = new CAnimationInfo(200);
-    idle->Add("JUMPER_01");
+    CAnimation* idle = new CAnimation(100);
+    idle->Add(11);
 
-    Jumper::AddAnimation("idle", idle);
-    Jumper::AddAnimation("moving", moving);
+    CAnimations::GetInstance()->Add(1002, moving);
+    CAnimations::GetInstance()->Add(2000, idle);
+}
+
+void LoadDome()
+{
+    CTextures* textures = CTextures::GetInstance();
+
+    textures->Add("Dome", L"Textures\\Dome.png", D3DCOLOR_RGBA(255, 0, 255, 255));
+
+    CSprites* sprites = CSprites::GetInstance();
+
+    LPDIRECT3DTEXTURE9 domeTexture = textures->Get("Dome");
+
+    sprites->Add(21, DOME_WIDTH * 0, 0, DOME_WIDTH * 1, DOME_HEIGHT, domeTexture);
+    sprites->Add(22, DOME_WIDTH * 1, 0, DOME_WIDTH * 2, DOME_HEIGHT, domeTexture);
+
+    CAnimation* moving = new CAnimation(100);
+    moving->Add(21);
+    moving->Add(22);
+
+    CAnimation* idle = new CAnimation(100);
+    idle->Add(21);
+
+    CAnimations::GetInstance()->Add(1003, moving);
+    CAnimations::GetInstance()->Add(3000, idle);
 }
 
 void LoadResource()
 {
     LoadOrb();
     LoadJumper();
+    LoadDome();
 }
 
 void CreateGameObject()
@@ -130,6 +160,8 @@ void CreateGameObject()
     orb->SetPosition(100, 100);
     jumper = new Jumper();
     jumper->SetPosition(200, 100);
+    dome = new Dome();
+    dome->SetPosition(300, 100);
 }
 
 void Update(DWORD dt)
@@ -153,7 +185,8 @@ void Render()
         spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
         orb->Render();
-        jumper->Render();
+        //jumper->Render();
+        //dome->Render();
 
         spriteHandler->End();
         d3ddv->EndScene();

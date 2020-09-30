@@ -19,12 +19,10 @@ protected:
 
 	unordered_map<string, CAnimation*> animations;
 
-	static unordered_map<string, CAnimationInfo*> animationInfos;
 
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetState(int state) { this->currentState = state; }
-	static void AddAnimation(string id, CAnimationInfo* animInfo);
 
 	CGameObject();
 
