@@ -4,6 +4,7 @@
 #include <fstream>
 #include "Debug.h"
 #include "Textures.h"
+#include "Orb.h"
 
 using namespace std;
 
@@ -112,7 +113,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
-	
+	case 0:
+		obj = new Orb();
 	}
 
 	// General object setup

@@ -136,3 +136,14 @@ void CAnimations::Clear()
 
 	animations.clear();
 }
+
+void CSprites::Clear()
+{
+	for (auto x : sprites)
+	{
+		LPSPRITE s = x.second;
+		delete s;
+	}
+
+	sprites.clear();
+}

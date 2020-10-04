@@ -1,0 +1,29 @@
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+0	textures\FlyingEye.png	255	255	255
+
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# ORB
+1	0	0	18	18
+2	18	0	36	18
+3	36	0	54	18
+4	54	0	72	18
+
+						
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+# ==== ORB =========
+#
+1000	1	100
+1001	1	100	2	100	3	100	4	100
+
+
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba
+# MARIO
+0	50.0	50.0
+
+

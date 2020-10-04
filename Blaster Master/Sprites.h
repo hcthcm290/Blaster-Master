@@ -35,6 +35,7 @@ class CSprites
 
 public:
 	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	void Clear();
 	LPSPRITE Get(int id);
 
 	static CSprites* GetInstance();

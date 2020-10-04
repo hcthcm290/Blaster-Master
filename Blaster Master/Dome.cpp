@@ -1,6 +1,6 @@
 #include "Dome.h"
 
-void Dome::Update()
+void Dome::Update(DWORD dt)
 {
 }
 

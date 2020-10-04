@@ -2,6 +2,10 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <unordered_map>
+#include "Scene.h"
+
+using namespace std;
 
 class CGame
 {
@@ -13,6 +17,12 @@ class CGame
 
 	LPDIRECT3DSURFACE9 backBuffer = NULL;
 	LPD3DXSPRITE spriteHandler = NULL;			// Sprite helper library to help us draw 2D image on the screen 
+
+	std::unordered_map<int, LPSCENE> scenes;
+	int current_scene;
+
+	void _ParseSection_SETTINGS(string line);
+	void _ParseSection_SCENES(string line);
 
 	int screenWidth;
 	int screenHeight;
@@ -28,6 +38,10 @@ public:
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 	int GetScreenWidth() { return screenWidth; }
 	int GetScreenHeight() { return screenHeight; }
+
+	void Load(LPCWSTR gameFile);
+	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
+	void SwitchScene(int scene_id);
 
 	static CGame* GetInstance();
 

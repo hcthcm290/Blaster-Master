@@ -22,6 +22,8 @@ Orb* orb;
 Jumper* jumper;
 Dome* dome;
 
+CGame* game;
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message) {
@@ -166,7 +168,7 @@ void CreateGameObject()
 
 void Update(DWORD dt)
 {
-
+    game->GetCurrentScene()->Update(dt);
 }
 
 void Render()
@@ -184,9 +186,11 @@ void Render()
 
         spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-        orb->Render();
+        //orb->Render();
         //jumper->Render();
         //dome->Render();
+
+        game->GetCurrentScene()->Render();
 
         spriteHandler->End();
         d3ddv->EndScene();
@@ -237,11 +241,14 @@ INT WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 {
     HWND hwnd = CreateGameWindow(hInstance, 800, 600);
 
-    CGame::GetInstance()->Init(hwnd);
+    game = CGame::GetInstance();
 
-    LoadResource();
+    game->Init(hwnd);
+    game->Load(L"game-info.txt");
 
-    CreateGameObject();
+    //LoadResource();
+
+    //CreateGameObject();
 
     Run();
 
