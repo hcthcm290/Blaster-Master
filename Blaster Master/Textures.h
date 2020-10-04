@@ -7,13 +7,13 @@ class CTextures
 {
 	static CTextures* __instance;
 
-	std::unordered_map<std::string, LPDIRECT3DTEXTURE9> textures;
+	std::unordered_map<int, LPDIRECT3DTEXTURE9> textures;
 
 private:
 	CTextures();
 
 public:
 	static CTextures* GetInstance();
-	void Add(std::string id, LPCWSTR filePath, D3DCOLOR transparentColor);
-	LPDIRECT3DTEXTURE9 Get(std::string i);
+	void Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
+	LPDIRECT3DTEXTURE9 Get(int i);
 };

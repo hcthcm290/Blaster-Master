@@ -20,12 +20,12 @@ CTextures* CTextures::GetInstance()
 	return __instance;
 }
 
-void CTextures::Add(std::string id, LPCWSTR filePath, D3DCOLOR transparentColor)
+void CTextures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
 	textures[id] = CGame::GetInstance()->LoadTexture(filePath, transparentColor);
 }
 
-LPDIRECT3DTEXTURE9 CTextures::Get(std::string i)
+LPDIRECT3DTEXTURE9 CTextures::Get(int i)
 {
 	return textures[i];
 }

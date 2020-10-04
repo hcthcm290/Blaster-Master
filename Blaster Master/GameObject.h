@@ -30,3 +30,5 @@ public:
 	void Render();
 	~CGameObject();
 };
+
+typedef CGameObject* LPGAMEOBJECT;

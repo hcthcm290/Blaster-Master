@@ -71,11 +71,11 @@ void LoadOrb()
 {
     CTextures* textures = CTextures::GetInstance();
 
-    textures->Add("Flying eye", L"Textures\\FlyingEye.png", D3DCOLOR_RGBA(255, 0, 255, 255));
+    textures->Add(1, L"Textures\\FlyingEye.png", D3DCOLOR_RGBA(255, 0, 255, 255));
 
     CSprites* sprites = CSprites::GetInstance();
 
-    LPDIRECT3DTEXTURE9 orbTexture = textures->Get("Flying eye");
+    LPDIRECT3DTEXTURE9 orbTexture = textures->Get(1);
 
     sprites->Add(1, 18 * 0, 0, 18 * 1, 18, orbTexture);
     sprites->Add(2, 18 * 1, 0, 18 * 2, 18, orbTexture);
@@ -101,11 +101,11 @@ void LoadJumper()
 {
     CTextures* textures = CTextures::GetInstance();
 
-    textures->Add("Jumper", L"Textures\\Jumper.png", D3DCOLOR_RGBA(255, 0, 255, 255));
+    textures->Add(2, L"Textures\\Jumper.png", D3DCOLOR_RGBA(255, 0, 255, 255));
 
     CSprites* sprites = CSprites::GetInstance();
 
-    LPDIRECT3DTEXTURE9 orbTexture = textures->Get("Jumper");
+    LPDIRECT3DTEXTURE9 orbTexture = textures->Get(2);
 
     sprites->Add(11, JUMPER_WIDTH * 0, 0, JUMPER_WIDTH * 1, JUMPER_HEIGHT, orbTexture);
     sprites->Add(12, JUMPER_WIDTH * 1, 0, JUMPER_WIDTH * 2, JUMPER_HEIGHT, orbTexture);
@@ -127,11 +127,11 @@ void LoadDome()
 {
     CTextures* textures = CTextures::GetInstance();
 
-    textures->Add("Dome", L"Textures\\Dome.png", D3DCOLOR_RGBA(255, 0, 255, 255));
+    textures->Add(3, L"Textures\\Dome.png", D3DCOLOR_RGBA(255, 0, 255, 255));
 
     CSprites* sprites = CSprites::GetInstance();
 
-    LPDIRECT3DTEXTURE9 domeTexture = textures->Get("Dome");
+    LPDIRECT3DTEXTURE9 domeTexture = textures->Get(3);
 
     sprites->Add(21, DOME_WIDTH * 0, 0, DOME_WIDTH * 1, DOME_HEIGHT, domeTexture);
     sprites->Add(22, DOME_WIDTH * 1, 0, DOME_WIDTH * 2, DOME_HEIGHT, domeTexture);

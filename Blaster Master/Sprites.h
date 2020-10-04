@@ -62,7 +62,7 @@ class CAnimation
 	int defaultTime;
 	vector<LPANIMATION_FRAME> frames;
 public:
-	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; }
+	CAnimation(int defaultTime = 0) { this->defaultTime = defaultTime; lastFrameTime = -1; }
 	void Add(int spriteId, DWORD time = 0);
 	int Render(int currentFrame, float x, float y);
 	int Render(int currentFrame, float x, float y, bool flipX);

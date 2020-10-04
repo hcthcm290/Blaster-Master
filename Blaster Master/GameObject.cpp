@@ -3,7 +3,6 @@
 #include "debug.h"
 #include "Game.h"
 #include "GameObject.h"
-#include "Sprites.h"
 
 
 CGameObject::CGameObject()
