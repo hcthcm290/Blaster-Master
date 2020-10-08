@@ -5,6 +5,12 @@
 #include "Orb.h"
 #include "Jumper.h"
 #include "Dome.h"
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/filereadstream.h"
+#include <cstdio>
+#include <vector>
 
 #define MAX_FRAME_RATE 60
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
@@ -236,6 +242,8 @@ int Run()
     return 1;
 }
 
+using namespace rapidjson;
+
 INT WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     PSTR lpCmdLine, INT nCmdShow)
 {
@@ -246,9 +254,49 @@ INT WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     game->Init(hwnd);
     game->Load(L"game-info.txt");
 
-    //LoadResource();
+    FILE* fp;
+    errno_t err = fopen_s(&fp, "map.json", "r"); // non-Windows use "r"
 
-    //CreateGameObject();
+    char readBuffer[65536];
+    FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+    Document d;
+    d.ParseStream(is);
+
+    std::vector<std::pair<std::string, int**>> mapInfo;
+
+    auto layers = d["layers"].GetArray();
+
+    for (auto& layer : d["layers"].GetArray())
+    {
+        const auto& data = layer["data"].GetArray();
+
+        int** arr;
+
+        int width = layer["width"].GetInt();
+        int height = layer["height"].GetInt();
+
+        string name = layer["name"].GetString();
+        
+        arr = new int* [width];
+
+        for (int i = 0; i < width; i++)
+        {
+            arr[i] = new int[height];
+        }
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                arr[x][y] = data[width * y + x].GetInt();
+            }
+        }
+
+        mapInfo.emplace_back(name, arr);
+    }
+
+    fclose(fp);
 
     Run();
 
