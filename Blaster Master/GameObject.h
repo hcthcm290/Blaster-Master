@@ -17,7 +17,6 @@ protected:
 
 	int currentState;
 
-	unordered_map<string, CAnimation*> animations;
 
 
 public:

@@ -159,6 +159,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprites.cpp" />
+    <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -174,6 +175,7 @@
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprites.h" />
+    <ClInclude Include="StaticObject.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

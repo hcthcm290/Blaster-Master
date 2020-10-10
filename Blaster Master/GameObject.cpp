@@ -21,8 +21,4 @@ void CGameObject::Render()
 
 CGameObject::~CGameObject()
 {
-	for (std::pair<std::string, CAnimation*> element : animations)
-	{
-		delete element.second;
-	}
 }
