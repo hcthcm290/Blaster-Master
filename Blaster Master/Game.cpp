@@ -57,6 +57,8 @@ void CGame::Init(HWND hWnd)
 	D3DXCreateSprite(d3ddv, &spriteHandler);
 
 	OutputDebugString(L"[INFO] InitGame done;\n");
+
+	DInput::GetInstance()->Init(hWnd);
 }
 
 /*
