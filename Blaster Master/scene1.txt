@@ -1,6 +1,11 @@
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
-0	textures\FlyingEye.png	255	0	255
+0	textures\9_Orb.png	255	0	255
+1	textures\1_Jumper.png	255	0	255
+2	textures\2_Floater.png	255	0	255
+3	textures\3_Mine.png	255	0	255
+4	textures\4_Dome.png	255	0	255
+5	textures\5_Worm.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -10,7 +15,22 @@
 3	36	0	54	18	0
 4	54	0	72	18	0
 5	72	0	90	18	0
-
+# JUMPER
+10101	0	0	19	26	1
+10102	19	0	38	26	1
+10103	38	0	57	26	1
+#FLOATER
+10201	0	0	20	18	2
+10202	20	0	40	18	2
+# MINE
+10301	0	0	15	9	3
+10302	15	0	30	9	3
+# DOME
+10401	0	0	18	17	4
+10402	18	0	36	17	4
+# WORM
+10501	0	0	19	12	5
+10502	19	0	38	12	5
 						
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -19,7 +39,26 @@
 #
 1000	1	100
 1001	1	200	2	200	3	200	4	200	2	200
-
+# ==== JUMPER =======
+#
+20101	10101	100
+20102	10101	200	10102	200	10103	200
+# ==== FLOATER=======
+#
+20201	10201	100
+20202	10201	200	10202	200
+# ==== MINE=======
+#
+20301	10301	100
+20302	10301	200	10302	200	
+# ==== DOME =======
+#
+20401	10401	100
+20402	10401	200	10402	200
+# ==== WORM =======
+#
+20501	10502	100
+20502	10502	200	10501	200
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
