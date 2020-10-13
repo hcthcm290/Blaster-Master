@@ -175,6 +175,9 @@ void CreateGameObject()
 void Update(DWORD dt)
 {
     game->GetCurrentScene()->Update(dt);
+    orb->Update(dt);
+    dome->Update(dt);
+    jumper->Update(dt);
 }
 
 void Render()
@@ -228,6 +231,8 @@ int Run()
         // dt: the time between (beginning of last frame) and now
         // this frame: the frame we are about to render
         DWORD dt = now - frameStart;
+
+        CGame::GetInstance()->ProcessKeyboard();
 
         if (dt >= tickPerFrame)
         {
