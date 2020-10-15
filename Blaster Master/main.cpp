@@ -5,6 +5,12 @@
 #include "Orb.h"
 #include "Jumper.h"
 #include "Dome.h"
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/filereadstream.h"
+#include <cstdio>
+#include <vector>
 
 #define MAX_FRAME_RATE 60
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
@@ -69,102 +75,6 @@ HWND CreateGameWindow(HINSTANCE hInstance, INT Width, INT Height)
     return hwnd;
 }
 
-void LoadOrb()
-{
-    CTextures* textures = CTextures::GetInstance();
-
-    textures->Add(1, L"Textures\\FlyingEye.png", D3DCOLOR_RGBA(255, 0, 255, 255));
-
-    CSprites* sprites = CSprites::GetInstance();
-
-    LPDIRECT3DTEXTURE9 orbTexture = textures->Get(1);
-
-    sprites->Add(1, 18 * 0, 0, 18 * 1, 18, orbTexture);
-    sprites->Add(2, 18 * 1, 0, 18 * 2, 18, orbTexture);
-    sprites->Add(3, 18 * 2, 0, 18 * 3, 18, orbTexture);
-    sprites->Add(4, 18 * 3, 0, 18 * 4, 18, orbTexture);
-    sprites->Add(5, 18 * 4, 0, 18 * 5, 18, orbTexture);
-
-    CAnimation* OrbAnimSpinning = new CAnimation(100);
-    OrbAnimSpinning->Add(1);
-    OrbAnimSpinning->Add(2);
-    OrbAnimSpinning->Add(3);
-    OrbAnimSpinning->Add(4);
-    OrbAnimSpinning->Add(5);
-
-    CAnimation* OrbAnimIdle = new CAnimation(100);
-    OrbAnimSpinning->Add(1);
-
-    CAnimations::GetInstance()->Add(1000, OrbAnimIdle);
-    CAnimations::GetInstance()->Add(1001, OrbAnimSpinning);
-}
-
-void LoadJumper()
-{
-    CTextures* textures = CTextures::GetInstance();
-
-    textures->Add(2, L"Textures\\Jumper.png", D3DCOLOR_RGBA(255, 0, 255, 255));
-
-    CSprites* sprites = CSprites::GetInstance();
-
-    LPDIRECT3DTEXTURE9 orbTexture = textures->Get(2);
-
-    sprites->Add(11, JUMPER_WIDTH * 0, 0, JUMPER_WIDTH * 1, JUMPER_HEIGHT, orbTexture);
-    sprites->Add(12, JUMPER_WIDTH * 1, 0, JUMPER_WIDTH * 2, JUMPER_HEIGHT, orbTexture);
-    sprites->Add(13, JUMPER_WIDTH * 2, 0, JUMPER_WIDTH * 3, JUMPER_HEIGHT, orbTexture);
-
-    CAnimation* moving = new CAnimation(100);
-    moving->Add(11);
-    moving->Add(12);
-    moving->Add(13);
-
-    CAnimation* idle = new CAnimation(100);
-    idle->Add(11);
-
-    CAnimations::GetInstance()->Add(1002, moving);
-    CAnimations::GetInstance()->Add(2000, idle);
-}
-
-void LoadDome()
-{
-    CTextures* textures = CTextures::GetInstance();
-
-    textures->Add(3, L"Textures\\Dome.png", D3DCOLOR_RGBA(255, 0, 255, 255));
-
-    CSprites* sprites = CSprites::GetInstance();
-
-    LPDIRECT3DTEXTURE9 domeTexture = textures->Get(3);
-
-    sprites->Add(21, DOME_WIDTH * 0, 0, DOME_WIDTH * 1, DOME_HEIGHT, domeTexture);
-    sprites->Add(22, DOME_WIDTH * 1, 0, DOME_WIDTH * 2, DOME_HEIGHT, domeTexture);
-
-    CAnimation* moving = new CAnimation(100);
-    moving->Add(21);
-    moving->Add(22);
-
-    CAnimation* idle = new CAnimation(100);
-    idle->Add(21);
-
-    CAnimations::GetInstance()->Add(1003, moving);
-    CAnimations::GetInstance()->Add(3000, idle);
-}
-
-void LoadResource()
-{
-    LoadOrb();
-    LoadJumper();
-    LoadDome();
-}
-
-void CreateGameObject()
-{
-    orb = new Orb();
-    orb->SetPosition(100, 100);
-    jumper = new Jumper();
-    jumper->SetPosition(200, 100);
-    dome = new Dome();
-    dome->SetPosition(300, 100);
-}
 
 void Update(DWORD dt)
 {
@@ -223,6 +133,8 @@ int Run()
         // this frame: the frame we are about to render
         DWORD dt = now - frameStart;
 
+        CGame::GetInstance()->ProcessKeyboard();
+
         if (dt >= tickPerFrame)
         {
             frameStart = now;
@@ -236,6 +148,8 @@ int Run()
     return 1;
 }
 
+
+
 INT WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     PSTR lpCmdLine, INT nCmdShow)
 {
@@ -245,10 +159,6 @@ INT WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     game->Init(hwnd);
     game->Load(L"game-info.txt");
-
-    //LoadResource();
-
-    //CreateGameObject();
 
     Run();
 

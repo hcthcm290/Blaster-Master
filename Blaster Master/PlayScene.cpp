@@ -5,6 +5,13 @@
 #include "Debug.h"
 #include "Textures.h"
 #include "Orb.h"
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/filereadstream.h"
+#include <cstdio>
+#include <vector>
+#include "StaticObject.h"
 
 using namespace std;
 
@@ -123,6 +130,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	objects.push_back(obj);
 }
 
+using namespace rapidjson;
+
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -168,6 +177,77 @@ void CPlayScene::Load()
 	}
 
 	f.close();
+
+	FILE* fp;
+	errno_t err = fopen_s(&fp, "map.json", "r"); // non-Windows use "r"
+
+	char readBuffer[65536];
+	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+	Document d;
+	d.ParseStream(is);
+
+	std::vector<std::pair<std::string, int**>> mapInfo;
+
+	auto layers = d["layers"].GetArray();
+	auto texturePath = ToWSTR(d["tilesets"].GetArray()[0]["image"].GetString());
+
+	int imgwidth = d["tilesets"].GetArray()[0]["imagewidth"].GetInt();
+	int imgheight = d["tilesets"].GetArray()[0]["imageheight"].GetInt();
+
+	int tilewidth = d["tilewidth"].GetInt();
+	int tileheight = d["tileheight"].GetInt();
+
+	int tilesetwidth = imgwidth / tilewidth;
+	int tilesetheight = imgheight / tileheight;
+
+	CTextures::GetInstance()->Add(0, texturePath.c_str(), D3DCOLOR_XRGB(255, 0, 255));
+
+	for (auto& layer : d["layers"].GetArray())
+	{
+
+		const auto& data = layer["data"].GetArray();
+
+		int** arr;
+
+		int mapwidth = layer["width"].GetInt();
+		int mapheight = layer["height"].GetInt();
+
+		string name = layer["name"].GetString();
+
+		arr = new int* [mapwidth];
+
+		for (int i = 0; i < mapwidth; i++)
+		{
+			arr[i] = new int[mapheight];
+		}
+
+		for (int x = 0; x < mapwidth; x++)
+		{
+			for (int y = 0; y < mapheight; y++)
+			{
+				int tileid = data[mapwidth * y + x].GetInt() - 1;
+				arr[x][y] = tileid;
+
+				int x_index = tileid % tilesetwidth;
+				int y_index = tileid / tilesetwidth;
+
+				if (CSprites::GetInstance()->Get(tileid) == NULL)
+				{
+					CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
+				}
+
+				CGameObject* tile = new StaticObject();
+				tile->SetPosition(x * tilewidth, y * tileheight);
+				dynamic_cast<StaticObject*>(tile)->SetSpriteID(tileid);
+				objects.emplace_back(tile);
+			}
+		}
+
+		mapInfo.emplace_back(name, arr);
+	}
+
+	fclose(fp);
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }

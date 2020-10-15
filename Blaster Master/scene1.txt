@@ -6,6 +6,7 @@
 3	textures\3_Mine.png	255	0	255
 4	textures\4_Dome.png	255	0	255
 5	textures\5_Worm.png	255	0	255
+100	textures\FlyingEye.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -31,6 +32,12 @@
 # WORM
 10501	0	0	19	12	5
 10502	19	0	38	12	5
+1001	0	0	18	18	100
+1002	18	0	36	18	100
+1003	36	0	54	18	100
+1004	54	0	72	18	100
+1005	72	0	90	18	100
+
 						
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -59,6 +66,9 @@
 #
 20501	10502	100
 20502	10502	200	10501	200
+1000	1001	100
+1001	1001	200	1002	200	1003	200	1004	200	1003	200	1002	200
+
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type

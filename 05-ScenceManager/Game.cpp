@@ -134,6 +134,8 @@ void CGame::InitKeyboard()
 	dipdw.diph.dwHow = DIPH_DEVICE;
 	dipdw.dwData = KEYBOARD_BUFFER_SIZE; // Arbitary buffer size
 
+	
+
 	hr = didv->SetProperty(DIPROP_BUFFERSIZE, &dipdw.diph);
 
 	hr = didv->Acquire();
