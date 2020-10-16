@@ -1,12 +1,16 @@
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
-0	textures\9_Orb.png	255	0	255
-1	textures\1_Jumper.png	255	0	255
-2	textures\2_Floater.png	255	0	255
-3	textures\3_Mine.png	255	0	255
-4	textures\4_Dome.png	255	0	255
-5	textures\5_Worm.png	255	0	255
-100	textures\FlyingEye.png	255	0	255
+0	textures\9_Orb.png		255	0	255
+1	textures\1_Jumper.png		255	0	255
+2	textures\2_Floater.png		255	0	255
+3	textures\3_Mine.png		255	0	255
+4	textures\4_Dome.png		255	0	255
+5	textures\5_Worm.png		255	0	255
+6	textures\6_Insect.png		255	0	255
+7	textures\7_Skull.png		255	0	255
+10	textures\10_Teleporter.png	255	0	255
+11	textures\11_Canon.png		255	0	255
+12	textures\12_Eyeball.png		255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -32,13 +36,23 @@
 # WORM
 10501	0	0	19	12	5
 10502	19	0	38	12	5
-1001	0	0	18	18	100
-1002	18	0	36	18	100
-1003	36	0	54	18	100
-1004	54	0	72	18	100
-1005	72	0	90	18	100
-
-						
+# INSECT
+10601	0	0	19	19	6
+10602	20	0	39	19	6
+# SKULL
+10701	0	0	19	22	7
+10702	20	0	39	22	7
+# TELEPORTER
+11001	0	0	26	33	10
+11002	27	0	53	33	10
+# CANON
+11101	0	0	27	27	11
+11102	29	0	54	27	11
+11103	56	0	83	27	11
+# EYEBALL
+11201	0	0	17	17	12
+11202	18	0	35	17	12
+11203	36	0	53	17	12
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 
@@ -66,10 +80,27 @@
 #
 20501	10502	100
 20502	10502	200	10501	200
-1000	1001	100
-1001	1001	200	1002	200	1003	200	1004	200	1003	200	1002	200
-
-
+# ==== INSECT =====
+#
+20601	10601	100
+20602	10601	200	10602	200
+# ==== SKULL  =====
+#
+20701	10701	100
+20702	10701	200	10702	200
+# ====TELEPORTER===
+#
+21001	11001	100
+21002	11001	200	11002	200
+# ===== CANON =====
+#
+21101	11101	50
+21102	11101	100	11102	100	11103	100
+# ===	EYEBALL	===
+#
+21201	11203	100
+21202	11203	100	11201	100	11203	100	11201	100	11203	100	11202	100
+# 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # 0: ORB, 1: JUMPER, 2: DOME
