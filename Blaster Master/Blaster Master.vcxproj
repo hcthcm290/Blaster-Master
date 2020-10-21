@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Document\NMGame\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,37 +149,53 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Canon.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DInput.cpp" />
     <ClCompile Include="Dome.cpp" />
+    <ClCompile Include="Eyeball.cpp" />
+    <ClCompile Include="Floater.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Insect.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mine.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Skull.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="StaticObject.cpp" />
+    <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="Canon.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DInput.h" />
     <ClInclude Include="Dome.h" />
+    <ClInclude Include="Eyeball.h" />
+    <ClInclude Include="Floater.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="Insect.h" />
     <ClInclude Include="Jumper.h" />
+    <ClInclude Include="Mine.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Skull.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="StaticObject.h" />
+    <ClInclude Include="Teleporter.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png" />
