@@ -10,4 +10,8 @@ protected:
 	float vy;
 
 	Animator animator;
+
+public:
+	D3DRECT GetCollisionBox() { return D3DRECT();}
+	D3DVECTOR GetVelocity();
 };

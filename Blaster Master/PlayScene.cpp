@@ -42,7 +42,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 
 #define MAX_SCENE_LINE 1024
 
-
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
@@ -272,6 +271,7 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+
 }
 
 void CPlayScene::Render()

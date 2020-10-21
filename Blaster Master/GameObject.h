@@ -17,13 +17,13 @@ protected:
 
 	int currentState;
 
-
-
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetState(int state) { this->currentState = state; }
 
 	CGameObject();
+
+	virtual D3DRECT GetCollisionBox() = 0;
 
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
