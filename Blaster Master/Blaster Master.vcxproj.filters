@@ -60,6 +60,9 @@
     <ClCompile Include="StaticObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
