@@ -4,6 +4,7 @@
 class Jumper : public DynamicObject
 {
 public:
-	void Update(DWORD dt);
+	void Update(float dt);
 	void Render();
+	D3DRECT GetCollisionBox();
 };

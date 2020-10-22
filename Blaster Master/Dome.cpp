@@ -1,6 +1,6 @@
 #include "Dome.h"
 
-void Dome::Update(DWORD dt)
+void Dome::Update(float dt)
 {
 	if (DInput::KeyDown(DIK_LEFT))
 	{

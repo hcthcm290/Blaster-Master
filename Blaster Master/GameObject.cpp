@@ -5,13 +5,24 @@
 #include "GameObject.h"
 
 
+D3DVECTOR CGameObject::GetPosition()
+{
+	D3DVECTOR position;
+
+	position.x = x;
+	position.y = y;
+	position.z = 0;
+
+	return position;
+}
+
 CGameObject::CGameObject()
 {
 	x = y = 0;
 	currentState = 0;
 }
 
-void CGameObject::Update(DWORD dt)
+void CGameObject::Update(float dt)
 {
 }
 

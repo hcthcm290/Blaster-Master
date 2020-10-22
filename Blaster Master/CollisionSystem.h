@@ -41,10 +41,16 @@ public:
 class CollisionSystem
 {
 public:
-	void DoCollision(DynamicObject* dynamicObj, std::vector<CGameObject*>* anotherObjs, DWORD dt);
+	/// <summary>
+	/// Move object based on their velocity then apply collision to them
+	/// </summary>
+	/// <param name="dynamicObj">The object that move</param>
+	/// <param name="anotherObjs">List of all the object that moving object may interact with</param>
+	/// <param name="dt"></param>
+	static void DoCollision(DynamicObject* dynamicObj, std::vector<CGameObject*>* anotherObjs, float dt);
 
 private:
-	void SweptAABB(
+	static void SweptAABB(
 		float ml,			// move left 
 		float mt,			// move top
 		float mr,			// move right 
@@ -58,6 +64,6 @@ private:
 		float& t,
 		float& nx,
 		float& ny);
-	LPCOLLISION SweptAABBEx(DynamicObject* movingObj, CGameObject* staticObj, DWORD dt);
-	std::pair< LPCOLLISION, LPCOLLISION> FilterCollisions(std::vector<LPCOLLISION> eventList);
+	static LPCOLLISION SweptAABBEx(DynamicObject* movingObj, CGameObject* staticObj, float dt);
+	static std::pair< LPCOLLISION, LPCOLLISION> FilterCollisions(std::vector<LPCOLLISION> eventList);
 };

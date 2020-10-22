@@ -73,6 +73,12 @@ DInput* DInput::GetInstance()
 	return __instance;
 }
 
+
+/// <summary>
+/// Check if the key is down
+/// </summary>
+/// <param name="keyCode">Key code to check (example: DIK_LEFT)</param>
+/// <returns></returns>
 bool DInput::KeyDown(int keyCode)
 {
 	return __instance->keyStates[keyCode] && 0x80;

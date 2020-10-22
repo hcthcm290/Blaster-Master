@@ -1,17 +1,27 @@
 #include "CollisionSystem.h"
 #include <algorithm>
 #include "RigidBody.h"
+#include "Debug.h"
 
-void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, DWORD dt)
+void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
 	vector<LPCOLLISION> collisions;
 
 	for (UINT i = 0; i < anotherObjs->size(); i++)
 	{
+		if (movingObj == anotherObjs->at(i)) continue; // obj dont do collision with itself
+
 		LPCOLLISION e = SweptAABBEx(movingObj, anotherObjs->at(i), dt);
 
 		if (e->dt_Percent > 0 && e->dt_Percent <= 1.0f)
+		{
 			collisions.push_back(e);
+
+			auto x = movingObj->GetCollisionBox();
+			auto y = anotherObjs->at(i)->GetCollisionBox();
+
+			auto var = 0;
+		}
 		else
 			delete e;
 	}
@@ -33,6 +43,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		{
 			dtx_Percent = filteredCol.first->dt_Percent;
 		}
+		dtx_Percent = 0;
 	}
 
 	// deal with collision object at y axis
@@ -47,11 +58,15 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		{
 			dty_Percent = filteredCol.second->dt_Percent;
 		}
+		dty_Percent = 0;
+
+		DebugOut(L"Collision Occur\n");
 	}
 
 	auto movingObjVEL = movingObj->GetVelocity();
+	auto movingObjPOS = movingObj->GetPosition();
 
-	movingObj->SetPosition(movingObjVEL.x * dt * dtx_Percent, movingObjVEL.y * dt * dty_Percent);
+	movingObj->SetPosition(movingObjPOS.x + movingObjVEL.x * dt * dtx_Percent, movingObjPOS.y + movingObjVEL.y * dt * dty_Percent);
 }
 
 void CollisionSystem::SweptAABB(
@@ -151,7 +166,7 @@ void CollisionSystem::SweptAABB(
 	}
 }
 
-LPCOLLISION CollisionSystem::SweptAABBEx(DynamicObject* movingObj, CGameObject* anotherObj, DWORD dt)
+LPCOLLISION CollisionSystem::SweptAABBEx(DynamicObject* movingObj, CGameObject* anotherObj, float dt)
 {
 	D3DRECT anotherObjRECT, movingObjRECT;
 	D3DVECTOR movingObjVEL{ 0,0,0 }, anotherObjVEL{ 0,0,0 };

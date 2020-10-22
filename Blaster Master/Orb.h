@@ -8,6 +8,6 @@ class Orb : public DynamicObject
 {
 public:
 	D3DRECT GetCollisionBox();
-	void Update(DWORD dt);
+	void Update(float dt);
 	void Render();
 };

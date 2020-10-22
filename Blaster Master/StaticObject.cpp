@@ -1,6 +1,6 @@
 #include "StaticObject.h"
 
-void StaticObject::Update(DWORD dt)
+void StaticObject::Update(float dt)
 {
 }
 

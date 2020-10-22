@@ -8,6 +8,6 @@ class StaticObject : public CGameObject
 public:
 	void SetSpriteID(int spriteID) { this->spriteID = spriteID; }
 	D3DRECT GetCollisionBox() { return D3DRECT(); }
-	void Update(DWORD dt);
+	void Update(float dt);
 	void Render();
 };

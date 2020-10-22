@@ -3,16 +3,15 @@
 D3DRECT Orb::GetCollisionBox()
 {
 	D3DRECT colRect;
-	colRect.x1 = this->x;
-	colRect.x2 = this->x + ORB_COLLISION_BOX_WIDTH;
-	colRect.y1 = this->y;
-	colRect.y2 = this->y + ORB_COLLISION_BOX_HEIGHT;
+	colRect.x1 = this->x - ORB_COLLISION_BOX_WIDTH / 2;
+	colRect.x2 = this->x + ORB_COLLISION_BOX_WIDTH / 2;
+	colRect.y1 = this->y - ORB_COLLISION_BOX_HEIGHT / 2;
+	colRect.y2 = this->y + ORB_COLLISION_BOX_HEIGHT / 2;
 	return colRect;
 }
 
-void Orb::Update(DWORD dt)
+void Orb::Update(float dt)
 {
-
 }
 
 void Orb::Render()

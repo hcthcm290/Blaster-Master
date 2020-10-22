@@ -12,6 +12,8 @@
 #include <cstdio>
 #include <vector>
 #include "StaticObject.h"
+#include "Jumper.h"
+#include "CollisionSystem.h"
 
 using namespace std;
 
@@ -122,6 +124,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	case 0:
 		obj = new Orb();
+		break;
+	case 1:
+		obj = new Jumper();
+		break;
 	}
 
 	// General object setup
@@ -269,9 +275,22 @@ void CPlayScene::Load()
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
-void CPlayScene::Update(DWORD dt)
+void CPlayScene::Update(DWORD dw_dt)
 {
+	float dt = (float)(dw_dt);
+	dt /= 1000;
 
+	// Update for all the game object
+	for (auto obj : objects)
+	{
+		obj->Update(dt);
+	}
+
+	for (int i = 0; i < objects.size(); i++)
+	{
+		if(dynamic_cast<DynamicObject*>(objects.at(i)) == 0) continue; // if it not moving, we don't need to docollision for it
+		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(objects.at(i)), &objects, dt);
+	}
 }
 
 void CPlayScene::Render()

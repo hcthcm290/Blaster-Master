@@ -6,8 +6,8 @@
 class DynamicObject : public CGameObject
 {
 protected:
-	float vx;
-	float vy;
+	float vx = 0;
+	float vy = 0;
 
 	Animator animator;
 
