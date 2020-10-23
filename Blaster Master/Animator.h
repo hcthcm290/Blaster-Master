@@ -3,10 +3,10 @@
 
 class Animator
 {
-private:
+protected:
 	int curFrame = 0;
 	int curAnimationID = -1;
 
 public:
-	void Draw(int animationID, float x, float y, bool flipX);
+	virtual void Draw(int animationID, float x, float y, bool flipX);
 };

@@ -66,6 +66,12 @@
     <ClCompile Include="DInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Jason.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Jason.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -113,6 +119,15 @@
     <ClInclude Include="DInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Jason.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Jason.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateConstant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
@@ -120,6 +135,9 @@
     </Image>
     <Image Include="map.png">
       <Filter>External Inputs</Filter>
+    </Image>
+    <Image Include="D:\DOWNLOAD\P2_Jason.png">
+      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

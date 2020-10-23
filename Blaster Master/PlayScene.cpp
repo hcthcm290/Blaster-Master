@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Textures.h"
 #include "Orb.h"
+#include "Jason.h"
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
@@ -123,6 +124,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	case 0:
 		obj = new Orb();
+		break;
+	case 3:
+		obj = new Jason();
+		break;
 	}
 
 	// General object setup

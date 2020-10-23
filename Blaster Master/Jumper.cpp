@@ -6,5 +6,5 @@ void Jumper::Update(DWORD dt)
 
 void Jumper::Render()
 {
-	animator.Draw(1002, x, y, false);
+	animator->Draw(1002, x, y, false);
 }

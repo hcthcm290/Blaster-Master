@@ -83,7 +83,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	D3DXMatrixTranslation(&translate, x, y, 0);
 
 	D3DXMATRIX flip;
-	if (flipX)
+	if (!flipX)
 	{
 		D3DXMatrixScaling(&flip, 1, 1, 0);
 	}
