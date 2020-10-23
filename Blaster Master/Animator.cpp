@@ -1,7 +1,7 @@
 #include "Animator.h"
 #include "Debug.h"
 #include <string>
-#include <atlconv.h>
+//#include <atlconv.h>
 
 void Animator::Draw(int animationID, float x, float y, bool flipX)
 {
