@@ -1,0 +1,29 @@
+[TEXTURES]
+#ID	FilePath
+0	D:\gameDev\Blaster Master\Blaster Master\Textures\ezgif.com-gif-maker.png
+
+[SPRITES]
+#ID	TextureId	left	top	right	bottom
+1	0		0	0	16	16
+2	0		17	0	33	16
+3	0		34	0	50	16
+4	0		51	0	67	16
+5	0		68	0	84	16
+6	0		85	0	101	16
+7	0		102	0	118	16
+8	0		119	0	135	16
+
+[ANIMATIONS]
+#ID	SpriteId1	Duration1	SpriteId2	Duration2	...
+9	1		10		2		10		3		10		4		10		
+
+[STATE_ANIMATIONS]
+#ID	AnimId	FlipX	FlipY	TimesR90
+
+[OBJECT_ANIMATIONS]
+#ID	StateAnimId1	StateAnimId2	...
+
+[COLLISION_BOXES]
+#SpriteId	left	top	right	bottom
+
+

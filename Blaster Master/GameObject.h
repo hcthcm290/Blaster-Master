@@ -3,8 +3,8 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
-
 #include "Sprites.h"
+#include "RECT.h"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ public:
 
 	CGameObject();
 
-	virtual D3DRECT GetCollisionBox() = 0;
+	virtual FRECT GetCollisionBox() = 0;
 
 	virtual void Update(float dt) = 0;
 	virtual void Render() = 0;

@@ -1,10 +1,13 @@
 #pragma once
 #include "DynamicObject.h"
+#include "RigidBody.h"
 
-class Jumper : public DynamicObject
+class Jumper : public DynamicObject,public RigidBody
 {
+public:
+	bool controlable = false;
 public:
 	void Update(float dt);
 	void Render();
-	D3DRECT GetCollisionBox();
+	FRECT GetCollisionBox();
 };

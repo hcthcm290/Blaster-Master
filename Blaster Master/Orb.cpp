@@ -1,12 +1,12 @@
 #include "Orb.h"
 
-D3DRECT Orb::GetCollisionBox()
+FRECT Orb::GetCollisionBox()
 {
-	D3DRECT colRect;
-	colRect.x1 = this->x - ORB_COLLISION_BOX_WIDTH / 2;
-	colRect.x2 = this->x + ORB_COLLISION_BOX_WIDTH / 2;
-	colRect.y1 = this->y - ORB_COLLISION_BOX_HEIGHT / 2;
-	colRect.y2 = this->y + ORB_COLLISION_BOX_HEIGHT / 2;
+	FRECT colRect;
+	colRect.left = this->x - ORB_COLLISION_BOX_WIDTH / 2;
+	colRect.right = this->x + ORB_COLLISION_BOX_WIDTH / 2;
+	colRect.top = this->y - ORB_COLLISION_BOX_HEIGHT / 2;
+	colRect.bottom = this->y + ORB_COLLISION_BOX_HEIGHT / 2;
 	return colRect;
 }
 

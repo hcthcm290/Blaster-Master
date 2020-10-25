@@ -12,7 +12,7 @@
 #include <cstdio>
 #include <vector>
 
-#define MAX_FRAME_RATE 60
+#define MAX_FRAME_RATE 1000
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
 
 #define ORB_WIDTH 18
@@ -115,7 +115,7 @@ int Run()
     MSG msg;
     int done = 0;
     DWORD frameStart = GetTickCount();
-    DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
+    DWORD tickPerFrame = 0.001;
 
     while (!done)
     {

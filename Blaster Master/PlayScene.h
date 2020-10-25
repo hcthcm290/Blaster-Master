@@ -11,7 +11,7 @@ protected:
 	DynamicObject* player;
 
 	vector<CGameObject*> objects;
-	vector<StaticObject> map;
+	vector<CGameObject*> map;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

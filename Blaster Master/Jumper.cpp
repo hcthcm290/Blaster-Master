@@ -20,7 +20,6 @@ void Jumper::Update(float dt)
 		vy = speed;
 	else
 		vy = 0;
-
 }
 
 void Jumper::Render()
@@ -28,13 +27,13 @@ void Jumper::Render()
 	animator.Draw(2001, x, y, false);
 }
 
-D3DRECT Jumper::GetCollisionBox()
+FRECT Jumper::GetCollisionBox()
 {
-	D3DRECT colRect;
-	colRect.x1 = x - 8;
-	colRect.x2 = x + 8;
-	colRect.y1 = y - 13;
-	colRect.y2 = y + 13;
+	FRECT colRect;
+	colRect.left = x - 8;
+	colRect.right = x + 8;
+	colRect.top = y - 13;
+	colRect.bottom = y + 13;
 
 	return colRect;
 }

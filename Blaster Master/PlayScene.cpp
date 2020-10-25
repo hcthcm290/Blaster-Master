@@ -14,6 +14,7 @@
 #include "StaticObject.h"
 #include "Jumper.h"
 #include "CollisionSystem.h"
+#include "ColliableBrick.h"
 
 using namespace std;
 
@@ -207,10 +208,20 @@ void CPlayScene::_ParseSection_MAP(string line)
 					CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
 				}
 
-				CGameObject* tile = new StaticObject();
-				tile->SetPosition(x * tilewidth, y * tileheight);
-				dynamic_cast<StaticObject*>(tile)->SetSpriteID(tileid);
-				objects.emplace_back(tile);
+				if (tileid == 2 || tileid == 3)
+				{
+					ColliableBrick* brick = new ColliableBrick();
+					brick->SetPosition(x * tilewidth, y * tileheight);
+					dynamic_cast<StaticObject*>(brick)->SetSpriteID(tileid);
+					objects.emplace_back(brick);
+				}
+				else
+				{
+					StaticObject* tile = new StaticObject();
+					tile->SetPosition(x * tilewidth, y * tileheight);
+					dynamic_cast<StaticObject*>(tile)->SetSpriteID(tileid);
+					map.emplace_back(tile);
+				}
 			}
 		}
 
@@ -270,8 +281,6 @@ void CPlayScene::Load()
 
 	f.close();
 
-	
-
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -295,6 +304,11 @@ void CPlayScene::Update(DWORD dw_dt)
 
 void CPlayScene::Render()
 {
+	for (int i = 0; i < 1000; i++)
+	{
+		map[i]->Render();
+	}
+
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }

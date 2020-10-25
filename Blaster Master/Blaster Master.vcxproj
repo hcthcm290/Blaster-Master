@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="ColliableBrick.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DInput.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="ColliableBrick.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DInput.h" />
@@ -178,6 +180,7 @@
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="RECT.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprites.h" />

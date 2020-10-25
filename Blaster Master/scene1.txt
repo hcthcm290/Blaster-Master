@@ -13,7 +13,7 @@
 1005	72	0	90	18	100
 
 #JUMPER
-2001	0	0	17	17	101
+2001	0	0	17	26	101
 						
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -29,12 +29,13 @@
 
 
 [OBJECTS]
-# type	x	y	ani_set_id	extra_settings per object type
+# type	x	y	extra_settings per object type
 # 0: ORB, 1: JUMPER, 2: DOME
 # ORB
-0	50.0	50.0
+0	50.0	100.0
 
 #JUMPER
-1	10.0	10.0
+1	50.0	70.0
 
-
+[MAP]
+map.json

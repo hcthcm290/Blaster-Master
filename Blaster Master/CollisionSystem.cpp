@@ -2,6 +2,8 @@
 #include <algorithm>
 #include "RigidBody.h"
 #include "Debug.h"
+#include "Orb.h"
+#include "Jumper.h"
 
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
@@ -30,6 +32,8 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 
 	float dtx_Percent = 1;
 	float dty_Percent = 1;
+	float nx_pushback = 0;
+	float ny_pushback = 0;
 
 	// deal with collision object at x axis
 	if (filteredCol.first != nullptr) 
@@ -39,11 +43,11 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		//////////////////////////////////////////////////
 
 		// only push moving obj back if both of them have rigidbody
-		if (dynamic_cast<RigidBody*>(movingObj) != nullptr && dynamic_cast<RigidBody*>(filteredCol.first->obj) != nullptr)
+		if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(filteredCol.first->obj) != NULL)
 		{
 			dtx_Percent = filteredCol.first->dt_Percent;
+			nx_pushback = filteredCol.first->nx;
 		}
-		dtx_Percent = 0;
 	}
 
 	// deal with collision object at y axis
@@ -54,19 +58,17 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		//////////////////////////////////////////////////
 
 		// only push moving obj back if both of them have rigidbody
-		if (dynamic_cast<RigidBody*>(movingObj) != nullptr && dynamic_cast<RigidBody*>(filteredCol.second->obj) != nullptr)
+		if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(filteredCol.second->obj) != NULL)
 		{
 			dty_Percent = filteredCol.second->dt_Percent;
+			ny_pushback = filteredCol.second->ny;
 		}
-		dty_Percent = 0;
-
-		DebugOut(L"Collision Occur\n");
 	}
 
 	auto movingObjVEL = movingObj->GetVelocity();
 	auto movingObjPOS = movingObj->GetPosition();
 
-	movingObj->SetPosition(movingObjPOS.x + movingObjVEL.x * dt * dtx_Percent, movingObjPOS.y + movingObjVEL.y * dt * dty_Percent);
+	movingObj->SetPosition(movingObjPOS.x + movingObjVEL.x * dt * dtx_Percent + nx_pushback * 0.5, movingObjPOS.y + movingObjVEL.y * dt * dty_Percent + ny_pushback * 0.5);
 }
 
 void CollisionSystem::SweptAABB(
@@ -168,7 +170,7 @@ void CollisionSystem::SweptAABB(
 
 LPCOLLISION CollisionSystem::SweptAABBEx(DynamicObject* movingObj, CGameObject* anotherObj, float dt)
 {
-	D3DRECT anotherObjRECT, movingObjRECT;
+	FRECT anotherObjRECT, movingObjRECT;
 	D3DVECTOR movingObjVEL{ 0,0,0 }, anotherObjVEL{ 0,0,0 };
 
 	float sl, st, sr, sb;		// static object bbox
@@ -178,15 +180,15 @@ LPCOLLISION CollisionSystem::SweptAABBEx(DynamicObject* movingObj, CGameObject* 
 	anotherObjRECT = anotherObj->GetCollisionBox();
 	movingObjRECT = movingObj->GetCollisionBox();
 
-	ml = movingObjRECT.x1;
-	mr = movingObjRECT.x2;
-	mt = movingObjRECT.y1;
-	mb = movingObjRECT.y2;
+	ml = movingObjRECT.left;
+	mr = movingObjRECT.right;
+	mt = movingObjRECT.top;
+	mb = movingObjRECT.bottom;
 
-	sl = anotherObjRECT.x1;
-	sr = anotherObjRECT.x2;
-	st = anotherObjRECT.y1;
-	sb = anotherObjRECT.y2;
+	sl = anotherObjRECT.left;
+	sr = anotherObjRECT.right;
+	st = anotherObjRECT.top;
+	sb = anotherObjRECT.bottom;
 
 	// deal with moving object: m speed = original m speed - collide object speed
 	float svx, svy;
@@ -196,6 +198,16 @@ LPCOLLISION CollisionSystem::SweptAABBEx(DynamicObject* movingObj, CGameObject* 
 		anotherObjVEL = dynamic_cast<DynamicObject*>(anotherObj)->GetVelocity();
 	}
 	movingObjVEL = movingObj->GetVelocity();
+
+
+
+	if (movingObjVEL.x == 0 && movingObjVEL.y == 0 ||
+		anotherObjRECT == FRECT(0,0,0,0) ||
+		movingObjRECT == FRECT(0,0,0,0))
+	{
+		Collision* e = new Collision(-1, 0, 0, 0, 0, NULL);
+		return e;
+	}
 
 	float sdx = anotherObjVEL.x * dt;
 	float sdy = anotherObjVEL.y * dt;

@@ -12,6 +12,6 @@ protected:
 	Animator animator;
 
 public:
-	D3DRECT GetCollisionBox() { return D3DRECT();}
+	FRECT GetCollisionBox() { return FRECT();}
 	D3DVECTOR GetVelocity();
 };
