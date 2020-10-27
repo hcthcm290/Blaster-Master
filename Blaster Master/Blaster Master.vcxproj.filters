@@ -18,6 +18,8 @@
     </Filter>
     <Filter Include="Source Files\Enemy">
       <UniqueIdentifier>{da01427d-d9b4-40c4-a829-8f5e21ceeccb}</UniqueIdentifier>
+    <Filter Include="External Inputs">
+      <UniqueIdentifier>{c273d0e3-216d-4370-9892-84f83deae0ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
@@ -89,6 +94,11 @@
     </ClCompile>
     <ClCompile Include="Worm.cpp">
       <Filter>Source Files\Enemy</Filter>
+    <ClCompile Include="Jason.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Jason.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,11 +170,33 @@
     </ClInclude>
     <ClInclude Include="Insect.h">
       <Filter>Header Files\Enemy</Filter>
+    <ClInclude Include="Jason.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Jason.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateConstant.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="map.png">
+      <Filter>External Inputs</Filter>
+    </Image>
+    <Image Include="D:\DOWNLOAD\P2_Jason.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="game-info.txt">
+      <Filter>External Inputs</Filter>
+    </Text>
+    <Text Include="scene1.txt">
+      <Filter>External Inputs</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -51,7 +51,6 @@ void DInput::ProcessKeyboard()
 	DIMouse->Acquire();
 
 	DIMouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
-
 	DIKeyboard->GetDeviceState(sizeof(keyStates), (LPVOID)&keyStates);
 }
 
