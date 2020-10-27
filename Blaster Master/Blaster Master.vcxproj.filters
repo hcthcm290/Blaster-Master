@@ -99,6 +99,9 @@
     <ClCompile Include="Animator_Jason.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Animator_Jumper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -179,6 +182,9 @@
     <ClInclude Include="StateConstant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Animator_Jumper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
@@ -187,6 +193,12 @@
     <Image Include="D:\DOWNLOAD\P2_Jason.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="map.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
-  
+  <ItemGroup>
+    <Text Include="game-info.txt" />
+    <Text Include="scene1.txt" />
+  </ItemGroup>
 </Project>

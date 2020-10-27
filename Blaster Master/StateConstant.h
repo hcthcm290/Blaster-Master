@@ -1,5 +1,6 @@
 class Constant {
 public:
+#pragma region Jason
 	static const int _JASON_STAND_	=	29901;
 	static const int _JASON_WALK_	=	29902;
 	static const int _JASON_JUMP_	=	29903;
@@ -7,4 +8,10 @@ public:
 	static const int _JASON_CRAWL_	=	29905;
 	static const int _JASON_DIE_	=	29906;
 	static const int _JASON_SWIM_	=	29907;
+#pragma endregion
+
+#pragma region Jumper
+	static const int _JUMPER_IDLE_	=	20101;
+	static const int _JUMPER_WALK_	=	20102;
+#pragma endregion
 };

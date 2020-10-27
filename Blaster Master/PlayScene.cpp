@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Textures.h"
 #include "Orb.h"
+#include "Jumper.h"
 #include "Jason.h"
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
@@ -124,6 +125,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	case 0:
 		obj = new Orb();
+		break;
+	case 1:
+		obj = new Jumper();
 		break;
 	case 3:
 		obj = new Jason();
@@ -277,6 +281,9 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+	for (auto& x : objects) {
+		x->Update(dt);
+	}
 }
 
 void CPlayScene::Render()
