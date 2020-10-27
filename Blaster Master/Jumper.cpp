@@ -2,12 +2,11 @@
 #include "DInput.h"
 #include "Animator_Jumper.h"
 
-#define jumperWalk Constant::_JUMPER_WALK_
-#define	jumperIdle Constant::_JUMPER_IDLE_
 Jumper::Jumper()
 {
 	animator = new Animator_Jumper();
 	state = jumperWalk;
+	currentY = 50;
 }
 void Jumper::Update(DWORD dt)
 {
@@ -25,9 +24,42 @@ void Jumper::Update(DWORD dt)
 	{
 		keyRelease = true;
 	}
-	if (this->state == jumperWalk)
+	//Changing walking status
+	if (this->state == jumperWalk || isJumpDown||isJumpUp)
 	{
-		x +=  direction * 20 * float(dt)/1000;
+		Vx = direction * jumperSpeed;
+		if (DInput::KeyDown(DIK_SPACE) && keyRelease)
+		{
+			isJumpUp = true;
+			isJumpDown = false;
+			keyRelease = false;
+		}
+		if (!DInput::KeyDown(DIK_SPACE))
+		{
+			keyRelease = true;
+		}
+		if (isJumpUp)
+		{
+			Vx = Vx * cos(70);
+			Vy = sin(70) - accelerate;
+			if (y <= maxJumpTop)
+			{
+				isJumpDown = true;
+				isJumpUp = false;
+			}
+		}
+		if (isJumpDown)
+		{
+			Vx = Vx * cos(70);
+			Vy = (0.5) * accelerate;
+			if (y >= currentY)
+			{
+				isJumpDown = false;
+				Vy = 0;
+			}
+		}
+		x += Vx*float(dt)/1000; //change Horizonal Location
+		y += Vy*float(dt) / 1000;
 		if (x <= 0)
 		{
 			flip = true;

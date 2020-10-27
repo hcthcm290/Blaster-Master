@@ -1,13 +1,21 @@
 #pragma once
 #include "DynamicObject.h"
 
+#define jumperSpeed	10;
+#define jumperWalk Constant::_JUMPER_WALK_
+#define	jumperIdle Constant::_JUMPER_IDLE_
+#define accelerate 50;
+
 class Jumper : public DynamicObject
 {
 private:
-	int state;
-	bool keyRelease = true;
-	bool flip = false;
-	int direction = -1;
+	float currentY,Vy=0,Vx= jumperSpeed;
+	bool isJumpUp = false,isJumpDown=false;
+	int state;				//Jump or walk
+	float maxJumpTop = 20;		//Accelerate
+	bool keyRelease = true;	//Stop click on button
+	bool flip = false;		//flip sprite
+	int direction = -1;		//Moving Vector
 
 public:
 	Jumper();
