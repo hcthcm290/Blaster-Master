@@ -77,3 +77,13 @@ bool DInput::KeyDown(int keyCode)
 {
 	return __instance->keyStates[keyCode] && 0x80;
 }
+
+bool DInput::MouseDown(int keyCode)
+{
+	return __instance->mouseState.rgbButtons[keyCode] && 0x80;
+}
+
+D3DXVECTOR2 DInput::GetMousePosition()
+{
+	return D3DXVECTOR2{ __instance->mouseState.lX , __instance->mouseState.lY };
+}
