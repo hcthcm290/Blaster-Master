@@ -357,6 +357,8 @@ void CPlayScene::Update(DWORD dw_dt)
 	}
 
 	ApllyVelocityToGameObjs(dt);
+
+	Camera::GetInstance()->Update(dt);
 }
 
 void CPlayScene::ApllyVelocityToGameObjs(float dt)

@@ -161,6 +161,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColliableBrick.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Debug.cpp" />

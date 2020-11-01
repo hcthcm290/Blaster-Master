@@ -12,7 +12,11 @@ private:
 	int width = 800;
 	int height = 600;
 
-	FRECT boundary;
+	FRECT boundary = FRECT(0, 0, 1000, 1000);
+
+private:
+	void SnapToBoundary();
+	void FollowTarget();
 
 public:
 	static Camera* GetInstance()
@@ -31,7 +35,8 @@ public:
 
 	void Update(float dt)
 	{
-		SetPosition(target->GetPosition().x, target->GetPosition().y);
+		FollowTarget();
+		SnapToBoundary();
 	}
 
 	void Render() {}
@@ -58,5 +63,3 @@ public:
 		__instance->boundary = boundary;
 	}
 };
-
-Camera* Camera::__instance = NULL;

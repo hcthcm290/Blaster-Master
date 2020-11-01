@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include "PlayScene.h"
 #include "Textures.h"
+#include "Camera.h"
 #include <fstream>
 
 CGame* CGame::__instance = NULL;
@@ -61,9 +62,6 @@ void CGame::Init(HWND hWnd)
 	DInput::GetInstance()->Init(hWnd);
 }
 
-/*
-	Utility function to wrap LPD3DXSPRITE::Draw
-*/
 
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX)
 {
@@ -82,6 +80,9 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	D3DXMATRIX translate;
 	D3DXMatrixTranslation(&translate, x, y, 0);
 
+	D3DXMATRIX toCameraView;
+	D3DXMatrixTranslation(&toCameraView, -Camera::GetInstance()->GetCollisionBox().left, -Camera::GetInstance()->GetCollisionBox().top, 0);
+
 	D3DXMATRIX flip;
 	if (!flipX)
 	{
@@ -94,6 +95,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 
 	mat *= flip;
 	mat *= translate;
+	mat *= toCameraView;
 
 	spriteHandler->SetTransform(&mat);
 
