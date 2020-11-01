@@ -48,6 +48,7 @@ public:
 	/// <param name="anotherObjs">List of all the object that moving object may interact with</param>
 	/// <param name="dt"></param>
 	static void DoCollision(DynamicObject* dynamicObj, std::vector<CGameObject*>* anotherObjs, float dt);
+	static bool CheckOverlap(CGameObject* obj1, CGameObject* obj2);
 
 private:
 	static void SweptAABB(

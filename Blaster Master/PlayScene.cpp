@@ -15,6 +15,9 @@
 #include "Jumper.h"
 #include "CollisionSystem.h"
 #include "ColliableBrick.h"
+#include "Camera.h"
+#include <execution>
+#include <algorithm>
 
 using namespace std;
 
@@ -45,6 +48,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 
 #define MAX_SCENE_LINE 1024
 
+#pragma region Parse Scene Info
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
@@ -104,9 +108,6 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	CAnimations::GetInstance()->Add(ani_id, ani);
 }
 
-/*
-	Parse a line in section [OBJECTS]
-*/
 void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
@@ -123,6 +124,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+	case -1:
+		// MAP BACKGROUND //
+		obj = new StaticObject();
+		obj->SetPosition(x, y);
+		dynamic_cast<StaticObject*>(obj)->SetSpriteID(-1);
+		mapBackground = dynamic_cast<StaticObject*>(obj);
+		return;
 	case 0:
 		obj = new Orb();
 		break;
@@ -134,10 +142,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	// General object setup
 	obj->SetPosition(x, y);
 
-	objects.push_back(obj);
+	AddGameObjectToScene(obj);
 }
-
-using namespace rapidjson;
 
 void CPlayScene::_ParseSection_MAP(string line)
 {
@@ -153,9 +159,9 @@ void CPlayScene::_ParseSection_MAP(string line)
 	char* readBuffer;
 	readBuffer = new char[65536];
 
-	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+	rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 
-	Document d;
+	rapidjson::Document d;
 	d.ParseStream(is);
 
 	std::vector<std::pair<std::string, int**>> mapInfo;
@@ -208,19 +214,13 @@ void CPlayScene::_ParseSection_MAP(string line)
 					CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
 				}
 
-				if (tileid == 2 || tileid == 3)
+				if (tileid == 0 || tileid == 2 || tileid == 3 || tileid == 12 || tileid == 132 || tileid == 133 || tileid == 134)
 				{
 					ColliableBrick* brick = new ColliableBrick();
 					brick->SetPosition(x * tilewidth, y * tileheight);
 					dynamic_cast<StaticObject*>(brick)->SetSpriteID(tileid);
-					objects.emplace_back(brick);
-				}
-				else
-				{
-					StaticObject* tile = new StaticObject();
-					tile->SetPosition(x * tilewidth, y * tileheight);
-					dynamic_cast<StaticObject*>(tile)->SetSpriteID(tileid);
-					map.emplace_back(tile);
+
+					AddGameObjectToScene(brick);
 				}
 			}
 		}
@@ -230,6 +230,25 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	fclose(fp);
 }
+
+void CPlayScene::AddGameObjectToScene(CGameObject* obj)
+{
+	D3DVECTOR objPos = obj->GetPosition();
+
+	int mapBlockID = GetMapBlockID(objPos.x, objPos.y);
+
+	sceneObjects[mapBlockID].emplace_back(obj);
+}
+
+int CPlayScene::GetMapBlockID(float x, float y)
+{
+	auto xyz = (x / MAP_BLOCK_WIDTH);
+	auto cxna = (y / MAP_BLOCK_HEIGHT);
+	auto ccc = int(x / MAP_BLOCK_WIDTH) * 1000 + int(y / MAP_BLOCK_HEIGHT);
+	return int(x / MAP_BLOCK_WIDTH) * 1000 + int(y / MAP_BLOCK_HEIGHT);
+}
+
+#pragma endregion
 
 void CPlayScene::Load()
 {
@@ -284,33 +303,82 @@ void CPlayScene::Load()
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
+/// <summary>
+/// Get all gameobjects appear on camera view
+/// </summary>
+/// <param name="target"></param>
+vector<CGameObject*> CPlayScene::GetOnScreenObjs()
+{
+	vector<CGameObject*> onScreenObjs;
+
+	FRECT cameraRECT = Camera::GetInstance()->GetCollisionBox();
+
+	FRECT cameraInMapChunk = FRECT( cameraRECT.left / MAP_BLOCK_WIDTH,
+									cameraRECT.top / MAP_BLOCK_HEIGHT, 
+									cameraRECT.right / MAP_BLOCK_WIDTH,
+									cameraRECT.bottom / MAP_BLOCK_HEIGHT);
+
+	for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
+	{
+		for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
+		{
+			for (auto object : sceneObjects[x * 1000 + y])
+			{
+				if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
+				{
+					onScreenObjs.emplace_back(object);
+				}
+			}
+		}
+	}
+
+	return onScreenObjs;
+}
+
 void CPlayScene::Update(DWORD dw_dt)
 {
+	onSCeneObjs = GetOnScreenObjs();
+
 	float dt = (float)(dw_dt);
 	dt /= 1000;
 
+	if (dt == 0) return;
+
 	// Update for all the game object
-	for (auto obj : objects)
+	for (auto obj : onSCeneObjs)
 	{
 		obj->Update(dt);
 	}
 
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < onSCeneObjs.size(); i++)
 	{
-		if(dynamic_cast<DynamicObject*>(objects.at(i)) == 0) continue; // if it not moving, we don't need to docollision for it
-		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(objects.at(i)), &objects, dt);
+		if(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)) == 0) continue; // if it not moving, we don't need to docollision for it
+		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)), &onSCeneObjs, dt);
+	}
+
+	ApllyVelocityToGameObjs(dt);
+}
+
+void CPlayScene::ApllyVelocityToGameObjs(float dt)
+{
+	for (auto obj : onSCeneObjs)
+	{
+		if (dynamic_cast<DynamicObject*>(obj) == NULL) continue;
+		D3DXVECTOR3 position = obj->GetPosition();
+		D3DXVECTOR3 velocity = dynamic_cast<DynamicObject*>(obj)->GetVelocity();
+
+		position = position + dt*velocity;
+
+		obj->SetPosition(position.x, position.y);
 	}
 }
 
 void CPlayScene::Render()
 {
-	for (int i = 0; i < 1000; i++)
-	{
-		map[i]->Render();
-	}
+	mapBackground->Render();
 
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+	for (int i = 0; i < onSCeneObjs.size(); i++)
+		onSCeneObjs[i]->Render();
 }
 
 /*
@@ -318,11 +386,11 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
+	/*for (int i = 0; i < sceneObjects.size(); i++)
+		delete sceneObjects[i];
 
-	objects.clear();
+	sceneObjects.clear();
 	player = NULL;
 
-	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
 }

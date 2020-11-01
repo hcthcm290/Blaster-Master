@@ -135,7 +135,7 @@ int Run()
 
         CGame::GetInstance()->ProcessKeyboard();
 
-        if (dt >= tickPerFrame)
+        if (true)
         {
             frameStart = now;
             Update(dt);

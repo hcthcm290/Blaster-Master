@@ -18,11 +18,6 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		if (e->dt_Percent > 0 && e->dt_Percent <= 1.0f)
 		{
 			collisions.push_back(e);
-
-			auto x = movingObj->GetCollisionBox();
-			auto y = anotherObjs->at(i)->GetCollisionBox();
-
-			auto var = 0;
 		}
 		else
 			delete e;
@@ -68,8 +63,28 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	auto movingObjVEL = movingObj->GetVelocity();
 	auto movingObjPOS = movingObj->GetPosition();
 
-	movingObj->SetPosition(movingObjPOS.x + movingObjVEL.x * dt * dtx_Percent + nx_pushback * 0.5, movingObjPOS.y + movingObjVEL.y * dt * dty_Percent + ny_pushback * 0.5);
+	auto vxx = float(movingObjVEL.x) * dtx_Percent + nx_pushback * 0.5 / dt;
+
+	//movingObj->SetPosition(movingObjPOS.x + movingObjVEL.x * dt * dtx_Percent + nx_pushback * 0.5, movingObjPOS.y + movingObjVEL.y * dt * dty_Percent + ny_pushback * 0.5);
+	movingObj->SetVelocity(movingObjVEL.x * dtx_Percent + nx_pushback * 0.5 / dt, movingObjVEL.y * dty_Percent + ny_pushback * 0.5 / dt);
 }
+
+
+bool CollisionSystem::CheckOverlap(CGameObject* obj1, CGameObject* obj2)
+{
+	FRECT obj1_RECT = obj1->GetCollisionBox();
+	FRECT obj2_RECT = obj2->GetCollisionBox();
+
+	if (obj1_RECT.left >= obj2_RECT.right || obj2_RECT.left >= obj1_RECT.right)
+		return false;
+
+	if (obj1_RECT.top >= obj2_RECT.bottom || obj2_RECT.top >= obj1_RECT.bottom)
+		return false;
+
+	return true;
+}
+
+#pragma region SweptAABB functions
 
 void CollisionSystem::SweptAABB(
     float ml, float mt, float mr, float mb, 
@@ -77,9 +92,10 @@ void CollisionSystem::SweptAABB(
     float sl, float st, float sr, float sb, 
     float& dt_Percent, float& nx, float& ny)
 {
-
 	float dx_entry, dx_exit, tx_entry, tx_exit;
 	float dy_entry, dy_exit, ty_entry, ty_exit;
+
+
 
 	float t_entry;
 	float t_exit;
@@ -226,6 +242,8 @@ LPCOLLISION CollisionSystem::SweptAABBEx(DynamicObject* movingObj, CGameObject* 
 	Collision* e = new Collision(dt_Percent, nx, ny, rdx, rdy, anotherObj);
 	return e;
 }
+
+#pragma endregion
 
 std::pair<LPCOLLISION, LPCOLLISION> CollisionSystem::FilterCollisions(std::vector<LPCOLLISION> colList)
 {

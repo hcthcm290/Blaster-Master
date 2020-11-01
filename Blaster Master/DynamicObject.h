@@ -14,4 +14,5 @@ protected:
 public:
 	FRECT GetCollisionBox() { return FRECT();}
 	D3DVECTOR GetVelocity();
+	void SetVelocity(float vx, float vy) { this->vx = vx; this->vy = vy; }
 };

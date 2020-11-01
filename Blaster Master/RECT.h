@@ -20,4 +20,15 @@ public:
 			this->top == other.top &&
 			this->bottom == other.bottom;
 	}
+
+	// immutable object
+	FRECT operator/(float x)
+	{
+		 return FRECT(left/x, top/x, right/x, bottom/x);
+	}
+
+	FRECT operator/(int x)
+	{
+		return FRECT(left / x, top / x, right / x, bottom / x);
+	}
 };

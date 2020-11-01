@@ -4,14 +4,19 @@
 #include "DynamicObject.h"
 #include "StaticObject.h"
 
+#define MAP_BLOCK_WIDTH 320
+#define MAP_BLOCK_HEIGHT 320
 
 class CPlayScene : public CScene
 {
 protected:
 	DynamicObject* player;
 
-	vector<CGameObject*> objects;
-	vector<CGameObject*> map;
+	unordered_map<int, vector<CGameObject*>> sceneObjects;
+
+	vector<CGameObject*> onSCeneObjs;
+
+	StaticObject* mapBackground;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -19,11 +24,16 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
 
+	void AddGameObjectToScene(CGameObject* obj);
+	int GetMapBlockID(float x, float y);
+	vector<CGameObject*> GetOnScreenObjs();
+
 public:
 	CPlayScene(int id, LPCWSTR filePath);
 
 	virtual void Load();
 	virtual void Update(DWORD dt);
+	virtual void ApllyVelocityToGameObjs(float dt);
 	virtual void Render();
 	virtual void Unload();
 

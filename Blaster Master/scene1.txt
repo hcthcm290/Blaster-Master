@@ -2,6 +2,7 @@
 [TEXTURES]
 100	textures\FlyingEye.png	255	0	255
 101	textures\Jumper.png	255	0	255
+-1	textures\level2-side.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -14,7 +15,9 @@
 
 #JUMPER
 2001	0	0	17	26	101
-						
+
+#MAP
+-1	0	0	2048	2048	-1
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 
@@ -27,6 +30,8 @@
 #
 2001	2001	100
 
+#MAP
+3001	3001	100
 
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -35,7 +40,10 @@
 0	50.0	100.0
 
 #JUMPER
-1	50.0	70.0
+1	75.0	100.0
+
+#MAPBACKGROUND
+-1	1016.0	1016.0
 
 [MAP]
 map.json
