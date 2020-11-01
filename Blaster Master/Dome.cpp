@@ -20,5 +20,5 @@ void Dome::Update(float dt)
 
 void Dome::Render()
 {
-	animator.Draw(1003, x, y, false);
+	animator->Draw(1003, x, y, false);
 }

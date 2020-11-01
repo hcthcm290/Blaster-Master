@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Animator.h"
 #include "DInput.h"
+#include "StateConstant.h"
 
 class DynamicObject : public CGameObject
 {
@@ -9,7 +10,7 @@ protected:
 	float vx = 0;
 	float vy = 0;
 
-	Animator animator;
+	Animator* animator = new Animator();
 
 public:
 	FRECT GetCollisionBox() { return FRECT();}

@@ -16,5 +16,5 @@ void Orb::Update(float dt)
 
 void Orb::Render()
 {
-	animator.Draw(1001, x, y, false);
+	animator->Draw(20902, x, y, false);
 }

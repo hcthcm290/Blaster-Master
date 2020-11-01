@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(DXSDK_DIR)include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(DXSDK_DIR)lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;D:\DirectX SDK\Include;D:\rapidjson-master;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;D:\DirectX SDK\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -161,6 +161,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Animator_Jumper.cpp" />
+    <ClCompile Include="Canon.cpp" />
+    <ClCompile Include="Animator_Jason.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColliableBrick.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
@@ -168,42 +171,68 @@
     <ClCompile Include="DInput.cpp" />
     <ClCompile Include="Dome.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
+    <ClCompile Include="Eyeball.cpp" />
+    <ClCompile Include="Floater.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Insect.cpp" />
+    <ClCompile Include="Jason.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mine.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Skull.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="StaticObject.cpp" />
+    <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColliableBrick.h" />
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="Animator_Jumper.h" />
+    <ClInclude Include="Canon.h" />
+    <ClInclude Include="Animator_Jason.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DInput.h" />
     <ClInclude Include="Dome.h" />
+    <ClInclude Include="Eyeball.h" />
+    <ClInclude Include="Floater.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="Insect.h" />
+    <ClInclude Include="Jason.h" />
     <ClInclude Include="Jumper.h" />
+    <ClInclude Include="Mine.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="RECT.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Skull.h" />
     <ClInclude Include="Sprites.h" />
+    <ClInclude Include="StateConstant.h" />
     <ClInclude Include="StaticObject.h" />
+    <ClInclude Include="Teleporter.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="D:\DOWNLOAD\P2_Jason.png" />
+    <Image Include="map.png" />
     <Image Include="Sprite\FlyingEye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="game-info.txt" />
+    <Text Include="scene1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
