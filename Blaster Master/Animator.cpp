@@ -5,7 +5,7 @@
 
 void Animator::Draw(int animationID, float x, float y, bool flipX)
 {
-	LPANIMATION anim = CAnimations::GetInstance()->Get(animationID);
+	LPANIMATION anim = animationSet[animationID];
 
 	if (anim == NULL)
 	{
@@ -21,4 +21,9 @@ void Animator::Draw(int animationID, float x, float y, bool flipX)
 	curAnimationID = animationID;
 
 	curFrame = anim->Render(curFrame, x, y, flipX);
+}
+
+void Animator::AddAnimation(int id)
+{
+	animationSet[id] = new CAnimation(*CAnimations::GetInstance()->Get(id));
 }

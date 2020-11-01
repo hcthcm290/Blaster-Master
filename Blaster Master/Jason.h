@@ -9,5 +9,5 @@ public:
 	Jason();
 	void Update(float dt);
 	void Render();
-	FRECT GetCollisionBox() { return FRECT(); }
+	FRECT GetCollisionBox();
 };

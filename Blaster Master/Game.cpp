@@ -95,7 +95,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 
 	mat *= flip;
 	mat *= translate;
-	mat *= toCameraView;
+	//mat *= toCameraView;
 
 	spriteHandler->SetTransform(&mat);
 

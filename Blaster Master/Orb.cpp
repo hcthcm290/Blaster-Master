@@ -1,5 +1,10 @@
 #include "Orb.h"
 
+Orb::Orb()
+{
+	animator->AddAnimation(20902);
+}
+
 FRECT Orb::GetCollisionBox()
 {
 	FRECT colRect;

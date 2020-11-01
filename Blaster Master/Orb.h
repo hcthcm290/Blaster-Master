@@ -5,9 +5,10 @@
 #define ORB_COLLISION_BOX_WIDTH 18
 #define ORB_COLLISION_BOX_HEIGHT 18
 
-class Orb : public DynamicObject,public RigidBody
+class Orb : public DynamicObject, public RigidBody
 {
 public:
+	Orb();
 	FRECT GetCollisionBox();
 	void Update(float dt);
 	void Render();

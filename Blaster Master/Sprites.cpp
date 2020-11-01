@@ -1,6 +1,7 @@
 #include "Sprites.h"
 #include "Game.h"
 #include "debug.h"
+#include <string>
 
 CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
@@ -41,6 +42,13 @@ void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DT
 LPSPRITE CSprites::Get(int id)
 {
 	return sprites[id];
+}
+
+CAnimation::CAnimation(CAnimation& anim)
+{
+	this->lastFrameTime = anim.lastFrameTime;
+	this->defaultTime = anim.defaultTime;
+	this->frames = anim.frames;
 }
 
 void CAnimation::Add(int spriteId, DWORD time)
@@ -90,14 +98,13 @@ int CAnimation::Render(int currentFrame, float x, float y, bool flipX)
 	else
 	{
 		DWORD t = frames[currentFrame]->GetTime();
+
 		if (now - lastFrameTime > t)
 		{
 			currentFrame++;
 			lastFrameTime = now;
 			if (currentFrame == frames.size()) currentFrame = 0;
-			//DebugOut(L"now: %d, lastFrameTime: %d, t: %d\n", now, lastFrameTime, t);
 		}
-
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(x, y, flipX);
