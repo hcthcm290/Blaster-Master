@@ -10,8 +10,8 @@
 class Jumper : public DynamicObject, public RigidBody
 {
 private:
-	float currentY,Vy=0,Vx= jumperSpeed;
-	bool isJumpUp = false,isJumpDown=false;
+	float currentY, Vy = 0, Vx = jumperSpeed;
+	bool isJumpUp = false, isJumpDown = false;
 	int state;				//Jump or walk
 	float maxJumpTop = 20;		//Accelerate
 	bool keyRelease = true;	//Stop click on button

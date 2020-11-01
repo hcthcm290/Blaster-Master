@@ -6,7 +6,7 @@ Jason::Jason() {
 	state = Constant::_JASON_DIE_;
 }
 
-void Jason::Update(DWORD dt)
+void Jason::Update(float dt)
 {
 
 }

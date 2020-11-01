@@ -7,6 +7,7 @@ private:
 	int state;
 public:
 	Jason();
-	void Update(DWORD dt);
+	void Update(float dt);
 	void Render();
+	FRECT GetCollisionBox() { return FRECT(); }
 };

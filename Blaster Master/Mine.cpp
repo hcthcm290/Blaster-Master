@@ -1,5 +1,5 @@
 #include "Mine.h"
-void Mine::Update(DWORD dt)
+void Mine::Update(float dt)
 {
 
 }

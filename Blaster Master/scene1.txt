@@ -1,17 +1,17 @@
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
-1	textures\1_Jumper.png		255	0	255
-2	textures\2_Floater.png		255	0	255
-3	textures\3_Mine.png		255	0	255
-4	textures\4_Dome.png		255	0	255
-5	textures\5_Worm.png		255	0	255
-6	textures\6_Insect.png		255	0	255
-7	textures\7_Skull.png		255	0	255
-9	textures\9_Orb.png		255	0	255
+1	textures\1_Jumper.png	255	0	255
+2	textures\2_Floater.png	255	0	255
+3	textures\3_Mine.png	255	0	255
+4	textures\4_Dome.png	255	0	255
+5	textures\5_Worm.png	255	0	255
+6	textures\6_Insect.png	255	0	255
+7	textures\7_Skull.png	255	0	255
+9	textures\9_Orb.png	255	0	255
 10	textures\10_Teleporter.png	255	0	255
-11	textures\11_Canon.png		255	0	255
-12	textures\12_Eyeball.png		255	0	255
-999	textures\P2_Jason.png	255	255	255
+11	textures\11_Canon.png	255	0	255
+12	textures\12_Eyeball.png	255	0	255
+999	textures\P2_Jason.png	255	0	255
 -1	textures\level2-side.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
@@ -78,13 +78,15 @@
 #SWIM
 19913	123	36	140	48	999	
 19914	147	36	164	48	999
+#MAPBACKGROUND
+-1	0	0	2048	2048	-1
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 
 # ==== JUMPER =======
 #
 20101	10103	100
-20102	10101	200	10102	200	10103	200
+20102	10101	500	10102	500	10103	500	10102	500	10101	500
 # ==== FLOATER=======
 #
 20201	10201	100
@@ -152,8 +154,8 @@
 # JUMPER
 1	100.0	50.0
 
-#MAPBACKGROUND
+# MAPBACKGROUND
 -1	1016.0	1016.0
 
 [MAP]
-map.json
+#map.json

@@ -1,5 +1,5 @@
 #include "Worm.h"
-void Worm::Update(DWORD dt)
+void Worm::Update(float dt)
 {
 
 }

@@ -1,6 +1,6 @@
 #include "Canon.h"
 
-void Canon::Update(DWORD dt)
+void Canon::Update(float dt)
 {
 
 }

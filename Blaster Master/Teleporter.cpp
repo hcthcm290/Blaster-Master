@@ -1,5 +1,5 @@
 #include "Teleporter.h"
-void Teleporter::Update(DWORD dt)
+void Teleporter::Update(float dt)
 {
 
 }

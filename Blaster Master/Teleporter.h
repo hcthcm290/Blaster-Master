@@ -4,7 +4,7 @@ class Teleporter :
     public DynamicObject
 {
 public:
-	void Update(DWORD dt);
+	void Update(float dt);
 	void Render();
 };
 

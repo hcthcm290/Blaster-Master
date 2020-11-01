@@ -1,5 +1,5 @@
 #include "Insect.h"
-void Insect::Update(DWORD dt)
+void Insect::Update(float dt)
 {
 
 }

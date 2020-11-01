@@ -1,6 +1,6 @@
 #include "Floater.h"
 
-void Floater::Update(DWORD dt)
+void Floater::Update(float dt)
 {
 
 }

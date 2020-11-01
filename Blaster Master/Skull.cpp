@@ -1,5 +1,5 @@
 #include "Skull.h"
-void Skull::Update(DWORD dt)
+void Skull::Update(float dt)
 {
 
 }
