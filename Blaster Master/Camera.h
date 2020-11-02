@@ -12,7 +12,7 @@ private:
 	int width = 800;
 	int height = 600;
 
-	FRECT boundary = FRECT(0, 0, 1000, 1000);
+	FRECT boundary = FRECT(1024, 1024, 2000, 2000);
 
 private:
 	void SnapToBoundary();
