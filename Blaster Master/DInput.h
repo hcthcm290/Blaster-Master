@@ -23,11 +23,14 @@ private:
 	IDirectInputDevice8* DIMouse;
 	LPDIRECTINPUT8 DirectInput;
 	DIMOUSESTATE mouseState;
-	BYTE  keyStates[256];
+	BYTE keyStates[256];
+	BYTE oldkeyStates[256];
 
 public:
 	static DInput* GetInstance();
 	static bool KeyDown(int keyCode);
+	static bool KeyUp(int keyCode);
+	static bool KeyPress(int keyCode);
 	static bool MouseDown(int keycode);
 	static D3DXVECTOR2 GetMousePosition();
 };
