@@ -9,6 +9,7 @@
 class Orb : public DynamicObject, public RigidBody
 {
 	bool onTheGround = true;
+	bool canJump = false;
 
 public:
 	Orb();

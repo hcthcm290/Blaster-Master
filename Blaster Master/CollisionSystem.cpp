@@ -33,10 +33,6 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	// deal with collision object at x axis
 	if (filteredCol.first != nullptr) 
 	{
-		// TODO: SEND COLLISIONEVENT TO BOTH GAMEOBJECT //
-		movingObj->OnCollisionEnter(CollisionEvent(filteredCol.first));
-		//////////////////////////////////////////////////
-
 		// only push moving obj back if both of them have rigidbody
 		if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(filteredCol.first->obj) != NULL)
 		{
@@ -48,10 +44,6 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	// deal with collision object at y axis
 	if (filteredCol.second != nullptr)
 	{
-		// TODO: SEND COLLISIONEVENT TO BOTH GAMEOBJECT //
-		movingObj->OnCollisionEnter(CollisionEvent(filteredCol.second));
-		//////////////////////////////////////////////////
-
 		// only push moving obj back if both of them have rigidbody
 		if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(filteredCol.second->obj) != NULL)
 		{
@@ -63,10 +55,35 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	auto movingObjVEL = movingObj->GetVelocity();
 	auto movingObjPOS = movingObj->GetPosition();
 
-	auto vxx = float(movingObjVEL.x) * dtx_Percent + nx_pushback * 0.5 / dt;
+	auto vxx = movingObjVEL.y * dty_Percent + ny_pushback * 0.5 / dt;
 
-	//movingObj->SetPosition(movingObjPOS.x + movingObjVEL.x * dt * dtx_Percent + nx_pushback * 0.5, movingObjPOS.y + movingObjVEL.y * dt * dty_Percent + ny_pushback * 0.5);
-	movingObj->SetVelocity(movingObjVEL.x * dtx_Percent + nx_pushback * 0.5 / dt, movingObjVEL.y * dty_Percent + ny_pushback * 0.1 / dt);
+	movingObj->SetPosition(movingObjPOS.x + nx_pushback * 0.2, movingObjPOS.y + ny_pushback * 0.2);
+	movingObj->SetVelocity(movingObjVEL.x * dtx_Percent, movingObjVEL.y * dty_Percent);
+
+	if (filteredCol.first != NULL)
+	{
+		movingObj->OnCollisionEnter(CollisionEvent(filteredCol.first));
+
+		CollisionEvent e;
+		e.nx = -filteredCol.first->nx;
+		e.ny = -filteredCol.first->ny;
+		e.pGameObject = filteredCol.first->obj;
+
+		filteredCol.first->obj->OnCollisionEnter(e);
+	}
+	if (filteredCol.second != NULL)
+	{
+		// TODO: SEND COLLISIONEVENT TO BOTH GAMEOBJECT //
+		movingObj->OnCollisionEnter(CollisionEvent(filteredCol.second));
+
+		CollisionEvent e;
+		e.nx = -filteredCol.second->nx;
+		e.ny = -filteredCol.second->ny;
+		e.pGameObject = filteredCol.second->obj;
+
+		filteredCol.second->obj->OnCollisionEnter(e);
+		//////////////////////////////////////////////////
+	}
 }
 
 

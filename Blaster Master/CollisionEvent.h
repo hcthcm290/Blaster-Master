@@ -36,6 +36,8 @@ public:
 	CGameObject* pGameObject;
 	float nx, ny;
 
+	CollisionEvent() {}
+
 	CollisionEvent(Collision* collision)
 	{
 		this->pGameObject = collision->obj;

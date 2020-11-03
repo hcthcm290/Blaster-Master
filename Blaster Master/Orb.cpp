@@ -17,28 +17,34 @@ FRECT Orb::GetCollisionBox()
 
 void Orb::OnCollisionEnter(CollisionEvent e)
 {
-	if (e.ny == -1)
+	if (e.ny < 0)
 	{
-		vy = 0;
+		//vy = 0;
 		onTheGround = true;
 	}
 }
 
 void Orb::Update(float dt)
 {
-	vy += 10;
+	vy += 300*dt;
 
-	if (DInput::KeyDown(DIK_LEFT))
+	if (DInput::KeyPress(DIK_LEFT))
 		vx = -50;
-	else if (DInput::KeyDown(DIK_RIGHT))
+	else if (DInput::KeyPress(DIK_RIGHT))
 		vx = 50;
 	else
 		vx = 0;
 
-	if (DInput::KeyDown(DIK_SPACE) && onTheGround)
+	if (DInput::KeyPress(DIK_SPACE) && canJump)
 	{
 		vy = -300;
 		onTheGround = false;
+		canJump = false;
+	}
+
+	if (onTheGround && !DInput::KeyPress(DIK_SPACE))
+	{
+		canJump = true;
 	}
 }
 
