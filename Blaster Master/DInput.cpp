@@ -51,6 +51,12 @@ void DInput::ProcessKeyboard()
 	DIMouse->Acquire();
 
 	DIMouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+
+	for (int i = 0; i < 255; i++)
+	{
+		oldkeyStates[i] = keyStates[i];
+	}
+
 	DIKeyboard->GetDeviceState(sizeof(keyStates), (LPVOID)&keyStates);
 }
 
@@ -59,7 +65,6 @@ void DInput::Release()
 	DIKeyboard->Unacquire();
 	DIMouse->Unacquire();
 	DirectInput->Release();
-
 }
 
 DInput* DInput::GetInstance()
@@ -72,13 +77,42 @@ DInput* DInput::GetInstance()
 	return __instance;
 }
 
-
 /// <summary>
-/// Check if the key is down
+/// return true if key is move from unpress to press
 /// </summary>
-/// <param name="keyCode">Key code to check (example: DIK_LEFT)</param>
+/// <param name="keyCode"></param>
 /// <returns></returns>
 bool DInput::KeyDown(int keyCode)
 {
+	return (__instance->keyStates[keyCode] && 0x80) && !(__instance->oldkeyStates[keyCode] && 0x80);
+}
+
+/// <summary>
+/// return true if key is move from press to unpress
+/// </summary>
+/// <param name="keyCode"></param>
+/// <returns></returns>
+bool DInput::KeyUp(int keyCode)
+{
+	return !(__instance->keyStates[keyCode] && 0x80) && (__instance->oldkeyStates[keyCode] && 0x80);
+}
+
+/// <summary>
+/// return true if key is press
+/// </summary>
+/// <param name="keyCode"></param>
+/// <returns></returns>
+bool DInput::KeyPress(int keyCode)
+{
 	return __instance->keyStates[keyCode] && 0x80;
+}
+
+bool DInput::MouseDown(int keyCode)
+{
+	return __instance->mouseState.rgbButtons[keyCode] && 0x80;
+}
+
+D3DXVECTOR2 DInput::GetMousePosition()
+{
+	return D3DXVECTOR2{ FLOAT(__instance->mouseState.lX) , FLOAT(__instance->mouseState.lY) };
 }
