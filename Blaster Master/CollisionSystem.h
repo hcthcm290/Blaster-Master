@@ -1,41 +1,7 @@
 #pragma once
 #include "DynamicObject.h"
 
-struct Collision;
-typedef Collision* LPCOLLISION;
-struct Collision
-{
-	LPGAMEOBJECT obj;
-	float dt_Percent, nx, ny;
 
-	float dx, dy;		// *RELATIVE* movement distance between this object and obj
-
-	Collision(float dt_Percent, float nx, float ny, float dx = 0, float dy = 0, LPGAMEOBJECT obj = NULL)
-	{
-		this->dt_Percent = dt_Percent;
-		this->nx = nx;
-		this->ny = ny;
-		this->dx = dx;
-		this->dy = dy;
-		this->obj = obj;
-	}
-
-	static bool compare(const LPCOLLISION& a, LPCOLLISION& b)
-	{
-		return a->dt_Percent < b->dt_Percent;
-	}
-};
-
-class CollisionEvent 
-{
-public:
-	LPGAMEOBJECT pGameObject;
-
-	CollisionEvent(LPGAMEOBJECT pGameObject)
-	{
-		this->pGameObject = pGameObject;
-	}
-};
 
 
 class CollisionSystem

@@ -224,6 +224,9 @@
     <ClInclude Include="Animator_Jumper.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">

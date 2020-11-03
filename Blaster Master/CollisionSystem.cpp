@@ -34,7 +34,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	if (filteredCol.first != nullptr) 
 	{
 		// TODO: SEND COLLISIONEVENT TO BOTH GAMEOBJECT //
-
+		movingObj->OnCollisionEnter(CollisionEvent(filteredCol.first));
 		//////////////////////////////////////////////////
 
 		// only push moving obj back if both of them have rigidbody
@@ -49,7 +49,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	if (filteredCol.second != nullptr)
 	{
 		// TODO: SEND COLLISIONEVENT TO BOTH GAMEOBJECT //
-
+		movingObj->OnCollisionEnter(CollisionEvent(filteredCol.second));
 		//////////////////////////////////////////////////
 
 		// only push moving obj back if both of them have rigidbody
@@ -66,7 +66,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	auto vxx = float(movingObjVEL.x) * dtx_Percent + nx_pushback * 0.5 / dt;
 
 	//movingObj->SetPosition(movingObjPOS.x + movingObjVEL.x * dt * dtx_Percent + nx_pushback * 0.5, movingObjPOS.y + movingObjVEL.y * dt * dty_Percent + ny_pushback * 0.5);
-	movingObj->SetVelocity(movingObjVEL.x * dtx_Percent + nx_pushback * 0.5 / dt, movingObjVEL.y * dty_Percent + ny_pushback * 0.5 / dt);
+	movingObj->SetVelocity(movingObjVEL.x * dtx_Percent + nx_pushback * 0.5 / dt, movingObjVEL.y * dty_Percent + ny_pushback * 0.1 / dt);
 }
 
 

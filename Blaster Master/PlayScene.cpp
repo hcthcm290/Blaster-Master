@@ -382,7 +382,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	mapBackground->Render();
+	//mapBackground->Render();
 
 	for (int i = 0; i < onSCeneObjs.size(); i++)
 		onSCeneObjs[i]->Render();

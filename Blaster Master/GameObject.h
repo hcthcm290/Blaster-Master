@@ -5,10 +5,11 @@
 #include <vector>
 #include "Sprites.h"
 #include "RECT.h"
+#include "CollisionEvent.h"
 
 using namespace std;
 
-
+typedef CGameObject* LPGAMEOBJECT;
 class CGameObject
 {
 protected:
@@ -44,6 +45,10 @@ public:
 	virtual void Update(float dt) = 0;
 	virtual void Render() = 0;
 	~CGameObject();
+
+public:
+	virtual void OnCollisionEnter(CollisionEvent e) {}
+	virtual void OnCollisionExit(CollisionEvent e) {}
+	
 };
 
-typedef CGameObject* LPGAMEOBJECT;

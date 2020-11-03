@@ -15,11 +15,36 @@ FRECT Orb::GetCollisionBox()
 	return colRect;
 }
 
+void Orb::OnCollisionEnter(CollisionEvent e)
+{
+	if (e.ny == -1)
+	{
+		vy = 0;
+		onTheGround = true;
+	}
+}
+
 void Orb::Update(float dt)
 {
+	vy += 10;
+
+	if (DInput::KeyDown(DIK_LEFT))
+		vx = -50;
+	else if (DInput::KeyDown(DIK_RIGHT))
+		vx = 50;
+	else
+		vx = 0;
+
+	if (DInput::KeyDown(DIK_SPACE) && onTheGround)
+	{
+		vy = -300;
+		onTheGround = false;
+	}
 }
 
 void Orb::Render()
 {
 	animator->Draw(20902, x, y, false);
 }
+
+
