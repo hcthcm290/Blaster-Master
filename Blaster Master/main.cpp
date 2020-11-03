@@ -154,7 +154,7 @@ int Run()
 INT WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     PSTR lpCmdLine, INT nCmdShow)
 {
-    HWND hwnd = CreateGameWindow(hInstance, 800, 600);
+    HWND hwnd = CreateGameWindow(hInstance, 400, 300);
 
     game = CGame::GetInstance();
 
