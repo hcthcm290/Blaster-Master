@@ -139,7 +139,7 @@ void Sophia::Update(float dt)
 		}
 		else
 		{
-			if(now-last_gun > 800)
+			if(now-last_gun > 200)
 				gun_up = 90;
 		}
 	}
@@ -159,85 +159,124 @@ void Sophia::Update(float dt)
 
 void Sophia::StateChange()
 {
-	if (vx < 0)
+	if (onTheGround)
 	{
 		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
-		if (gun_up == 45)
+		if (vx < 0)
 		{
-			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-			state = STATE_SOPHIA_MOVE_45;
-		}
-		else
-		{
-			if (gun_up == 90)
-			{
-				state = STATE_SOPHIA_MOVE_90;
-			}
-			else
-				state = STATE_SOPHIA_MOVE;
-		}
-		flipX = true;
-		moving = true;
-	}
-	else
-	{
-		if (vx > 0)
-		{
-			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
 			if (gun_up == 45)
 			{
-				dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-				state = STATE_SOPHIA_MOVE_45;
+				if (state != STATE_SOPHIA_MOVE_45)
+				{
+					dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+					state = STATE_SOPHIA_MOVE_45;
+				}
 			}
 			else
 			{
 				if (gun_up == 90)
 				{
-					state = STATE_SOPHIA_MOVE_90;
+					if (state != STATE_SOPHIA_MOVE_90)
+					{
+						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+						state = STATE_SOPHIA_MOVE_90;
+					}
 				}
 				else
-					state = STATE_SOPHIA_MOVE;
+				{
+					if (state != STATE_SOPHIA_MOVE)
+					{
+						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+						state = STATE_SOPHIA_MOVE;
+					}
+				}
 			}
-			flipX = false;
+			flipX = true;
 			moving = true;
 		}
 		else
-		{	
-			if (gun_up == 45)
+		{
+			if (vx > 0)
 			{
-				dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-				state = STATE_SOPHIA_MOVE_45;
-			}
-			else
-			{
-				if (gun_up == 90)
+				if (gun_up == 45)
 				{
-					state = STATE_SOPHIA_IDLE_90;
+					if (state != STATE_SOPHIA_MOVE_45)
+					{
+						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+						state = STATE_SOPHIA_MOVE_45;
+					}
 				}
 				else
 				{
-					dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-					state = STATE_SOPHIA_IDLE;
+					if (gun_up == 90)
+					{
+						if (state != STATE_SOPHIA_MOVE_90)
+						{
+							dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+							state = STATE_SOPHIA_MOVE_90;
+						}
+					}
+					else
+					{
+						if (state != STATE_SOPHIA_MOVE)
+						{
+							dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+							state = STATE_SOPHIA_MOVE;
+						}
+					}
 				}
+				flipX = false;
+				moving = true;
 			}
-			moving = false;
+			else
+			{
+				if (gun_up == 45)
+				{
+					if (state != STATE_SOPHIA_MOVE_45)
+					{
+						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+						state = STATE_SOPHIA_MOVE_45;
+					}
+				}
+				else
+				{
+					if (gun_up == 90)
+					{
+						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+						state = STATE_SOPHIA_IDLE_90;
+					}
+					else
+					{
+						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+						state = STATE_SOPHIA_IDLE;
+					}
+				}
+				moving = false;
+			}
 		}
-	}
-	if (vy < 0)
-	{
-		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
-		state = STATE_SOPHIA_JUMP;
 	}
 	else
 	{
-		if (vy > 0 && !onTheGround)
+		if (vy < 0)
 		{
-			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-			state = STATE_SOPHIA_FALL;
+			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
+			if (state != STATE_SOPHIA_JUMP)
+			{
+				dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+			}
+			state = STATE_SOPHIA_JUMP;
 		}
 		else
 		{
+			if (vy > 0 && !onTheGround)
+			{
+				dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+				state = STATE_SOPHIA_FALL;
+			}
+			else
+			{
 
+			}
 		}
 	}
 }
