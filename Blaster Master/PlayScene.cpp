@@ -277,12 +277,16 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+	for (auto& obj : objects) {
+		obj->Update(dt);
+	}
 }
 
 void CPlayScene::Render()
 {
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+	for (auto& obj : objects) {
+		obj->Render();
+	}
 }
 
 /*
@@ -290,8 +294,8 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
+	for (auto& obj : objects)
+		delete obj;
 
 	objects.clear();
 	player = NULL;

@@ -82,7 +82,7 @@ int CAnimation::Render(int currentFrame, float x, float y)
 int CAnimation::Render(int currentFrame, float x, float y, bool flipX)
 {
 	DWORD now = GetTickCount64();
-	if (currentFrame == -1)
+	if (currentFrame == -1 || currentFrame >= frames.size())
 	{
 		currentFrame = 0;
 		lastFrameTime = now;
