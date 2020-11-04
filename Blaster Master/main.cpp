@@ -13,7 +13,7 @@
 #include <cstdio>
 #include <vector>
 
-#define MAX_FRAME_RATE 1000
+#define MAX_FRAME_RATE 1000;
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
 
 #define ORB_WIDTH 18

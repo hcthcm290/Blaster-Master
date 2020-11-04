@@ -8,15 +8,9 @@ private:
 	int speed = 2;
 	int flipX = false;
 
-	typedef struct {
-		int width;
-		int height;
-	} Transform;
-	Transform transform;
-
 	void MakeCrouch();
 	void MakeMove();
-	void MakeJump();
+	void MakeJump(float dt);
 	void GravityEffect();
 
 	int initialY = 500; //instead of collision boxes

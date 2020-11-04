@@ -1,5 +1,6 @@
 #include "Jason.h"
 #include "Animator_Jason.h"
+#include "Debug.h"
 
 Jason::Jason() {
 	animator = new Animator_Jason();
@@ -8,26 +9,29 @@ Jason::Jason() {
 	animator->AddAnimation(State::_JASON_JUMP_);
 	animator->AddAnimation(State::_JASON_CLIMB_);
 	animator->AddAnimation(State::_JASON_CRAWL_);
+	animator->AddAnimation(State::_JASON_CMOVE_);
 	animator->AddAnimation(State::_JASON_DIE_);
-	state = Constant::_JASON_DIE_;
+	state = State::_JASON_DIE_;
 }
 
 void Jason::Update(float dt)
 {
 	MakeCrouch();
 	MakeMove();
-	MakeJump();
+	MakeJump(dt);
 	GravityEffect();
-	x += vx;
-	y += vy;
+	x += vx*dt;
+	y += vy*dt;
 	
 	//virtual collision
+	/**
 	if (y + transform.height > initialY) {
 		y = initialY - transform.height; 
 		vy = 0;
 		if (state != State::_JASON_WALK_ && state!=State::_JASON_CRAWL_ && state!=State::_JASON_CMOVE_)
 			state = State::_JASON_IDLE_;
 	}
+	*/
 }
 
 void Jason::Render()
@@ -40,13 +44,10 @@ void Jason::MakeCrouch() {
 	bool down = DInput::GetInstance()->KeyDown(DIK_DOWN);
 	if (state == State::_JASON_IDLE_ && down) {
 		state = State::_JASON_CRAWL_;
-		y += IDLE_HEIGHT - CRAW_HEIGHT;
-		transform.height = CRAW_HEIGHT;
+		y += 4;
 	}
 	else if (state == State::_JASON_CRAWL_ && up) {
 		state = State::_JASON_IDLE_;
-		//y -= IDLE_HEIGHT - CRAW_HEIGHT
-		transform.height = IDLE_HEIGHT;
 	}
 }
 
@@ -68,7 +69,7 @@ void Jason::MakeMove() {
 }
 
 
-void Jason::MakeJump() {
+void Jason::MakeJump(float dt) {
 	bool jump = DInput::GetInstance()->KeyDown(DIK_X);
 	if ((state==State::_JASON_IDLE_ || state==State::_JASON_WALK_)&& jump) 
 	{
