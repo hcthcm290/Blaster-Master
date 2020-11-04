@@ -166,7 +166,7 @@
 # ==== MINE=======
 #
 20301	10301	100
-20302	10301	200	10302	200
+20302	10301	500	10302	500
 # ==== DOME =======
 #
 20401	10401	100
@@ -269,10 +269,12 @@
 #
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# 0: ORB, 1: JUMPER, 2: DOME, 3: PLAYER_JASON
+# 1: JUMPER, 2: FLOATER, 3: MINE, 9: ORB
 # ORB
-#0	50.0	50.0
-0	1120.0	1136.0
+9	1120.0	1136.0
+
+#MINE
+3	1232.0	1172.0
 
 # MAPBACKGROUND
 -1	1016.0	1016.0

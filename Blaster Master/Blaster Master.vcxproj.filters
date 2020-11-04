@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Animator">
       <UniqueIdentifier>{384102ec-19ee-452b-a539-6c1931974642}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Bullet">
+      <UniqueIdentifier>{403beab0-ea84-4b41-a3fb-239bba78750b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bullet">
+      <UniqueIdentifier>{1e8959f4-84d2-4296-b718-783e401ce383}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

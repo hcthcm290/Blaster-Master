@@ -18,6 +18,7 @@
 #include "CollisionSystem.h"
 #include "ColliableBrick.h"
 #include "Camera.h"
+#include "Mine.h"
 #include <execution>
 #include <algorithm>
 
@@ -133,15 +134,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		dynamic_cast<StaticObject*>(obj)->SetSpriteID(-1);
 		mapBackground = dynamic_cast<StaticObject*>(obj);
 		return;
-	case 0:
-		obj = new Orb();
-		player = dynamic_cast<DynamicObject*>(obj);
-		break;
 	case 1:
 		obj = new Jumper();
 		break;
 	case 3:
-		obj = new Jason();
+		obj = new Mine();
+		break;
+	case 9:
+		obj = new Orb();
 		break;
 	}
 
