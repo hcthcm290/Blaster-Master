@@ -227,9 +227,9 @@
     <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="D:\DOWNLOAD\P2_Jason.png" />
     <Image Include="map.png" />
     <Image Include="Sprite\FlyingEye.png" />
+    <Image Include="Textures\P2_Jason.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game-info.txt" />

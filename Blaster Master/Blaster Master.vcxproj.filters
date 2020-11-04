@@ -232,10 +232,10 @@
     <Image Include="Sprite\FlyingEye.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="D:\DOWNLOAD\P2_Jason.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="map.png">
+      <Filter>External Inputs</Filter>
+    </Image>
+    <Image Include="Textures\P2_Jason.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

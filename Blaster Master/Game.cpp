@@ -86,11 +86,11 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	D3DXMATRIX flip;
 	if (!flipX)
 	{
-		D3DXMatrixScaling(&flip, 1, 1, 0);
+		D3DXMatrixScaling(&flip, 2, 2, 0);
 	}
 	else
 	{
-		D3DXMatrixScaling(&flip, -1, 1, 0);
+		D3DXMatrixScaling(&flip, -2, 2, 0);
 	}
 
 	mat *= flip;

@@ -1,7 +1,7 @@
-class Constant {
+class State {
 public:
 #pragma region Jason
-	static const int _JASON_STAND_	=	29901;
+	static const int _JASON_IDLE_ =	29901;
 	static const int _JASON_WALK_	=	29902;
 	static const int _JASON_JUMP_	=	29903;
 	static const int _JASON_CLIMB_	=	29904;
