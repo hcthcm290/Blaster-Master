@@ -26,6 +26,3 @@ public:
 	void Render();
 	FRECT GetCollisionBox();
 };
-
-#define IDLE_HEIGHT 17*2;
-#define CRAW_HEIGHT 10*2;
