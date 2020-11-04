@@ -21,6 +21,8 @@
 #include <execution>
 #include <algorithm>
 
+#include "Sophia.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
@@ -142,6 +144,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 3:
 		obj = new Jason();
+		break;
+	case 98:
+		obj = new Sophia();
+		player = dynamic_cast<DynamicObject*>(obj);
 		break;
 	}
 

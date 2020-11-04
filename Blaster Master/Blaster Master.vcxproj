@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Animator_Jumper.cpp" />
+    <ClCompile Include="Animator_Sophia.cpp" />
     <ClCompile Include="Canon.cpp" />
     <ClCompile Include="Animator_Jason.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Skull.cpp" />
+    <ClCompile Include="Sophia.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="Teleporter.cpp" />
@@ -193,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColliableBrick.h" />
     <ClInclude Include="CollisionEvent.h" />
@@ -218,6 +221,7 @@
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Skull.h" />
+    <ClInclude Include="Sophia.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="StateConstant.h" />
     <ClInclude Include="StaticObject.h" />

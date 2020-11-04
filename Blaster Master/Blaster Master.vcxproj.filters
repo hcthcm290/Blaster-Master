@@ -123,6 +123,12 @@
     <ClCompile Include="Animator_Jumper.cpp">
       <Filter>Source Files\Animator</Filter>
     </ClCompile>
+    <ClCompile Include="Animator_Sophia.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Sophia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -225,6 +231,12 @@
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
     <ClInclude Include="CollisionEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Sophia.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
