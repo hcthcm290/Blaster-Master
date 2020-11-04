@@ -5,6 +5,9 @@
 #include "Orb.h"
 #include "Jumper.h"
 
+#include "Jason.h"
+#include "Debug.h"
+
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
 	vector<LPCOLLISION> collisions;

@@ -11,17 +11,18 @@ Jason::Jason() {
 	animator->AddAnimation(State::_JASON_CRAWL_);
 	animator->AddAnimation(State::_JASON_CMOVE_);
 	animator->AddAnimation(State::_JASON_DIE_);
-	state = State::_JASON_DIE_;
+	state = State::_JASON_IDLE_;
 }
 
 void Jason::Update(float dt)
 {
+	vy += 300 * dt;
+
 	MakeCrouch();
 	MakeMove();
-	MakeJump(dt);
-	GravityEffect();
-	x += vx*dt;
-	y += vy*dt;
+	MakeJump();
+	//x += vx*dt;
+	//y += vy*dt;
 	
 	//virtual collision
 	/**
@@ -32,6 +33,7 @@ void Jason::Update(float dt)
 			state = State::_JASON_IDLE_;
 	}
 	*/
+	DebugOut(_wcsdup(StateToString().c_str()));
 }
 
 void Jason::Render()
@@ -43,10 +45,11 @@ void Jason::MakeCrouch() {
 	bool up = DInput::GetInstance()->KeyDown(DIK_UP);
 	bool down = DInput::GetInstance()->KeyDown(DIK_DOWN);
 	if (state == State::_JASON_IDLE_ && down) {
-		state = State::_JASON_CRAWL_;
 		y += 4;
+		state = State::_JASON_CRAWL_;
 	}
 	else if (state == State::_JASON_CRAWL_ && up) {
+		y -= 4;
 		state = State::_JASON_IDLE_;
 	}
 }
@@ -69,26 +72,47 @@ void Jason::MakeMove() {
 }
 
 
-void Jason::MakeJump(float dt) {
+void Jason::MakeJump() {
 	bool jump = DInput::GetInstance()->KeyDown(DIK_X);
 	if ((state==State::_JASON_IDLE_ || state==State::_JASON_WALK_)&& jump) 
 	{
-		vy = -30;
+		vy = -speed;
 		state = State::_JASON_JUMP_;
 	}
 }
 
-void Jason::GravityEffect() {
-	//vy += Environment::GRAVITY;
+FRECT Jason::GetCollisionBox() {
+	float w = 10;
+	float h = 17;
+	switch (state) {
+		case State::_JASON_CLIMB_	: w = 12; h = 16; break;
+		case State::_JASON_CMOVE_	: w = 16; h = 10; break;
+		case State::_JASON_CRAWL_	: w = 16; h = 10; break;
+		case State::_JASON_DIE_		: w = 16; h = 16; break;
+		case State::_JASON_IDLE_	: w = 10; h = 17; break;
+		case State::_JASON_JUMP_	: w = 10; h = 16; break;
+		case State::_JASON_SWIM_	: w = 17; h = 12; break;
+		case State::_JASON_WALK_	: w = 10; h = 17; break;
+	}
+	return FRECT(x - w / 2, y - h / 2, x + w / 2, y + h / 2);
 }
 
-FRECT Jason::GetCollisionBox()
-{
-	FRECT colRect;
-	colRect.left = x - 10 / 2;
-	colRect.right = x + 10 / 2;
-	colRect.top = y - 17 / 2;
-	colRect.bottom = y + 17 / 2;
+void Jason::OnCollisionEnter(CollisionEvent e) {
+	//DebugOut(L"OUCH\n");
+	state = State::_JASON_IDLE_;
+}
 
-	return colRect;
+wstring Jason::StateToString() {
+	wstring r;
+	switch (state) {
+	case State::_JASON_CLIMB_: r = L"Climb\n"; break;
+	case State::_JASON_CMOVE_: r = L"Cmove\n"; break;
+	case State::_JASON_CRAWL_: r = L"Crawl\n"; break;
+	case State::_JASON_DIE_: r = L"Die\n"; break;
+	case State::_JASON_IDLE_: r = L"Idle\n"; break;
+	case State::_JASON_JUMP_: r = L"Jump\n"; break;
+	case State::_JASON_SWIM_: r = L"Swim\n"; break;
+	case State::_JASON_WALK_: r = L"Walk\n"; break;
+	}
+	return r;
 }
