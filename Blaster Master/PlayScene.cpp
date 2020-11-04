@@ -135,6 +135,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		return;
 	case 0:
 		obj = new Orb();
+		player = dynamic_cast<DynamicObject*>(obj);
 		break;
 	case 1:
 		obj = new Jumper();

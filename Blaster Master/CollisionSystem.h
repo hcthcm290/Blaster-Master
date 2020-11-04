@@ -32,5 +32,5 @@ private:
 		float& nx,
 		float& ny);
 	static LPCOLLISION SweptAABBEx(DynamicObject* movingObj, CGameObject* staticObj, float dt);
-	static std::pair< LPCOLLISION, LPCOLLISION> FilterCollisions(std::vector<LPCOLLISION> eventList);
+	static std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> FilterCollisions(DynamicObject* movingObj ,std::vector<LPCOLLISION> eventList, float dt);
 };
