@@ -4,9 +4,15 @@
 #include "Debug.h"
 #include "Orb.h"
 #include "Jumper.h"
+#include "ColliableBrick.h"
 
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
+	if (dynamic_cast<Orb*>(movingObj) != NULL)
+	{
+		//
+	}
+
 	vector<LPCOLLISION> collisions;
 
 	for (UINT i = 0; i < anotherObjs->size(); i++)
@@ -36,7 +42,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		// only push moving obj back if both of them have rigidbody
 		for (auto Event : filteredCol.first)
 		{
-			if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(Event->obj) != NULL)
+			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL)
 			{
 				dtx_Percent = Event->dt_Percent;
 				nx_pushback = Event->nx;
@@ -50,7 +56,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		// only push moving obj back if both of them have rigidbody
 		for (auto Event : filteredCol.second)
 		{
-			if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(Event->obj) != NULL)
+			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL)
 			{
 				dty_Percent = Event->dt_Percent;
 				ny_pushback = Event->ny;
@@ -280,13 +286,13 @@ std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::F
 	// check what minTxCol and minTyCol
 	for (auto Event : colList)
 	{
-		if (Event->nx != 0)
+		if (Event->nx != 0 && (Event->nx / movingObj->GetVelocity().x) < 0)
 		{
 			if (minTxCol == nullptr) minTxCol = Event;
 			else if (minTxCol->dt_Percent < Event->dt_Percent) minTxCol = Event;
 		}
 
-		if (Event->ny != 0)
+		if (Event->ny != 0 && (Event->ny / movingObj->GetVelocity().y) < 0)
 		{
 			if (minTyCol == nullptr) minTyCol = Event;
 			else if (minTyCol->dt_Percent < Event->dt_Percent) minTyCol = Event;
@@ -296,13 +302,13 @@ std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::F
 	// find all collision that have the same minimum as minTxCol and minTyCol
 	for (auto Event : colList)
 	{
-		if (Event->nx != 0)
+		if (Event->nx != 0 && (Event->nx / movingObj->GetVelocity().x) < 0)
 		{
 			if (Event->dt_Percent == minTxCol->dt_Percent)
 				filteredCol.first.emplace_back(Event);
 		}
 
-		if (Event->ny != 0)
+		if (Event->ny != 0 && (Event->ny / movingObj->GetVelocity().y) < 0)
 		{
 			if (Event->dt_Percent == minTyCol->dt_Percent)
 				filteredCol.second.emplace_back(Event);
