@@ -1,9 +1,6 @@
 #pragma once
 #include "DynamicObject.h"
 
-
-
-
 class CollisionSystem
 {
 public:
@@ -33,4 +30,5 @@ private:
 		float& ny);
 	static LPCOLLISION SweptAABBEx(DynamicObject* movingObj, CGameObject* staticObj, float dt);
 	static std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> FilterCollisions(DynamicObject* movingObj ,std::vector<LPCOLLISION> eventList, float dt);
+	static void FixPreOverlapped(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs);
 };

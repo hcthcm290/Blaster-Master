@@ -11,10 +11,7 @@
 
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
-	if (dynamic_cast<Orb*>(movingObj) != NULL)
-	{
-		//
-	}
+	FixPreOverlapped(movingObj, anotherObjs);
 
 	vector<LPCOLLISION> collisions;
 
@@ -383,4 +380,87 @@ std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::F
 
 	movingObj->SetVelocity(oldVel.x, oldVel.y);
 	return filteredCol;
+}
+
+void CollisionSystem::FixPreOverlapped(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs)
+{
+	std::vector<CGameObject*> overlapedObjs;
+	std::vector<CGameObject*> colliableBricks;
+
+	for (auto object : *anotherObjs)
+	{
+		if (dynamic_cast<ColliableBrick*>(object) != NULL)
+			colliableBricks.emplace_back(object);
+	}
+
+	for (auto brick : colliableBricks)
+	{
+		if (CheckOverlap(movingObj, brick))
+		{
+			overlapedObjs.emplace_back(brick);
+		}
+	}
+
+	std::vector<std::pair<float, float>> specialPushbackVector;
+
+	bool specialCase = true;
+	
+	for (auto overlapedObj : overlapedObjs)
+	{
+		if (!CheckOverlap(movingObj, overlapedObj)) continue;
+
+		auto oldMovingObjPos = movingObj->GetPosition();
+
+		auto movingObjColBox = movingObj->GetCollisionBox();
+		auto overlapedObjColBox = overlapedObj->GetCollisionBox();
+
+		float deltaX = 0;
+		float deltaY = 0;
+
+		if (movingObjColBox.right > overlapedObjColBox.left && movingObjColBox.left < overlapedObjColBox.left &&
+			oldMovingObjPos.x < overlapedObjColBox.left)
+		{
+			deltaX -= movingObjColBox.right - overlapedObjColBox.left + 0.5;
+		}
+
+		if (movingObjColBox.left < overlapedObjColBox.right && movingObjColBox.right > overlapedObjColBox.right &&
+			oldMovingObjPos.x > overlapedObjColBox.right)
+		{
+			deltaX += overlapedObjColBox.right - movingObjColBox.left + 0.5;
+		}
+
+		if (movingObjColBox.bottom > overlapedObjColBox.top && movingObjColBox.top < overlapedObjColBox.top &&
+			oldMovingObjPos.y < overlapedObjColBox.top)
+		{
+			deltaY -= movingObjColBox.bottom - overlapedObjColBox.top + 0.5;
+		}
+
+		if (movingObjColBox.top < overlapedObjColBox.bottom && movingObjColBox.bottom > overlapedObjColBox.bottom &&
+			oldMovingObjPos.y > overlapedObjColBox.bottom)
+		{
+			deltaY += overlapedObjColBox.bottom - movingObjColBox.top + 0.5;
+		}
+
+		if (deltaX != 0 && deltaY != 0)
+			specialPushbackVector.emplace_back(std::pair<float, float>(deltaX, deltaY));
+		else
+		{
+			movingObj->SetPosition(oldMovingObjPos.x + deltaX, oldMovingObjPos.y + deltaY);
+			specialCase = false;
+		}
+	}
+
+	if (!specialCase || specialPushbackVector.size() == 0) return;
+
+	for (auto pushbackVector : specialPushbackVector)
+	{
+		auto oldMovingObjPos = movingObj->GetPosition();
+
+		if (pushbackVector.first < pushbackVector.second)
+			pushbackVector.second = 0;
+		else
+			pushbackVector.first = 0;
+
+		movingObj->SetPosition(oldMovingObjPos.x + pushbackVector.first, oldMovingObjPos.y + pushbackVector.second);
+	}
 }
