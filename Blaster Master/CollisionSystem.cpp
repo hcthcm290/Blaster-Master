@@ -26,7 +26,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 			delete e;
 	}
 
-	auto filteredCol = FilterCollisions(collisions);
+	auto filteredCol = FilterCollisions(movingObj, collisions, dt);
 
 	float dtx_Percent = 1;
 	float dty_Percent = 1;
@@ -34,58 +34,66 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	float ny_pushback = 0;
 
 	// deal with collision object at x axis
-	if (filteredCol.first != nullptr) 
+	if (filteredCol.first.size() != 0) 
 	{
 		// only push moving obj back if both of them have rigidbody
-		if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(filteredCol.first->obj) != NULL)
+		for (auto Event : filteredCol.first)
 		{
-			dtx_Percent = filteredCol.first->dt_Percent;
-			nx_pushback = filteredCol.first->nx;
+			if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(Event->obj) != NULL)
+			{
+				dtx_Percent = Event->dt_Percent;
+				nx_pushback = Event->nx;
+			}
 		}
 	}
 
 	// deal with collision object at y axis
-	if (filteredCol.second != nullptr)
+	if (filteredCol.second.size() != 0)
 	{
 		// only push moving obj back if both of them have rigidbody
-		if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(filteredCol.second->obj) != NULL)
+		for (auto Event : filteredCol.second)
 		{
-			dty_Percent = filteredCol.second->dt_Percent;
-			ny_pushback = filteredCol.second->ny;
+			if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(Event->obj) != NULL)
+			{
+				dty_Percent = Event->dt_Percent;
+				ny_pushback = Event->ny;
+			}
 		}
 	}
 
 	auto movingObjVEL = movingObj->GetVelocity();
 	auto movingObjPOS = movingObj->GetPosition();
 
-	auto vxx = movingObjVEL.y * dty_Percent + ny_pushback * 0.5 / dt;
-
 	movingObj->SetPosition(movingObjPOS.x + nx_pushback * 0.2, movingObjPOS.y + ny_pushback * 0.2);
 	movingObj->SetVelocity(movingObjVEL.x * dtx_Percent, movingObjVEL.y * dty_Percent);
 
-	if (filteredCol.first != NULL)
+	if (filteredCol.first.size() != 0)
 	{
-		movingObj->OnCollisionEnter(CollisionEvent(filteredCol.first));
+		for (auto Event : filteredCol.first)
+		{
+			movingObj->OnCollisionEnter(CollisionEvent(Event));
 
-		CollisionEvent e;
-		e.nx = -filteredCol.first->nx;
-		e.ny = -filteredCol.first->ny; 
-		e.pGameObject = filteredCol.first->obj;
+			CollisionEvent e;
+			e.nx = -Event->nx;
+			e.ny = -Event->ny;
+			e.pGameObject = Event->obj;
 
-		filteredCol.first->obj->OnCollisionEnter(e);
+			Event->obj->OnCollisionEnter(e);
+		}
 	}
-	if (filteredCol.second != NULL)
+	if (filteredCol.second.size() != 0)
 	{
-		// TODO: SEND COLLISIONEVENT TO BOTH GAMEOBJECT //
-		movingObj->OnCollisionEnter(CollisionEvent(filteredCol.second));
+		for (auto Event : filteredCol.second)
+		{
+			movingObj->OnCollisionEnter(CollisionEvent(Event));
 
-		CollisionEvent e;
-		e.nx = -filteredCol.second->nx;
-		e.ny = -filteredCol.second->ny;
-		e.pGameObject = filteredCol.second->obj;
+			CollisionEvent e;
+			e.nx = -Event->nx;
+			e.ny = -Event->ny;
+			e.pGameObject = Event->obj;
 
-		filteredCol.second->obj->OnCollisionEnter(e);
-		//////////////////////////////////////////////////
+			Event->obj->OnCollisionEnter(e);
+		}
 	}
 }
 
@@ -265,11 +273,14 @@ LPCOLLISION CollisionSystem::SweptAABBEx(DynamicObject* movingObj, CGameObject* 
 
 #pragma endregion
 
-std::pair<LPCOLLISION, LPCOLLISION> CollisionSystem::FilterCollisions(std::vector<LPCOLLISION> colList)
+std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::FilterCollisions(DynamicObject* movingObj, std::vector<LPCOLLISION> colList, float dt)
 {
 	LPCOLLISION minTxCol = nullptr;
 	LPCOLLISION minTyCol = nullptr;
 
+	std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> filteredCol;
+
+	// check what minTxCol and minTyCol
 	for (auto Event : colList)
 	{
 		if (Event->nx != 0)
@@ -285,5 +296,85 @@ std::pair<LPCOLLISION, LPCOLLISION> CollisionSystem::FilterCollisions(std::vecto
 		}
 	}
 
-	return std::pair<LPCOLLISION, LPCOLLISION>(minTxCol, minTyCol);
+	// find all collision that have the same minimum as minTxCol and minTyCol
+	for (auto Event : colList)
+	{
+		if (Event->nx != 0)
+		{
+			if (Event->dt_Percent == minTxCol->dt_Percent)
+				filteredCol.first.emplace_back(Event);
+		}
+
+		if (Event->ny != 0)
+		{
+			if (Event->dt_Percent == minTyCol->dt_Percent)
+				filteredCol.second.emplace_back(Event);
+		}
+	}
+
+	if (minTxCol == nullptr || minTyCol == nullptr)
+	{
+		return filteredCol;
+	}
+
+	D3DVECTOR oldVel = movingObj->GetVelocity();
+
+	// x-axis
+	if (dynamic_cast<RigidBody*>(minTyCol->obj) != nullptr)
+	{
+		float dty_Percent = minTyCol->dt_Percent;
+		float ny_pushback = minTyCol->ny;
+
+		movingObj->SetVelocity(oldVel.x, oldVel.y * dty_Percent + ny_pushback * 0.2);
+
+		bool found = false;
+		for (auto Event : filteredCol.first)
+		{
+			auto collision = SweptAABBEx(movingObj, Event->obj, dt);
+
+			if (collision->dt_Percent > 0 || collision->dt_Percent <= 1)
+			{
+				found = true;
+			}
+		}
+
+		movingObj->SetVelocity(oldVel.x, oldVel.y);
+
+		if (!found)
+		{
+			filteredCol.first.clear();
+			return filteredCol;
+		}
+	}
+
+	// y-axis
+	if (dynamic_cast<RigidBody*>(minTxCol->obj) != nullptr)
+	{
+		float dtx_Percent = minTxCol->dt_Percent;
+		float nx_pushback = minTxCol->nx;
+
+		movingObj->SetVelocity(oldVel.x * dtx_Percent + nx_pushback * 0.2, oldVel.y);
+
+		bool found = false;
+		for (auto Event : filteredCol.second)
+		{
+			auto collision = SweptAABBEx(movingObj, Event->obj, dt);
+
+			if (collision->dt_Percent > 0 && collision->dt_Percent <= 1)
+			{
+				found = true;
+			}
+		}
+
+		movingObj->SetVelocity(oldVel.x, oldVel.y);
+
+		if (!found)
+		{
+			filteredCol.second.clear();
+			return filteredCol;
+		}
+	}
+
+	movingObj->SetVelocity(oldVel.x, oldVel.y);
+	return filteredCol;
 }
