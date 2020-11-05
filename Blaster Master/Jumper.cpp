@@ -1,6 +1,7 @@
 #include "Jumper.h"
 #include "DInput.h"
 #include "Animator_Jumper.h"
+#include "ColliableBrick.h"
 
 Jumper::Jumper()
 {
@@ -11,7 +12,7 @@ Jumper::Jumper()
 }
 void Jumper::OnCollisionEnter(CollisionEvent e)
 {
-	if (e.ny < 0)
+	if (e.ny < 0 && dynamic_cast<ColliableBrick*>(e.pGameObject))
 	{
 		onTheGround = true;
 	}
@@ -19,31 +20,31 @@ void Jumper::OnCollisionEnter(CollisionEvent e)
 void Jumper::Update(float dt)
 {
 	vy += 300*dt;
-	float Character_X=dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
+	float Character_X = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
 	float Character_Y = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().y;
 	float distance = x - Character_X;
 	int direction = distance/ abs(distance);
-	if (abs(distance) <= 200)
+	if (abs(distance) <= 100)
 	{
-		
+		if (abs(distance) <= 50)
 			trigger = true;
+		else trigger = false;
 		
-		this->state = jumperWalk;
+	this->state = jumperWalk;
 	}
 	else
 	{
 		trigger = false;
 		this->state = jumperIdle;
-		vy = 0;
 		vx = 0;
 	}
 	//Changing walking status
 	if (this->state == jumperWalk)
 	{
-		vx = -1 * direction * 20;
+		vx = -1 * direction * 1000*dt;
 		if (trigger && canJump)
 		{
-			vy = -100;
+			vy = -150;
 			onTheGround = false;
 			canJump = false;
 		}
