@@ -16,7 +16,7 @@ Jason::Jason() {
 
 void Jason::Update(float dt)
 {
-	vy += 300 * dt;
+	vy += 100 * dt;
 
 	MakeCrouch();
 	MakeMove();
@@ -45,7 +45,7 @@ void Jason::MakeCrouch() {
 	bool up = DInput::GetInstance()->KeyDown(DIK_UP);
 	bool down = DInput::GetInstance()->KeyDown(DIK_DOWN);
 	if (state == State::_JASON_IDLE_ && down) {
-		y += 4;
+		//y += 4;
 		state = State::_JASON_CRAWL_;
 	}
 	else if (state == State::_JASON_CRAWL_ && up) {
@@ -99,6 +99,7 @@ FRECT Jason::GetCollisionBox() {
 
 void Jason::OnCollisionEnter(CollisionEvent e) {
 	//DebugOut(L"OUCH\n");
+	vy = 0;
 	state = State::_JASON_IDLE_;
 }
 

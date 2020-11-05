@@ -9,7 +9,7 @@ class Jason : public DynamicObject, public RigidBody
 {
 private:
 	int state;
-	int speed = 200;
+	int speed = 100;
 	int flipX = false;
 
 	void MakeCrouch();
