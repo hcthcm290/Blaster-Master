@@ -60,7 +60,8 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 
 	auto vxx = movingObjVEL.y * dty_Percent + ny_pushback * 0.5 / dt;
 
-	movingObj->SetPosition(movingObjPOS.x + nx_pushback * 0.2, movingObjPOS.y + ny_pushback * 0.2);
+	//movingObj->SetPosition(movingObjPOS.x + nx_pushback * 0.2, movingObjPOS.y + ny_pushback * 0.2);
+	movingObj->SetPosition(movingObjPOS.x + nx_pushback * 2, movingObjPOS.y + ny_pushback * 2);
 	movingObj->SetVelocity(movingObjVEL.x * dtx_Percent, movingObjVEL.y * dty_Percent);
 
 	if (filteredCol.first != NULL)
@@ -69,7 +70,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 
 		CollisionEvent e;
 		e.nx = -filteredCol.first->nx;
-		e.ny = -filteredCol.first->ny;
+		e.ny = -filteredCol.first->ny; 
 		e.pGameObject = filteredCol.first->obj;
 
 		filteredCol.first->obj->OnCollisionEnter(e);

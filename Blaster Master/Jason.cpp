@@ -105,14 +105,14 @@ void Jason::OnCollisionEnter(CollisionEvent e) {
 wstring Jason::StateToString() {
 	wstring r;
 	switch (state) {
-	case State::_JASON_CLIMB_: r = L"Climb\n"; break;
-	case State::_JASON_CMOVE_: r = L"Cmove\n"; break;
-	case State::_JASON_CRAWL_: r = L"Crawl\n"; break;
-	case State::_JASON_DIE_: r = L"Die\n"; break;
-	case State::_JASON_IDLE_: r = L"Idle\n"; break;
-	case State::_JASON_JUMP_: r = L"Jump\n"; break;
-	case State::_JASON_SWIM_: r = L"Swim\n"; break;
-	case State::_JASON_WALK_: r = L"Walk\n"; break;
+	case State::_JASON_CLIMB_:	r = L"Climb\n";	break;
+	case State::_JASON_CMOVE_:	r = L"Cmove\n";	break;
+	case State::_JASON_CRAWL_:	r = L"Crawl\n";	break;
+	case State::_JASON_DIE_:	r = L"Die\n";	break;
+	case State::_JASON_IDLE_:	r = L"Idle\n";	break;
+	case State::_JASON_JUMP_:	r = L"Jump\n";	break;
+	case State::_JASON_SWIM_:	r = L"Swim\n";	break;
+	case State::_JASON_WALK_:	r = L"Walk\n";	break;
 	}
 	return r;
 }
