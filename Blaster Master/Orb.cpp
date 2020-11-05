@@ -1,5 +1,4 @@
 #include "Orb.h"
-#include "Debug.h"
 
 Orb::Orb()
 {
@@ -20,7 +19,7 @@ void Orb::OnCollisionEnter(CollisionEvent e)
 {
 	if (e.ny < 0)
 	{
-		vy = 0;
+		//vy = 0;
 		onTheGround = true;
 	}
 }

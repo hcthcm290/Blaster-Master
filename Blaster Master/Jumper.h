@@ -12,10 +12,12 @@ class Jumper : public DynamicObject, public RigidBody
 {
 private:
 	bool onTheGround = true;
-	bool canJump = true;
+	bool canJump = false;
 	int state;
 	bool flip = false;
 	bool trigger = false;
+	float waitForJump = 2;
+	int direction = 0;
 public:
 	Jumper();
 	void Update(float dt);
