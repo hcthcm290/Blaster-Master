@@ -49,7 +49,7 @@ void Jason::MakeCrouch() {
 		state = State::_JASON_CRAWL_;
 	}
 	else if (state == State::_JASON_CRAWL_ && up) {
-		y -= 4;
+		//y -= 4;
 		state = State::_JASON_IDLE_;
 	}
 }
