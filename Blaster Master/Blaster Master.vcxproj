@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\UIT_2020-2021\rapidjson\include;D:\UIT_2020-2021\rapidjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\rapidjson-master\include;D:\rapidjson-master\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -227,9 +227,9 @@
     <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="D:\DOWNLOAD\P2_Jason.png" />
     <Image Include="map.png" />
     <Image Include="Sprite\FlyingEye.png" />
+    <Image Include="Textures\P2_Jason.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game-info.txt" />

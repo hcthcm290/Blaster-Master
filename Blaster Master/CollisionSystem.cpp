@@ -6,6 +6,9 @@
 #include "Jumper.h"
 #include "ColliableBrick.h"
 
+#include "Jason.h"
+#include "Debug.h"
+
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
 	if (dynamic_cast<Orb*>(movingObj) != NULL)

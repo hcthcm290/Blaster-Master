@@ -4,8 +4,8 @@
 #include "CollisionSystem.h"
 #include "PlayScene.h"
 #define jumperSpeed	10;
-#define jumperWalk Constant::_JUMPER_WALK_
-#define	jumperIdle Constant::_JUMPER_IDLE_
+#define jumperWalk State::_JUMPER_WALK_
+#define	jumperIdle State::_JUMPER_IDLE_
 #define accelerate 50;
 
 class Jumper : public DynamicObject, public RigidBody
