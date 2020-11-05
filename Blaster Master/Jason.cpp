@@ -33,6 +33,10 @@ void Jason::Update(float dt)
 			state = State::_JASON_IDLE_;
 	}
 	*/
+	if (DInput::GetInstance()->KeyPress(DIK_R)) {
+		x = 1120;
+		y = 1120;
+	}
 	DebugOut(_wcsdup(StateToString().c_str()));
 }
 
@@ -45,18 +49,18 @@ void Jason::MakeCrouch() {
 	bool up = DInput::GetInstance()->KeyDown(DIK_UP);
 	bool down = DInput::GetInstance()->KeyDown(DIK_DOWN);
 	if (state == State::_JASON_IDLE_ && down) {
-		//y += 4;
+		y += 2;
 		state = State::_JASON_CRAWL_;
 	}
 	else if (state == State::_JASON_CRAWL_ && up) {
-		//y -= 4;
+		y -= 7;
 		state = State::_JASON_IDLE_;
 	}
 }
 
 void Jason::MakeMove() {
-	bool left = DInput::GetInstance()->KeyDown(DIK_LEFT);
-	bool right = DInput::GetInstance()->KeyDown(DIK_RIGHT);
+	bool left = DInput::GetInstance()->KeyPress(DIK_LEFT);
+	bool right = DInput::GetInstance()->KeyPress(DIK_RIGHT);
 
 	if (left || right) {
 		flipX = (left && right ? flipX : left);
@@ -74,9 +78,12 @@ void Jason::MakeMove() {
 
 void Jason::MakeJump() {
 	bool jump = DInput::GetInstance()->KeyDown(DIK_X);
-	if ((state==State::_JASON_IDLE_ || state==State::_JASON_WALK_)&& jump) 
+	if ((state==State::_JASON_IDLE_ || state==State::_JASON_WALK_) && jump) 
 	{
 		vy = -speed;
+		state = State::_JASON_JUMP_;
+	}
+	else if (vy > 0) {
 		state = State::_JASON_JUMP_;
 	}
 }
@@ -99,8 +106,7 @@ FRECT Jason::GetCollisionBox() {
 
 void Jason::OnCollisionEnter(CollisionEvent e) {
 	//DebugOut(L"OUCH\n");
-	vy = 0;
-	state = State::_JASON_IDLE_;
+	if (e.ny < 0) state = State::_JASON_IDLE_;
 }
 
 wstring Jason::StateToString() {
