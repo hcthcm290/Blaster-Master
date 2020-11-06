@@ -5,16 +5,47 @@
 
 using namespace std;
 
+class PlayerInput {
+public:
+	bool up = false;
+	bool down = false;
+	bool left = false;
+	bool right = false;
+	bool jump = false;
+	bool shoot = false;
+	void Update() {
+		up = DInput::GetInstance()->KeyDown(DIK_UP);
+		down = DInput::GetInstance()->KeyDown(DIK_DOWN);
+		left = DInput::GetInstance()->KeyPress(DIK_LEFT);
+		right = DInput::GetInstance()->KeyPress(DIK_RIGHT);
+		jump = DInput::GetInstance()->KeyDown(DIK_X);
+		shoot = DInput::GetInstance()->KeyDown(DIK_Z);
+	}
+};
+
 class Jason : public DynamicObject, public RigidBody
 {
 private:
+	//bacic properties
 	int state;
-	int speed = 150;
+	int health = 6;
+	int speed = 120;
 	int flipX = false;
 
-	void MakeCrouch();
-	void MakeMove();
-	void MakeJump();
+	PlayerInput* input;
+
+	//ACTION RECORD vairable to set new state
+	int horizontalMove;
+	int verticalMove;
+	bool attemptJump;
+	float enviColX;
+	float enviColY;
+	bool outOfHealth;
+	float enemyColX;
+	float enemyColY;
+
+	void UpdateActionRecord();
+	int SetNewState();
 
 	wstring StateToString();
 	//int initialY = 500; //instead of collision boxes
@@ -25,3 +56,5 @@ public:
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 };
+
+#define OFFSET_STAND_CRAWL 10;
