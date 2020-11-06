@@ -22,6 +22,7 @@
 #include <algorithm>
 
 #include "Sophia.h"
+#include "Skull.h"
 
 using namespace std;
 
@@ -137,7 +138,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		return;
 	case 0:
 		obj = new Orb();
-		player = dynamic_cast<DynamicObject*>(obj);
+		//player = dynamic_cast<DynamicObject*>(obj);
 		break;
 	case 1:
 		obj = new Jumper();
@@ -148,6 +149,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 98:
 		obj = new Sophia();
 		player = dynamic_cast<DynamicObject*>(obj);
+		break;
+	case 7:
+		obj = new Skull();
 		break;
 	}
 

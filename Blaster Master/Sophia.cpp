@@ -224,7 +224,7 @@ void Sophia::Update(float dt)
 		}
 		StateChange();
 		last_flipX = flipX;
-		if (DInput::KeyPress(DIK_LSHIFT))
+		if (onTheGround && DInput::KeyPress(DIK_LSHIFT))
 		{
 			state = STATE_SOPHIA_SHIFT;
 			start_shift = now;
