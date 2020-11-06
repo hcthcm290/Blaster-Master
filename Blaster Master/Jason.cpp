@@ -83,9 +83,6 @@ void Jason::MakeJump() {
 		vy = -speed;
 		state = State::_JASON_JUMP_;
 	}
-	else if (vy > 0) {
-		state = State::_JASON_JUMP_;
-	}
 }
 
 FRECT Jason::GetCollisionBox() {
