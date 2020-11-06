@@ -15,4 +15,7 @@ public:
 	static const int _JUMPER_IDLE_	=	20101;
 	static const int _JUMPER_WALK_	=	20102;
 #pragma endregion
+
+#pragma region Jason_Bullet
+	static const int _BULLET_JASON_ = 21501;
 };

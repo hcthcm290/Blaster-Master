@@ -20,6 +20,7 @@
 #include "Camera.h"
 #include <execution>
 #include <algorithm>
+#include "Bullet_Jason.h"
 
 using namespace std;
 

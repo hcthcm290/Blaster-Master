@@ -1,6 +1,8 @@
 #include "Jason.h"
 #include "Animator_Jason.h"
 #include "Debug.h"
+#include "PlayScene.h"
+#include "Bullet_Jason.h"
 
 Jason::Jason() {
 	animator = new Animator_Jason();
@@ -28,6 +30,11 @@ void Jason::Update(float dt)
 	if (DInput::GetInstance()->KeyPress(DIK_R)) {
 		x = 1120;
 		y = 1120;
+	}
+
+	if (input->shoot) {
+		DynamicObject* newBullet = new Bullet_Jason(flipX ? -1 : 1, x, y);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newBullet);
 	}
 	DebugOut(_wcsdup(StateToString().c_str()));
 }
@@ -100,7 +107,7 @@ int Jason::SetNewState() {
 		}
 		case State::_JASON_JUMP_: {
 			//switch to idle when fall  wall	
-			if ( vy == 0 ) {
+			if ( enviColY < 0 ) {
 				return State::_JASON_IDLE_;
 			}
 			break;
@@ -143,11 +150,11 @@ FRECT Jason::GetCollisionBox() {
 
 void Jason::OnCollisionEnter(CollisionEvent e) {
 	//first this can only handle collision with environment
-	enviColX = (enviColX != 0 ? e.nx : enviColX);
-	enviColY = (enviColY != 0 ? e.ny : enviColY);
+	enviColX = (e.nx != 0 ? e.nx : enviColX);
+	enviColY = (e.ny != 0 ? e.ny : enviColY);
 
 	if (e.nx * vx < 0) vx = 0; 
-	if (e.ny != 0 ) vy = 0;
+	if (e.ny < 0 ) vy = 0;
 }
 
 wstring Jason::StateToString() {

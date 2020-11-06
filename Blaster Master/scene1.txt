@@ -11,6 +11,7 @@
 10	textures\10_Teleporter.png	255	0	255
 11	textures\11_Canon.png	255	0	255
 12	textures\12_Eyeball.png	255	0	255
+15	textures\Items_Objects.png	255	255	255
 999	textures\P2_Jason.png	255	255	255
 998	textures\P1_Sophia.png	255	255	255
 
@@ -56,6 +57,8 @@
 11201	0	0	17	17	12
 11202	18	0	35	17	12
 11203	36	0	53	17	12
+# JASON BULLET
+11501	359	113	367	121	15
 # P2_JASON
 # STAND
 19901	7	7	17	24	999
@@ -199,6 +202,8 @@
 #
 21201	11203	100
 21202	11203	100	11201	100	11203	100	11201	100	11203	100	11202	100
+# ====	JASON_BULLET ===
+21501	11501	9999
 # ==== P2_JASON =========
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 #IDLE
