@@ -1,4 +1,6 @@
 #include "Orb.h"
+#include "ColliableBrick.h"
+#include "Mine.h"
 
 Orb::Orb()
 {
@@ -17,10 +19,15 @@ FRECT Orb::GetCollisionBox()
 
 void Orb::OnCollisionEnter(CollisionEvent e)
 {
-	if (e.ny < 0)
+	if (e.ny < 0 && dynamic_cast<ColliableBrick*>(e.pGameObject) != NULL)
 	{
 		//vy = 0;
 		onTheGround = true;
+	}
+
+	if (dynamic_cast<Mine*>(e.pGameObject) != NULL)
+	{
+		auto csa = 57489;
 	}
 }
 

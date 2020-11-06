@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Animator_Jumper.cpp" />
+    <ClCompile Include="Animator_Mine_Explosion.cpp" />
     <ClCompile Include="Canon.cpp" />
     <ClCompile Include="Animator_Jason.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="Mine_Explosion.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -208,10 +210,12 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Insect.h" />
     <ClInclude Include="Jason.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Mine.h" />
+    <ClInclude Include="Mine_Explosion.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="RECT.h" />

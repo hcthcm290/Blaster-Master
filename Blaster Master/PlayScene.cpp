@@ -360,7 +360,14 @@ void CPlayScene::Update(DWORD dw_dt)
 
 	for (int i = 0; i < onSCeneObjs.size(); i++)
 	{
-		if(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)) == 0) continue; // if it not moving, we don't need to docollision for it
+		if (dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)) == NULL)
+		{
+			continue; // if it not moving, we don't need to docollision for it
+		}
+		else if(D3DXVECTOR3(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0,0,0))
+		{
+			continue;
+		}
 		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)), &onSCeneObjs, dt);
 	}
 

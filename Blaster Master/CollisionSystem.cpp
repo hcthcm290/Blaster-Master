@@ -79,7 +79,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 			CollisionEvent e;
 			e.nx = -Event->nx;
 			e.ny = -Event->ny;
-			e.pGameObject = Event->obj;
+			e.pGameObject = movingObj;
 
 			Event->obj->OnCollisionEnter(e);
 		}
@@ -93,7 +93,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 			CollisionEvent e;
 			e.nx = -Event->nx;
 			e.ny = -Event->ny;
-			e.pGameObject = Event->obj;
+			e.pGameObject = movingObj;
 
 			Event->obj->OnCollisionEnter(e);
 		}

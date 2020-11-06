@@ -89,6 +89,11 @@ int CAnimation::Render(int currentFrame, float x, float y)
 
 int CAnimation::Render(int currentFrame, float x, float y, bool flipX)
 {
+	if (currentFrame >= 0 && currentFrame < frames.size())
+	{
+		frames[currentFrame]->GetSprite()->Draw(x, y, flipX);
+	}
+
 	DWORD now = GetTickCount64();
 	if (currentFrame == -1 || currentFrame >= frames.size())
 	{
@@ -106,8 +111,6 @@ int CAnimation::Render(int currentFrame, float x, float y, bool flipX)
 			if (currentFrame == frames.size()) currentFrame = 0;
 		}
 	}
-
-	frames[currentFrame]->GetSprite()->Draw(x, y, flipX);
 
 	return currentFrame;
 }
