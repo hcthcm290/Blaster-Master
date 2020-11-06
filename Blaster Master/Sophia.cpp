@@ -89,10 +89,23 @@ Sophia::Sophia()
 FRECT Sophia::GetCollisionBox()
 {
 	FRECT colRect;
-	colRect.left = this->x - 26 / 2;
-	colRect.right = this->x + 26 / 2;
-	colRect.top = this->y - 14 / 2;
-	colRect.bottom = this->y + 22 / 2;
+	switch (gun_up)
+	{
+	case 0: colRect.left = this->x - 24 / 2;
+			colRect.right = this->x + 24 / 2;
+			colRect.top = this->y - 14 / 2;
+			colRect.bottom = this->y + 22 / 2;  break;
+	case 45:
+			colRect.left = this->x - 24 / 2;
+			colRect.right = this->x + 24 / 2;
+			colRect.top = this->y - 6 / 2;
+			colRect.bottom = this->y + 30 / 2; break;
+	case 90:
+			colRect.left = this->x - 24 / 2;
+			colRect.right = this->x + 24 / 2;
+			colRect.top = this->y + 2 / 2;
+			colRect.bottom = this->y + 38 / 2; break;
+	}
 	return colRect;
 }
 
@@ -110,16 +123,26 @@ void Sophia::Update(float dt)
 	vy += 300 * dt;
 
 	if (DInput::KeyPress(DIK_LEFT))
+	{
 		vx = -100;
+		flipX = true;
+		moving = true;
+	}
 	else if (DInput::KeyPress(DIK_RIGHT))
+	{
 		vx = 100;
+		flipX = false;
+		moving = true;
+	}
 	else
+	{
 		vx = 0;
+		moving = false;
+	}
 
 	if (DInput::KeyPress(DIK_SPACE) && canJump)
 	{
 		vy = -150;
-		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
 		onTheGround = false;
 		canJump = false;
 	}
@@ -131,16 +154,35 @@ void Sophia::Update(float dt)
 	DWORD now = GetTickCount();
 	if (DInput::KeyPress(DIK_UP))
 	{
-		
 		if (gun_up == 0)
 		{
+			/*if (flipX)
+			{
+				x += 2;
+			}
+			else
+			{
+				x -= 2;
+			}*/
+			y -= 4;
 			gun_up = 45;
 			last_gun = now;
 		}
 		else
 		{
-			if(now-last_gun > 200)
+			if (gun_up == 45 && now - last_gun > 200)
+			{
+				/*if (flipX)
+				{
+					x += 2;
+				}
+				else
+				{
+					x -= 2;
+				}*/
+				y -= 4;
 				gun_up = 90;
+			}
 		}
 	}
 	else
@@ -148,10 +190,31 @@ void Sophia::Update(float dt)
 		if (gun_up == 90)
 		{
 			gun_up = 45;
+			/*if (flipX)
+			{
+				x -= 2;
+			}
+			else
+			{
+				x += 2;
+			}*/
+			y += 4;
 		}
 		else
 		{
-			gun_up = 0;
+			if (gun_up == 45)
+			{
+				/*if (flipX)
+				{
+					x -= 2;
+				}
+				else
+				{
+					x += 2;
+				}*/
+				y += 2;
+				gun_up = 0;
+			}
 		}
 	}
 	StateChange();
@@ -159,125 +222,73 @@ void Sophia::Update(float dt)
 
 void Sophia::StateChange()
 {
-	if (onTheGround)
+	dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
+	if (vy < 0)
 	{
-		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
-		if (vx < 0)
+		if (state != STATE_SOPHIA_JUMP)
 		{
-			if (gun_up == 45)
-			{
-				if (state != STATE_SOPHIA_MOVE_45)
-				{
-					dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-					state = STATE_SOPHIA_MOVE_45;
-				}
-			}
-			else
-			{
-				if (gun_up == 90)
-				{
-					if (state != STATE_SOPHIA_MOVE_90)
-					{
-						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-						state = STATE_SOPHIA_MOVE_90;
-					}
-				}
-				else
-				{
-					if (state != STATE_SOPHIA_MOVE)
-					{
-						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-						state = STATE_SOPHIA_MOVE;
-					}
-				}
-			}
-			flipX = true;
-			moving = true;
+			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
 		}
-		else
-		{
-			if (vx > 0)
-			{
-				if (gun_up == 45)
-				{
-					if (state != STATE_SOPHIA_MOVE_45)
-					{
-						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-						state = STATE_SOPHIA_MOVE_45;
-					}
-				}
-				else
-				{
-					if (gun_up == 90)
-					{
-						if (state != STATE_SOPHIA_MOVE_90)
-						{
-							dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-							state = STATE_SOPHIA_MOVE_90;
-						}
-					}
-					else
-					{
-						if (state != STATE_SOPHIA_MOVE)
-						{
-							dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-							state = STATE_SOPHIA_MOVE;
-						}
-					}
-				}
-				flipX = false;
-				moving = true;
-			}
-			else
-			{
-				if (gun_up == 45)
-				{
-					if (state != STATE_SOPHIA_MOVE_45)
-					{
-						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-						state = STATE_SOPHIA_MOVE_45;
-					}
-				}
-				else
-				{
-					if (gun_up == 90)
-					{
-						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-						state = STATE_SOPHIA_IDLE_90;
-					}
-					else
-					{
-						dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-						state = STATE_SOPHIA_IDLE;
-					}
-				}
-				moving = false;
-			}
-		}
+		state = STATE_SOPHIA_JUMP;
+		return;
 	}
-	else
+	if (vy > 0 && !onTheGround)
 	{
-		if (vy < 0)
+		if (state != STATE_SOPHIA_FALL)
 		{
-			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
-			if (state != STATE_SOPHIA_JUMP)
-			{
-				dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-			}
-			state = STATE_SOPHIA_JUMP;
+			y -= 5;
 		}
-		else
+		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+		state = STATE_SOPHIA_FALL;
+		return;
+	}
+	if (moving && gun_up == 45)
+	{
+		if (state != STATE_SOPHIA_MOVE_45)
 		{
-			if (vy > 0 && !onTheGround)
-			{
-				dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
-				state = STATE_SOPHIA_FALL;
-			}
-			else
-			{
-
-			}
+			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+			state = STATE_SOPHIA_MOVE_45;
 		}
+		return;
+	}
+	if (moving && gun_up == 90)
+	{
+		if (state != STATE_SOPHIA_MOVE_90)
+		{
+			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+			state = STATE_SOPHIA_MOVE_90;
+		}
+		return;
+	}
+	if(moving && gun_up == 0)
+	{
+		if (state != STATE_SOPHIA_MOVE)
+		{
+			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+			state = STATE_SOPHIA_MOVE;
+		}
+		return;
+	}
+	if (vx == 0 && gun_up == 45)
+	{
+		if (state != STATE_SOPHIA_MOVE_45)
+		{
+			dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+			state = STATE_SOPHIA_MOVE_45;
+		}
+		return;
+	}
+	if (vx == 0 && gun_up == 90)
+	{
+		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+		state = STATE_SOPHIA_IDLE_90;
+		return;
+	}
+	if (vx == 0 && gun_up == 0)
+	{
+		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
+		state = STATE_SOPHIA_IDLE;
+		return;
 	}
 }
 
@@ -303,5 +314,6 @@ void Sophia::Render()
 
 		}
 	}
+	DebugOut(L"%d\n",state);
 	animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel -1, x, y, flipX);
 }
