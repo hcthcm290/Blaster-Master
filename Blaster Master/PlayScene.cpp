@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Textures.h"
 #include "Orb.h"
+#include "Floater.h"
 #include "Jumper.h"
 #include "Jason.h"
 #include "rapidjson/document.h"
@@ -142,6 +143,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 3:
 		obj = new Jason();
+		break;
+	case 4:
+		obj = new Floater();
 		break;
 	}
 

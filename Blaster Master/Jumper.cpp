@@ -32,7 +32,7 @@ void Jumper::Update(float dt)
 {
 	//if (!canJump)
 	//{
-	//	DebugOut(L"Not CanJump	");
+	//	                         
 	//	if (onTheGround)
 	//	{
 	//		DebugOut(L"OnTheGround\n");
@@ -44,7 +44,7 @@ void Jumper::Update(float dt)
 	//}
 
 	///*DebugOut(L"%f\n", waitForJump);
-	DebugOut(L"count %d\n", jumpCount);
+	//DebugOut(L"count %d\n", jumpCount);
 	
 	/*if (!onTheGround)
 	{

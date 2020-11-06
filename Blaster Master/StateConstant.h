@@ -15,4 +15,9 @@ public:
 	static const int _JUMPER_IDLE_	=	20101;
 	static const int _JUMPER_WALK_	=	20102;
 #pragma endregion
+
+#pragma region Floater
+	static const int _FLOATER_IDLE_ = 20201;
+	static const int _FLOATER_FLY_ = 20202;
+#pragma endregion
 };
