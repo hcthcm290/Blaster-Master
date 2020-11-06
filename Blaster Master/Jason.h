@@ -45,7 +45,7 @@ private:
 	float enemyColY;
 
 	void UpdateActionRecord();
-	int SetNewState();
+	void SetNewState();
 
 	wstring StateToString();
 	//int initialY = 500; //instead of collision boxes

@@ -58,12 +58,14 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 void Jason::Render()
 {
 	flipX = (horizontalMove != 0 ? horizontalMove == -1 : flipX);
-	state = SetNewState();
+	SetNewState();
 	animator->Draw(state, x, y, flipX);
 }
 
-int Jason::SetNewState() {
-	if (outOfHealth) return State::_JASON_DIE_;
+void Jason::SetNewState() {
+	int newState = state;
+	if (outOfHealth) newState = State::_JASON_DIE_;
+
 	switch (state) {
 		case State::_JASON_CLIMB_: {
 
@@ -71,20 +73,20 @@ int Jason::SetNewState() {
 		}
 		case State::_JASON_CMOVE_: {
 			if (verticalMove == -1) {
-				y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
-				return State::_JASON_IDLE_;
+				//y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
+				newState =  State::_JASON_IDLE_;
 			}
 			else if (horizontalMove == 0) {
-				return State::_JASON_CRAWL_;
+				newState = State::_JASON_CRAWL_;
 			}
 			break;	
 		}
 		case State::_JASON_CRAWL_: {
 			if (verticalMove == -1) {
-				y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
-				return State::_JASON_IDLE_;
+				//y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
+				newState = State::_JASON_IDLE_;
 			}
-			if (horizontalMove != 0) return State::_JASON_CMOVE_;
+			if (horizontalMove != 0) newState = State::_JASON_CMOVE_;
 			break;
 		}
 		case State::_JASON_DIE_: {
@@ -95,20 +97,20 @@ int Jason::SetNewState() {
 			//collision with ladder
 			if (verticalMove == 1) {
 				//y += OFFSET_STAND_CRAWL;
-				return State::_JASON_CRAWL_;
+				newState = State::_JASON_CRAWL_;
 			}
 			else if (attemptJump) {
-				return State::_JASON_JUMP_;
+				newState = State::_JASON_JUMP_;
 			}
 			else if (horizontalMove != 0) {
-				return State::_JASON_WALK_;
+				newState = State::_JASON_WALK_;
 			}
 			break;
 		}
 		case State::_JASON_JUMP_: {
 			//switch to idle when fall  wall	
 			if ( enviColY < 0 ) {
-				return State::_JASON_IDLE_;
+				newState = State::_JASON_IDLE_;
 			}
 			break;
 		}
@@ -118,18 +120,24 @@ int Jason::SetNewState() {
 		}
 		case State::_JASON_WALK_: {
 			if (verticalMove == 1) {
-				return State::_JASON_CRAWL_;
+				newState = State::_JASON_CRAWL_;
 			}
 			else if (attemptJump) {
-				return State::_JASON_JUMP_;
+				newState = State::_JASON_JUMP_;
 			}
 			else if (vx == 0 || enviColX * vx < 0) {
-				return State::_JASON_IDLE_;
+				newState = State::_JASON_IDLE_;
 			}
 			break;
 		}			
 	}
-	return state;
+
+	FRECT stateColBox = GetCollisionBox();
+	state = newState;
+	FRECT newStateColBox = GetCollisionBox();
+	
+	y += (stateColBox.bottom - stateColBox.top) - (newStateColBox.bottom - newStateColBox.top);
+	x += (stateColBox.right - stateColBox.left) - (newStateColBox.right - newStateColBox.left);
 }
 
 FRECT Jason::GetCollisionBox() {
