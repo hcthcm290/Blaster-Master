@@ -7,72 +7,55 @@ Jumper::Jumper()
 	animator = new Animator_Jumper();
 	animator->AddAnimation(jumperWalk);
 	animator->AddAnimation(jumperIdle);
-	state = jumperWalk;
-	currentY = 50;
+	state = jumperIdle;
+}
+void Jumper::OnCollisionEnter(CollisionEvent e)
+{
+	if (e.ny < 0)
+	{
+		onTheGround = true;
+	}
 }
 void Jumper::Update(float dt)
 {
-	if (DInput::KeyDown(DIK_X) && keyRelease)
+	vy += 300*dt;
+	float Character_X=dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
+	float Character_Y = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().y;
+	float distance = x - Character_X;
+	int direction = distance/ abs(distance);
+	if (abs(distance) <= 200)
 	{
 		
-		if (this->state == jumperWalk)
-			this->state = jumperIdle;
-		else this->state = jumperWalk;
-		//toggle
-		keyRelease = false;
+			trigger = true;
+		
+		this->state = jumperWalk;
 	}
-
-	if (!DInput::KeyDown(DIK_X))
+	else
 	{
-		keyRelease = true;
+		trigger = false;
+		this->state = jumperIdle;
+		vy = 0;
+		vx = 0;
 	}
 	//Changing walking status
-	if (this->state == jumperWalk || isJumpDown||isJumpUp)
+	if (this->state == jumperWalk)
 	{
-		Vx = direction * jumperSpeed;
-		if (DInput::KeyDown(DIK_SPACE) && keyRelease)
+		vx = -1 * direction * 20;
+		if (trigger && canJump)
 		{
-			isJumpUp = true;
-			isJumpDown = false;
-			keyRelease = false;
+			vy = -100;
+			onTheGround = false;
+			canJump = false;
 		}
-		if (!DInput::KeyDown(DIK_SPACE))
+		if (onTheGround && trigger)
 		{
-			keyRelease = true;
-		}
-		if (isJumpUp)
-		{
-			Vx = Vx * cos(70);
-			Vy = sin(70) - accelerate;
-			if (y <= maxJumpTop)
-			{
-				isJumpDown = true;
-				isJumpUp = false;
-			}
-		}
-		if (isJumpDown)
-		{
-			Vx = Vx * cos(70);
-			Vy = (0.5) * accelerate;
-			if (y >= currentY)
-			{
-				isJumpDown = false;
-				Vy = 0;
-			}
-		}
-		x += Vx*float(dt); //change Horizonal Location
-		y += Vy*float(dt);
-		if (x <= 0)
-		{
-			flip = true;
-			direction = 1;
-		}
-		if (x >= 150)
-		{
-			flip = false;
-			direction = -1;
+			canJump = true;
 		}
 	}
+	if (direction > 0)
+		flip = false;
+	else
+		flip = true;
 }
 
 void Jumper::Render()
