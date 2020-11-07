@@ -13,6 +13,8 @@
 12	textures\12_Eyeball.png	255	0	255
 999	textures\P2_Jason.png	255	255	255
 998	textures\P1_Sophia.png	255	255	255
+100	textures\100-stuff.png	255	255	255
+71	textures\71_BlackBullet.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -151,6 +153,15 @@
 19868	98	402	126	442	998
 #jason out
 19871	18	454	44	480	998
+####
+#stuff
+#SKULL_BULLET
+17101	0	0	10	10	71
+#explosive (skull)
+17201	140	101	148	109	100
+17202	149	97	165	113	100
+17203	166	97	182	113	100
+17204	183	93	207	117	100
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
