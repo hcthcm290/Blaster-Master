@@ -142,6 +142,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 9:
 		obj = new Orb();
+		player = dynamic_cast<DynamicObject*>(obj);
 		break;
 	}
 
@@ -244,6 +245,18 @@ void CPlayScene::AddGameObjectToScene(CGameObject* obj)
 	int mapBlockID = GetMapBlockID(objPos.x, objPos.y);
 
 	sceneObjects[mapBlockID].emplace_back(obj);
+}
+
+void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
+{
+	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
+
+	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+
+	if (e != sceneObjects[mapBlockID].end())
+	{
+		sceneObjects[mapBlockID].erase(e);
+	}
 }
 
 int CPlayScene::GetMapBlockID(float x, float y)

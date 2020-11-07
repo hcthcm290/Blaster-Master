@@ -8,6 +8,7 @@
 
 #include "Jason.h"
 #include "Debug.h"
+#include "Intangibility.h"
 
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
@@ -42,7 +43,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		// only push moving obj back if both of them have rigidbody
 		for (auto Event : filteredCol.first)
 		{
-			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL)
+			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL && dynamic_cast<Intangibility*>(movingObj) == NULL)
 			{
 				dtx_Percent = Event->dt_Percent;
 				nx_pushback = Event->nx;
@@ -56,7 +57,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		// only push moving obj back if both of them have rigidbody
 		for (auto Event : filteredCol.second)
 		{
-			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL)
+			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL && dynamic_cast<Intangibility*>(movingObj) == NULL)
 			{
 				dty_Percent = Event->dt_Percent;
 				ny_pushback = Event->ny;
@@ -384,6 +385,8 @@ std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::F
 
 void CollisionSystem::FixPreOverlapped(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs)
 {
+	if (dynamic_cast<Intangibility*>(movingObj) != NULL) return;
+
 	std::vector<CGameObject*> overlapedObjs;
 	std::vector<CGameObject*> colliableBricks;
 

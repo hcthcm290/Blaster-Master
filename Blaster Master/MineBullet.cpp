@@ -1,4 +1,7 @@
 #include "MineBullet.h"
+#include "Game.h"
+#include "PlayScene.h"
+#include "CollisionSystem.h"
 
 MineBullet::MineBullet()
 {
@@ -8,7 +11,23 @@ MineBullet::MineBullet()
 
 void MineBullet::Update(float dt)
 {
-	vy += 100 * dt;
+	vy += 300 * dt;
+
+	// CHECK IF BULLET IS OVERLAPPED WITH PLAYER //
+	///////////////////////////////////////////////
+	// The reason we dont use Collision System because the bullet when created may 
+	// already overlap with player
+
+	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		// TODO //
+		// Set Dmg and push back player //
+
+		// Remove bullet from scene //
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
 }
 
 void MineBullet::Render()
@@ -29,15 +48,6 @@ FRECT MineBullet::GetCollisionBox()
 	int width = 10;
 	int height = 10;
 	return FRECT(x - width / 2, y - height / 2, x + width / 2, y + height / 2);
-}
-
-void MineBullet::OnCollisionEnter(CollisionEvent e)
-{
-	// TODO //
-	// IF THIS IS A PLAYER, KICK HIS ASS //
-
-	// DELETE BULLET FROM SCENE //
-
 }
 
 

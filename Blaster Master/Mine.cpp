@@ -35,19 +35,21 @@ void Mine::OnCollisionEnter(CollisionEvent e)
 {
 	if (dynamic_cast<Orb*>(e.pGameObject) != NULL)
 	{
+		// Create explosion animation
 		auto explosion = new Mine_Explosion();
 		explosion->SetPosition(x, y);
 
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explosion);
 
+		// Create bullet
 		// random between 2 and 4
 		int numberOfBullet = rand() % 3 + 2;
 
 		for (int i = 0; i < numberOfBullet; i++)
 		{
-			float vx_factor = RandomFloat(-1, 1);
+			float vx_factor = RandomFloat(-2, 2);
 
-			float vy_factor = RandomFloat(1, 2);
+			float vy_factor = RandomFloat(3, 4.5);
 
 			CGameObject* bullet = new MineBullet();
 			bullet->SetPosition(x, y);
@@ -57,5 +59,11 @@ void Mine::OnCollisionEnter(CollisionEvent e)
 
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
 		}
+
+		// TODO //
+		// Set dmg to player if player touched it //
+
+		// Remove bullet from scene //
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
 }

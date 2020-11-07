@@ -1,15 +1,15 @@
 #pragma once
 #include "DynamicObject.h"
+#include "Intangibility.h"
 
-class MineBullet : public DynamicObject
+class MineBullet : public DynamicObject, public Intangibility
 {
-	float baseVelocity = 50;
+	float baseVelocity = 30;
 
 public:
 	MineBullet();
 	void Render();
 	void Update(float dt);
 	FRECT GetCollisionBox();
-	void OnCollisionEnter(CollisionEvent e);
 	float getBaseVelocity() { return baseVelocity; }
 };

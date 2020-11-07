@@ -212,6 +212,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DynamicObject.h" />
     <ClInclude Include="Animator_Mine_Explosion.h" />
+    <ClInclude Include="Intangibility.h" />
     <ClInclude Include="MineBullet.h" />
     <ClInclude Include="Insect.h" />
     <ClInclude Include="Jason.h" />
