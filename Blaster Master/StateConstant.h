@@ -19,5 +19,6 @@ public:
 #pragma region Floater
 	static const int _FLOATER_IDLE_ = 20201;
 	static const int _FLOATER_FLY_ = 20202;
+	static const int _FLOATER_SPEED_ = 40;
 #pragma endregion
 };
