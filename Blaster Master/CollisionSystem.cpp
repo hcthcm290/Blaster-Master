@@ -4,9 +4,15 @@
 #include "Debug.h"
 #include "Orb.h"
 #include "Jumper.h"
+#include "ColliableBrick.h"
+
+#include "Jason.h"
+#include "Debug.h"
 
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
+	FixPreOverlapped(movingObj, anotherObjs);
+
 	vector<LPCOLLISION> collisions;
 
 	for (UINT i = 0; i < anotherObjs->size(); i++)
@@ -36,7 +42,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		// only push moving obj back if both of them have rigidbody
 		for (auto Event : filteredCol.first)
 		{
-			if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(Event->obj) != NULL)
+			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL)
 			{
 				dtx_Percent = Event->dt_Percent;
 				nx_pushback = Event->nx;
@@ -50,7 +56,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 		// only push moving obj back if both of them have rigidbody
 		for (auto Event : filteredCol.second)
 		{
-			if (dynamic_cast<RigidBody*>(movingObj) != NULL && dynamic_cast<RigidBody*>(Event->obj) != NULL)
+			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL)
 			{
 				dty_Percent = Event->dt_Percent;
 				ny_pushback = Event->ny;
@@ -280,13 +286,13 @@ std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::F
 	// check what minTxCol and minTyCol
 	for (auto Event : colList)
 	{
-		if (Event->nx != 0)
+		if (Event->nx != 0 && (Event->nx / movingObj->GetVelocity().x) < 0)
 		{
 			if (minTxCol == nullptr) minTxCol = Event;
 			else if (minTxCol->dt_Percent < Event->dt_Percent) minTxCol = Event;
 		}
 
-		if (Event->ny != 0)
+		if (Event->ny != 0 && (Event->ny / movingObj->GetVelocity().y) < 0)
 		{
 			if (minTyCol == nullptr) minTyCol = Event;
 			else if (minTyCol->dt_Percent < Event->dt_Percent) minTyCol = Event;
@@ -296,13 +302,13 @@ std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::F
 	// find all collision that have the same minimum as minTxCol and minTyCol
 	for (auto Event : colList)
 	{
-		if (Event->nx != 0)
+		if (Event->nx != 0 && (Event->nx / movingObj->GetVelocity().x) < 0)
 		{
 			if (Event->dt_Percent == minTxCol->dt_Percent)
 				filteredCol.first.emplace_back(Event);
 		}
 
-		if (Event->ny != 0)
+		if (Event->ny != 0 && (Event->ny / movingObj->GetVelocity().y) < 0)
 		{
 			if (Event->dt_Percent == minTyCol->dt_Percent)
 				filteredCol.second.emplace_back(Event);
@@ -374,4 +380,87 @@ std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::F
 
 	movingObj->SetVelocity(oldVel.x, oldVel.y);
 	return filteredCol;
+}
+
+void CollisionSystem::FixPreOverlapped(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs)
+{
+	std::vector<CGameObject*> overlapedObjs;
+	std::vector<CGameObject*> colliableBricks;
+
+	for (auto object : *anotherObjs)
+	{
+		if (dynamic_cast<ColliableBrick*>(object) != NULL)
+			colliableBricks.emplace_back(object);
+	}
+
+	for (auto brick : colliableBricks)
+	{
+		if (CheckOverlap(movingObj, brick))
+		{
+			overlapedObjs.emplace_back(brick);
+		}
+	}
+
+	std::vector<std::pair<float, float>> specialPushbackVector;
+
+	bool specialCase = true;
+	
+	for (auto overlapedObj : overlapedObjs)
+	{
+		if (!CheckOverlap(movingObj, overlapedObj)) continue;
+
+		auto oldMovingObjPos = movingObj->GetPosition();
+
+		auto movingObjColBox = movingObj->GetCollisionBox();
+		auto overlapedObjColBox = overlapedObj->GetCollisionBox();
+
+		float deltaX = 0;
+		float deltaY = 0;
+
+		if (movingObjColBox.right > overlapedObjColBox.left && movingObjColBox.left < overlapedObjColBox.left &&
+			oldMovingObjPos.x < overlapedObjColBox.left)
+		{
+			deltaX -= movingObjColBox.right - overlapedObjColBox.left + 0.5;
+		}
+
+		if (movingObjColBox.left < overlapedObjColBox.right && movingObjColBox.right > overlapedObjColBox.right &&
+			oldMovingObjPos.x > overlapedObjColBox.right)
+		{
+			deltaX += overlapedObjColBox.right - movingObjColBox.left + 0.5;
+		}
+
+		if (movingObjColBox.bottom > overlapedObjColBox.top && movingObjColBox.top < overlapedObjColBox.top &&
+			oldMovingObjPos.y < overlapedObjColBox.top)
+		{
+			deltaY -= movingObjColBox.bottom - overlapedObjColBox.top + 0.5;
+		}
+
+		if (movingObjColBox.top < overlapedObjColBox.bottom && movingObjColBox.bottom > overlapedObjColBox.bottom &&
+			oldMovingObjPos.y > overlapedObjColBox.bottom)
+		{
+			deltaY += overlapedObjColBox.bottom - movingObjColBox.top + 0.5;
+		}
+
+		if (deltaX != 0 && deltaY != 0)
+			specialPushbackVector.emplace_back(std::pair<float, float>(deltaX, deltaY));
+		else
+		{
+			movingObj->SetPosition(oldMovingObjPos.x + deltaX, oldMovingObjPos.y + deltaY);
+			specialCase = false;
+		}
+	}
+
+	if (!specialCase || specialPushbackVector.size() == 0) return;
+
+	for (auto pushbackVector : specialPushbackVector)
+	{
+		auto oldMovingObjPos = movingObj->GetPosition();
+
+		if (pushbackVector.first < pushbackVector.second)
+			pushbackVector.second = 0;
+		else
+			pushbackVector.first = 0;
+
+		movingObj->SetPosition(oldMovingObjPos.x + pushbackVector.first, oldMovingObjPos.y + pushbackVector.second);
+	}
 }
