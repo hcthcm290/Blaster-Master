@@ -23,6 +23,7 @@
 
 #include "Sophia.h"
 #include "Skull.h"
+#include "Worm.h"
 
 using namespace std;
 
@@ -149,6 +150,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 98:
 		obj = new Sophia();
 		player = dynamic_cast<DynamicObject*>(obj);
+		break;
+	case 5:
+		obj = new Worm();
 		break;
 	case 7:
 		obj = new Skull();
