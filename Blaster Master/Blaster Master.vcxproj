@@ -181,6 +181,7 @@
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="MineBullet.cpp" />
     <ClCompile Include="Mine_Explosion.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="PlayScene.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DynamicObject.h" />
     <ClInclude Include="Animator_Mine_Explosion.h" />
+    <ClInclude Include="MineBullet.h" />
     <ClInclude Include="Insect.h" />
     <ClInclude Include="Jason.h" />
     <ClInclude Include="Jumper.h" />

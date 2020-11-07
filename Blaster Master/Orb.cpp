@@ -29,6 +29,11 @@ void Orb::OnCollisionEnter(CollisionEvent e)
 	{
 		auto csa = 57489;
 	}
+
+	if (e.nx != 0)
+	{
+		auto csa = 432;
+	}
 }
 
 void Orb::Update(float dt)

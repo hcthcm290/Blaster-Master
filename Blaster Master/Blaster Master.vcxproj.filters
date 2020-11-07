@@ -138,6 +138,9 @@
     <ClCompile Include="Mine_Explosion.cpp">
       <Filter>Source Files\Explosion</Filter>
     </ClCompile>
+    <ClCompile Include="MineBullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="Mine_Explosion.h">
       <Filter>Header Files\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="MineBullet.h">
+      <Filter>Header Files\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

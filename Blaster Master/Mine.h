@@ -4,8 +4,7 @@
 class Mine : public DynamicObject
 {
 private:
-	bool active = true;
-	int count;
+	bool active = false;
 
 public:
 	Mine();
