@@ -5,6 +5,8 @@
 class Skull :
     public DynamicObject
 {
+	bool flipX;
+	int state;
 public:
 	bool sleep;
 	DWORD last;
