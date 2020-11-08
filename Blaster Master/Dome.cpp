@@ -51,7 +51,7 @@ void Dome::Update(float dt)
 
 	if (currentState == State::_DOME_WALKING_)
 	{
-		waitToFly -= dt;
+		flyReloadTime -= dt;
 
 		int width = 15;
 		int height = 15;
@@ -63,7 +63,7 @@ void Dome::Update(float dt)
 		if (std::abs(vectorToTarget.x) < width / 2) vectorToTarget.x = 0;
 		if (std::abs(vectorToTarget.y) < height / 2) vectorToTarget.y = 0;
 
-		if (!(vectorToTarget.x != 0 && vectorToTarget.y != 0) && waitToFly <= 0)
+		if (!(vectorToTarget.x != 0 && vectorToTarget.y != 0) && flyReloadTime <= 0)
 		{
 			bool startFlying = false;
 
@@ -87,16 +87,16 @@ void Dome::Update(float dt)
 
 			if (startFlying)
 			{
-				vx = flyingSpeed * direction.x;
-				vy = flyingSpeed * direction.y;
+				vx = 0;
+				vy = 0;
 				ground.clear();
 
-				waitToFly = 1;
+				waitToFly = 0.3;
+				flyReloadTime = 1;
 
 				return;
 			}
 		}
-
 
 		// change direction and gravity when at the cliff //
 		CGameObject* fakeObject = new Dome();
@@ -130,6 +130,15 @@ void Dome::Update(float dt)
 
 		ground.clear();
 		delete fakeObject;
+	}
+	else if (currentState == State::_DOME_FLYING_)
+	{
+		waitToFly -= dt;
+		if (waitToFly <= 0)
+		{
+			vx = flyingSpeed * direction.x;
+			vy = flyingSpeed * direction.y;
+		}
 	}
 }
 

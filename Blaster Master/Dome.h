@@ -9,9 +9,10 @@ private:
 	D3DXVECTOR2 direction;
 
 	float movingSpeed = 50;
-	float flyingSpeed = 100;
+	float flyingSpeed = 200;
 
 	float waitToFly = 1;
+	float flyReloadTime = 1;
 
 	std::vector<ColliableBrick*> ground;
 public:
