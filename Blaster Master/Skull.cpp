@@ -6,6 +6,7 @@
 
 #define SKULL_MOVE 20701
 #define SKULL_SHOOT 20702
+#define SKULL_DIE 27201
 
 Skull::Skull()
 {

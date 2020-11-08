@@ -32,20 +32,21 @@ FRECT Skull_Bullet::GetCollisionBox()
 
 void Skull_Bullet::OnCollisionEnter(CollisionEvent e)
 {
-	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-
-	if (CollisionSystem::CheckOverlap(this, player))
-	{
-		// Set Dmg
-		ex = true;
-		last = GetTickCount();
-	}
+	
 }
 
 void Skull_Bullet::Update(float dt)
 {
 	if (!ex)
 	{
+		CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+		if (CollisionSystem::CheckOverlap(this, player))
+		{
+			// Set Dmg
+			ex = true;
+			last = GetTickCount();
+		}
 		DWORD now = GetTickCount();
 		vy += 300 * dt;
 		if (now - last > 2000)
@@ -55,11 +56,11 @@ void Skull_Bullet::Update(float dt)
 			return;
 		}
 		float player_x = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
-		if (player_x < this->x - 10 / 2)
+		if (player_x + 6 < this->x - 10 / 2)
 		{
 			vx = -55;
 		}
-		else if (player_x > this->x + 10 / 2)
+		else if (player_x - 6 > this->x + 10 / 2)
 		{
 			vx = 55;
 		}
