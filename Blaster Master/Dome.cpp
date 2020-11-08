@@ -3,6 +3,7 @@
 #include "CollisionSystem.h"
 #include "PlayScene.h"
 #include <time.h>
+#include "Debug.h"
 
 Dome::Dome(int id_gravity, int id_direction)
 {
@@ -46,8 +47,12 @@ Dome::Dome(int id_gravity, int id_direction)
 
 void Dome::Update(float dt)
 {
+	DebugOut(L"d %f	%f\n", direction.x, direction.y);
+
 	if (currentState == State::_DOME_WALKING_)
 	{
+		waitToFly -= dt;
+
 		int width = 15;
 		int height = 15;
 
@@ -58,18 +63,17 @@ void Dome::Update(float dt)
 		if (std::abs(vectorToTarget.x) < width / 2) vectorToTarget.x = 0;
 		if (std::abs(vectorToTarget.y) < height / 2) vectorToTarget.y = 0;
 
-		if (!(vectorToTarget.x != 0 && vectorToTarget.y != 0))
+		if (!(vectorToTarget.x != 0 && vectorToTarget.y != 0) && waitToFly <= 0)
 		{
+			bool startFlying = false;
+
 			if (gravity.x != 0 && vectorToTarget.x != 0 && (gravity.x / vectorToTarget.x) < 0)
 			{
 				currentState = State::_DOME_FLYING_;
 				direction.x = std::abs(vectorToTarget.x)/vectorToTarget.x;
 				direction.y = 0;
 
-				vx = flyingSpeed * direction.x;
-				vy = flyingSpeed * direction.y;
-				ground.clear();
-				return;
+				startFlying = true;
 			}
 
 			if (gravity.y != 0 && vectorToTarget.y != 0 && (gravity.y / vectorToTarget.y) < 0)
@@ -78,13 +82,23 @@ void Dome::Update(float dt)
 				direction.x = 0;
 				direction.y = std::abs(vectorToTarget.y) / vectorToTarget.y;
 
+				startFlying = true;
+			}
+
+			if (startFlying)
+			{
 				vx = flyingSpeed * direction.x;
 				vy = flyingSpeed * direction.y;
 				ground.clear();
+
+				waitToFly = 1;
+
 				return;
 			}
 		}
 
+
+		// change direction and gravity when at the cliff //
 		CGameObject* fakeObject = new Dome();
 		fakeObject->SetPosition(x + 3 * gravity.x + direction.x, y + 3 * gravity.y + direction.y);
 
