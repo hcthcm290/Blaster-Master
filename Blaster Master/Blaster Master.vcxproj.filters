@@ -139,7 +139,7 @@
       <Filter>Source Files\Explosion</Filter>
     </ClCompile>
     <ClCompile Include="MineBullet.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
