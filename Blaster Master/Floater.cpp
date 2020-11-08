@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Floater.h"
 #include "Orb.h"
+#include "Floater_Bullet.h"
 Floater::Floater()
 {
 	animator = new Animator_Floater();
@@ -15,31 +16,30 @@ Floater::Floater()
 }
 void Floater::OnCollisionEnter(CollisionEvent e)
 {
-	if (e.ny < 0   && dynamic_cast<ColliableBrick*>(e.pGameObject))
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject))
 	{
-		vy = -floaterSpeed;
-	}
-	if (e.ny > 0 && dynamic_cast<ColliableBrick*>(e.pGameObject))
-	{
-		vy = floaterSpeed;
-	}
-	if (e.nx < 0  && dynamic_cast<ColliableBrick*>(e.pGameObject))
-	{
-		vx = -floaterSpeed;
-		flip = true;
-	}
-	if (e.nx > 0 && dynamic_cast<ColliableBrick*>(e.pGameObject))
-	{
-		vx = floaterSpeed;
-		 flip = false;
+		if (e.ny < 0)
+		{
+			vy = -floaterSpeed;
+		}
+		if (e.ny > 0 )
+		{
+			vy = floaterSpeed;
+		}
+		if (e.nx < 0 )
+		{
+			vx = -floaterSpeed;
+			flip = true;
+		}
+		if (e.nx > 0 )
+		{
+			vx = floaterSpeed;
+			flip = false;
+		}
 	}
 }
 void Floater::Update(float dt)
 {
-	
-	DebugOut(L"Vx %f \n",vx);
-	DebugOut(L"Vy %f \n", vy);
-	
 	float Character_X = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
 	float Character_Y = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().y;
 	float distance = min(abs(x - Character_X),abs(y-Character_Y));
@@ -51,6 +51,14 @@ void Floater::Update(float dt)
 			vx = -floaterSpeed;
 			vy = floaterSpeed;
 			trigger = false;
+			CGameObject* obj = NULL;
+			obj = new Floater_Bullet(Character_X, Character_Y);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+
+		}
+		else
+		{
+			
 		}
 	}
 }

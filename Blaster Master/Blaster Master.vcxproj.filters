@@ -94,6 +94,9 @@
     <ClCompile Include="Animator_Floater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Floater_Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h">
@@ -196,6 +199,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Floater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Floater_Bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -24,7 +24,7 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
 
-	void AddGameObjectToScene(CGameObject* obj);
+	
 	int GetMapBlockID(float x, float y);
 	vector<CGameObject*> GetOnScreenObjs();
 
@@ -36,6 +36,6 @@ public:
 	virtual void ApllyVelocityToGameObjs(float dt);
 	virtual void Render();
 	virtual void Unload();
-
+	void AddGameObjectToScene(CGameObject* obj);
 	DynamicObject* GetPlayer() { return player; }
 };

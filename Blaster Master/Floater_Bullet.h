@@ -5,18 +5,16 @@
 #include "PlayScene.h"
 #include "GameObject.h"
 
-#define floaterFly State::_FLOATER_FLY_
-#define	floaterIdle State::_FLOATER_IDLE_
-#define	floaterSpeed State::_FLOATER_SPEED_
+#define floaterBullet State::_FLOATER_BULLET_
 
-class Floater : public DynamicObject, public RigidBody
+class Floater_Bullet : public DynamicObject, public RigidBody
 {
 private:
-	int state;
 	bool flip = true;
-	bool trigger = true;
+	int state;
 public:
-	Floater();
+	Floater_Bullet();
+	Floater_Bullet(float, float );
 	void Update(float dt);
 	void Render();
 	void OnCollisionEnter(CollisionEvent e);

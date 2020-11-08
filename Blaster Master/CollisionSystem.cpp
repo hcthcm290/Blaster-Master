@@ -335,7 +335,7 @@ std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::F
 		{
 			auto collision = SweptAABBEx(movingObj, Event->obj, dt);
 
-			if (collision->dt_Percent > 0 || collision->dt_Percent <= 1)
+			if (collision->dt_Percent > 0 && collision->dt_Percent <= 1)
 			{
 				found = true;
 			}
