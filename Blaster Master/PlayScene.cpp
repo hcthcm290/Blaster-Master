@@ -19,6 +19,7 @@
 #include "ColliableBrick.h"
 #include "Camera.h"
 #include "Mine.h"
+#include "Dome.h"
 #include <execution>
 #include <algorithm>
 
@@ -140,6 +141,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 3:
 		obj = new Mine();
 		break;
+	case 4:
+	{
+		int gravity = atoi(tokens[3].c_str());
+		int direction = atoi(tokens[4].c_str());
+
+		obj = new Dome(gravity, direction);
+		break;
+	}
 	case 9:
 		obj = new Orb();
 		player = dynamic_cast<DynamicObject*>(obj);

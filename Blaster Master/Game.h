@@ -30,7 +30,7 @@ class CGame
 
 public:
 	void Init(HWND hWnd);
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX = false);
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX = false, float angle = 0);
 	LPDIRECT3DTEXTURE9 LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentColor);
 	void ProcessKeyboard() { DInput::GetInstance()->ProcessKeyboard(); };
 

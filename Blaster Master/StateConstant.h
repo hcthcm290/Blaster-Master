@@ -15,4 +15,10 @@ public:
 	static const int _JUMPER_IDLE_	=	20101;
 	static const int _JUMPER_WALK_	=	20102;
 #pragma endregion
+
+#pragma region Dome
+	static const int _DOME_FLYING_	=	20401;
+	static const int _DOME_WALKING_ =	20402;
+	
+#pragma endregion
 };

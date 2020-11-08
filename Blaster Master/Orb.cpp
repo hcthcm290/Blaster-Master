@@ -24,16 +24,6 @@ void Orb::OnCollisionEnter(CollisionEvent e)
 		//vy = 0;
 		onTheGround = true;
 	}
-
-	if (dynamic_cast<Mine*>(e.pGameObject) != NULL)
-	{
-		auto csa = 57489;
-	}
-
-	if (e.nx != 0)
-	{
-		auto csa = 432;
-	}
 }
 
 void Orb::Update(float dt)
@@ -41,9 +31,9 @@ void Orb::Update(float dt)
 	vy += 300*dt;
 
 	if (DInput::KeyPress(DIK_LEFT))
-		vx = -50;
+		vx = -100;
 	else if (DInput::KeyPress(DIK_RIGHT))
-		vx = 50;
+		vx = 100;
 	else
 		vx = 0;
 
