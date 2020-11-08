@@ -97,6 +97,9 @@
     <ClCompile Include="Sophia.cpp">
       <Filter>Source Files\Playable</Filter>
     </ClCompile>
+    <ClCompile Include="Skull_Bullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h">
@@ -204,6 +207,9 @@
     <ClInclude Include="Sophia.h">
       <Filter>Header Files\Playable</Filter>
     </ClInclude>
+    <ClInclude Include="Skull_Bullet.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
@@ -249,6 +255,12 @@
     </Filter>
     <Filter Include="Source Files\Playable">
       <UniqueIdentifier>{f00cae42-7ce1-4413-9006-3bbaa5dd3582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bullet">
+      <UniqueIdentifier>{1a266e41-1026-420e-bf24-8801a2bf87e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bullet">
+      <UniqueIdentifier>{88298f10-7551-4143-97c7-20d15d7706fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

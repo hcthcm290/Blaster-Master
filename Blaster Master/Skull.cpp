@@ -1,6 +1,8 @@
 #include "Skull.h"
 #include "PlayScene.h"
 #include "Debug.h"
+#include "Sophia.h"
+#include "Skull_Bullet.h"
 
 #define SKULL_MOVE 20701
 #define SKULL_SHOOT 20702
@@ -88,6 +90,7 @@ void Skull::Update(float dt)
 			{
 				flipX = !flipX;
 				state = SKULL_SHOOT;
+				DropBomb();
 			}
 			sleep = true;
 			last = now;
@@ -97,6 +100,13 @@ void Skull::Update(float dt)
 
 void Skull::Render()
 {
-	DebugOut(L"%d\n", sleep);
 	animator->Draw(state, x, y, flipX);
+}
+
+void Skull::DropBomb()
+{
+		auto bomb = new Skull_Bullet();
+		bomb->SetPosition(x, y);
+
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bomb);
 }

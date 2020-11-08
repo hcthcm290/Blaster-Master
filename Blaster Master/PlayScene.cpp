@@ -418,3 +418,15 @@ void CPlayScene::Unload()
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
 }
+
+void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
+{
+	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
+
+	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+
+	if (e != sceneObjects[mapBlockID].end())
+	{
+		sceneObjects[mapBlockID].erase(e);
+	}
+}
