@@ -37,6 +37,6 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
-
+	
 	DynamicObject* GetPlayer() { return player; }
 };

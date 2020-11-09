@@ -1,6 +1,9 @@
 #include "Jumper.h"
 #include "DInput.h"
 #include "Animator_Jumper.h"
+#include "ColliableBrick.h"
+#include "Debug.h"
+#include "Orb.h"
 
 Jumper::Jumper()
 {
@@ -11,51 +14,101 @@ Jumper::Jumper()
 }
 void Jumper::OnCollisionEnter(CollisionEvent e)
 {
-	if (e.ny < 0)
+	if (e.ny < 0 && dynamic_cast<ColliableBrick*>(e.pGameObject))
 	{
+		if (!onTheGround)
+		{
+			waitForJump = 0;
+			mini_waitForJump = 0;
+		}
 		onTheGround = true;
+	}
+	if (dynamic_cast<Orb*>(e.pGameObject))
+	{
+
 	}
 }
 void Jumper::Update(float dt)
 {
-	vy += 300*dt;
-	float Character_X=dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
+	//if (!canJump)
+	//{
+	//	                         
+	//	if (onTheGround)
+	//	{
+	//		DebugOut(L"OnTheGround\n");
+	//	}
+	//	else
+	//	{
+	//		DebugOut(L"not OnTheGround\n");
+	//	}
+	//}
+
+	///*DebugOut(L"%f\n", waitForJump);
+	//DebugOut(L"count %d\n", jumpCount);
+	
+	/*if (!onTheGround)
+	{
+		jumpTime -= dt;
+
+		if (jumpTime <= 0 && vy < 0)
+		{
+			vy = 0;
+			accelerateY = 700;
+		}
+	}*/
+
+	float Character_X = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
 	float Character_Y = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().y;
 	float distance = x - Character_X;
-	int direction = distance/ abs(distance);
-	if (abs(distance) <= 200)
+	if((onTheGround && waitForJump>=2)|| mini_waitForJump>=0.1 && onTheGround && (jumpCount>1))	direction = distance/ abs(distance);
+
+	if (abs(distance) <= 100)
 	{
-		
+		if (abs(distance) <= 30)
 			trigger = true;
-		
+		else trigger = false;
 		this->state = jumperWalk;
 	}
-	else
+	else trigger = false;
+
+	if (!onTheGround)	this->state = jumperIdle;
+
+	if (waitForJump >= 2 && onTheGround)
 	{
-		trigger = false;
-		this->state = jumperIdle;
-		vy = 0;
-		vx = 0;
+		jumpCount = 4;
+		waitForJump = -99;
+		canJump = true;
+	}
+	if (mini_waitForJump >= 0.1 && jumpCount>0 && onTheGround)
+	{
+		jumpCount--;
+		canJump = true;
+		mini_waitForJump = -99;
+	}
+	if (jumpCount == 0)
+	{
+		canJump = false;
 	}
 	//Changing walking status
 	if (this->state == jumperWalk)
 	{
-		vx = -1 * direction * 20;
-		if (trigger && canJump)
+		waitForJump += dt;
+		mini_waitForJump += dt;
+		vx = -30 * direction;
+		if (canJump && trigger)
 		{
-			vy = -100;
+			vy = -150;
+			jumpTime = 0.3;
 			onTheGround = false;
 			canJump = false;
 		}
-		if (onTheGround && trigger)
-		{
-			canJump = true;
-		}
 	}
-	if (direction > 0)
+	if (direction > 0 )
 		flip = false;
 	else
 		flip = true;
+
+	vy += 300 * dt;
 }
 
 void Jumper::Render()

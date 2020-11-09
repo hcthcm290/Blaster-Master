@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Textures.h"
 #include "Orb.h"
+#include "Floater.h"
 #include "Jumper.h"
 #include "Jason.h"
 #include "rapidjson/document.h"
@@ -22,6 +23,7 @@
 #include "Dome.h"
 #include <execution>
 #include <algorithm>
+#include "Bullet_Jason.h"
 
 #include "Sophia.h"
 #include "Skull.h"
@@ -157,6 +159,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 9:
 		obj = new Orb();
 		player = dynamic_cast<DynamicObject*>(obj);
+	case -999:
+		obj = new Jason();
 		break;
 	case 98:
 		obj = new Sophia();
@@ -167,6 +171,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 7:
 		obj = new Skull();
+		break;
+	case 2:
+		obj = new Floater();
 		break;
 	}
 
@@ -450,7 +457,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	//mapBackground->Render();
+	mapBackground->Render();
 
 	for (int i = 0; i < onSCeneObjs.size(); i++)
 		onSCeneObjs[i]->Render();
