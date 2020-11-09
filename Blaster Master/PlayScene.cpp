@@ -462,31 +462,6 @@ void CPlayScene::Render()
 		onSCeneObjs[i]->Render();
 }
 
-void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
-{
-	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
-
-	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
-
-	if (e != sceneObjects[mapBlockID].end())
-	{
-		sceneObjects[mapBlockID].erase(e);
-		return;
-	}
-	else
-	{
-		for (auto& block : sceneObjects)
-		{
-			auto e = std::find(block.second.begin(), block.second.end(), obj);
-
-			if (e != block.second.end())
-			{
-				block.second.erase(e);
-				return;
-			}
-		}
-	}
-}
 /*
 	Unload current scene
 */

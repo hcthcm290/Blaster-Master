@@ -33,7 +33,7 @@ FRECT Mine::GetCollisionBox()
 
 void Mine::OnCollisionEnter(CollisionEvent e)
 {
-	if (dynamic_cast<Orb*>(e.pGameObject) != NULL)
+	if (e.pGameObject== dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer())
 	{
 		// Create explosion animation
 		auto explosion = new Mine_Explosion();
