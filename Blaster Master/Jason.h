@@ -28,9 +28,18 @@ class Jason : public DynamicObject, public RigidBody
 private:
 	//bacic properties
 	int state;
+
+	static const int maxHealth = 6;
 	int health = 6;
-	int speed = 120;
+
+	int speed = 150;
 	int flipX = false;
+
+	DWORD lastTakeDamage = 0;
+	float invulnerableTime = 500;
+
+	DWORD lastFire = 0;
+	float recoilTime = 500;
 
 	PlayerInput* input;
 
@@ -40,21 +49,25 @@ private:
 	bool attemptJump;
 	float enviColX;
 	float enviColY;
-	bool outOfHealth;
 	float enemyColX;
 	float enemyColY;
+	bool allowJump = false;
 
 	void UpdateActionRecord();
 	void SetNewState();
 
-	wstring StateToString();
-	//int initialY = 500; //instead of collision boxes
+	void Fire();
+
 public:
 	Jason();
+	Jason(int currentHealth);
 	void Update(float dt);
 	void Render();
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
+
+	void PushBack(int _vx, int _vy);
+	void getDamage(int damage);
 };
 
 #define OFFSET_STAND_CRAWL 10;

@@ -31,6 +31,7 @@ public:
 	CPlayScene(int id, LPCWSTR filePath);
 
 	void AddGameObjectToScene(CGameObject* obj);
+	void RemoveGameObjectFromScene(CGameObject* obj);
 
 	virtual void Load();
 	virtual void Update(DWORD dt);

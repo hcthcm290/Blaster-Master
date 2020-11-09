@@ -15,28 +15,41 @@ Jason::Jason() {
 	animator->AddAnimation(State::_JASON_DIE_);
 	state = State::_JASON_IDLE_;
 	input = new PlayerInput();
+	health = maxHealth;
+}
+
+Jason::Jason(int currentHealth) {
+	state = State::_JASON_JUMP_;
+	health = currentHealth;
 }
 
 void Jason::Update(float dt)
 {
+	if (health <= 0) return;
 	input->Update();
 
 	UpdateActionRecord();
 
-	vx = speed * horizontalMove;
-	vy -= speed * (state != State::_JASON_JUMP_ && attemptJump);
-	vy += 100 * dt;
+	vy -= speed * (allowJump && attemptJump);
+	vy += 150 * dt;
 
+	vx = speed * horizontalMove;
+
+	//reset position if Jason fell out
 	if (DInput::GetInstance()->KeyPress(DIK_R)) {
 		x = 1120;
 		y = 1120;
 	}
 
-	if (input->shoot) {
-		DynamicObject* newBullet = new Bullet_Jason(flipX ? -1 : 1, x, y);
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newBullet);
+	//virtual damage trigger
+	if (DInput::GetInstance()->KeyPress(DIK_Q)) {
+		getDamage(1);
 	}
-	DebugOut(_wcsdup(StateToString().c_str()));
+
+
+	if (input->shoot) {
+		Fire();
+	}
 }
 
 void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
@@ -52,7 +65,6 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 	else verticalMove = input->up * (-1) + input->down * 1; //left or right
 
 	attemptJump = input->jump;
-	outOfHealth = (health <= 0);
 }
 
 void Jason::Render()
@@ -64,118 +76,144 @@ void Jason::Render()
 
 void Jason::SetNewState() {
 	int newState = state;
-	if (outOfHealth) newState = State::_JASON_DIE_;
+	if (health <= 0) newState = State::_JASON_DIE_; //if no health, die anyway
 
-	switch (state) {
-		case State::_JASON_CLIMB_: {
-
-			break;
+	if (newState != State::_JASON_DIE_) { //if die, cannot perform any state
+		switch (state) {
+			case State::_JASON_CLIMB_: {
+				allowJump = false;
+				break;
+			}
+			case State::_JASON_CMOVE_: {
+				allowJump = false;
+				if (verticalMove == -1) {
+					//y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
+					newState = State::_JASON_IDLE_;
+				}
+				else if (horizontalMove == 0) {
+					newState = State::_JASON_CRAWL_;
+				}
+				break;
+			}
+			case State::_JASON_CRAWL_: {
+				allowJump = false;
+				if (verticalMove == -1) {
+					//y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
+					newState = State::_JASON_IDLE_;
+				}
+				if (horizontalMove != 0) newState = State::_JASON_CMOVE_;
+				break;
+			}
+			case State::_JASON_DIE_: {
+				allowJump = false;
+				break;
+			}
+			case State::_JASON_IDLE_: {
+				allowJump = true;
+				//collision with ladder
+				if (verticalMove == 1) {
+					//y += OFFSET_STAND_CRAWL;
+					newState = State::_JASON_CRAWL_;
+				}
+				else if (attemptJump) {
+					newState = State::_JASON_JUMP_;
+				}
+				else if (horizontalMove != 0) {
+					newState = State::_JASON_WALK_;
+				}
+				break;
+			}
+			case State::_JASON_JUMP_: {
+				allowJump = false;
+				//switch to idle when fall into wall	
+				if (enviColY < 0) {
+					newState = State::_JASON_IDLE_;
+				}
+				break;
+			}
+			case State::_JASON_SWIM_: {
+				allowJump = false;
+				//swim swim swim swim
+				break;
+			}
+			case State::_JASON_WALK_: {
+				allowJump = true;
+				if (verticalMove == 1) {
+					newState = State::_JASON_CRAWL_;
+				}
+				else if (attemptJump) {
+					newState = State::_JASON_JUMP_;
+				}
+				else if ( vx == 0 ) {
+					newState = State::_JASON_IDLE_;
+				}
+				break;
+			}
 		}
-		case State::_JASON_CMOVE_: {
-			if (verticalMove == -1) {
-				//y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
-				newState =  State::_JASON_IDLE_;
-			}
-			else if (horizontalMove == 0) {
-				newState = State::_JASON_CRAWL_;
-			}
-			break;	
-		}
-		case State::_JASON_CRAWL_: {
-			if (verticalMove == -1) {
-				//y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
-				newState = State::_JASON_IDLE_;
-			}
-			if (horizontalMove != 0) newState = State::_JASON_CMOVE_;
-			break;
-		}
-		case State::_JASON_DIE_: {
-
-			break;
-		}
-		case State::_JASON_IDLE_: {
-			//collision with ladder
-			if (verticalMove == 1) {
-				//y += OFFSET_STAND_CRAWL;
-				newState = State::_JASON_CRAWL_;
-			}
-			else if (attemptJump) {
-				newState = State::_JASON_JUMP_;
-			}
-			else if (horizontalMove != 0) {
-				newState = State::_JASON_WALK_;
-			}
-			break;
-		}
-		case State::_JASON_JUMP_: {
-			//switch to idle when fall  wall	
-			if ( enviColY < 0 ) {
-				newState = State::_JASON_IDLE_;
-			}
-			break;
-		}
-		case State::_JASON_SWIM_: {
-			//swim swim swim swim
-			break;
-		}
-		case State::_JASON_WALK_: {
-			if (verticalMove == 1) {
-				newState = State::_JASON_CRAWL_;
-			}
-			else if (attemptJump) {
-				newState = State::_JASON_JUMP_;
-			}
-			else if (vx == 0 || enviColX * vx < 0) {
-				newState = State::_JASON_IDLE_;
-			}
-			break;
-		}			
 	}
 
+	bool stateChanged = (state != newState);
 	FRECT stateColBox = GetCollisionBox();
 	state = newState;
 	FRECT newStateColBox = GetCollisionBox();
-	
-	y += (stateColBox.bottom - stateColBox.top) - (newStateColBox.bottom - newStateColBox.top);
-	x += (stateColBox.right - stateColBox.left) - (newStateColBox.right - newStateColBox.left);
+
+	y += ( (stateColBox.bottom - stateColBox.top) - (newStateColBox.bottom - newStateColBox.top) ) / 2;
+
+	//hot fix, will fix later
+	/**
+	if (stateChanged) {
+		switch (state) {
+		case State::_JASON_CRAWL_:
+			y -= 5;
+			break;
+		case State::_JASON_DIE_:
+			y -= 5;
+			break;
+		}
+	}
+	**/
 }
 
 FRECT Jason::GetCollisionBox() {
 	float w = 10;
-	float h = 17;
+	float h = 200;
 	switch (state) {
-		case State::_JASON_CLIMB_	: w = 12; h = 16; break;
-		case State::_JASON_CMOVE_	: w = 16; h = 10; break;
-		case State::_JASON_CRAWL_	: w = 16; h = 10; break;
-		case State::_JASON_DIE_		: w = 16; h = 16; break;
-		case State::_JASON_IDLE_	: w = 10; h = 17; break;
-		case State::_JASON_JUMP_	: w = 10; h = 16; break;
-		case State::_JASON_SWIM_	: w = 17; h = 12; break;
-		case State::_JASON_WALK_	: w = 10; h = 17; break;
+		case State::_JASON_CLIMB_	: w = 12; h = 16;	break;
+		case State::_JASON_CMOVE_	: w = 16; h = 8;	break;
+		case State::_JASON_CRAWL_	: w = 16; h = 8;	break;
+		case State::_JASON_DIE_		: w = 16; h = 16;	break;
+		case State::_JASON_IDLE_	: w = 10; h = 17;	break;
+		case State::_JASON_JUMP_	: w = 10; h = 16;	break;
+		case State::_JASON_SWIM_	: w = 17; h = 12;	break;
+		case State::_JASON_WALK_	: w = 10; h = 17;	break;
 	}
 	return FRECT(x - w / 2, y - h / 2, x + w / 2, y + h / 2);
 }
-
+ 
 void Jason::OnCollisionEnter(CollisionEvent e) {
 	//first this can only handle collision with environment
 	enviColX = (e.nx != 0 ? e.nx : enviColX);
 	enviColY = (e.ny != 0 ? e.ny : enviColY);
 
-	if (e.nx * vx < 0) vx = 0; 
+	//if (e.nx * vx < 0) vx = 0;
 	if (e.ny < 0 ) vy = 0;
 }
 
-wstring Jason::StateToString() {
-	wstring r;
-	switch (state) {
-		case State::_JASON_CLIMB_:	r = L"Climb\n";	break;
-		case State::_JASON_CMOVE_:	r = L"Cmove\n";	break;
-		case State::_JASON_CRAWL_:	r = L"Crawl\n";	break;
-		case State::_JASON_DIE_:	r = L"Die\n";	break;
-		case State::_JASON_IDLE_:	r = L"Idle\n";	break;
-		case State::_JASON_JUMP_:	r = L"Jump\n";	break;
-		case State::_JASON_SWIM_:	r = L"Swim\n";	break;
-		case State::_JASON_WALK_:	r = L"Walk\n";	break;
+void Jason::getDamage(int damage) {
+	DWORD thisTime = GetTickCount64();
+	if (lastTakeDamage == 0  || thisTime > lastTakeDamage + invulnerableTime) {
+		lastTakeDamage = thisTime;
+		health -= damage;
+
+		DebugOut(L"Damage taken\n");
 	}
-	return r;
+}
+
+void Jason::Fire() {
+	DWORD thisTime = GetTickCount64();
+	if (lastFire == 0 || thisTime > lastFire + recoilTime) {
+		lastFire = thisTime;
+		DynamicObject* newBullet = new Bullet_Jason(flipX ? -1 : 1, x, y);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newBullet);
+	}
 }

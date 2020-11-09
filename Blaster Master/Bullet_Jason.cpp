@@ -3,6 +3,7 @@
 #include "Debug.h"
 
 #include "Jason.h"
+#include "PlayScene.h"
 
 Bullet_Jason::Bullet_Jason(int horizontalDirection, float xs, float ys) {
 	animator = new Animator_Jason();
@@ -15,8 +16,10 @@ Bullet_Jason::Bullet_Jason(int horizontalDirection, float xs, float ys) {
 
 void Bullet_Jason::Update(float dt)
 {
-	if (livingTime <= 0) return;
-	else livingTime -= dt;
+	if (livingTime <= 0) 
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	else 
+		livingTime -= dt;
 }
 
 void Bullet_Jason::Render()
@@ -34,6 +37,6 @@ void Bullet_Jason::OnCollisionEnter(CollisionEvent e) {
 		//do nothing
 	}
 	else {
-		livingTime = 0;
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
 }

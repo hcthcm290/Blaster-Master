@@ -78,7 +78,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	D3DXMatrixIdentity(&mat);
 
 	D3DXMATRIX translate;
-	D3DXMatrixTranslation(&translate, x, y, 0);
+	D3DXMatrixTranslation(&translate, (int)x, (int)y, 0);
 
 	D3DXMATRIX toCameraView;
 	D3DXMatrixTranslation(&toCameraView, -Camera::GetInstance()->GetCollisionBox().left, -Camera::GetInstance()->GetCollisionBox().top, 0);
