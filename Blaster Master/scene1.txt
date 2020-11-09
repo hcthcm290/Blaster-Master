@@ -13,7 +13,7 @@
 12	textures\12_Eyeball.png	255	0	255
 999	textures\P2_Jason.png	255	255	255
 998	textures\P1_Sophia.png	255	255	255
-10000	textures\21_RedBullet.png	255	0	255
+10000	textures\22_FloaterBullet.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -153,7 +153,7 @@
 #jason out
 19871	18	454	44	480	998
 #Floater_Bullet
-10203	0	0	9	9	10000
+10203	0	0	8	8	10000
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -283,7 +283,7 @@
 # JUMPER
 1	1100.0	1136.0
 # FLOATER
-4	1120.0	1136.0
+4	1120.0	1100.0
 # MAPBACKGROUND
 -1	1016.0	1016.0
 

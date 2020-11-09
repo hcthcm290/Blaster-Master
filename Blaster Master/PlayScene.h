@@ -36,6 +36,7 @@ public:
 	virtual void ApllyVelocityToGameObjs(float dt);
 	virtual void Render();
 	virtual void Unload();
+	void RemoveGameObjectFromScene(CGameObject* obj);
 	void AddGameObjectToScene(CGameObject* obj);
 	DynamicObject* GetPlayer() { return player; }
 };

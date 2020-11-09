@@ -14,7 +14,10 @@ class Floater : public DynamicObject, public RigidBody
 private:
 	int state;
 	bool flip = true;
-	bool trigger = true;
+	bool trigger, fly = true;
+	int shotCount = 0;
+	float waitForShot = 5;
+	float mini_waitForShot = 0.5;
 public:
 	Floater();
 	void Update(float dt);

@@ -7,14 +7,14 @@
 
 #define floaterBullet State::_FLOATER_BULLET_
 
-class Floater_Bullet : public DynamicObject, public RigidBody
+class Floater_Bullet : public DynamicObject
 {
 private:
 	bool flip = true;
 	int state;
+	bool boom = false;
 public:
 	Floater_Bullet();
-	Floater_Bullet(float, float );
 	void Update(float dt);
 	void Render();
 	void OnCollisionEnter(CollisionEvent e);
