@@ -8,12 +8,11 @@
 Jason::Jason() {
 	animator = new Animator_Jason();
 	state = State::_JASON_IDLE_;
-	input = new PlayerInput();
 	health = maxHealth;
 }
 
 Jason::Jason(int currentHealth, int x, int y) {
-	Jason(); //default constructor
+	animator = new Animator_Jason();
 	state = State::_JASON_JUMP_;
 	this->x = x;
 	this->y = y;
@@ -69,6 +68,7 @@ void Jason::Render()
 	flipX = (horizontalMove != 0 ? horizontalMove == -1 : flipX);
 	SetNewState();
 	animator->Draw(state, x, y, flipX);
+	//dynamic_cast<Animator_Jason*>(animator)->Draw(state, x, y, flipX);
 	//dynamic_cast<Animator_Jason*>(animator->Draw(state, x, y, flipX));
 }
 
@@ -189,18 +189,19 @@ FRECT Jason::GetCollisionBox() {
 }
  
 void Jason::OnCollisionEnter(CollisionEvent e) {
+	//check sophia first
+	if (dynamic_cast<Sophia*>(e.pGameObject) && DInput::GetInstance()->KeyUp(DIK_LSHIFT)) {
+		dynamic_cast<Sophia*>(e.pGameObject)->Awake();
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(e.pGameObject));
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
+
 	//first this can only handle collision with environment
 	enviColX = (e.nx != 0 ? e.nx : enviColX);
 	enviColY = (e.ny != 0 ? e.ny : enviColY);
 
 	//if (e.nx * vx < 0) vx = 0;
 	if (e.ny < 0 ) vy = 0;
-
-	if (dynamic_cast<Sophia*>(e.pGameObject) && DInput::GetInstance()->KeyUp(DIK_LSHIFT)) {
-		dynamic_cast<Sophia*>(e.pGameObject)->Awake();
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(e.pGameObject));
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
-	}
 }
 
 void Jason::getDamage(int damage) {

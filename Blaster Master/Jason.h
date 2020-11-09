@@ -32,7 +32,7 @@ private:
 	static const int maxHealth = 6;
 	int health = 6;
 
-	int speed = 150;
+	int speed = 100;
 	int flipX = false;
 
 	DWORD lastTakeDamage = 0;
