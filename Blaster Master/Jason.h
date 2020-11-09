@@ -41,7 +41,7 @@ private:
 	DWORD lastFire = 0;
 	float recoilTime = 500;
 
-	PlayerInput* input;
+	PlayerInput* input = new PlayerInput();
 
 	//ACTION RECORD vairable to set new state
 	int horizontalMove;
@@ -60,7 +60,7 @@ private:
 
 public:
 	Jason();
-	Jason(int currentHealth);
+	Jason(int currentHealth, int x, int y);
 	void Update(float dt);
 	void Render();
 	FRECT GetCollisionBox();
@@ -69,5 +69,3 @@ public:
 	void PushBack(int _vx, int _vy);
 	void getDamage(int damage);
 };
-
-#define OFFSET_STAND_CRAWL 10;

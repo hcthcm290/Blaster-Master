@@ -37,14 +37,14 @@ void Orb::Update(float dt)
 	else
 		vx = 0;
 
-	if (DInput::KeyPress(DIK_SPACE) && canJump)
+	if (DInput::KeyPress(DIK_X) && canJump)
 	{
 		vy = -300;
 		onTheGround = false;
 		canJump = false;
 	}
 
-	if (onTheGround && !DInput::KeyPress(DIK_SPACE))
+	if (onTheGround && !DInput::KeyPress(DIK_X))
 	{
 		canJump = true;
 	}

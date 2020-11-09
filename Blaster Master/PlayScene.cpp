@@ -159,8 +159,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case 9:
 		obj = new Orb();
-		player = dynamic_cast<DynamicObject*>(obj);
-	case -999:
+		//player = dynamic_cast<DynamicObject*>(obj);
+	case 99:
 		obj = new Jason();
 		break;
 	case 98:
@@ -175,6 +175,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 2:
 		obj = new Floater();
+		break;
+	case 6:
+		obj = new Insect();
 		break;
 	}
 

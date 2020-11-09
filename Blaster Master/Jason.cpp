@@ -3,6 +3,7 @@
 #include "Debug.h"
 #include "PlayScene.h"
 #include "Bullet_Jason.h"
+#include "Sophia.h"
 
 Jason::Jason() {
 	animator = new Animator_Jason();
@@ -11,8 +12,11 @@ Jason::Jason() {
 	health = maxHealth;
 }
 
-Jason::Jason(int currentHealth) {
+Jason::Jason(int currentHealth, int x, int y) {
+	Jason(); //default constructor
 	state = State::_JASON_JUMP_;
+	this->x = x;
+	this->y = y;
 	health = currentHealth;
 }
 
@@ -65,6 +69,7 @@ void Jason::Render()
 	flipX = (horizontalMove != 0 ? horizontalMove == -1 : flipX);
 	SetNewState();
 	animator->Draw(state, x, y, flipX);
+	//dynamic_cast<Animator_Jason*>(animator->Draw(state, x, y, flipX));
 }
 
 void Jason::SetNewState() {
@@ -150,7 +155,7 @@ void Jason::SetNewState() {
 	state = newState;
 	FRECT newStateColBox = GetCollisionBox();
 
-	y += ( (stateColBox.bottom - stateColBox.top) - (newStateColBox.bottom - newStateColBox.top) ) / 2;
+	y += ceil( ((stateColBox.bottom - stateColBox.top) - (newStateColBox.bottom - newStateColBox.top) ) / 2);
 
 	//hot fix, will fix later
 	/**
@@ -190,6 +195,12 @@ void Jason::OnCollisionEnter(CollisionEvent e) {
 
 	//if (e.nx * vx < 0) vx = 0;
 	if (e.ny < 0 ) vy = 0;
+
+	if (dynamic_cast<Sophia*>(e.pGameObject) && DInput::GetInstance()->KeyUp(DIK_LSHIFT)) {
+		dynamic_cast<Sophia*>(e.pGameObject)->Awake();
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(e.pGameObject));
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
 }
 
 void Jason::getDamage(int damage) {

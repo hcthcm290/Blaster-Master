@@ -39,4 +39,5 @@ public:
 	virtual void Unload();
 	
 	DynamicObject* GetPlayer() { return player; }
+	void SetPlayer(DynamicObject* newPlayer) { player = newPlayer; }
 };

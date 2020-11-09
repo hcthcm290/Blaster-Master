@@ -1,6 +1,7 @@
 #include "Sophia.h"
 #include "Animator_Sophia.h"
 #include "Debug.h"
+#include "PlayScene.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -169,14 +170,14 @@ void Sophia::Update(float dt)
 			moving = false;
 		}
 
-		if (DInput::KeyPress(DIK_SPACE) && canJump)
+		if (DInput::KeyPress(DIK_X) && canJump)
 		{
 			vy = -150;
 			onTheGround = false;
 			canJump = false;
 		}
 
-		if (onTheGround && !DInput::KeyPress(DIK_SPACE))
+		if (onTheGround && !DInput::KeyPress(DIK_X))
 		{
 			canJump = true;
 		}
@@ -226,6 +227,9 @@ void Sophia::Update(float dt)
 		last_flipX = flipX;
 		if (onTheGround && DInput::KeyPress(DIK_LSHIFT))
 		{
+			jason = new Jason(JasonCurrentHealth, x, y - 10);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(jason);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(jason);
 			state = STATE_SOPHIA_SHIFT;
 			start_shift = now;
 		}
@@ -407,4 +411,8 @@ void Sophia::Render()
 	{
 		animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel - 1, sx, sy, flipX);
 	}
+}
+
+void Sophia::Awake() {
+	state = STATE_SOPHIA_IDLE;
 }
