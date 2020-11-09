@@ -172,6 +172,7 @@
     <ClCompile Include="DInput.cpp" />
     <ClCompile Include="Dome.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
+    <ClCompile Include="Explosive.cpp" />
     <ClCompile Include="Eyeball.cpp" />
     <ClCompile Include="Floater.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DInput.h" />
     <ClInclude Include="Dome.h" />
+    <ClInclude Include="Explosive.h" />
     <ClInclude Include="Eyeball.h" />
     <ClInclude Include="Floater.h" />
     <ClInclude Include="Game.h" />
