@@ -1,19 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Animator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator_Jason.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator_Jumper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Canon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ColliableBrick.cpp">
@@ -28,16 +16,7 @@
     <ClCompile Include="DInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Dome.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DynamicObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Eyeball.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Floater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
@@ -46,31 +25,13 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Insect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Jason.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Jumper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Orb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Skull.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sprites.cpp">
@@ -91,24 +52,51 @@
     <ClCompile Include="Worm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Jason.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Jumper.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
     <ClCompile Include="Bullet_Jason.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Canon.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Dome.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Eyeball.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Floater.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Insect.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Jumper.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Orb.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skull.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Jason.cpp">
+      <Filter>Source Files\Playable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator_Jason.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator_Jumper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Canon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ColliableBrick.h">
@@ -126,37 +114,13 @@
     <ClInclude Include="DInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Dome.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DynamicObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Eyeball.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Floater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Insect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Jason.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Jumper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Orb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayScene.h">
@@ -169,9 +133,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Skull.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sprites.h">
@@ -192,11 +153,50 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Worm.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Animator.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Jason.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Jumper.h">
+      <Filter>Header Files\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Bullet_Jason.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Jason.h">
+      <Filter>Header Files\Playable</Filter>
+    </ClInclude>
+    <ClInclude Include="Dome.h">
+      <Filter>Header Files\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Canon.h">
+      <Filter>Header Files\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Floater.h">
+      <Filter>Header Files\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball.h">
+      <Filter>Header Files\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Insect.h">
+      <Filter>Header Files\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>Header Files\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Jumper.h">
+      <Filter>Header Files\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Orb.h">
+      <Filter>Header Files\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Skull.h">
+      <Filter>Header Files\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Worm.h">
+      <Filter>Header Files\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +227,36 @@
     </Filter>
     <Filter Include="Resource FIles">
       <UniqueIdentifier>{d95600b6-7de8-4297-a773-90dc02a1f4da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animator">
+      <UniqueIdentifier>{1193dc13-3b6b-4ac9-8d3a-edcb075ae662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Explosion">
+      <UniqueIdentifier>{1745d2b3-cfe7-49d7-bb65-2e9f4f5bef6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bullet">
+      <UniqueIdentifier>{742279d4-cbb8-405a-a576-eab5d6aa7f69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Monster">
+      <UniqueIdentifier>{59293703-eee3-4e50-926e-e456cd654754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Playable">
+      <UniqueIdentifier>{528915d2-b7aa-4546-bb81-9da3e88ef342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animator">
+      <UniqueIdentifier>{33169d87-6c98-475f-842c-9ce94512bd39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bullet">
+      <UniqueIdentifier>{7eabe619-7a13-4855-94ac-8b8bc6202434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Explosion">
+      <UniqueIdentifier>{e4e31c13-6902-4208-a357-aca45bbb7ac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enemy">
+      <UniqueIdentifier>{8dfdb81c-cc10-4f9c-9dda-3838ba8d19b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Playable">
+      <UniqueIdentifier>{3d068653-3642-4ee2-b83c-115f632ddf68}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
