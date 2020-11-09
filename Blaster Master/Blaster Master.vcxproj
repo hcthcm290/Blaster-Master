@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\C#\rapidjson\rapidjson\include;D:\UIT_2020-2021\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\rapidjson-master\include;C:\C#\rapidjson\rapidjson\include;D:\UIT_2020-2021\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\rapidjson-master\include;C:\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -166,7 +166,7 @@
     <ClCompile Include="Animator_Sophia.cpp" />
     <ClCompile Include="Animator_Mine_Explosion.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
-    <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Canon.cpp" />
     <ClCompile Include="Animator_Jason.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -205,7 +205,7 @@
   <ItemGroup>
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Animator_Sophia.h" />
-    <ClInclude Include="Audio.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Bullet_Jason.h" />
     <ClInclude Include="Camera.h" />
