@@ -6,13 +6,6 @@
 
 Jason::Jason() {
 	animator = new Animator_Jason();
-	animator->AddAnimation(State::_JASON_IDLE_);
-	animator->AddAnimation(State::_JASON_WALK_);
-	animator->AddAnimation(State::_JASON_JUMP_);
-	animator->AddAnimation(State::_JASON_CLIMB_);
-	animator->AddAnimation(State::_JASON_CRAWL_);
-	animator->AddAnimation(State::_JASON_CMOVE_);
-	animator->AddAnimation(State::_JASON_DIE_);
 	state = State::_JASON_IDLE_;
 	input = new PlayerInput();
 	health = maxHealth;

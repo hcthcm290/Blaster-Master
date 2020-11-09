@@ -276,11 +276,12 @@
 #
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# 0: ORB, 1: JUMPER, 2: DOME, 3: PLAYER_JASON
+# 0: ORB, 1: JUMPER, 2: DOME, 3: PLAYER_JASON, 4: INSECT
 # ORB
 #0	50.0	50.0
 3	1120.0	1120.0
 #0	1120.0	1120.0
+4	1120.0	1120.0
 
 # MAPBACKGROUND
 -1	1016.0	1016.0
