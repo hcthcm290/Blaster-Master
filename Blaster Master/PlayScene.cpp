@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Textures.h"
 #include "Orb.h"
+#include "AGR_Orb.h"
 #include "Floater.h"
 #include "Jumper.h"
 #include "Jason.h"
@@ -158,7 +159,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case 9:
 		obj = new Orb();
-		player = dynamic_cast<DynamicObject*>(obj);
+		break;
 	case -999:
 		obj = new Jason();
 		break;
@@ -174,6 +175,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 2:
 		obj = new Floater();
+		break;
+	case 99:
+		obj = new AGR_Orb();
 		break;
 	}
 

@@ -1,13 +1,12 @@
 #pragma once
 #include "DynamicObject.h"
-#include "RigidBody.h"
 #include "CollisionSystem.h"
 #include "PlayScene.h"
 #define jumperSpeed	10;
 #define jumperWalk State::_JUMPER_WALK_
 #define	jumperIdle State::_JUMPER_IDLE_
 
-class Jumper : public DynamicObject, public RigidBody
+class Jumper : public DynamicObject
 {
 private:
 	bool onTheGround = false;
@@ -16,7 +15,7 @@ private:
 	bool flip = false;
 	bool trigger = false;
 	float waitForJump = 2;
-	int direction = 0;
+	int direction = 1;
 	int jumpCount=0;
 	float mini_waitForJump = 0.1;
 	float accelerateY = 700;

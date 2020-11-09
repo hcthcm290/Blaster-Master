@@ -189,6 +189,9 @@
     <ClCompile Include="Bullet_Jason.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AGR_Orb.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -328,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="Bullet_Jason.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AGR_Orb.h">
+      <Filter>Header Files\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
