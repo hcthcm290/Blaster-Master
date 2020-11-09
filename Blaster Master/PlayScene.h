@@ -24,18 +24,17 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
 
+	virtual void ApllyVelocityToGameObjs(float dt);
+
 	int GetMapBlockID(float x, float y);
 	vector<CGameObject*> GetOnScreenObjs();
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);
-
 	void AddGameObjectToScene(CGameObject* obj);
 	void RemoveGameObjectFromScene(CGameObject* obj);
-
 	virtual void Load();
 	virtual void Update(DWORD dt);
-	virtual void ApllyVelocityToGameObjs(float dt);
 	virtual void Render();
 	virtual void Unload();
 	

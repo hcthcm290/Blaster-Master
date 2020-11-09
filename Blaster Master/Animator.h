@@ -12,5 +12,6 @@ protected:
 
 public:
 	virtual void Draw(int animationID, float x, float y, bool flipX);
+	virtual void Draw(int animationID, float x, float y, bool flipX, float rotation);
 	virtual void AddAnimation(int id);
 };

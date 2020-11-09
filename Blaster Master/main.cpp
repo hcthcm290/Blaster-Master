@@ -12,6 +12,7 @@
 #include "rapidjson/filereadstream.h"
 #include <cstdio>
 #include <vector>
+#include "Camera.h"
 
 #define MAX_FRAME_RATE 1000;
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
@@ -160,6 +161,8 @@ INT WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     game->Init(hwnd);
     game->Load(L"game-info.txt");
+
+    SetWindowPos(hwnd, 0, 0, 0, Camera::GetInstance()->GetWidth()*2, Camera::GetInstance()->GetHeight()*2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
     Run();
 
