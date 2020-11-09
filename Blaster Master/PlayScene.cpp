@@ -26,6 +26,7 @@
 #include "Sophia.h"
 #include "Skull.h"
 #include "Worm.h"
+#include "Skull_Bullet.h"
 
 using namespace std;
 
@@ -279,6 +280,20 @@ void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 	if (e != sceneObjects[mapBlockID].end())
 	{
 		sceneObjects[mapBlockID].erase(e);
+		return;
+	}
+	else
+	{
+		for (auto& block : sceneObjects)
+		{
+			auto e = std::find(block.second.begin(), block.second.end(), obj);
+
+			if (e != block.second.end())
+			{
+				block.second.erase(e);
+				return;
+			}
+		}
 	}
 }
 
@@ -360,12 +375,16 @@ vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 									cameraRECT.right / MAP_BLOCK_WIDTH,
 									cameraRECT.bottom / MAP_BLOCK_HEIGHT);
 
+	int count = 0;
+
 	for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
 	{
 		for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
 		{
 			for (auto object : sceneObjects[x * 1000 + y])
 			{
+				if (dynamic_cast<Skull_Bullet*>(object) != NULL)	count++;
+
 				if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
 				{
 					onScreenObjs.emplace_back(object);
@@ -373,6 +392,9 @@ vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 			}
 		}
 	}
+
+	// TODO : DELETE THIS DEBUG //
+	DebugOut(L"Number of skull bullets: %d\n", count);
 
 	return onScreenObjs;
 }
@@ -446,16 +468,4 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
-}
-
-void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
-{
-	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
-
-	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
-
-	if (e != sceneObjects[mapBlockID].end())
-	{
-		sceneObjects[mapBlockID].erase(e);
-	}
 }

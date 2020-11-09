@@ -346,7 +346,7 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # 9: ORB, 1: JUMPER, 2: DOME, 3: PLAYER_JASON, 98 SOPHIA, 7: SKULL, 5: WORM
 # ORB
-9	1120.0	1136.0
+#9	1120.0	1136.0
 
 #MINE
 3	1232.0	1172.0
