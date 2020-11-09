@@ -138,14 +138,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		dynamic_cast<StaticObject*>(obj)->SetSpriteID(-1);
 		mapBackground = dynamic_cast<StaticObject*>(obj);
 		return;
-	case 0:
+	case 9:
 		obj = new Orb();
-		//player = dynamic_cast<DynamicObject*>(obj);
 		break;
 	case 1:
 		obj = new Jumper();
 		break;
-	case 3:
+	case -999:
 		obj = new Jason();
 		break;
 	case 98:
@@ -158,7 +157,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 7:
 		obj = new Skull();
 		break;
-	case 4:
+	case 2:
 		obj = new Floater();
 		break;
 	}
@@ -446,16 +445,4 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
-}
-
-void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
-{
-	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
-
-	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
-
-	if (e != sceneObjects[mapBlockID].end())
-	{
-		sceneObjects[mapBlockID].erase(e);
-	}
 }

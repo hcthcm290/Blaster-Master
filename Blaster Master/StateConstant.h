@@ -20,6 +20,6 @@ public:
 	static const int _FLOATER_IDLE_ = 20201;
 	static const int _FLOATER_FLY_ = 20202;
 	static const int _FLOATER_SPEED_ = 40;
-	static const int _FLOATER_BULLET_ = 20203;
+	static const int _FLOATER_BULLET_ = 22203;
 #pragma endregion
 };
