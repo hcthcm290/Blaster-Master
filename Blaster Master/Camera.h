@@ -9,10 +9,22 @@ private:
 	static Camera* __instance;
 	CGameObject* target;
 
-	int width = 800;
-	int height = 600;
+	int width = 400;
+	int height = 300;
 
 	FRECT boundary = FRECT(1024, 1024, 2000, 2000);
+
+	/// <summary>
+	/// The area in camera let player move freely without change the camera position
+	///				________________	
+	///				|				|
+	///				|	_______		|		THE BIG RECTANGLE IS THE CAMERA VIEW
+	///				|	|      |	|	
+	/// 			|	|______|	|		THE SMALL RECTANGLE IS THE FREE MOVING AREA
+	///				|				|
+	///				|_______________|
+	/// </summary>
+	FRECT freeMovingArea = FRECT(-50, -50, 20, 20);
 
 private:
 	void SnapToBoundary();
@@ -24,6 +36,7 @@ public:
 		if (__instance == nullptr)
 		{
 			__instance = new Camera();
+			__instance->SetPosition(1024, 1150);
 		}
 		return __instance;
 	}

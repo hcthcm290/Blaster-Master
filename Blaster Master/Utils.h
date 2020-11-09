@@ -17,3 +17,5 @@ vector<string> split(string line, string delimeter = "\t");
 wstring ToWSTR(string st);
 
 LPCWSTR ToLPCWSTR(string st);
+
+float RandomFloat(float a, float b);

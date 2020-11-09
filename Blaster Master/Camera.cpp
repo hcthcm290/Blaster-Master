@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "PlayScene.h"
 
 Camera* Camera::__instance = NULL;
 
@@ -29,7 +30,32 @@ void Camera::SnapToBoundary()
 
 void Camera::FollowTarget()
 {
+	target = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
 	if (target == NULL) return;
+
+	float deltaX = target->GetPosition().x - x;
+	float deltaY = target->GetPosition().y - y;
+
+	if (deltaX > freeMovingArea.right)
+	{
+		x += deltaX - freeMovingArea.right;
+	}
+
+	if (deltaX < freeMovingArea.left)
+	{
+		x += deltaX - freeMovingArea.left;
+	}
+
+	if (deltaY > freeMovingArea.bottom)
+	{
+		y += deltaY - freeMovingArea.bottom; 
+	}
+
+	if (deltaY < freeMovingArea.top)
+	{
+		y += deltaY - freeMovingArea.top;
+	}
 	
-	SetPosition(target->GetPosition().x, target->GetPosition().y);
+	//SetPosition(target->GetPosition().x, target->GetPosition().y);
 }

@@ -1,6 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Enemy">
+      <UniqueIdentifier>{5be31618-f4d4-4ea9-b5a5-fbb9f68f55ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enemy">
+      <UniqueIdentifier>{da01427d-d9b4-40c4-a829-8f5e21ceeccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animator">
+      <UniqueIdentifier>{77c3853c-af93-49c6-b59b-eb6daa945e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animator">
+      <UniqueIdentifier>{384102ec-19ee-452b-a539-6c1931974642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bullet">
+      <UniqueIdentifier>{403beab0-ea84-4b41-a3fb-239bba78750b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bullet">
+      <UniqueIdentifier>{1e8959f4-84d2-4296-b718-783e401ce383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Explosion">
+      <UniqueIdentifier>{a95ec1b7-adb9-48c1-8325-abd748c9d913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Explosion">
+      <UniqueIdentifier>{dacb36be-ce1b-4eea-aee9-7440a345f983}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -22,35 +63,53 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Jason.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayScene.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Animator_Sophia.cpp">
+      <Filter>Source Files\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Animator_Jason.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Jumper.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Canon.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Dome.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Eyeball.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Floater.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Insect.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Jumper.cpp">
+      <Filter>Source Files\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Sprites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StaticObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Teleporter.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Skull.cpp">
+      <Filter>Source Files\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Textures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Worm.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Sophia.cpp">
+      <Filter>Source Files\Playable</Filter>
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>Source Files\Animator</Filter>
@@ -60,9 +119,6 @@
     </ClCompile>
     <ClCompile Include="Animator_Jumper.cpp">
       <Filter>Source Files\Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet_Jason.cpp">
-      <Filter>Source Files\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Canon.cpp">
       <Filter>Source Files\Enemy</Filter>
@@ -88,11 +144,50 @@
     <ClCompile Include="Orb.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Teleporter.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
     <ClCompile Include="Skull.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Jason.cpp">
-      <Filter>Source Files\Playable</Filter>
+    <ClCompile Include="Worm.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Mine_Explosion.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine_Explosion.cpp">
+      <Filter>Source Files\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="MineBullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skull_Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosive.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Floater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Floater_Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet_Jason.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +218,9 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Jason.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PlayScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -144,17 +242,11 @@
     <ClInclude Include="StaticObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Teleporter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator.h">
-      <Filter>Header Files\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Jason.h">
       <Filter>Header Files\Animator</Filter>
@@ -162,41 +254,80 @@
     <ClInclude Include="Animator_Jumper.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet_Jason.h">
-      <Filter>Header Files\Bullet</Filter>
+    <ClInclude Include="Animator_Sophia.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Canon.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Dome.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Floater.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Insect.h">
+      <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Jason.h">
       <Filter>Header Files\Playable</Filter>
     </ClInclude>
-    <ClInclude Include="Dome.h">
-      <Filter>Header Files\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="Canon.h">
-      <Filter>Header Files\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="Floater.h">
-      <Filter>Header Files\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="Eyeball.h">
-      <Filter>Header Files\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="Insect.h">
-      <Filter>Header Files\Monster</Filter>
+    <ClInclude Include="Jumper.h">
+      <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Mine.h">
-      <Filter>Header Files\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="Jumper.h">
-      <Filter>Header Files\Monster</Filter>
+      <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Orb.h">
-      <Filter>Header Files\Monster</Filter>
+      <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Skull.h">
-      <Filter>Header Files\Monster</Filter>
+      <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Worm.h">
-      <Filter>Header Files\Monster</Filter>
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Teleporter.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Mine_Explosion.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine_Explosion.h">
+      <Filter>Header Files\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="MineBullet.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Intangibility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Teleporter.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia.h">
+      <Filter>Header Files\Playable</Filter>
+    </ClInclude>
+    <ClInclude Include="Skull_Bullet.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosive.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Floater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Floater_Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet_Jason.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +337,7 @@
     <Image Include="map.png">
       <Filter>Resource FIles</Filter>
     </Image>
-    <Image Include="Textures\P2_Jason.png">
-      <Filter>Resource FIles</Filter>
-    </Image>
+    <Image Include="D:\DOWNLOAD\P2_Jason.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game-info.txt">
@@ -228,35 +357,29 @@
     <Filter Include="Resource FIles">
       <UniqueIdentifier>{d95600b6-7de8-4297-a773-90dc02a1f4da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Enemy">
+      <UniqueIdentifier>{8ecec00a-4515-4b7a-9883-e1ae2442a4c3}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Animator">
-      <UniqueIdentifier>{1193dc13-3b6b-4ac9-8d3a-edcb075ae662}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Explosion">
-      <UniqueIdentifier>{1745d2b3-cfe7-49d7-bb65-2e9f4f5bef6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Bullet">
-      <UniqueIdentifier>{742279d4-cbb8-405a-a576-eab5d6aa7f69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Monster">
-      <UniqueIdentifier>{59293703-eee3-4e50-926e-e456cd654754}</UniqueIdentifier>
+      <UniqueIdentifier>{666f5023-a78e-4ade-866c-0c0af4a82743}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Playable">
-      <UniqueIdentifier>{528915d2-b7aa-4546-bb81-9da3e88ef342}</UniqueIdentifier>
+      <UniqueIdentifier>{148b824d-9b40-4427-9439-749d712fc204}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Animator">
-      <UniqueIdentifier>{33169d87-6c98-475f-842c-9ce94512bd39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Bullet">
-      <UniqueIdentifier>{7eabe619-7a13-4855-94ac-8b8bc6202434}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Explosion">
-      <UniqueIdentifier>{e4e31c13-6902-4208-a357-aca45bbb7ac4}</UniqueIdentifier>
+      <UniqueIdentifier>{59dec169-e8c2-4d8d-8a27-84e6b9ac981b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Enemy">
-      <UniqueIdentifier>{8dfdb81c-cc10-4f9c-9dda-3838ba8d19b1}</UniqueIdentifier>
+      <UniqueIdentifier>{0034ab79-b05b-42df-87fe-3c7285892ad4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Playable">
-      <UniqueIdentifier>{3d068653-3642-4ee2-b83c-115f632ddf68}</UniqueIdentifier>
+      <UniqueIdentifier>{f00cae42-7ce1-4413-9006-3bbaa5dd3582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bullet">
+      <UniqueIdentifier>{1a266e41-1026-420e-bf24-8801a2bf87e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bullet">
+      <UniqueIdentifier>{88298f10-7551-4143-97c7-20d15d7706fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -63,7 +63,7 @@ void CGame::Init(HWND hWnd)
 }
 
 
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX, float angle)
 {
 	D3DXVECTOR3 p(0, 0, 0);
 	RECT r;
@@ -81,7 +81,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	D3DXMatrixTranslation(&translate, (int)x, (int)y, 0);
 
 	D3DXMATRIX toCameraView;
-	D3DXMatrixTranslation(&toCameraView, -Camera::GetInstance()->GetCollisionBox().left, -Camera::GetInstance()->GetCollisionBox().top, 0);
+	D3DXMatrixTranslation(&toCameraView, -(int)Camera::GetInstance()->GetCollisionBox().left, -(int)Camera::GetInstance()->GetCollisionBox().top, 0);
 
 	D3DXMATRIX flip;
 	if (!flipX)
@@ -93,7 +93,11 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 		D3DXMatrixScaling(&flip, -1, 1, 0);
 	}
 
+	D3DXMATRIX rotate;
+	D3DXMatrixRotationAxis(&rotate, &D3DXVECTOR3(0, 0, 1), angle*3.14/180);
+
 	mat *= flip;
+	mat *= rotate;
 	mat *= translate;
 	mat *= toCameraView;
 

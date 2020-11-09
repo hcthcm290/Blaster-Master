@@ -13,7 +13,7 @@ protected:
 	Animator* animator = new Animator();
 
 public:
-	FRECT GetCollisionBox() { return FRECT();}
+	FRECT GetCollisionBox() { return FRECT(x - 1, y - 1, x + 1, y + 1); }
 	D3DVECTOR GetVelocity();
 	void SetVelocity(float vx, float vy) { this->vx = vx; this->vy = vy; }
 };

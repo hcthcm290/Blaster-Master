@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Textures.h"
 #include "Orb.h"
+#include "Floater.h"
 #include "Jumper.h"
 #include "Jason.h"
 #include "Insect.h"
@@ -19,9 +20,16 @@
 #include "CollisionSystem.h"
 #include "ColliableBrick.h"
 #include "Camera.h"
+#include "Mine.h"
+#include "Dome.h"
 #include <execution>
 #include <algorithm>
 #include "Bullet_Jason.h"
+
+#include "Sophia.h"
+#include "Skull.h"
+#include "Worm.h"
+#include "Skull_Bullet.h"
 
 using namespace std;
 
@@ -135,18 +143,38 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		dynamic_cast<StaticObject*>(obj)->SetSpriteID(-1);
 		mapBackground = dynamic_cast<StaticObject*>(obj);
 		return;
-	case 0:
-		obj = new Orb();
-		player = dynamic_cast<DynamicObject*>(obj);
-		break;
 	case 1:
 		obj = new Jumper();
 		break;
 	case 3:
-		obj = new Jason();
+		obj = new Mine();
 		break;
 	case 4:
-		obj = new Insect();
+	{
+		int gravity = atoi(tokens[3].c_str());
+		int direction = atoi(tokens[4].c_str());
+
+		obj = new Dome(gravity, direction);
+		break;
+	}
+	case 9:
+		obj = new Orb();
+		player = dynamic_cast<DynamicObject*>(obj);
+	case -999:
+		obj = new Jason();
+		break;
+	case 98:
+		obj = new Sophia();
+		player = dynamic_cast<DynamicObject*>(obj);
+		break;
+	case 5:
+		obj = new Worm();
+		break;
+	case 7:
+		obj = new Skull();
+		break;
+	case 2:
+		obj = new Floater();
 		break;
 	}
 
@@ -251,6 +279,32 @@ void CPlayScene::AddGameObjectToScene(CGameObject* obj)
 	sceneObjects[mapBlockID].emplace_back(obj);
 }
 
+void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
+{
+	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
+
+	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+
+	if (e != sceneObjects[mapBlockID].end())
+	{
+		sceneObjects[mapBlockID].erase(e);
+		return;
+	}
+	else
+	{
+		for (auto& block : sceneObjects)
+		{
+			auto e = std::find(block.second.begin(), block.second.end(), obj);
+
+			if (e != block.second.end())
+			{
+				block.second.erase(e);
+				return;
+			}
+		}
+	}
+}
+
 int CPlayScene::GetMapBlockID(float x, float y)
 {
 	auto xyz = (x / MAP_BLOCK_WIDTH);
@@ -329,12 +383,16 @@ vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 									cameraRECT.right / MAP_BLOCK_WIDTH,
 									cameraRECT.bottom / MAP_BLOCK_HEIGHT);
 
+	int count = 0;
+
 	for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
 	{
 		for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
 		{
 			for (auto object : sceneObjects[x * 1000 + y])
 			{
+				if (dynamic_cast<Skull_Bullet*>(object) != NULL)	count++;
+
 				if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
 				{
 					onScreenObjs.emplace_back(object);
@@ -342,6 +400,9 @@ vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 			}
 		}
 	}
+
+	// TODO : DELETE THIS DEBUG //
+	DebugOut(L"Number of skull bullets: %d\n", count);
 
 	return onScreenObjs;
 }
@@ -353,6 +414,8 @@ void CPlayScene::Update(DWORD dw_dt)
 	float dt = (float)(dw_dt);
 	dt /= 1000;
 
+	if (dt > 0.1) dt = 0.1;
+
 	if (dt == 0) return;
 
 	// Update for all the game object
@@ -363,7 +426,14 @@ void CPlayScene::Update(DWORD dw_dt)
 
 	for (int i = 0; i < onSCeneObjs.size(); i++)
 	{
-		if(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)) == 0) continue; // if it not moving, we don't need to docollision for it
+		if (dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)) == NULL)
+		{
+			continue; // if it not moving, we don't need to docollision for it
+		}
+		else if(D3DXVECTOR3(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0,0,0))
+		{
+			continue;
+		}
 		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)), &onSCeneObjs, dt);
 	}
 
@@ -388,7 +458,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	//mapBackground->Render();
+	mapBackground->Render();
 
 	for (int i = 0; i < onSCeneObjs.size(); i++)
 		onSCeneObjs[i]->Render();
@@ -406,16 +476,4 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
-}
-
-void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
-{
-	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
-
-	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
-
-	if (e != sceneObjects[mapBlockID].end())
-	{
-		sceneObjects[mapBlockID].erase(e);
-	}
 }
