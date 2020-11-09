@@ -23,6 +23,7 @@
 #include "Dome.h"
 #include <execution>
 #include <algorithm>
+#include "Bullet_Jason.h"
 
 #include "Sophia.h"
 #include "Skull.h"

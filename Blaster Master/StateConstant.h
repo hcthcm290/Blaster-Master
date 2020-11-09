@@ -28,4 +28,7 @@ public:
 	static const int _FLOATER_SPEED_ = 40;
 	static const int _FLOATER_BULLET_ = 22203;
 #pragma endregion
+
+#pragma region Jason_Bullet
+	static const int _BULLET_JASON_ = 21501;
 };
