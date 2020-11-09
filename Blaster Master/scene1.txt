@@ -11,10 +11,10 @@
 10	textures\10_Teleporter.png	255	0	255
 11	textures\11_Canon.png	255	0	255
 12	textures\12_Eyeball.png	255	0	255
-999	textures\P2_Jason.png	255	255	255
-998	textures\P1_Sophia.png	255	255	255
-100	textures\100-stuff.png	255	255	255
-71	textures\71_BlackBullet.png	255	255	255
+999	textures\P2_Jason.png	255	0	255
+998	textures\P1_Sophia.png	255	0	255
+100	textures\100-stuff.png	255	0	255
+71	textures\71_BlackBullet.png	255	0	255
 13	textures\13_MineBullet.png	255	0	255
 14	textures\14_MineExplosion.png	255	0	255
 -1	textures\level2-side.png	255	0	255
