@@ -2,20 +2,19 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "CollisionSystem.h"
-class Skull :
+class Skull_Bullet :
     public DynamicObject
 {
-	bool flipX;
-	int state;
-public:
-	bool sleep;
+protected:
 	DWORD last;
-
-	Skull();
+	int state;
+	bool ex;
+public:
+	Skull_Bullet();
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
+	void Explode();
 	void Update(float dt);
 	void Render();
-	void DropBomb();
 };
 

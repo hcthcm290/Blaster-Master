@@ -22,6 +22,10 @@
 #include <execution>
 #include <algorithm>
 
+#include "Sophia.h"
+#include "Skull.h"
+#include "Worm.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
@@ -136,13 +140,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		return;
 	case 0:
 		obj = new Orb();
-		player = dynamic_cast<DynamicObject*>(obj);
+		//player = dynamic_cast<DynamicObject*>(obj);
 		break;
 	case 1:
 		obj = new Jumper();
 		break;
 	case 3:
 		obj = new Jason();
+		break;
+	case 98:
+		obj = new Sophia();
+		player = dynamic_cast<DynamicObject*>(obj);
+		break;
+	case 5:
+		obj = new Worm();
+		break;
+	case 7:
+		obj = new Skull();
 		break;
 	case 4:
 		obj = new Floater();
@@ -389,7 +403,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	//mapBackground->Render();
+	mapBackground->Render();
 
 	for (int i = 0; i < onSCeneObjs.size(); i++)
 		onSCeneObjs[i]->Render();
@@ -432,4 +446,16 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
+}
+
+void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
+{
+	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
+
+	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+
+	if (e != sceneObjects[mapBlockID].end())
+	{
+		sceneObjects[mapBlockID].erase(e);
+	}
 }
