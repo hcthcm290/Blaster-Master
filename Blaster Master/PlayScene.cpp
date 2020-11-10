@@ -393,15 +393,12 @@ vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 		}
 	}
 
-	// TODO : DELETE THIS DEBUG //
-	DebugOut(L"Number of skull bullets: %d\n", count);
-
 	return onScreenObjs;
 }
 
 void CPlayScene::Update(DWORD dw_dt)
 {
-	onSCeneObjs = GetOnScreenObjs();
+	onScreenObjs = GetOnScreenObjs();
 
 	float dt = (float)(dw_dt);
 	dt /= 1000;
@@ -411,49 +408,64 @@ void CPlayScene::Update(DWORD dw_dt)
 	if (dt == 0) return;
 
 	// Update for all the game object
-	for (auto obj : onSCeneObjs)
+	for (auto obj : onScreenObjs)
 	{
 		obj->Update(dt);
 	}
 
-	for (int i = 0; i < onSCeneObjs.size(); i++)
+	for (int i = 0; i < onScreenObjs.size(); i++)
 	{
-		if (dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)) == NULL)
+		if (dynamic_cast<DynamicObject*>(onScreenObjs.at(i)) == NULL)
 		{
 			continue; // if it not moving, we don't need to docollision for it
 		}
-		else if(D3DXVECTOR3(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0,0,0))
+		else if(D3DXVECTOR3(dynamic_cast<DynamicObject*>(onScreenObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0,0,0))
 		{
 			continue;
 		}
-		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)), &onSCeneObjs, dt);
+		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onScreenObjs.at(i)), &onScreenObjs, dt);
 	}
 
 	ApllyVelocityToGameObjs(dt);
 
 	Camera::GetInstance()->Update(dt);
+
+	DebugOut(L"Camera position x: %f\n", Camera::GetInstance()->GetCollisionBox().left);
 }
 
 void CPlayScene::ApllyVelocityToGameObjs(float dt)
 {
-	for (auto obj : onSCeneObjs)
+	for (auto obj : onScreenObjs)
 	{
+		int oldMapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
+
 		if (dynamic_cast<DynamicObject*>(obj) == NULL) continue;
 		D3DXVECTOR3 position = obj->GetPosition();
 		D3DXVECTOR3 velocity = dynamic_cast<DynamicObject*>(obj)->GetVelocity();
 
 		position = position + dt*velocity;
 
-		obj->SetPosition(position.x, position.y);
+		int newMapBlockID = GetMapBlockID(position.x, position.y);
+
+		if (oldMapBlockID != newMapBlockID)
+		{
+			RemoveGameObjectFromScene(obj);		
+			obj->SetPosition(position.x, position.y);
+			AddGameObjectToScene(obj);
+		}
+		else
+		{
+			obj->SetPosition(position.x, position.y);
+		}
 	}
 }
 
 void CPlayScene::Render()
 {
-	//mapBackground->Render();
+	mapBackground->Render();
 
-	for (int i = 0; i < onSCeneObjs.size(); i++)
-		onSCeneObjs[i]->Render();
+	for (int i = 0; i < onScreenObjs.size(); i++)
+		onScreenObjs[i]->Render();
 }
 
 /*

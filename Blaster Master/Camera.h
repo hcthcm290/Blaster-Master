@@ -12,7 +12,7 @@ private:
 	int width = 400;
 	int height = 300;
 
-	FRECT boundary = FRECT(1024, 1024, 2000, 2000);
+	FRECT boundary = FRECT(1024, 1024, 2032, 2032);
 
 	/// <summary>
 	/// The area in camera let player move freely without change the camera position
@@ -57,10 +57,10 @@ public:
 	FRECT GetCollisionBox() 
 	{
 		FRECT colRect;
-		colRect.left = x - width / 2;
-		colRect.right = x + width / 2;
-		colRect.top = y - height / 2;
-		colRect.bottom = y + height / 2;
+		colRect.left = int(x - width / 2);
+		colRect.right = int(x + width / 2);
+		colRect.top = int(y - height / 2);
+		colRect.bottom = int(y + height / 2);
 
 		return colRect;
 	}
@@ -75,4 +75,6 @@ public:
 	{
 		__instance->boundary = boundary;
 	}
+
+	D3DVECTOR GetPosition();
 };

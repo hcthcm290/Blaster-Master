@@ -14,7 +14,7 @@ protected:
 
 	unordered_map<int, vector<CGameObject*>> sceneObjects;
 
-	vector<CGameObject*> onSCeneObjs;
+	vector<CGameObject*> onScreenObjs;
 
 	StaticObject* mapBackground;
 
