@@ -4,7 +4,7 @@
 #include "Jason.h"
 #include "CollisionSystem.h"
 
-class Sophia : public DynamicObject, public RigidBody
+class Sophia : public DynamicObject
 {
 	bool onTheGround = true;
 	bool canJump = false;

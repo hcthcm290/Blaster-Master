@@ -3,6 +3,7 @@
 #include "Debug.h"
 #include "PlayScene.h"
 #include "Bullet_Jason.h"
+#include "ColliableBrick.h"
 #include "Sophia.h"
 
 Jason::Jason() {
@@ -209,6 +210,7 @@ void Jason::OnCollisionEnter(CollisionEvent e) {
 		}
 	}
 	*/
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject) == NULL) return;
 
 	//first this can only handle collision with environment
 	enviColX = (e.nx != 0 ? e.nx : enviColX);

@@ -23,7 +23,7 @@ public:
 	}
 };
 
-class Jason : public DynamicObject, public RigidBody
+class Jason : public DynamicObject
 {
 private:
 	//bacic properties

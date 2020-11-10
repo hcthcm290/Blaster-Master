@@ -2,6 +2,7 @@
 #include "StateConstant.h"
 #include "Debug.h"
 #include "DynamicObject.h"
+#include "ColliableBrick.h"
 
 Insect::Insect() {
 	animator = new Animator();
@@ -15,22 +16,28 @@ void Insect::Update(float dt)
 	ColY = 0;
 
 	//update vx vy
-	vx = 50 * (flipX ? -1 : 1);
+	vx = 20 * (flipX ? 1 : -1);
 	vy += 100 * dt;
 
 	//update vx vy up to state
 	switch ( state )
 	{
+	case Forceburst:
+		vy = abs(vx) * (-4);
+		break;
 	case GoUp:
-		if (vy >= 0) vy -= 100;
+		//do nothing
 		break;
 	case HoldHeight:
-		vy = 10;
+		vy = abs(vx / 2);
 		break;
 	case FallDown:
-		vy += 50;
+		vy = 200; //fall down faster
+		vx /= 4;
 		break;
 	}
+
+	//DebugOut(L"%f\n", vy);
 }
 
 void Insect::Render()
@@ -44,54 +51,53 @@ FRECT Insect::GetCollisionBox() {
 }
 
 void Insect::OnCollisionEnter(CollisionEvent e) {
-	if (dynamic_cast<DynamicObject*>(e.pGameObject)) return;
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject) == NULL) return;
 
 	ColX = (e.nx != 0 ? e.nx : ColX);
 	ColY = (e.ny != 0 ? e.ny : ColY);
 	//DebugOut(L"OUCH !!\n");
-
-	if (ColX != 0) 
-		flipX = !flipX;
 }
 
 void Insect::SetNextState() {
+	if (ColX != 0) flipX = !flipX;
+
 	InsectState newState = state;
 	DWORD thisTime = GetTickCount64();
 	switch (state)
 	{
-	case GoUp:
-		if (vy < 0 && ColY > 0) newState = FallDown;
-		else if (vy > 0) {
-			lastTime = thisTime;
-			newState = HoldHeight;
+		case Forceburst: {
+			newState = GoUp;
+			break;
+			//DebugOut(L"GoUp\n");
 		}
-		break;
-	case HoldHeight:
-		if (thisTime >= lastTime + 4000 || ColY < 0)
-			newState = GoUp;
-		break;
-	case FallDown:
-		if (ColY < 0)
-			newState = GoUp;
-		break;
+		case GoUp: {
+			if (ColY > 0) {
+				newState = FallDown;
+				//DebugOut(L"FallDown\n");
+			}
+			else if (vy >= 0) {
+				lastHoldHeightTime = thisTime;
+				newState = HoldHeight;
+				//DebugOut(L"HoldHeight\n");
+			}
+			break;
+		}
+		case HoldHeight: {
+			if (thisTime >= lastHoldHeightTime + 1000 || ColY < 0) {
+				newState = Forceburst;
+				//DebugOut(L"ForeBurst\n");
+			}
+				
+			break;
+		}
+		case FallDown: {
+			if (ColY < 0) {
+				newState = Forceburst;
+				//DebugOut(L"ForeBurst\n");
+			}
+			break;
+		}
 	}
 	
-	//debug
-	/**
-	if (newState != state) {
-		switch (newState) {
-		case GoUp:
-			DebugOut(L"GoUp\n");
-			break;
-		case HoldHeight:
-			DebugOut(L"HoldHeight\n");
-			break;
-		case FallDown:
-			DebugOut(L"FallDown\n");
-			break;
-		}
-	}
-	*/
-
 	state = newState;
 }
