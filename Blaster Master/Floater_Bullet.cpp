@@ -37,10 +37,10 @@ void Floater_Bullet::Render()
 FRECT Floater_Bullet::GetCollisionBox()
 {
 	FRECT colRect;
-	colRect.left = x - 5;
-	colRect.right = x + 5;
-	colRect.top = y - 5;
-	colRect.bottom = y + 5;
+	colRect.left = x - 2;
+	colRect.right = x + 2;
+	colRect.top = y - 2;
+	colRect.bottom = y + 2;
 
 	return colRect;
 }
