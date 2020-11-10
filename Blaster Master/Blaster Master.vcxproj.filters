@@ -103,6 +103,9 @@
     <ClCompile Include="Explosive.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="Sophia_Bullet_1.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h">
@@ -214,6 +217,9 @@
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Explosive.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia_Bullet_1.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
   </ItemGroup>

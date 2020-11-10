@@ -19,6 +19,7 @@ class Sophia : public DynamicObject, public RigidBody
 	bool last_flipX;
 	bool gun_turn;
 	DWORD start_shift;
+	DWORD last_bullet;
 public:
 	Sophia();
 	FRECT GetCollisionBox();

@@ -188,6 +188,7 @@
     <ClCompile Include="Skull.cpp" />
     <ClCompile Include="Skull_Bullet.cpp" />
     <ClCompile Include="Sophia.cpp" />
+    <ClCompile Include="Sophia_Bullet_1.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="Teleporter.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Skull.h" />
     <ClInclude Include="Skull_Bullet.h" />
     <ClInclude Include="Sophia.h" />
+    <ClInclude Include="Sophia_Bullet_1.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="StateConstant.h" />
     <ClInclude Include="StaticObject.h" />

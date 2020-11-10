@@ -15,8 +15,8 @@ FRECT Worm::GetCollisionBox()
 	FRECT colRect;
 	colRect.left = this->x - 18 / 2;
 	colRect.right = this->x + 18 / 2;
-	colRect.top = this->y - 12 / 2;
-	colRect.bottom = this->y + 10 / 2;
+	colRect.top = this->y - 4 / 2;
+	colRect.bottom = this->y + 6 / 2;
 	return colRect;
 }
 

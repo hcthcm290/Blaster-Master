@@ -1,6 +1,8 @@
 #include "Sophia.h"
 #include "Animator_Sophia.h"
 #include "Debug.h"
+#include "Sophia_Bullet_1.h"
+#include "PlayScene.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -38,6 +40,8 @@ Sophia::Sophia()
 	start_gunturn = 0;
 	//flipX
 	last_flipX = false;
+	//bullet
+	last_bullet = GetTickCount();
 	//state
 	state = STATE_SOPHIA_IDLE;
 	//animator
@@ -222,6 +226,21 @@ void Sophia::Update(float dt)
 				gun_turn = false;
 			}
 		}
+		if (DInput::KeyPress(DIK_Z))
+		{
+			if (now - last_bullet > 300 && (new Sophia_Bullet_1)->count < 3)
+			{
+				last_bullet = now;
+				bool up = false;
+				if (gun_up == 90)
+				{
+					up = true;
+				}
+				auto bullet = new Sophia_Bullet_1(up, !flipX);
+				bullet->SetPosition(x, y);
+				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
+			}
+		}
 		StateChange();
 		last_flipX = flipX;
 		if (onTheGround && DInput::KeyPress(DIK_LSHIFT))
@@ -399,7 +418,7 @@ void Sophia::Render()
 		}
 	}
 	//DebugOut(L"%d\n", state);
-	if (state == STATE_SOPHIA_SHIFT)
+	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
 		animator->Draw(state, sx, sy, flipX);
 	}

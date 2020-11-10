@@ -428,5 +428,19 @@ void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 	if (e != sceneObjects[mapBlockID].end())
 	{
 		sceneObjects[mapBlockID].erase(e);
+		return;
+	}
+	else
+	{
+		for (auto& block : sceneObjects)
+		{
+			auto e = std::find(block.second.begin(), block.second.end(), obj);
+
+			if (e != block.second.end())
+			{
+				block.second.erase(e);
+				return;
+			}
+		}
 	}
 }
