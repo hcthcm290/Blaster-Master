@@ -70,8 +70,18 @@ void Orb::Update(float dt)
 	}
 	if (waitForChange >= 5)
 	{
-		this->state=orbUOD;
+		this->state = orbUOD;
 		waitForChange = 0;
+		if (hitWall)
+		{
+			hitWall = false;
+		}
+		else
+		{
+			float random = RandomFloat(-1, 1);
+			if (random < 0) ver_direction = -1;
+			else ver_direction = 1;
+		}
 		vy = ver_direction * orbSpeed;
 		vx = 0;
 	}

@@ -40,5 +40,8 @@ public:
 	static const int _AGR_ORB_FLY_ = 20912;
 #pragma endregion
 
+#pragma region Spike
+	static const int _SPIKE_ = 12301;
+#pragma endregion
 
 };

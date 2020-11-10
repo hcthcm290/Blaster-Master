@@ -25,7 +25,7 @@
 #include <execution>
 #include <algorithm>
 #include "Bullet_Jason.h"
-
+#include "Spike.h"
 #include "Sophia.h"
 #include "Skull.h"
 #include "Worm.h"
@@ -179,6 +179,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 99:
 		obj = new AGR_Orb();
 		break;
+	case 23:
+		int rotation = atoi(tokens[3].c_str());
+		obj = new Spike(rotation);
+		return;
 	}
 
 	// General object setup
@@ -461,7 +465,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	mapBackground->Render();
+	//mapBackground->Render();
 
 	for (int i = 0; i < onSCeneObjs.size(); i++)
 		onSCeneObjs[i]->Render();
