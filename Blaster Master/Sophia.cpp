@@ -1,6 +1,7 @@
 #include "Sophia.h"
 #include "Animator_Sophia.h"
 #include "Debug.h"
+#include "ColliableBrick.h"
 #include "PlayScene.h"
 
 #define STATE_SOPHIA_IDLE 29801
@@ -131,15 +132,19 @@ FRECT Sophia::GetCollisionBox()
 
 void Sophia::OnCollisionEnter(CollisionEvent e)
 {
-	if (e.ny < 0)
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject) != nullptr)
 	{
-		//vy = 0;
-		onTheGround = true;
+		if (e.ny < 0)
+		{
+			//vy = 0;
+			onTheGround = true;
+		}
 	}
 }
 
 void Sophia::Update(float dt)
 {
+
 	DWORD now = GetTickCount();
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
@@ -153,6 +158,14 @@ void Sophia::Update(float dt)
 	}
 	else
 	{
+		//reset position
+		if (DInput::GetInstance()->KeyPress(DIK_R)) {
+			x = 1120;
+			y = 1136;
+			state = STATE_SOPHIA_IDLE;
+			return;
+		}
+
 		vy += 300 * dt;
 
 		if (DInput::KeyPress(DIK_LEFT))
