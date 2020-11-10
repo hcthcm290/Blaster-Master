@@ -161,9 +161,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Animator_Floater.cpp" />
     <ClCompile Include="Animator_Jumper.cpp" />
+    <ClCompile Include="Animator_Mine_Explosion.cpp" />
     <ClCompile Include="Animator_Sophia.cpp" />
+    <ClCompile Include="Behavior.cpp" />
+    <ClCompile Include="Behavior_Jason.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="Canon.cpp" />
     <ClCompile Include="Animator_Jason.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -176,6 +181,7 @@
     <ClCompile Include="Explosive.cpp" />
     <ClCompile Include="Eyeball.cpp" />
     <ClCompile Include="Floater.cpp" />
+    <ClCompile Include="Floater_Bullet.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Insect.cpp" />
@@ -183,6 +189,8 @@
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="MineBullet.cpp" />
+    <ClCompile Include="Mine_Explosion.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -199,8 +207,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="Animator_Floater.h" />
+    <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Animator_Sophia.h" />
+    <ClInclude Include="Behavior.h" />
+    <ClInclude Include="Behavior_Jason.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_Jason.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColliableBrick.h" />
     <ClInclude Include="CollisionEvent.h" />
@@ -215,6 +228,7 @@
     <ClInclude Include="Explosive.h" />
     <ClInclude Include="Eyeball.h" />
     <ClInclude Include="Floater.h" />
+    <ClInclude Include="Floater_Bullet.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DynamicObject.h" />
@@ -222,6 +236,8 @@
     <ClInclude Include="Jason.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Mine.h" />
+    <ClInclude Include="MineBullet.h" />
+    <ClInclude Include="Mine_Explosion.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="RECT.h" />
