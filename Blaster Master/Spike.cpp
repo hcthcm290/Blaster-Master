@@ -7,9 +7,8 @@
 
 Spike::Spike(int x)
 {
-	if (x<0) 	int flipRotation = -180;
+	if (x<0) flipRotation = -180;
 	state = spikeSprite;
-	this->SetPosition(x, y);
 }
 
 FRECT Spike::GetCollisionBox()

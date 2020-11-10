@@ -182,7 +182,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 23:
 		int rotation = atoi(tokens[3].c_str());
 		obj = new Spike(rotation);
-		return;
+		obj->SetPosition(x, y);
+		break;
 	}
 
 	// General object setup
