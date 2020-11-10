@@ -3,9 +3,10 @@
 #include "Scene.h"
 #include "DynamicObject.h"
 #include "StaticObject.h"
+#include "BigGate.h"
 
-#define MAP_BLOCK_WIDTH 320
-#define MAP_BLOCK_HEIGHT 320
+#define MAP_BLOCK_WIDTH 2000
+#define MAP_BLOCK_HEIGHT 2000
 
 class CPlayScene : public CScene
 {
@@ -17,6 +18,12 @@ protected:
 	vector<CGameObject*> onScreenObjs;
 
 	StaticObject* mapBackground;
+
+	BigGate* gate;
+	float countingTime;
+
+
+	int state = State::_PLAYSCENE_FREE_PLAYING_;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -40,4 +47,6 @@ public:
 	
 	DynamicObject* GetPlayer() { return player; }
 	void SetPlayer(DynamicObject* newPlayer) { player = newPlayer; }
+
+	void SwitchSection(BigGate* gate);
 };

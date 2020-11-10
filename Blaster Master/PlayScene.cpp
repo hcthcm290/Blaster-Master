@@ -25,7 +25,7 @@
 #include <execution>
 #include <algorithm>
 #include "Bullet_Jason.h"
-
+#include "BigGate.h"
 #include "Sophia.h"
 #include "Skull.h"
 #include "Worm.h"
@@ -159,6 +159,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case 9:
 		obj = new Orb();
+		break;
 		//player = dynamic_cast<DynamicObject*>(obj);
 	case 99:
 		obj = new Jason();
@@ -179,6 +180,22 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 6:
 		obj = new Insect();
 		break;
+	case 77:
+	{
+		BigGate* bg = new BigGate();
+		bg->shift_direction = D3DXVECTOR2(atoi(tokens[3].c_str()), atoi(tokens[4].c_str()));
+
+		bg->shift_time1 = atoi(tokens[5].c_str());
+		bg->shift_time2 = atoi(tokens[6].c_str());
+
+		bg->teleport_delta = D3DXVECTOR2(atoi(tokens[7].c_str()), atoi(tokens[8].c_str()));
+		bg->new_boundary_camera = FRECT(atoi(tokens[9].c_str()), atoi(tokens[10].c_str()), atoi(tokens[11].c_str()), atoi(tokens[12].c_str()));
+
+		//bg->shift_speed = atoi(tokens[13].c_str());
+
+		obj = bg;
+		break;
+	}
 	}
 
 	// General object setup
@@ -256,7 +273,7 @@ void CPlayScene::_ParseSection_MAP(string line)
 					CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
 				}
 
-				if (tileid == 0 || tileid == 2 || tileid == 3 || tileid == 12 || tileid == 132 || tileid == 133 || tileid == 134)
+				if (tileid == 0 || tileid == 1 || tileid == 2 || tileid == 3 || tileid == 12 || tileid == 132 || tileid == 133 || tileid == 134)
 				{
 					ColliableBrick* brick = new ColliableBrick();
 					brick->SetPosition(x * tilewidth, y * tileheight);
@@ -413,35 +430,47 @@ void CPlayScene::Update(DWORD dw_dt)
 
 	float dt = (float)(dw_dt);
 	dt /= 1000;
-	
-	if (dt > 0.1) dt = 0.1;
 
-	if (dt == 0) return;
-
-	// Update for all the game object
-	for (auto obj : onScreenObjs)
+	if (state == State::_PLAYSCENE_FREE_PLAYING_)
 	{
-		obj->Update(dt);
-	}
+		if (dt > 0.1) dt = 0.1;
 
-	for (int i = 0; i < onScreenObjs.size(); i++)
+		if (dt == 0) return;
+
+		// Update for all the game object
+		for (auto obj : onScreenObjs)
+		{
+			obj->Update(dt);
+		}
+
+		for (int i = 0; i < onScreenObjs.size(); i++)
+		{
+			if (dynamic_cast<DynamicObject*>(onScreenObjs.at(i)) == NULL)
+			{
+				continue; // if it not moving, we don't need to docollision for it
+			}
+			else if (D3DXVECTOR3(dynamic_cast<DynamicObject*>(onScreenObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0, 0, 0))
+			{
+				continue;
+			}
+			CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onScreenObjs.at(i)), &onScreenObjs, dt);
+		}
+
+		ApllyVelocityToGameObjs(dt);
+
+		Camera::GetInstance()->Update(dt);
+	}
+	else if (state == State::_PLAYSCENE_SWITCH_SECTION)
 	{
-		if (dynamic_cast<DynamicObject*>(onScreenObjs.at(i)) == NULL)
+		countingTime += dt;
+
+		if (countingTime < 2)
 		{
-			continue; // if it not moving, we don't need to docollision for it
+			player->SetPosition(player->GetPosition().x + 50 * dt, player->GetPosition().y);
 		}
-		else if(D3DXVECTOR3(dynamic_cast<DynamicObject*>(onScreenObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0,0,0))
-		{
-			continue;
-		}
-		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onScreenObjs.at(i)), &onScreenObjs, dt);
+		//Camera::GetInstance()->Update(dt);
+
 	}
-
-	ApllyVelocityToGameObjs(dt);
-
-	Camera::GetInstance()->Update(dt);
-
-	DebugOut(L"Camera position x: %f\n", Camera::GetInstance()->GetCollisionBox().left);
 }
 
 void CPlayScene::ApllyVelocityToGameObjs(float dt)
@@ -491,4 +520,11 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
+}
+
+void CPlayScene::SwitchSection(BigGate* gate)
+{
+	this->gate = gate;
+	this->state = State::_PLAYSCENE_SWITCH_SECTION;
+	countingTime = 0;
 }

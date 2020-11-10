@@ -7,7 +7,7 @@ class StaticObject : public CGameObject
 
 public:
 	void SetSpriteID(int spriteID) { this->spriteID = spriteID; }
-	FRECT GetCollisionBox() { return FRECT(); }
-	void Update(float dt);
-	void Render();
+	virtual FRECT GetCollisionBox() { return FRECT(); }
+	virtual void Update(float dt);
+	virtual void Render();
 };

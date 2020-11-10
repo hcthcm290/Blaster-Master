@@ -10,9 +10,9 @@ private:
 	CGameObject* target;
 
 	int width = 400;
-	int height = 300;
+	int height = 200;
 
-	FRECT boundary = FRECT(1024, 1024, 2032, 2000);
+	FRECT boundary = FRECT(0, 1008, 1024, 3024);
 
 	/// <summary>
 	/// The area in camera let player move freely without change the camera position

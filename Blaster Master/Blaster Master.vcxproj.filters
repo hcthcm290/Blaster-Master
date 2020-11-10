@@ -121,6 +121,7 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BigGate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -253,6 +254,9 @@
       <Filter>Header Files\Playable</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BigGate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
