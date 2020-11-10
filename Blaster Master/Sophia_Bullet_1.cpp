@@ -3,6 +3,7 @@
 #include "Debug.h"
 #include "Sophia.h"
 #include "Sophia_Bullet_1.h"
+#include "Skull_Bullet.h"
 #include "Explosive.h"
 
 #define SOPHIA_BULLET_LR 29701
@@ -44,7 +45,6 @@ Sophia_Bullet_1::Sophia_Bullet_1(bool up, bool flipX)
 	//boolean
 	ex = false;
 	count++;
-	DebugOut(L"%d\n", count);
 }
 
 FRECT Sophia_Bullet_1::GetCollisionBox()
@@ -70,8 +70,16 @@ FRECT Sophia_Bullet_1::GetCollisionBox()
 
 void Sophia_Bullet_1::OnCollisionEnter(CollisionEvent e)
 {
+	//CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	//e.pGameObject lay va cham goi ham tinh sat thuong
-	ex = true;
+	if (dynamic_cast<Bullet*>(e.pGameObject) != nullptr)
+	{
+		DebugOut(L"No damage\n");
+	}
+	else
+	{
+		ex = true;
+	}
 }
 
 void Sophia_Bullet_1::Update(float dt)
@@ -110,7 +118,21 @@ void Sophia_Bullet_1::Update(float dt)
 void Sophia_Bullet_1::Explode()
 {
 	auto explode = new Explosive();
-	explode->SetPosition(x, y);
+	if (up)
+	{
+		explode->SetPosition(x, y - 4);
+	}
+	else
+	{
+		if (flipX)
+		{
+			explode->SetPosition(x + 4, y);
+		}
+		else
+		{
+			explode->SetPosition(x - 4, y);
+		}
+	}
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);
 	count--;
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
