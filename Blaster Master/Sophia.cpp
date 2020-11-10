@@ -1,6 +1,7 @@
 #include "Sophia.h"
 #include "Animator_Sophia.h"
 #include "Debug.h"
+#include "PlayScene.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -142,6 +143,9 @@ void Sophia::Update(float dt)
 	DWORD now = GetTickCount();
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
+		vx = 0;
+		vy = 0;
+		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
 		if (now - start_shift > 300)
 		{
 			state = STATE_SOPHIA_SLEEP;
@@ -169,14 +173,14 @@ void Sophia::Update(float dt)
 			moving = false;
 		}
 
-		if (DInput::KeyPress(DIK_SPACE) && canJump)
+		if (DInput::KeyPress(DIK_X) && canJump)
 		{
 			vy = -150;
 			onTheGround = false;
 			canJump = false;
 		}
 
-		if (onTheGround && !DInput::KeyPress(DIK_SPACE))
+		if (onTheGround && !DInput::KeyPress(DIK_X))
 		{
 			canJump = true;
 		}
@@ -224,8 +228,11 @@ void Sophia::Update(float dt)
 		}
 		StateChange();
 		last_flipX = flipX;
-		if (onTheGround && DInput::KeyPress(DIK_LSHIFT))
+		if (onTheGround && DInput::KeyUp(DIK_LSHIFT))
 		{
+			jason = new Jason(JasonCurrentHealth, x, y - 10, this);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(jason);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(jason);
 			state = STATE_SOPHIA_SHIFT;
 			start_shift = now;
 		}
@@ -399,12 +406,17 @@ void Sophia::Render()
 		}
 	}
 	//DebugOut(L"%d\n", state);
-	if (state == STATE_SOPHIA_SHIFT)
+	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
-		animator->Draw(state, sx, sy, flipX);
+		animator->Draw(state, sx, sy, flipX);	
 	}
 	else
 	{
 		animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel - 1, sx, sy, flipX);
 	}
+}
+
+void Sophia::Awake(int JasonHealth) {
+	JasonCurrentHealth = JasonHealth;
+	state = STATE_SOPHIA_IDLE;
 }

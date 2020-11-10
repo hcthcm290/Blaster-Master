@@ -3,9 +3,9 @@
 #include "Debug.h"
 #include "Sophia.h"
 #include "Skull_Bullet.h"
+#include "Explosive.h"
 
 #define SKULL_BULLET_MOVE 27101;
-#define SKULL_BULLET_EX 27201;
 
 Skull_Bullet::Skull_Bullet()
 {
@@ -17,7 +17,6 @@ Skull_Bullet::Skull_Bullet()
 	ex = false;
 	//animator
 	animator->AddAnimation(27101);
-	animator->AddAnimation(27201);
 }
 
 FRECT Skull_Bullet::GetCollisionBox()
@@ -45,14 +44,12 @@ void Skull_Bullet::Update(float dt)
 		{
 			// Set Dmg
 			ex = true;
-			last = GetTickCount();
 		}
 		DWORD now = GetTickCount();
 		vy += 300 * dt;
 		if (now - last > 2000)
 		{
 			ex = true;
-			last = now;
 			return;
 		}
 		float player_x = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
@@ -69,12 +66,11 @@ void Skull_Bullet::Update(float dt)
 
 void Skull_Bullet::Explode()
 {
-	state = SKULL_BULLET_EX;
-	vx = 0;
-	vy = 0;
-	DWORD now = GetTickCount();
-	if(now - last > 600)
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	auto explode = new Explosive();
+	explode->SetPosition(x, y);
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);
+
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 }
 
 void Skull_Bullet::Render()

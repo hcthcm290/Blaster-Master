@@ -1,10 +1,103 @@
 #include "Insect.h"
+#include "StateConstant.h"
+#include "Debug.h"
+#include "DynamicObject.h"
+#include "ColliableBrick.h"
+
+Insect::Insect() {
+	animator = new Animator();
+	animator->AddAnimation(State::_INSECT_);
+}
+
 void Insect::Update(float dt)
 {
+	//reset some variable
+	ColX = 0;
+	ColY = 0;
 
+	//update vx vy
+	vx = 20 * (flipX ? 1 : -1);
+	vy += 100 * dt;
+
+	//update vx vy up to state
+	switch ( state )
+	{
+	case Forceburst:
+		vy = abs(vx) * (-4);
+		break;
+	case GoUp:
+		//do nothing
+		break;
+	case HoldHeight:
+		vy = abs(vx / 2);
+		break;
+	case FallDown:
+		vy = 200; //fall down faster
+		vx /= 4;
+		break;
+	}
+
+	//DebugOut(L"%f\n", vy);
 }
 
 void Insect::Render()
 {
-	//animator.Draw(20902, x, y, false);
+	SetNextState();
+	animator->Draw(State::_INSECT_, x, y, flipX);
+}
+
+FRECT Insect::GetCollisionBox() {
+	return FRECT(x - 9, y - 9, x + 9, y + 9);
+}
+
+void Insect::OnCollisionEnter(CollisionEvent e) {
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject) == NULL) return;
+
+	ColX = (e.nx != 0 ? e.nx : ColX);
+	ColY = (e.ny != 0 ? e.ny : ColY);
+	//DebugOut(L"OUCH !!\n");
+}
+
+void Insect::SetNextState() {
+	if (ColX != 0) flipX = !flipX;
+
+	InsectState newState = state;
+	DWORD thisTime = GetTickCount64();
+	switch (state)
+	{
+		case Forceburst: {
+			newState = GoUp;
+			break;
+			//DebugOut(L"GoUp\n");
+		}
+		case GoUp: {
+			if (ColY > 0) {
+				newState = FallDown;
+				//DebugOut(L"FallDown\n");
+			}
+			else if (vy >= 0) {
+				lastHoldHeightTime = thisTime;
+				newState = HoldHeight;
+				//DebugOut(L"HoldHeight\n");
+			}
+			break;
+		}
+		case HoldHeight: {
+			if (thisTime >= lastHoldHeightTime + 1000 || ColY < 0) {
+				newState = Forceburst;
+				//DebugOut(L"ForeBurst\n");
+			}
+				
+			break;
+		}
+		case FallDown: {
+			if (ColY < 0) {
+				newState = Forceburst;
+				//DebugOut(L"ForeBurst\n");
+			}
+			break;
+		}
+	}
+	
+	state = newState;
 }

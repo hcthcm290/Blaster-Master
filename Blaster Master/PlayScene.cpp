@@ -5,8 +5,10 @@
 #include "Debug.h"
 #include "Textures.h"
 #include "Orb.h"
+#include "Floater.h"
 #include "Jumper.h"
 #include "Jason.h"
+#include "Insect.h"
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
@@ -22,6 +24,7 @@
 #include "Dome.h"
 #include <execution>
 #include <algorithm>
+#include "Bullet_Jason.h"
 
 #include "Sophia.h"
 #include "Skull.h"
@@ -156,7 +159,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case 9:
 		obj = new Orb();
-		player = dynamic_cast<DynamicObject*>(obj);
+		//player = dynamic_cast<DynamicObject*>(obj);
+	case 99:
+		obj = new Jason();
 		break;
 	case 98:
 		obj = new Sophia();
@@ -167,6 +172,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 7:
 		obj = new Skull();
+		break;
+	case 2:
+		obj = new Floater();
+		break;
+	case 6:
+		obj = new Insect();
 		break;
 	}
 
@@ -402,7 +413,7 @@ void CPlayScene::Update(DWORD dw_dt)
 
 	float dt = (float)(dw_dt);
 	dt /= 1000;
-
+	
 	if (dt > 0.1) dt = 0.1;
 
 	if (dt == 0) return;
