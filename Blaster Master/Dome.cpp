@@ -47,7 +47,7 @@ Dome::Dome(int id_gravity, int id_direction)
 
 void Dome::Update(float dt)
 {
-	DebugOut(L"d %f	%f\n", direction.x, direction.y);
+	//DebugOut(L"d %f	%f\n", direction.x, direction.y);
 
 	if (currentState == State::_DOME_WALKING_)
 	{

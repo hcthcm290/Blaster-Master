@@ -405,7 +405,7 @@ vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 	}
 
 	// TODO : DELETE THIS DEBUG //
-	DebugOut(L"Number of skull bullets: %d\n", count);
+	//DebugOut(L"Number of skull bullets: %d\n", count);
 
 	return onScreenObjs;
 }
@@ -416,7 +416,7 @@ void CPlayScene::Update(DWORD dw_dt)
 
 	float dt = (float)(dw_dt);
 	dt /= 1000;
-
+	
 	if (dt > 0.1) dt = 0.1;
 
 	if (dt == 0) return;

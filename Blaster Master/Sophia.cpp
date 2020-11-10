@@ -228,9 +228,9 @@ void Sophia::Update(float dt)
 		}
 		StateChange();
 		last_flipX = flipX;
-		if (onTheGround && DInput::KeyPress(DIK_LSHIFT))
+		if (onTheGround && DInput::KeyUp(DIK_LSHIFT))
 		{
-			jason = new Jason(JasonCurrentHealth, x, y - 10);
+			jason = new Jason(JasonCurrentHealth, x, y - 10, this);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(jason);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(jason);
 			state = STATE_SOPHIA_SHIFT;
@@ -416,6 +416,7 @@ void Sophia::Render()
 	}
 }
 
-void Sophia::Awake() {
+void Sophia::Awake(int JasonHealth) {
+	JasonCurrentHealth = JasonHealth;
 	state = STATE_SOPHIA_IDLE;
 }

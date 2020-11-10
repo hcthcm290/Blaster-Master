@@ -33,6 +33,6 @@ public:
 	void Render();
 	void StateChange();
 
-	void Awake();
+	void Awake(int JasonHealth);
 };
 

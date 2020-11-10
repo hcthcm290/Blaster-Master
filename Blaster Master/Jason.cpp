@@ -11,22 +11,31 @@ Jason::Jason() {
 	health = maxHealth;
 }
 
-Jason::Jason(int currentHealth, int x, int y) {
+Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	animator = new Animator_Jason();
 	state = State::_JASON_JUMP_;
 	this->x = x;
 	this->y = y;
+	this->sophia = sophia;
 	health = currentHealth;
 }
 
 void Jason::Update(float dt)
 {
+	if (DInput::GetInstance()->KeyUp(DIK_LSHIFT) && CollisionSystem::CheckOverlap(this, sophia) ) {
+		dynamic_cast<Sophia*>(sophia)->Awake(health);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(sophia));
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
+
+
+
 	if (health <= 0) return;
 	input->Update();
 
 	UpdateActionRecord();
 
-	vy -= speed * (allowJump && attemptJump);
+	vy -= jumpSpeed * (allowJump && attemptJump);
 	vy += 150 * dt;
 
 	vx = speed * horizontalMove;
@@ -189,12 +198,17 @@ FRECT Jason::GetCollisionBox() {
 }
  
 void Jason::OnCollisionEnter(CollisionEvent e) {
+	/**
 	//check sophia first
-	if (dynamic_cast<Sophia*>(e.pGameObject) && DInput::GetInstance()->KeyUp(DIK_LSHIFT)) {
-		dynamic_cast<Sophia*>(e.pGameObject)->Awake();
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(e.pGameObject));
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	if (dynamic_cast<Sophia*>(e.pGameObject)) {
+		DebugOut(L"Sophia awake pls\n");
+		if (DInput::GetInstance()->KeyPress(DIK_LSHIFT)) {
+			dynamic_cast<Sophia*>(e.pGameObject)->Awake();
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(e.pGameObject));
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+		}
 	}
+	*/
 
 	//first this can only handle collision with environment
 	enviColX = (e.nx != 0 ? e.nx : enviColX);

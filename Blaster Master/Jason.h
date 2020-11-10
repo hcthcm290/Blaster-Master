@@ -33,6 +33,7 @@ private:
 	int health = 6;
 
 	int speed = 100;
+	int jumpSpeed = 40;
 	int flipX = false;
 
 	DWORD lastTakeDamage = 0;
@@ -42,6 +43,7 @@ private:
 	float recoilTime = 500;
 
 	PlayerInput* input = new PlayerInput();
+	DynamicObject* sophia;
 
 	//ACTION RECORD vairable to set new state
 	int horizontalMove;
@@ -60,7 +62,7 @@ private:
 
 public:
 	Jason();
-	Jason(int currentHealth, int x, int y);
+	Jason(int currentHealth, int x, int y, DynamicObject* sophia);
 	void Update(float dt);
 	void Render();
 	FRECT GetCollisionBox();
