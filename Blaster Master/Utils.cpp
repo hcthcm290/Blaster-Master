@@ -49,3 +49,10 @@ LPCWSTR ToLPCWSTR(string st)
 	// delete wcstring   // << can I ? 
 	return w->c_str();
 }
+float RandomFloat(float a, float b) 
+{
+	float random = ((float)rand()) / (float)RAND_MAX;
+	float diff = b - a;
+	float r = random * diff;
+	return a + r;
+}

@@ -21,16 +21,10 @@ CSprites* CSprites::GetInstance()
 	return __instance;
 }
 
-void CSprite::Draw(float x, float y)
+void CSprite::Draw(float x, float y, bool flipX, float rotation)
 {
 	CGame* game = CGame::GetInstance();
-	game->Draw(x, y, texture, left, top, right, bottom);
-}
-
-void CSprite::Draw(float x, float y, bool flipX)
-{
-	CGame* game = CGame::GetInstance();
-	game->Draw(x, y, texture, left, top, right, bottom, flipX);
+	game->Draw(x, y, texture, left, top, right, bottom, flipX, rotation);
 }
 
 void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
@@ -61,34 +55,13 @@ void CAnimation::Add(int spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
-int CAnimation::Render(int currentFrame, float x, float y)
+int CAnimation::Render(int currentFrame, float x, float y, bool flipX, float rotation)
 {
-	DWORD now = GetTickCount64();
-	if (currentFrame == -1)
+	if (currentFrame >= 0 && currentFrame < frames.size())
 	{
-		currentFrame = 0;
-		lastFrameTime = now;
-	}
-	else
-	{
-		DWORD t = frames[currentFrame]->GetTime();
-		if (now - lastFrameTime > t)
-		{
-			currentFrame++;
-			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
-			//DebugOut(L"now: %d, lastFrameTime: %d, t: %d\n", now, lastFrameTime, t);
-		}
-
+		frames[currentFrame]->GetSprite()->Draw(x, y, flipX, rotation);
 	}
 
-	frames[currentFrame]->GetSprite()->Draw(x, y);
-
-	return currentFrame;
-}
-
-int CAnimation::Render(int currentFrame, float x, float y, bool flipX)
-{
 	DWORD now = GetTickCount64();
 	if (currentFrame == -1 || currentFrame >= frames.size())
 	{
@@ -106,8 +79,6 @@ int CAnimation::Render(int currentFrame, float x, float y, bool flipX)
 			if (currentFrame == frames.size()) currentFrame = 0;
 		}
 	}
-
-	frames[currentFrame]->GetSprite()->Draw(x, y, flipX);
 
 	return currentFrame;
 }

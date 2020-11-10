@@ -1,9 +1,10 @@
 #pragma once
 #include "DynamicObject.h"
 #include "RigidBody.h"
+#include "Jason.h"
 #include "CollisionSystem.h"
 
-class Sophia : public DynamicObject, public RigidBody
+class Sophia : public DynamicObject
 {
 	bool onTheGround = true;
 	bool canJump = false;
@@ -20,12 +21,19 @@ class Sophia : public DynamicObject, public RigidBody
 	bool gun_turn;
 	DWORD start_shift;
 	DWORD last_bullet;
+
+	//JASON
+	Jason* jason;
+	int JasonCurrentHealth = 6;
 public:
 	Sophia();
+
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	void Update(float dt);
 	void Render();
 	void StateChange();
+
+	void Awake(int JasonHealth);
 };
 
