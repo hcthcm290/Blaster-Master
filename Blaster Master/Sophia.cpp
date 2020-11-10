@@ -143,6 +143,9 @@ void Sophia::Update(float dt)
 	DWORD now = GetTickCount();
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
+		vx = 0;
+		vy = 0;
+		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
 		if (now - start_shift > 300)
 		{
 			state = STATE_SOPHIA_SLEEP;
@@ -403,9 +406,9 @@ void Sophia::Render()
 		}
 	}
 	//DebugOut(L"%d\n", state);
-	if (state == STATE_SOPHIA_SHIFT)
+	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
-		animator->Draw(state, sx, sy, flipX);
+		animator->Draw(state, sx, sy, flipX);	
 	}
 	else
 	{

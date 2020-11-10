@@ -14,12 +14,12 @@ public:
 	bool jump = false;
 	bool shoot = false;
 	void Update() {
-		up = DInput::GetInstance()->KeyDown(DIK_UP);
-		down = DInput::GetInstance()->KeyDown(DIK_DOWN);
+		up = DInput::GetInstance()->KeyPress(DIK_UP);
+		down = DInput::GetInstance()->KeyPress(DIK_DOWN);
 		left = DInput::GetInstance()->KeyPress(DIK_LEFT);
 		right = DInput::GetInstance()->KeyPress(DIK_RIGHT);
-		jump = DInput::GetInstance()->KeyDown(DIK_X);
-		shoot = DInput::GetInstance()->KeyDown(DIK_Z);
+		jump = DInput::GetInstance()->KeyPress(DIK_X);
+		shoot = DInput::GetInstance()->KeyPress(DIK_Z);
 	}
 };
 

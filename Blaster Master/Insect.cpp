@@ -25,7 +25,7 @@ void Insect::Update(float dt)
 		if (vy >= 0) vy -= 100;
 		break;
 	case HoldHeight:
-		vy = 5;
+		vy = 10;
 		break;
 	case FallDown:
 		vy += 50;
@@ -67,7 +67,7 @@ void Insect::SetNextState() {
 		}
 		break;
 	case HoldHeight:
-		if (thisTime >= lastTime + 2000 || ColY < 0)
+		if (thisTime >= lastTime + 4000 || ColY < 0)
 			newState = GoUp;
 		break;
 	case FallDown:
@@ -75,7 +75,7 @@ void Insect::SetNextState() {
 			newState = GoUp;
 		break;
 	}
-
+	
 	//debug
 	/**
 	if (newState != state) {

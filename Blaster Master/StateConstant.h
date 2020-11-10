@@ -32,7 +32,7 @@ public:
 #pragma endregion
 
 #pragma region Jason_Bullet
-	static const int _BULLET_JASON_	=	21501;
+	static const int _BULLET_JASON_	=	26901;
 #pragma endregion
 
 #pragma region Insect

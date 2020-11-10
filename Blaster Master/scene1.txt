@@ -19,7 +19,8 @@
 14	textures\14_MineExplosion.png	255	0	255
 -1	textures\level2-side.png	255	0	255
 22	textures\22_FloaterBullet.png	255	0	255
-15	textures\Items_Objects.png	255	255	255
+15	textures\Items_Objects.png	255	0	255
+69	textures\69_JasonBullet.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -73,7 +74,7 @@
 11405	96	0	120	24	14
 11406	120	0	144	24	14
 # JASON BULLET
-11501	359	113	367	121	15
+16901	0	0	4	4	69
 # P2_JASON
 # STAND
 19901	7	7	17	24	999
@@ -241,7 +242,7 @@
 #
 21401	11401	100	11402	100	11403	100	11404	100	11405	100	11406	100
 # ====	JASON_BULLET ===
-21501	11501	9999
+26901	16901	9999
 # ==== P2_JASON =========
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 #IDLE
