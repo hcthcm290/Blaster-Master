@@ -12,7 +12,7 @@ private:
 	int width = 400;
 	int height = 300;
 
-	FRECT boundary = FRECT(1024, 1024, 2032, 2032);
+	FRECT boundary = FRECT(1024, 1024, 2032, 2000);
 
 	/// <summary>
 	/// The area in camera let player move freely without change the camera position
@@ -75,6 +75,4 @@ public:
 	{
 		__instance->boundary = boundary;
 	}
-
-	D3DVECTOR GetPosition();
 };

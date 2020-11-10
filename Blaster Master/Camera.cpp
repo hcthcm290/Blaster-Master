@@ -60,13 +60,3 @@ void Camera::FollowTarget()
 	//SetPosition(target->GetPosition().x, target->GetPosition().y);
 }
 
-D3DVECTOR Camera::GetPosition()
-{
-	D3DVECTOR position;
-
-	position.x = round(x);
-	position.y = round(y);
-	position.z = 0;
-
-	return position;
-}

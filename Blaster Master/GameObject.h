@@ -15,7 +15,6 @@ class CGameObject
 protected:
 	float x;
 	float y;
-	int z;
 
 protected:
 	int currentState;
@@ -46,9 +45,6 @@ public:
 	virtual void Update(float dt) = 0;
 	virtual void Render() = 0;
 	~CGameObject();
-
-	int GetZ() { return z; }
-	void SetZ(int z) { this->z = z; }
 
 public:
 	virtual void OnCollisionEnter(CollisionEvent e) {}
