@@ -20,8 +20,11 @@ protected:
 	StaticObject* mapBackground;
 
 	BigGate* gate;
-	float countingTime;
-
+	float countingTime1;
+	float countingTime2;
+	bool shiftingCamera = false;
+	float deltaShift = 0;
+	float totalShifting = 0;
 
 	int state = State::_PLAYSCENE_FREE_PLAYING_;
 

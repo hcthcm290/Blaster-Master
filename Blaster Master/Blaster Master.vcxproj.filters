@@ -257,7 +257,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BigGate.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Gates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -318,6 +318,12 @@
     </Filter>
     <Filter Include="Source Files\Playable">
       <UniqueIdentifier>{e4cf40ae-1f3f-4eea-8a64-a02edf9de3a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gates">
+      <UniqueIdentifier>{11322ff3-67d7-4b6f-b803-b04af5202b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gates">
+      <UniqueIdentifier>{d79e68b1-367b-4fe2-af7e-399da743a5be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

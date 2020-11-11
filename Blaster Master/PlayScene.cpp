@@ -185,13 +185,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		BigGate* bg = new BigGate();
 		bg->shift_direction = D3DXVECTOR2(atoi(tokens[3].c_str()), atoi(tokens[4].c_str()));
 
-		bg->shift_time1 = atoi(tokens[5].c_str());
-		bg->shift_time2 = atoi(tokens[6].c_str());
+		bg->shift_time1 = atof(tokens[5].c_str());
+		bg->shift_time2 = atof(tokens[6].c_str());
 
-		bg->teleport_delta = D3DXVECTOR2(atoi(tokens[7].c_str()), atoi(tokens[8].c_str()));
-		bg->new_boundary_camera = FRECT(atoi(tokens[9].c_str()), atoi(tokens[10].c_str()), atoi(tokens[11].c_str()), atoi(tokens[12].c_str()));
+		bg->pre_teleport_delta = D3DXVECTOR2(atof(tokens[7].c_str()), atof(tokens[8].c_str()));
+		bg->new_boundary_camera = FRECT(atof(tokens[9].c_str()), atof(tokens[10].c_str()), atof(tokens[11].c_str()), atof(tokens[12].c_str()));
 
-		//bg->shift_speed = atoi(tokens[13].c_str());
+		bg->teleport_delta = D3DXVECTOR2(atof(tokens[13].c_str()), atof(tokens[14].c_str()));
+
+		//bg->shift_speed = atoi(tokens[15].c_str());
 
 		obj = bg;
 		break;
@@ -462,14 +464,72 @@ void CPlayScene::Update(DWORD dw_dt)
 	}
 	else if (state == State::_PLAYSCENE_SWITCH_SECTION)
 	{
-		countingTime += dt;
+		countingTime1 += dt;
 
-		if (countingTime < 2)
+		if (countingTime1 < gate->shift_time1)
 		{
+			// shifting time 1
 			player->SetPosition(player->GetPosition().x + 50 * dt, player->GetPosition().y);
 		}
-		//Camera::GetInstance()->Update(dt);
+		
+		if(countingTime1 > gate->shift_time1 && countingTime2 == 0)
+		{
+			// shift camera
+			shiftingCamera = true;
 
+			if (deltaShift == 0) // that's mean we've not set it yet
+			{
+				if (gate->shift_direction.x > 0)
+				{
+					deltaShift = Camera::GetInstance()->GetCollisionBox().right - Camera::GetInstance()->GetCollisionBox().left;
+				}
+
+				if (gate->shift_direction.x < 0)
+				{
+					deltaShift = Camera::GetInstance()->GetCollisionBox().left - Camera::GetInstance()->GetCollisionBox().right;
+				}
+			}
+
+			auto cameraPosition = Camera::GetInstance()->GetPosition();
+
+			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
+
+			totalShifting += gate->shift_direction.x * 150 * dt;
+
+			if (abs(totalShifting) > abs(deltaShift))
+			{
+				shiftingCamera = false;
+
+				auto playerPosition = player->GetPosition();
+
+				player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
+			}
+		}
+		
+		if (countingTime1 > gate->shift_time1 && shiftingCamera == false)
+		{
+			// shifting time 2
+			countingTime2 += dt;
+
+			player->SetPosition(player->GetPosition().x + 50 * dt, player->GetPosition().y);
+		}
+
+		if (countingTime2 >= gate->shift_time2)
+		{
+			Camera::GetInstance()->SetCameraBoundary(gate->new_boundary_camera);
+
+			auto playerPosition = player->GetPosition();
+			auto cameraPosition = Camera::GetInstance()->GetPosition();
+
+			player->SetPosition(playerPosition.x + gate->teleport_delta.x, playerPosition.y + gate->teleport_delta.y);
+			
+			RemoveGameObjectFromScene(player);
+			AddGameObjectToScene(player);
+			
+			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->teleport_delta.x, cameraPosition.y + gate->teleport_delta.y);
+
+			state = State::_PLAYSCENE_FREE_PLAYING_;
+		}
 	}
 }
 
@@ -526,5 +586,9 @@ void CPlayScene::SwitchSection(BigGate* gate)
 {
 	this->gate = gate;
 	this->state = State::_PLAYSCENE_SWITCH_SECTION;
-	countingTime = 0;
+	countingTime1 = 0;
+	countingTime2 = 0;
+	shiftingCamera = false;
+	deltaShift = 0;
+	totalShifting = 0;
 }

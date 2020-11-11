@@ -10,10 +10,13 @@ public:
 	float shift_time1;
 	float shift_time2;
 
+	D3DXVECTOR2 pre_teleport_delta;
 	D3DXVECTOR2 teleport_delta;
 
 public:
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
-	void Render() {};
+	void Render() {
+		CSprites::GetInstance()->Get(0)->Draw(x, y);
+	}
 };
