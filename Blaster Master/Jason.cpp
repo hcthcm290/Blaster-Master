@@ -19,17 +19,17 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	this->y = y;
 	this->sophia = sophia;
 	health = currentHealth;
+	switchDelay = GetTickCount64();
 }
 
 void Jason::Update(float dt)
 {
-	if (DInput::GetInstance()->KeyUp(DIK_LSHIFT) && CollisionSystem::CheckOverlap(this, sophia) ) {
+	if (DInput::GetInstance()->KeyPress(DIK_LSHIFT) && CollisionSystem::CheckOverlap(this, sophia) 
+		&& GetTickCount64() - switchDelay >= 1000) {
 		dynamic_cast<Sophia*>(sophia)->Awake(health);
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(sophia));
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
-
-
 
 	if (health <= 0) return;
 	input->Update();

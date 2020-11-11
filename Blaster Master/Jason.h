@@ -60,6 +60,8 @@ private:
 
 	void Fire();
 
+	DWORD switchDelay; //this avoid switching back and forth too fast 
+
 public:
 	Jason();
 	Jason(int currentHealth, int x, int y, DynamicObject* sophia);
