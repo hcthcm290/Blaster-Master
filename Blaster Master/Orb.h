@@ -2,11 +2,12 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "CollisionSystem.h"
+#include "Enemy.h"
 
 #define ORB_COLLISION_BOX_WIDTH 18
 #define ORB_COLLISION_BOX_HEIGHT 18
 
-class Orb : public DynamicObject, public RigidBody
+class Orb : public DynamicObject, public Enemy
 {
 	bool onTheGround = true;
 	bool canJump = false;

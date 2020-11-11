@@ -5,6 +5,7 @@
 #include "Sophia_Bullet_1.h"
 #include "Skull_Bullet.h"
 #include "Explosive.h"
+#include "Camera.h"
 
 #define SOPHIA_BULLET_LR 29701
 #define SOPHIA_BULLET_UP 29702
@@ -112,6 +113,12 @@ void Sophia_Bullet_1::Update(float dt)
 				vy = 0;
 			}
 		}
+		CGameObject* iBullet = new Sophia_Bullet_1();
+		iBullet->SetPosition(x + vx * dt, y + vy * dt);
+		FRECT camera = Camera::GetInstance()->GetCollisionBox();
+		FRECT me = iBullet->GetCollisionBox();
+		if (me.right <= camera.left || me.left >= camera.right || me.bottom <= camera.top)
+			RemoveBullet();
 	}
 }
 
@@ -134,6 +141,10 @@ void Sophia_Bullet_1::Explode()
 		}
 	}
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);
+	RemoveBullet();
+}
+void Sophia_Bullet_1::RemoveBullet()
+{
 	count--;
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 }

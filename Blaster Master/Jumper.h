@@ -3,11 +3,12 @@
 #include "RigidBody.h"
 #include "CollisionSystem.h"
 #include "PlayScene.h"
+#include "Enemy.h"
 #define jumperSpeed	10;
 #define jumperWalk State::_JUMPER_WALK_
 #define	jumperIdle State::_JUMPER_IDLE_
 
-class Jumper : public DynamicObject, public RigidBody
+class Jumper : public DynamicObject, public Enemy
 {
 private:
 	bool onTheGround = false;

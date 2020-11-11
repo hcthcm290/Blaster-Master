@@ -14,7 +14,7 @@ protected:
 
 	unordered_map<int, vector<CGameObject*>> sceneObjects;
 
-	vector<CGameObject*> onSCeneObjs;
+	
 
 	StaticObject* mapBackground;
 
@@ -30,6 +30,7 @@ protected:
 	vector<CGameObject*> GetOnScreenObjs();
 
 public:
+	vector<CGameObject*> onSCeneObjs;
 	CPlayScene(int id, LPCWSTR filePath);
 	void AddGameObjectToScene(CGameObject* obj);
 	void RemoveGameObjectFromScene(CGameObject* obj);

@@ -133,6 +133,12 @@
     <ClCompile Include="Behavior_Jason.cpp">
       <Filter>Source Files\Animator</Filter>
     </ClCompile>
+    <ClCompile Include="Sophia_Bullet_Homing.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="VisionBox.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -278,6 +284,12 @@
     </ClInclude>
     <ClInclude Include="Behavior_Jason.h">
       <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia_Bullet_Homing.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionBox.h">
+      <Filter>Header Files\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

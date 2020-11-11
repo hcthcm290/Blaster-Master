@@ -2,6 +2,7 @@
 #include "Animator_Sophia.h"
 #include "Debug.h"
 #include "Sophia_Bullet_1.h"
+#include "Sophia_Bullet_Homing.h"
 #include "ColliableBrick.h"
 #include "PlayScene.h"
 
@@ -244,17 +245,35 @@ void Sophia::Update(float dt)
 		}
 		if (DInput::KeyPress(DIK_Z))
 		{
-			if (now - last_bullet > 300 && (new Sophia_Bullet_1)->count < 3)
+			if (DInput::KeyPress(DIK_DOWN))
 			{
-				last_bullet = now;
-				bool up = false;
-				if (gun_up == 90)
+				if (now - last_bullet > 300 && (new Sophia_Bullet_Homing)->count < 3)
 				{
-					up = true;
+					last_bullet = now;
+					bool up = false;
+					if (gun_up == 90)
+					{
+						up = true;
+					}
+					auto bullet = new Sophia_Bullet_Homing(!flipX);
+					bullet->SetPosition(x, y);
+					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
 				}
-				auto bullet = new Sophia_Bullet_1(up, !flipX);
-				bullet->SetPosition(x, y);
-				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
+			}
+			else
+			{
+				if (now - last_bullet > 300 && (new Sophia_Bullet_1)->count < 3)
+				{
+					last_bullet = now;
+					bool up = false;
+					if (gun_up == 90)
+					{
+						up = true;
+					}
+					auto bullet = new Sophia_Bullet_1(up, !flipX);
+					bullet->SetPosition(x, y);
+					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
+				}
 			}
 		}
 		StateChange();

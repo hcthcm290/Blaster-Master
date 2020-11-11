@@ -198,11 +198,13 @@
     <ClCompile Include="Skull_Bullet.cpp" />
     <ClCompile Include="Sophia.cpp" />
     <ClCompile Include="Sophia_Bullet_1.cpp" />
+    <ClCompile Include="Sophia_Bullet_Homing.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="VisionBox.cpp" />
     <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -247,12 +249,14 @@
     <ClInclude Include="Skull_Bullet.h" />
     <ClInclude Include="Sophia.h" />
     <ClInclude Include="Sophia_Bullet_1.h" />
+    <ClInclude Include="Sophia_Bullet_Homing.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="StateConstant.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="Teleporter.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="VisionBox.h" />
     <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>

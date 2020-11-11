@@ -2,8 +2,9 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "CollisionSystem.h"
+#include "Enemy.h"
 class Skull :
-    public DynamicObject
+    public DynamicObject, public Enemy
 {
 	bool flipX;
 	int state;
