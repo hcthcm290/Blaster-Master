@@ -121,6 +121,9 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerItem.cpp">
+      <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -255,6 +258,9 @@
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerItem.h">
+      <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png">
@@ -314,6 +320,12 @@
     </Filter>
     <Filter Include="Source Files\Playable">
       <UniqueIdentifier>{e4cf40ae-1f3f-4eea-8a64-a02edf9de3a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Other Objects">
+      <UniqueIdentifier>{30cf37a6-fc7c-409d-966f-0a6bc9d82f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Other Objects">
+      <UniqueIdentifier>{774de3a1-254d-40d0-b954-36e141127860}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

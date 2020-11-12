@@ -2,6 +2,15 @@
 
 class State {
 public:
+#pragma region Object 
+	static const int _P_ITEM_POWER_ = 20001;
+	static const int _P_ITEM_HOVER_ = 20002;
+	static const int _P_ITEM_GUN_ = 20003;
+	static const int _P_ITEM_HOMING_MISSLE_ = 20004;
+	static const int _P_ITEM_MULTI_WARHEAD_ = 20005;
+	static const int _P_ITEM_THUNDER_BREAK_ = 20006;
+#pragma endregion
+
 #pragma region Jason
 	static const int _JASON_IDLE_	=	29901;
 	static const int _JASON_WALK_	=	29902;

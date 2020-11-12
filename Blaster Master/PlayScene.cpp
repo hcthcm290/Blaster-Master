@@ -30,6 +30,7 @@
 #include "Skull.h"
 #include "Worm.h"
 #include "Skull_Bullet.h"
+#include "PlayerItem.h"
 
 using namespace std;
 
@@ -178,6 +179,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 6:
 		obj = new Insect();
+		break;
+	case 0:
+		obj = new PlayerItem();
 		break;
 	}
 

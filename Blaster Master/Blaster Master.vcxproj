@@ -189,6 +189,7 @@
     <ClCompile Include="MineBullet.cpp" />
     <ClCompile Include="Mine_Explosion.cpp" />
     <ClCompile Include="Orb.cpp" />
+    <ClCompile Include="PlayerItem.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Skull.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Mine.h" />
     <ClInclude Include="Mine_Explosion.h" />
     <ClInclude Include="Orb.h" />
+    <ClInclude Include="PlayerItem.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="RECT.h" />
     <ClInclude Include="RigidBody.h" />
