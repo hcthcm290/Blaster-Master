@@ -30,6 +30,7 @@
 #include "Skull.h"
 #include "Worm.h"
 #include "Skull_Bullet.h"
+#include "CameraBoundaryLib.h"
 
 using namespace std;
 
@@ -195,8 +196,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		//bg->shift_speed = atoi(tokens[15].c_str());
 
+
 		obj = bg;
 		break;
+	}
+
+	case 76:
+	{
+		std::string idSection = tokens[2].c_str();
+		FRECT cameraBoundary = FRECT(atof(tokens[2].c_str()), atof(tokens[3].c_str()), atof(tokens[4].c_str()), atof(tokens[5].c_str()));
+		CameraBoundaryLib::AddCameraBoundary(idSection, cameraBoundary);
+		return;
 	}
 	}
 

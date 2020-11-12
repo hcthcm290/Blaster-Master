@@ -167,6 +167,7 @@
     <ClCompile Include="Animator_Mine_Explosion.cpp" />
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
+    <ClCompile Include="CameraBoundaryLib.cpp" />
     <ClCompile Include="Canon.cpp" />
     <ClCompile Include="Animator_Jason.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="BigGate.h" />
     <ClInclude Include="Bullet_Jason.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraBoundaryLib.h" />
     <ClInclude Include="ColliableBrick.h" />
     <ClInclude Include="CollisionEvent.h" />
     <ClInclude Include="CollisionSystem.h" />

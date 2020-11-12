@@ -122,6 +122,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BigGate.cpp" />
+    <ClCompile Include="CameraBoundaryLib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -258,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="BigGate.h">
       <Filter>Header Files\Gates</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraBoundaryLib.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
