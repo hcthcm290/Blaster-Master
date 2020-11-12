@@ -5,8 +5,8 @@
 #include "StaticObject.h"
 #include "BigGate.h"
 
-#define MAP_BLOCK_WIDTH 2000
-#define MAP_BLOCK_HEIGHT 2000
+#define MAP_BLOCK_WIDTH 256
+#define MAP_BLOCK_HEIGHT 256
 
 class CPlayScene : public CScene
 {
@@ -34,12 +34,14 @@ protected:
 	virtual void ApllyVelocityToGameObjs(float dt);
 
 	int GetMapBlockID(float x, float y);
-	vector<CGameObject*> GetOnScreenObjs();
+	std::vector<int> GetMapBlockID(CGameObject* object);
+	vector<CGameObject*> UpdateOnScreenObjs();
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);
 	void AddGameObjectToScene(CGameObject* obj);
 	void RemoveGameObjectFromScene(CGameObject* obj);
+	vector<CGameObject*> GetOnScreenObjs();
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();

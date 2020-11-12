@@ -327,10 +327,29 @@ void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 
 int CPlayScene::GetMapBlockID(float x, float y)
 {
-	auto xyz = (x / MAP_BLOCK_WIDTH);
-	auto cxna = (y / MAP_BLOCK_HEIGHT);
-	auto ccc = int(x / MAP_BLOCK_WIDTH) * 1000 + int(y / MAP_BLOCK_HEIGHT);
 	return int(x / MAP_BLOCK_WIDTH) * 1000 + int(y / MAP_BLOCK_HEIGHT);
+}
+
+std::vector<int> CPlayScene::GetMapBlockID(CGameObject* object)
+{
+	std::vector<int> listMapBlockID;
+
+	FRECT objectRECT = object->GetCollisionBox();
+
+	FRECT objectInMapChunk = FRECT(objectRECT.left / MAP_BLOCK_WIDTH,
+		objectRECT.top / MAP_BLOCK_HEIGHT,
+		objectRECT.right / MAP_BLOCK_WIDTH,
+		objectRECT.bottom / MAP_BLOCK_HEIGHT);
+
+	for (int x = objectInMapChunk.left; x <= objectInMapChunk.right; x++)
+	{
+		for (int y = objectInMapChunk.top; y <= objectInMapChunk.bottom; y++)
+		{
+			listMapBlockID.emplace_back(x * 1000 + y);
+		}
+	}
+
+	return listMapBlockID;
 }
 
 #pragma endregion
@@ -394,39 +413,51 @@ void CPlayScene::Load()
 /// <param name="target"></param>
 vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 {
+	return onScreenObjs;
+}
+
+vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
+{
 	vector<CGameObject*> onScreenObjs;
 
 	FRECT cameraRECT = Camera::GetInstance()->GetCollisionBox();
 
-	FRECT cameraInMapChunk = FRECT( cameraRECT.left / MAP_BLOCK_WIDTH,
-									cameraRECT.top / MAP_BLOCK_HEIGHT, 
-									cameraRECT.right / MAP_BLOCK_WIDTH,
-									cameraRECT.bottom / MAP_BLOCK_HEIGHT);
+	FRECT cameraInMapChunk = FRECT(cameraRECT.left / MAP_BLOCK_WIDTH,
+		cameraRECT.top / MAP_BLOCK_HEIGHT,
+		cameraRECT.right / MAP_BLOCK_WIDTH,
+		cameraRECT.bottom / MAP_BLOCK_HEIGHT);
 
-	int count = 0;
+	for (auto mapBlockID : GetMapBlockID(Camera::GetInstance()))
+	{
+		for (auto object : sceneObjects[mapBlockID])
+		{
+			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
+			{
+				onScreenObjs.emplace_back(object);
+			}
+		}
+	}
 
-	for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
+	/*for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
 	{
 		for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
 		{
 			for (auto object : sceneObjects[x * 1000 + y])
 			{
-				if (dynamic_cast<Skull_Bullet*>(object) != NULL)	count++;
-
 				if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
 				{
 					onScreenObjs.emplace_back(object);
 				}
 			}
 		}
-	}
+	}*/
 
 	return onScreenObjs;
 }
 
 void CPlayScene::Update(DWORD dw_dt)
 {
-	onScreenObjs = GetOnScreenObjs();
+	onScreenObjs = UpdateOnScreenObjs();
 
 	float dt = (float)(dw_dt);
 	dt /= 1000;
