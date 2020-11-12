@@ -62,6 +62,7 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 	//reset
 	attemptJump = false;
 	enviColX = enviColY = enemyColX = enemyColY = 0;
+	damageTaken = 0;
 
 	//update action record by input
 	if (input->left && input->right) horizontalMove = horizontalMove; //hold old action
@@ -77,9 +78,18 @@ void Jason::Render()
 {
 	flipX = (horizontalMove != 0 ? horizontalMove == -1 : flipX);
 	SetNewState();
-	animator->Draw(state, x, y, flipX);
-	//dynamic_cast<Animator_Jason*>(animator)->Draw(state, x, y, flipX);
-	//dynamic_cast<Animator_Jason*>(animator->Draw(state, x, y, flipX));
+
+	//use color effect if they got damaged
+	if (invulnerable != -1) {
+		animator->Draw(state, x, y, flipX, 0, damageColor[invulnerable]);
+		if (GetTickCount64() - damageEffectTimer >= 100) {
+			damageEffectTimer = GetTickCount64();
+			invulnerable = 1 - invulnerable; // 0 -> 1 -> 0 -> 1 -> ...
+		}
+	}
+	else {
+		animator->Draw(state, x, y, flipX);
+	}
 }
 
 void Jason::SetNewState() {
@@ -114,6 +124,8 @@ void Jason::SetNewState() {
 			}
 			case State::_JASON_DIE_: {
 				allowJump = false;
+				vx = 0;
+				vy = 0;
 				break;
 			}
 			case State::_JASON_IDLE_: {
@@ -224,9 +236,13 @@ void Jason::getDamage(int damage) {
 	DWORD thisTime = GetTickCount64();
 	if (lastTakeDamage == 0  || thisTime > lastTakeDamage + invulnerableTime) {
 		lastTakeDamage = thisTime;
-		health -= damage;
+		if (invulnerable == -1) {
+			health -= damage;
 
-		DebugOut(L"Damage taken\n");
+			invulnerable = 1;
+			DebugOut(L"Damage taken\n");
+		}
+		else invulnerable = -1;	
 	}
 }
 
