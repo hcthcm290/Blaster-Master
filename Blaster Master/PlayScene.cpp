@@ -304,20 +304,25 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 void CPlayScene::AddGameObjectToScene(CGameObject* obj)
 {
-	D3DVECTOR objPos = obj->GetPosition();
+	std::vector<int> listMapBlockID = GetMapBlockID(obj);
 
-	int mapBlockID = GetMapBlockID(objPos.x, objPos.y);
-
-	sceneObjects[mapBlockID].emplace_back(obj);
+	for (auto mapBlockID : listMapBlockID)
+	{
+		sceneObjects[mapBlockID].emplace_back(obj);
+	}
 }
 
 void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 {
-	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
+	std::vector<int> listMapBlockID = GetMapBlockID(obj);
 
-	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+	for (auto mapBlockID : listMapBlockID)
+	{
+		auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+		sceneObjects[mapBlockID].erase(e);
+	}
 
-	if (e != sceneObjects[mapBlockID].end())
+	/*if (e != sceneObjects[mapBlockID].end())
 	{
 		sceneObjects[mapBlockID].erase(e);
 		return;
@@ -334,7 +339,7 @@ void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 				return;
 			}
 		}
-	}
+	}*/
 }
 
 int CPlayScene::GetMapBlockID(float x, float y)
@@ -578,7 +583,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 {
 	for (auto obj : onScreenObjs)
 	{
-		int oldMapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
+		std::vector<int> oldListMapBlockID = GetMapBlockID(obj);
 
 		if (dynamic_cast<DynamicObject*>(obj) == NULL) continue;
 		D3DXVECTOR3 position = obj->GetPosition();
@@ -586,9 +591,34 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 		position = position + dt*velocity;
 
-		int newMapBlockID = GetMapBlockID(position.x, position.y);
+		std::vector<int> newListMapBlockID = GetMapBlockID(obj);
 
-		if (oldMapBlockID != newMapBlockID)
+
+		for (auto oldMapBlockID : oldListMapBlockID)
+		{
+			auto e = std::find(newListMapBlockID.begin(), newListMapBlockID.end(), oldMapBlockID);
+
+			// if the old id dont appear in the new list id, delete the object from that map block
+			if (e == newListMapBlockID.end())
+			{
+				auto location = std::find(sceneObjects[oldMapBlockID].begin(), sceneObjects[oldMapBlockID].end(), obj);
+
+				sceneObjects[oldMapBlockID].erase(location);
+			}
+		}
+
+		for (auto newMapBlockID : newListMapBlockID)
+		{
+			auto e = std::find(oldListMapBlockID.begin(), oldListMapBlockID.end(), newMapBlockID);
+
+			// if the new id dont appear in the old list id, add the object to that map block
+			if (e == oldListMapBlockID.end())
+			{
+				sceneObjects[newMapBlockID].emplace_back(obj);
+			}
+		}
+
+		/*if (oldMapBlockID != newMapBlockID)
 		{
 			RemoveGameObjectFromScene(obj);		
 			obj->SetPosition(position.x, position.y);
@@ -597,26 +627,12 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 		else
 		{
 			obj->SetPosition(position.x, position.y);
-		}
+		}*/
 	}
 }
 
 void CPlayScene::Render()
 {
-	if (state == State::_PLAYSCENE_SWITCH_SECTION)
-	{
-		if (countingTime1 > gate->shift_time1 && shiftingCamera == false)
-		{
-			for (int i = 0; i < onScreenObjs.size(); i++)
-			{
-				if (dynamic_cast<Sophia*>(onScreenObjs[i]) != NULL)
-				{
-					DebugOut(L"");
-				}
-			}
-		}
-	}
-
 	mapBackground->Render();
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
