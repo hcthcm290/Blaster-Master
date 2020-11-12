@@ -32,8 +32,9 @@ Sophia_Bullet_Homing::Sophia_Bullet_Homing()
 	animator->AddAnimation(29604);
 }
 
-Sophia_Bullet_Homing::Sophia_Bullet_Homing(bool flipX)
+Sophia_Bullet_Homing::Sophia_Bullet_Homing(bool flipX, DynamicObject* target)
 {
+	this->target = target;
 	animator->AddAnimation(29601);
 	animator->AddAnimation(29602);
 	animator->AddAnimation(29603);
@@ -45,6 +46,8 @@ Sophia_Bullet_Homing::Sophia_Bullet_Homing(bool flipX)
 	//boolean
 	ex = false;
 	count++;
+	vx = 0;
+	vy = 0;
 }
 
 FRECT Sophia_Bullet_Homing::GetCollisionBox()
@@ -82,93 +85,122 @@ void Sophia_Bullet_Homing::Update(float dt)
 {
 	if (!ex)
 	{
-		if (target == nullptr)
+		state = SOPHIA_BULLET_H_LR;
+		up = false;
+		down = false;
+		if (this->GetCollisionBox().left >= target->GetCollisionBox().right)
 		{
-			DWORD now = GetTickCount();
-			if (now - last > 5000)
+			if (vx > -100)
 			{
-				count--;
-				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
-			}
-
-			if (up)
-			{
-				vy = -150;
-				vx = 0;
+				vx += dt * -100 * 4;
 			}
 			else
 			{
-				if (down)
+				vx = -100;
+			}
+			if (vy > 0)
+			{
+				vy += dt * -100 * 4;
+			}
+			else
+			{
+				if (vy < 0)
 				{
-					vy = 150;
-					vx = 0;
+					vy += dt * 100 * 4;
 				}
 				else
-				{
-					if (flipX)
-					{
-						vx = 150;
-						vy = 0;
-					}
-					else
-					{
-						vx = -150;
-						vy = 0;
-					}
-				}
+					vy = 0;
 			}
-
-			CGameObject* vision = new VisionBox(x - 20, x + 20, y - 20, y + 20);
-
-			for (auto enemy : dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->onSCeneObjs)
-			{
-				if (dynamic_cast<Enemy*>(enemy) != nullptr)
-				{
-					if (CollisionSystem::CheckOverlap(enemy, vision))
-					{
-						target = dynamic_cast<DynamicObject*>(enemy);
-						break;
-					}
-				}
-			}
-			delete vision;
+			flipX = false;
 		}
 		else
 		{
-			state = SOPHIA_BULLET_H_LR;
-			if (this->GetCollisionBox().left >= target->GetCollisionBox().right)
+			if (this->GetCollisionBox().right <= target->GetCollisionBox().left)
 			{
-				vx = -150;
-				vy = 0;
-				flipX = false;
-			}
-			else
-			{
-				if (this->GetCollisionBox().right <= target->GetCollisionBox().left)
+				if (vx < 100)
 				{
-					vx = 150;
-					vy = 0;
-					flipX = true;
+					vx += dt * 100 * 4;
 				}
 				else
 				{
-					state = SOPHIA_BULLET_H_UP;
-					if (this->GetCollisionBox().top <= target->GetCollisionBox().bottom)
+					vx = 100;
+				}
+				if (vy > 0)
+				{
+					vy += dt * -100 * 4;
+				}
+				else
+				{
+					if (vy < 0)
 					{
-						vx = 0;
-						vy = 150;
+						vy += dt * 100 * 4;
+					}
+					else
+						vy = 0;
+				}
+				flipX = true;
+			}
+			else
+			{
+				state = SOPHIA_BULLET_H_UP;
+				if (this->GetCollisionBox().top <= target->GetCollisionBox().bottom)
+				{
+					if (vx > 0)
+					{
+						vx += dt * -100 * 4;
 					}
 					else
 					{
-						if (this->GetCollisionBox().bottom >= target->GetCollisionBox().top)
+						if (vx < 0)
 						{
-							vx = 0;
-							vy = -150;
+							vx += dt * 100 * 4;
 						}
+						else
+							vx = 0;
+					}
+					if (vy < 100)
+					{
+						vy += dt * 100 * 4;
+					}
+					else
+					{
+						vy = 100;
+					}
+					up = false;
+					down = true;
+				}
+				else
+				{
+					if (this->GetCollisionBox().bottom >= target->GetCollisionBox().top)
+					{
+						if (vx > 0)
+						{
+							vx += dt * -100 * 4;
+						}
+						else
+						{
+							if (vx < 0)
+							{
+								vx += dt * 100 * 4;
+							}
+							else
+								vx = 0;
+						}
+						if (vy > -100)
+						{
+							vy += dt * -100 * 4;
+						}
+						else
+						{
+							vy = -100;
+						}
+						up = true;
+						down = false;
 					}
 				}
 			}
 		}
+	
 	}
 	CGameObject* iBullet = new Sophia_Bullet_Homing();
 	iBullet->SetPosition(x + vx * dt, y + vy * dt);

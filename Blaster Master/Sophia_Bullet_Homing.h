@@ -20,7 +20,7 @@ protected:
 public:
 	static int count;
 	Sophia_Bullet_Homing();
-	Sophia_Bullet_Homing(bool flipX);
+	Sophia_Bullet_Homing(bool flipX, DynamicObject* target);
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	void Explode();

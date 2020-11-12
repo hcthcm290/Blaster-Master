@@ -33,6 +33,7 @@ public:
 	void Update(float dt);
 	void Render();
 	void StateChange();
+	void ShootHoming();
 
 	void Awake(int JasonHealth);
 };

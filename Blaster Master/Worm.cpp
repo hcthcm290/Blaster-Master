@@ -1,6 +1,7 @@
 #include "Worm.h"
 #include "PlayScene.h"
 #include "Debug.h"
+#include "ColliableBrick.h"
 
 Worm::Worm()
 {
@@ -22,7 +23,27 @@ FRECT Worm::GetCollisionBox()
 
 void Worm::OnCollisionEnter(CollisionEvent e)
 {
-
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject) != nullptr)
+	{
+		if (e.nx != 0 && onTheGround)
+		{
+			vy = -50;
+			onTheGround = false;
+			if (flipX)
+			{
+				vx = 50;
+			}
+			else
+			{
+				vx = -50;
+			}
+		}
+		if (e.ny < 0)
+		{
+			//vy = 0;
+			onTheGround = true;
+		}
+	}
 }
 
 void Worm::Update(float dt)
