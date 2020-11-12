@@ -564,13 +564,13 @@ void CPlayScene::Update(DWORD dw_dt)
 
 			player->SetPosition(playerPosition.x + gate->teleport_delta.x, playerPosition.y + gate->teleport_delta.y);
 			
-			RemoveGameObjectFromScene(player);
-			AddGameObjectToScene(player);
-			
 			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->teleport_delta.x, cameraPosition.y + gate->teleport_delta.y);
 
 			state = State::_PLAYSCENE_FREE_PLAYING_;
 		}
+
+		RemoveGameObjectFromScene(player);
+		AddGameObjectToScene(player);
 	}
 }
 
@@ -603,6 +603,20 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
+	if (state == State::_PLAYSCENE_SWITCH_SECTION)
+	{
+		if (countingTime1 > gate->shift_time1 && shiftingCamera == false)
+		{
+			for (int i = 0; i < onScreenObjs.size(); i++)
+			{
+				if (dynamic_cast<Sophia*>(onScreenObjs[i]) != NULL)
+				{
+					DebugOut(L"");
+				}
+			}
+		}
+	}
+
 	mapBackground->Render();
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
