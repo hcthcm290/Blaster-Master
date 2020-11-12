@@ -144,7 +144,6 @@ void Sophia::OnCollisionEnter(CollisionEvent e)
 
 void Sophia::Update(float dt)
 {
-
 	DWORD now = GetTickCount();
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
