@@ -154,10 +154,16 @@
     <ClCompile Include="Animator_Floater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Floater_Bullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet_Jason.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Floater_Bullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Jason.cpp">
+      <Filter>Source Files\Playable</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AGR_Orb.cpp">
@@ -338,6 +344,8 @@
     <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="PlayerItem.h">
       <Filter>Header Files\Other Objects</Filter>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
