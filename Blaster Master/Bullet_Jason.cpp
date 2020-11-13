@@ -6,8 +6,9 @@
 #include "PlayScene.h"
 
 Bullet_Jason::Bullet_Jason(int horizontalDirection, float xs, float ys) {
-	animator = new Animator_Jason();
+	animator = new Animator();
 	animator->AddAnimation(State::_BULLET_JASON_);
+
 	vx = horizontalDirection * speed;
 	vy = 0;
 	x = xs;

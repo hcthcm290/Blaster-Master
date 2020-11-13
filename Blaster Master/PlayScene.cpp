@@ -9,6 +9,7 @@
 #include "Floater.h"
 #include "Jumper.h"
 #include "Jason.h"
+#include "Insect.h"
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
@@ -24,12 +25,15 @@
 #include "Dome.h"
 #include <execution>
 #include <algorithm>
+#include <unordered_map>
 #include "Bullet_Jason.h"
+#include "BigGate.h"
 #include "Spike.h"
 #include "Sophia.h"
 #include "Skull.h"
 #include "Worm.h"
 #include "Skull_Bullet.h"
+#include "CameraBoundaryLib.h"
 
 using namespace std;
 
@@ -176,7 +180,28 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 2:
 		obj = new Floater();
 		break;
-	case 99:
+	case 6:
+		obj = new Insect();
+		break;
+	case 77:
+	{
+		BigGate* bg = new BigGate();
+		bg->shift_direction = D3DXVECTOR2(atoi(tokens[3].c_str()), atoi(tokens[4].c_str()));
+
+		bg->shift_time1 = atof(tokens[5].c_str());
+		bg->shift_time2 = atof(tokens[6].c_str());
+
+		bg->pre_teleport_delta = D3DXVECTOR2(atof(tokens[7].c_str()), atof(tokens[8].c_str()));
+		bg->new_boundary_camera = FRECT(atof(tokens[9].c_str()), atof(tokens[10].c_str()), atof(tokens[11].c_str()), atof(tokens[12].c_str()));
+
+		bg->teleport_delta = D3DXVECTOR2(atof(tokens[13].c_str()), atof(tokens[14].c_str()));
+
+		//bg->shift_speed = atoi(tokens[15].c_str());
+
+
+		obj = bg;
+		break;
+	case 901:
 		obj = new AGR_Orb();
 		break;
 	case 23:
@@ -184,6 +209,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Spike(rotation);
 		obj->SetPosition(x, y);
 		break;
+	}
+
+	case 76:
+	{
+		std::string idSection = tokens[2].c_str();
+		FRECT cameraBoundary = FRECT(atof(tokens[2].c_str()), atof(tokens[3].c_str()), atof(tokens[4].c_str()), atof(tokens[5].c_str()));
+		CameraBoundaryLib::AddCameraBoundary(idSection, cameraBoundary);
+		return;
+	}
 	}
 
 	// General object setup
@@ -261,7 +295,7 @@ void CPlayScene::_ParseSection_MAP(string line)
 					CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
 				}
 
-				if (tileid == 0 || tileid == 2 || tileid == 3 || tileid == 12 || tileid == 132 || tileid == 133 || tileid == 134)
+				if (tileid == 0 || tileid == 1 || tileid == 2 || tileid == 3 || tileid == 12 || tileid == 132 || tileid == 133 || tileid == 134)
 				{
 					ColliableBrick* brick = new ColliableBrick();
 					brick->SetPosition(x * tilewidth, y * tileheight);
@@ -280,20 +314,25 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 void CPlayScene::AddGameObjectToScene(CGameObject* obj)
 {
-	D3DVECTOR objPos = obj->GetPosition();
+	std::vector<int> listMapBlockID = GetMapBlockID(obj);
 
-	int mapBlockID = GetMapBlockID(objPos.x, objPos.y);
-
-	sceneObjects[mapBlockID].emplace_back(obj);
+	for (auto mapBlockID : listMapBlockID)
+	{
+		sceneObjects[mapBlockID].emplace_back(obj);
+	}
 }
 
 void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 {
-	int mapBlockID = GetMapBlockID(obj->GetPosition().x, obj->GetPosition().y);
+	std::vector<int> listMapBlockID = GetMapBlockID(obj);
 
-	auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+	for (auto mapBlockID : listMapBlockID)
+	{
+		auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+		sceneObjects[mapBlockID].erase(e);
+	}
 
-	if (e != sceneObjects[mapBlockID].end())
+	/*if (e != sceneObjects[mapBlockID].end())
 	{
 		sceneObjects[mapBlockID].erase(e);
 		return;
@@ -310,15 +349,34 @@ void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 				return;
 			}
 		}
-	}
+	}*/
 }
 
 int CPlayScene::GetMapBlockID(float x, float y)
 {
-	auto xyz = (x / MAP_BLOCK_WIDTH);
-	auto cxna = (y / MAP_BLOCK_HEIGHT);
-	auto ccc = int(x / MAP_BLOCK_WIDTH) * 1000 + int(y / MAP_BLOCK_HEIGHT);
 	return int(x / MAP_BLOCK_WIDTH) * 1000 + int(y / MAP_BLOCK_HEIGHT);
+}
+
+std::vector<int> CPlayScene::GetMapBlockID(CGameObject* object)
+{
+	std::vector<int> listMapBlockID;
+
+	FRECT objectRECT = object->GetCollisionBox();
+
+	FRECT objectInMapChunk = FRECT(objectRECT.left / MAP_BLOCK_WIDTH,
+		objectRECT.top / MAP_BLOCK_HEIGHT,
+		objectRECT.right / MAP_BLOCK_WIDTH,
+		objectRECT.bottom / MAP_BLOCK_HEIGHT);
+
+	for (int x = objectInMapChunk.left; x <= objectInMapChunk.right; x++)
+	{
+		for (int y = objectInMapChunk.top; y <= objectInMapChunk.bottom; y++)
+		{
+			listMapBlockID.emplace_back(x * 1000 + y);
+		}
+	}
+
+	return listMapBlockID;
 }
 
 #pragma endregion
@@ -382,78 +440,172 @@ void CPlayScene::Load()
 /// <param name="target"></param>
 vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 {
-	vector<CGameObject*> onScreenObjs;
+	return onScreenObjs;
+}
+
+vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
+{
+	onScreenObjs.clear();
 
 	FRECT cameraRECT = Camera::GetInstance()->GetCollisionBox();
 
-	FRECT cameraInMapChunk = FRECT( cameraRECT.left / MAP_BLOCK_WIDTH,
-									cameraRECT.top / MAP_BLOCK_HEIGHT, 
-									cameraRECT.right / MAP_BLOCK_WIDTH,
-									cameraRECT.bottom / MAP_BLOCK_HEIGHT);
+	std::unordered_map<CGameObject*, CGameObject*> listOnScreenObjs;
 
-	int count = 0;
+	FRECT cameraInMapChunk = FRECT(cameraRECT.left / MAP_BLOCK_WIDTH,
+		cameraRECT.top / MAP_BLOCK_HEIGHT,
+		cameraRECT.right / MAP_BLOCK_WIDTH,
+		cameraRECT.bottom / MAP_BLOCK_HEIGHT);
 
-	for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
+	for (auto mapBlockID : GetMapBlockID(Camera::GetInstance()))
+	{
+		for (auto object : sceneObjects[mapBlockID])
+		{
+			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
+			{
+				if (listOnScreenObjs.find(object) == listOnScreenObjs.end())
+				{
+					listOnScreenObjs[object] = object;
+				}
+			}
+		}
+	}
+
+	for (auto object : listOnScreenObjs)
+	{
+		onScreenObjs.emplace_back(object.first);
+	}
+
+	/*for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
 	{
 		for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
 		{
 			for (auto object : sceneObjects[x * 1000 + y])
 			{
-				if (dynamic_cast<Skull_Bullet*>(object) != NULL)	count++;
-
 				if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
 				{
 					onScreenObjs.emplace_back(object);
 				}
 			}
 		}
-	}
-
-	// TODO : DELETE THIS DEBUG //
-	DebugOut(L"Number of skull bullets: %d\n", count);
+	}*/
 
 	return onScreenObjs;
 }
 
 void CPlayScene::Update(DWORD dw_dt)
 {
-	onSCeneObjs = GetOnScreenObjs();
+	UpdateOnScreenObjs();
 
 	float dt = (float)(dw_dt);
 	dt /= 1000;
 
-	if (dt > 0.1) dt = 0.1;
-
-	if (dt == 0) return;
-
-	// Update for all the game object
-	for (auto obj : onSCeneObjs)
+	if (state == State::_PLAYSCENE_FREE_PLAYING_)
 	{
-		obj->Update(dt);
-	}
+		if (dt > 0.1) dt = 0.1;
 
-	for (int i = 0; i < onSCeneObjs.size(); i++)
+		if (dt == 0) return;
+
+		// Update for all the game object
+		for (auto obj : onScreenObjs)
+		{
+			obj->Update(dt);
+		}
+
+		for (int i = 0; i < onScreenObjs.size(); i++)
+		{
+			if (dynamic_cast<DynamicObject*>(onScreenObjs.at(i)) == NULL)
+			{
+				continue; // if it not moving, we don't need to docollision for it
+			}
+			else if (D3DXVECTOR3(dynamic_cast<DynamicObject*>(onScreenObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0, 0, 0))
+			{
+				continue;
+			}
+			CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onScreenObjs.at(i)), &onScreenObjs, dt);
+		}
+
+		ApllyVelocityToGameObjs(dt);
+
+		Camera::GetInstance()->Update(dt);
+	}
+	else if (state == State::_PLAYSCENE_SWITCH_SECTION)
 	{
-		if (dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)) == NULL)
+		countingTime1 += dt;
+
+		if (countingTime1 < gate->shift_time1)
 		{
-			continue; // if it not moving, we don't need to docollision for it
+			// shifting time 1
+			player->SetPosition(player->GetPosition().x + 50 * dt, player->GetPosition().y);
 		}
-		else if(D3DXVECTOR3(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0,0,0))
+		
+		if(countingTime1 > gate->shift_time1 && countingTime2 == 0)
 		{
-			continue;
+			// shift camera
+			shiftingCamera = true;
+
+			RemoveGameObjectFromScene(player);
+
+			if (deltaShift == 0) // that's mean we've not set it yet
+			{
+				if (gate->shift_direction.x > 0)
+				{
+					deltaShift = Camera::GetInstance()->GetCollisionBox().right - Camera::GetInstance()->GetCollisionBox().left;
+				}
+
+				if (gate->shift_direction.x < 0)
+				{
+					deltaShift = Camera::GetInstance()->GetCollisionBox().left - Camera::GetInstance()->GetCollisionBox().right;
+				}
+			}
+
+			auto cameraPosition = Camera::GetInstance()->GetPosition();
+
+			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
+
+			totalShifting += gate->shift_direction.x * 150 * dt;
+
+			if (abs(totalShifting) > abs(deltaShift))
+			{
+				shiftingCamera = false;
+
+				auto playerPosition = player->GetPosition();
+
+				player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
+			}
 		}
-		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onSCeneObjs.at(i)), &onSCeneObjs, dt);
+		
+		if (countingTime1 > gate->shift_time1 && shiftingCamera == false)
+		{
+			// shifting time 2
+			countingTime2 += dt;
+
+			player->SetPosition(player->GetPosition().x + 50 * dt, player->GetPosition().y);
+		}
+
+		if (countingTime2 >= gate->shift_time2)
+		{
+			Camera::GetInstance()->SetCameraBoundary(gate->new_boundary_camera);
+
+			auto playerPosition = player->GetPosition();
+			auto cameraPosition = Camera::GetInstance()->GetPosition();
+
+			player->SetPosition(playerPosition.x + gate->teleport_delta.x, playerPosition.y + gate->teleport_delta.y);
+			
+			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->teleport_delta.x, cameraPosition.y + gate->teleport_delta.y);
+
+			state = State::_PLAYSCENE_FREE_PLAYING_;
+		}
+
+		AddGameObjectToScene(player);
 	}
-
-	ApllyVelocityToGameObjs(dt);
-
-	Camera::GetInstance()->Update(dt);
 }
 
 void CPlayScene::ApllyVelocityToGameObjs(float dt)
 {
-	for (auto obj : onSCeneObjs)
+	for (auto obj : onScreenObjs)
 	{
+		std::vector<int> oldListMapBlockID = GetMapBlockID(obj);
+
 		if (dynamic_cast<DynamicObject*>(obj) == NULL) continue;
 		D3DXVECTOR3 position = obj->GetPosition();
 		D3DXVECTOR3 velocity = dynamic_cast<DynamicObject*>(obj)->GetVelocity();
@@ -461,6 +613,44 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 		position = position + dt*velocity;
 
 		obj->SetPosition(position.x, position.y);
+
+		std::vector<int> newListMapBlockID = GetMapBlockID(obj);
+
+
+		for (auto oldMapBlockID : oldListMapBlockID)
+		{
+			auto e = std::find(newListMapBlockID.begin(), newListMapBlockID.end(), oldMapBlockID);
+
+			// if the old id dont appear in the new list id, delete the object from that map block
+			if (e == newListMapBlockID.end())
+			{
+				auto location = std::find(sceneObjects[oldMapBlockID].begin(), sceneObjects[oldMapBlockID].end(), obj);
+
+				sceneObjects[oldMapBlockID].erase(location);
+			}
+		}
+
+		for (auto newMapBlockID : newListMapBlockID)
+		{
+			auto e = std::find(oldListMapBlockID.begin(), oldListMapBlockID.end(), newMapBlockID);
+
+			// if the new id dont appear in the old list id, add the object to that map block
+			if (e == oldListMapBlockID.end())
+			{
+				sceneObjects[newMapBlockID].emplace_back(obj);
+			}
+		}
+
+		/*if (oldMapBlockID != newMapBlockID)
+		{
+			RemoveGameObjectFromScene(obj);		
+			obj->SetPosition(position.x, position.y);
+			AddGameObjectToScene(obj);
+		}
+		else
+		{
+			obj->SetPosition(position.x, position.y);
+		}*/
 	}
 }
 
@@ -468,8 +658,8 @@ void CPlayScene::Render()
 {
 	//mapBackground->Render();
 
-	for (int i = 0; i < onSCeneObjs.size(); i++)
-		onSCeneObjs[i]->Render();
+	for (int i = 0; i < onScreenObjs.size(); i++)
+		onScreenObjs[i]->Render();
 }
 
 /*
@@ -484,4 +674,15 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
+}
+
+void CPlayScene::SwitchSection(BigGate* gate)
+{
+	this->gate = gate;
+	this->state = State::_PLAYSCENE_SWITCH_SECTION;
+	countingTime1 = 0;
+	countingTime2 = 0;
+	shiftingCamera = false;
+	deltaShift = 0;
+	totalShifting = 0;
 }

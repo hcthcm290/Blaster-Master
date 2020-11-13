@@ -63,7 +63,7 @@ void CGame::Init(HWND hWnd)
 }
 
 
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX, float angle)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX, float angle, D3DCOLOR Color)
 {
 	D3DXVECTOR3 p(0, 0, 0);
 	RECT r;
@@ -103,7 +103,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 
 	spriteHandler->SetTransform(&mat);
 
-	spriteHandler->Draw(texture, &r, &center, NULL, D3DCOLOR_XRGB(255, 255, 255));
+	spriteHandler->Draw(texture, &r, &center, NULL, Color);
 }
 
 /*

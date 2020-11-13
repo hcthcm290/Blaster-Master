@@ -57,6 +57,9 @@ HWND CreateGameWindow(HINSTANCE hInstance, INT Width, INT Height)
 
     RegisterClass(&wc);
 
+    RECT wr = { 0, 0, Width, Height };
+    AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+
     HWND hwnd = CreateWindowEx(
         0,                              // Optional window styles.
         CLASS_NAME,                     // Window class
@@ -64,7 +67,7 @@ HWND CreateGameWindow(HINSTANCE hInstance, INT Width, INT Height)
         WS_OVERLAPPEDWINDOW,            // Window style
 
         // Size and position
-        CW_USEDEFAULT, CW_USEDEFAULT, Width, Height,
+        CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 
         NULL,       // Parent window    
         NULL,       // Menu
@@ -155,7 +158,7 @@ int Run()
 INT WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     PSTR lpCmdLine, INT nCmdShow)
 {
-    HWND hwnd = CreateGameWindow(hInstance, 400, 300);
+    HWND hwnd = CreateGameWindow(hInstance, Camera::GetInstance()->GetWidth(), Camera::GetInstance()->GetHeight());
 
     game = CGame::GetInstance();
 

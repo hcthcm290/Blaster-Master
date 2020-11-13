@@ -43,6 +43,26 @@ void Animator::Draw(int animationID, float x, float y, bool flipX, float rotatio
 	curFrame = anim->Render(curFrame, x, y, flipX, rotation);
 }
 
+void Animator::Draw(int animationID, float x, float y, bool flipX, float rotation, D3DCOLOR Color)
+{
+	LPANIMATION anim = animationSet[animationID];
+
+	if (anim == NULL)
+	{
+		DebugOut(L"animation id not found");
+		return;
+	}
+
+	if (animationID != curAnimationID)
+	{
+		curFrame = 0;
+	}
+
+	curAnimationID = animationID;
+
+	curFrame = anim->Render(curFrame, x, y, flipX, rotation, Color);
+}
+
 void Animator::AddAnimation(int id)
 {
 	animationSet[id] = new CAnimation(*CAnimations::GetInstance()->Get(id));

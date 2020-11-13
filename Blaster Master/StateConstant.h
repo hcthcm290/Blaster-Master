@@ -1,3 +1,5 @@
+#pragma once
+
 class State {
 public:
 #pragma region Jason
@@ -42,6 +44,18 @@ public:
 
 #pragma region Spike
 	static const int _SPIKE_ = 12301;
+#pragma endregion
+
+	static const int _BULLET_JASON_	=	26901;
+#pragma endregion
+
+#pragma region Insect
+	static const int _INSECT_		=	20602;
+#pragma endregion
+
+#pragma region PlayScene
+	static const int _PLAYSCENE_FREE_PLAYING_ = 27001;
+	static const int _PLAYSCENE_SWITCH_SECTION = 27002;
 #pragma endregion
 
 };

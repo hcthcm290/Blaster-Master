@@ -6,7 +6,7 @@
 class Bullet_Jason : public DynamicObject
 {
 private:
-	int speed = 100;
+	int speed = 200;
 	float livingTime = 5;
 
 public:
