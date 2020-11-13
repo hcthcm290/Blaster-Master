@@ -24,6 +24,7 @@
 #include "Dome.h"
 #include <execution>
 #include <algorithm>
+#include <unordered_map>
 #include "Bullet_Jason.h"
 #include "BigGate.h"
 #include "Sophia.h"
@@ -435,9 +436,11 @@ vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 
 vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 {
-	vector<CGameObject*> onScreenObjs;
+	onScreenObjs.clear();
 
 	FRECT cameraRECT = Camera::GetInstance()->GetCollisionBox();
+
+	std::unordered_map<CGameObject*, CGameObject*> listOnScreenObjs;
 
 	FRECT cameraInMapChunk = FRECT(cameraRECT.left / MAP_BLOCK_WIDTH,
 		cameraRECT.top / MAP_BLOCK_HEIGHT,
@@ -450,9 +453,17 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 		{
 			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
 			{
-				onScreenObjs.emplace_back(object);
+				if (listOnScreenObjs.find(object) == listOnScreenObjs.end())
+				{
+					listOnScreenObjs[object] = object;
+				}
 			}
 		}
+	}
+
+	for (auto object : listOnScreenObjs)
+	{
+		onScreenObjs.emplace_back(object.first);
 	}
 
 	/*for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
@@ -474,7 +485,7 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 
 void CPlayScene::Update(DWORD dw_dt)
 {
-	onScreenObjs = UpdateOnScreenObjs();
+	UpdateOnScreenObjs();
 
 	float dt = (float)(dw_dt);
 	dt /= 1000;
@@ -522,6 +533,8 @@ void CPlayScene::Update(DWORD dw_dt)
 		{
 			// shift camera
 			shiftingCamera = true;
+
+			RemoveGameObjectFromScene(player);
 
 			if (deltaShift == 0) // that's mean we've not set it yet
 			{
@@ -574,7 +587,6 @@ void CPlayScene::Update(DWORD dw_dt)
 			state = State::_PLAYSCENE_FREE_PLAYING_;
 		}
 
-		RemoveGameObjectFromScene(player);
 		AddGameObjectToScene(player);
 	}
 }
@@ -590,6 +602,8 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 		D3DXVECTOR3 velocity = dynamic_cast<DynamicObject*>(obj)->GetVelocity();
 
 		position = position + dt*velocity;
+
+		obj->SetPosition(position.x, position.y);
 
 		std::vector<int> newListMapBlockID = GetMapBlockID(obj);
 
