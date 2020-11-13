@@ -287,7 +287,7 @@ void Sophia::ShootHoming()
 	CGameObject* vision = new VisionBox(camera.left, camera.right, camera.top, camera.bottom);
 	int count = 0;
 
-	for (auto enemy : dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->onSCeneObjs)
+	for (auto enemy : dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetOnScreenObjs())
 	{
 		if (dynamic_cast<Enemy*>(enemy) != nullptr)
 		{

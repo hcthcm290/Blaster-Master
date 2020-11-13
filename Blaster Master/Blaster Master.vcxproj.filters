@@ -166,6 +166,8 @@
     <ClCompile Include="Spike.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="BigGate.cpp" />
+    <ClCompile Include="CameraBoundaryLib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -330,6 +332,7 @@
     <ClInclude Include="Spike.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Animator_Floater.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png">
