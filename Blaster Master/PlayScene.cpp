@@ -201,16 +201,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		obj = bg;
 		break;
+	}
 	case 901:
 		obj = new AGR_Orb();
 		break;
 	case 23:
+	{
 		int rotation = atoi(tokens[3].c_str());
 		obj = new Spike(rotation);
 		obj->SetPosition(x, y);
 		break;
 	}
-
 	case 76:
 	{
 		std::string idSection = tokens[2].c_str();
@@ -656,7 +657,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	//mapBackground->Render();
+	mapBackground->Render();
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
 		onScreenObjs[i]->Render();

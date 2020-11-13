@@ -31,10 +31,6 @@ public:
 	static const int _FLOATER_BULLET_ = 22203;
 #pragma endregion
 
-#pragma region Jason_Bullet
-	static const int _BULLET_JASON_ = 21501;
-#pragma endregion
-
 #pragma region Orb
 	static const int _ORB_FLY_ = 20901;
 	static const int _ORB_UOD_ = 20902;
