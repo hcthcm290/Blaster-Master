@@ -4,6 +4,7 @@
 #include "ColliableBrick.h"
 #include "Debug.h"
 #include "Orb.h"
+#include "Utils.h"
 
 Jumper::Jumper()
 {
@@ -14,19 +15,27 @@ Jumper::Jumper()
 }
 void Jumper::OnCollisionEnter(CollisionEvent e)
 {
-	if (e.ny < 0 && dynamic_cast<ColliableBrick*>(e.pGameObject))
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject))
 	{
-		if (!onTheGround)
+		if (e.ny < 0)
 		{
-			waitForJump = 0;
-			mini_waitForJump = 0;
+			if (!onTheGround)
+			{
+				waitForJump = 0;
+				mini_waitForJump = 0;
+			}
+			onTheGround = true;
 		}
-		onTheGround = true;
+		if (e.nx < 0 && !onTheGround)
+		{
+			direction = 1;
+		}
+		if (e.nx > 0 && !onTheGround)
+		{
+			direction = -1;
+		}
 	}
-	if (dynamic_cast<Orb*>(e.pGameObject))
-	{
-
-	}
+	
 }
 void Jumper::Update(float dt)
 {
@@ -75,13 +84,17 @@ void Jumper::Update(float dt)
 
 	if (waitForJump >= 2 && onTheGround)
 	{
-		jumpCount = 4;
+		float rand = RandomFloat(-1,1);
+		if (rand < 0) jumpCount = 3;
+		else jumpCount = 4;
 		waitForJump = -99;
+		mini_waitForJump = -99;
 		canJump = true;
 	}
-	if (mini_waitForJump >= 0.1 && jumpCount>0 && onTheGround)
+	if (mini_waitForJump >= 0.15 && jumpCount>0 && onTheGround)
 	{
 		jumpCount--;
+		DebugOut(L"Jump %d", jumpCount);
 		canJump = true;
 		mini_waitForJump = -99;
 	}
@@ -94,10 +107,10 @@ void Jumper::Update(float dt)
 	{
 		waitForJump += dt;
 		mini_waitForJump += dt;
-		vx = -30 * direction;
+		vx = direction * -1 * jumperSpeed;
 		if (canJump && trigger)
 		{
-			vy = -150;
+			vy = -200;
 			jumpTime = 0.3;
 			onTheGround = false;
 			canJump = false;
@@ -108,7 +121,7 @@ void Jumper::Update(float dt)
 	else
 		flip = true;
 
-	vy += 300 * dt;
+	vy += 700 * dt;
 }
 
 void Jumper::Render()
