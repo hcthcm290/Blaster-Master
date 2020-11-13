@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\rapidjson-master\include;C:\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -195,6 +195,7 @@
     <ClCompile Include="MineBullet.cpp" />
     <ClCompile Include="Mine_Explosion.cpp" />
     <ClCompile Include="Orb.cpp" />
+    <ClCompile Include="PlayerItem.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Skull.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="MineBullet.h" />
     <ClInclude Include="Mine_Explosion.h" />
     <ClInclude Include="Orb.h" />
+    <ClInclude Include="PlayerItem.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="RECT.h" />
     <ClInclude Include="RigidBody.h" />

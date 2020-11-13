@@ -270,7 +270,7 @@ void Sophia::Update(float dt)
 		}
 		StateChange();
 		last_flipX = flipX;
-		if (onTheGround && DInput::KeyUp(DIK_LSHIFT))
+		if (onTheGround && DInput::KeyDown(DIK_LSHIFT) && (GetTickCount64() - switchDelay >= 1000))
 		{
 			jason = new Jason(JasonCurrentHealth, x, y - 10, this);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(jason);
@@ -493,6 +493,7 @@ void Sophia::Render()
 }
 
 void Sophia::Awake(int JasonHealth) {
+	switchDelay = GetTickCount64();
 	JasonCurrentHealth = JasonHealth;
 	state = STATE_SOPHIA_IDLE;
 }

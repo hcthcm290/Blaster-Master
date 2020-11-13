@@ -33,6 +33,7 @@
 #include "Skull.h"
 #include "Worm.h"
 #include "Skull_Bullet.h"
+#include "PlayerItem.h"
 #include "CameraBoundaryLib.h"
 
 using namespace std;
@@ -200,6 +201,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 
 		obj = bg;
+		break;
+	case 0:
+		obj = new PlayerItem();
 		break;
 	}
 	case 901:

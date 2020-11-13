@@ -168,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="CameraBoundaryLib.cpp" />
+    <ClCompile Include="PlayerItem.cpp">
+      <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -333,6 +336,9 @@
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Floater.h" />
+    <ClInclude Include="PlayerItem.h">
+      <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png">
@@ -398,6 +404,12 @@
     </Filter>
     <Filter Include="Source Files\Gates">
       <UniqueIdentifier>{d79e68b1-367b-4fe2-af7e-399da743a5be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Other Objects">
+      <UniqueIdentifier>{30cf37a6-fc7c-409d-966f-0a6bc9d82f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Other Objects">
+      <UniqueIdentifier>{774de3a1-254d-40d0-b954-36e141127860}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
