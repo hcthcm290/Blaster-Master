@@ -106,8 +106,8 @@ void Skull::Render()
 
 void Skull::DropBomb()
 {
-		auto bomb = new Skull_Bullet();
-		bomb->SetPosition(x, y);
+	auto bomb = new Skull_Bullet();
+	bomb->SetPosition(x, y);
 
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bomb);
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bomb);
 }

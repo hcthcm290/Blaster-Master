@@ -1,15 +1,16 @@
 #pragma once
 #include "DynamicObject.h"
-#include "RigidBody.h"
-#include "CollisionSystem.h"
 #include "Bullet.h"
-class Explosive :
+class VisionBox :
     public DynamicObject, public Bullet
 {
-	DWORD last;
+protected:
+	int left, right, top, bottom;
 public:
-	Explosive();
+	static int count;
+	VisionBox(int left, int right, int top, int bottom);
 	FRECT GetCollisionBox();
+	void OnCollisionEnter(CollisionEvent e);
 	void Update(float dt);
 	void Render();
 };

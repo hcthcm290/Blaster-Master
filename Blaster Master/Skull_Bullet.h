@@ -2,8 +2,9 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "CollisionSystem.h"
+#include "Bullet.h"
 class Skull_Bullet :
-    public DynamicObject
+    public DynamicObject, public Bullet
 {
 protected:
 	DWORD last;

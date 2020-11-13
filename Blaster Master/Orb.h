@@ -1,6 +1,7 @@
 #pragma once
 #include "DynamicObject.h"
 #include "CollisionSystem.h"
+#include "Enemy.h"
 
 #define ORB_COLLISION_BOX_WIDTH 18
 #define ORB_COLLISION_BOX_HEIGHT 18
@@ -8,7 +9,7 @@
 #define orbUOD State::_ORB_UOD_
 #define orbFly State::_ORB_FLY_
 
-class Orb : public DynamicObject
+class Orb : public DynamicObject, public Enemy
 {
 	bool flip = false;
 	int state;

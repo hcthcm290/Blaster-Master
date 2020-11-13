@@ -4,12 +4,13 @@
 #include "CollisionSystem.h"
 #include "PlayScene.h"
 #include "GameObject.h"
+#include "Enemy.h"
 
 #define floaterFly State::_FLOATER_FLY_
 #define	floaterIdle State::_FLOATER_IDLE_
 #define	floaterSpeed State::_FLOATER_SPEED_
 
-class Floater : public DynamicObject, public RigidBody
+class Floater : public DynamicObject, public Enemy
 {
 private:
 	int state;

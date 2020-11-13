@@ -1,8 +1,13 @@
 #include "Sophia.h"
 #include "Animator_Sophia.h"
 #include "Debug.h"
+#include "Sophia_Bullet_1.h"
+#include "Sophia_Bullet_Homing.h"
 #include "ColliableBrick.h"
 #include "PlayScene.h"
+#include "Enemy.h"
+#include "VisionBox.h"
+#include "Camera.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -40,6 +45,8 @@ Sophia::Sophia()
 	start_gunturn = 0;
 	//flipX
 	last_flipX = false;
+	//bullet
+	last_bullet = GetTickCount();
 	//state
 	state = STATE_SOPHIA_IDLE;
 	//animator
@@ -238,6 +245,29 @@ void Sophia::Update(float dt)
 				gun_turn = false;
 			}
 		}
+		if (DInput::KeyPress(DIK_Z))
+		{
+			if (DInput::KeyPress(DIK_DOWN))
+			{
+				if(now - last_bullet > 300)
+					ShootHoming();
+			}
+			else
+			{
+				if (now - last_bullet > 300 && (new Sophia_Bullet_1)->count < 3)
+				{
+					last_bullet = now;
+					bool up = false;
+					if (gun_up == 90)
+					{
+						up = true;
+					}
+					auto bullet = new Sophia_Bullet_1(up, !flipX);
+					bullet->SetPosition(x, y);
+					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
+				}
+			}
+		}
 		StateChange();
 		last_flipX = flipX;
 		if (onTheGround && DInput::KeyUp(DIK_LSHIFT))
@@ -249,6 +279,40 @@ void Sophia::Update(float dt)
 			start_shift = now;
 		}
 	}
+}
+
+void Sophia::ShootHoming()
+{
+	FRECT camera = Camera::GetInstance()->GetCollisionBox();
+	CGameObject* vision = new VisionBox(camera.left, camera.right, camera.top, camera.bottom);
+	int count = 0;
+
+	for (auto enemy : dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->onSCeneObjs)
+	{
+		if (dynamic_cast<Enemy*>(enemy) != nullptr)
+		{
+			if (count <= 4)
+			{
+				last_bullet = GetTickCount();
+				bool up = false;
+				if (gun_up == 90)
+				{
+					up = true;
+				}
+				if (CollisionSystem::CheckOverlap(enemy, vision))
+				{
+					auto bullet = new Sophia_Bullet_Homing(!flipX, dynamic_cast<DynamicObject*>(enemy));
+					bullet->SetPosition(x, y);
+					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+	delete vision;
 }
 
 void Sophia::StateChange()

@@ -2,9 +2,11 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "CollisionSystem.h"
-class Worm : public DynamicObject
+#include "Enemy.h"
+class Worm : public DynamicObject, public Enemy
 {
 	bool flipX;
+	bool onTheGround = false;
 public:
 	Worm();
 	FRECT GetCollisionBox();

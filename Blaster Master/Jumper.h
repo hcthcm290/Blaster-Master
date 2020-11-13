@@ -2,11 +2,12 @@
 #include "DynamicObject.h"
 #include "CollisionSystem.h"
 #include "PlayScene.h"
+#include "Enemy.h"
 #define jumperSpeed	30;
 #define jumperWalk State::_JUMPER_WALK_
 #define	jumperIdle State::_JUMPER_IDLE_
 
-class Jumper : public DynamicObject
+class Jumper : public DynamicObject, public Enemy
 {
 private:
 	bool onTheGround = false;

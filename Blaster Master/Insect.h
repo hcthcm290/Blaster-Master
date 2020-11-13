@@ -2,8 +2,9 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "Animator.h"
+#include "Enemy.h"
 
-class Insect : public DynamicObject
+class Insect : public DynamicObject, public Enemy
 {
 private:
 	//FlipX ( true = right, false = left )
