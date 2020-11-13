@@ -223,7 +223,6 @@
     <ClInclude Include="Behavior_Jason.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="BigGate.h" />
     <ClInclude Include="Bullet_Jason.h" />
     <ClInclude Include="Camera.h" />
