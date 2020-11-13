@@ -13,5 +13,6 @@ protected:
 public:
 	virtual void Draw(int animationID, float x, float y, bool flipX);
 	virtual void Draw(int animationID, float x, float y, bool flipX, float rotation);
+	virtual void Draw(int animationID, float x, float y, bool flipX, float rotation, D3DCOLOR Color);
 	virtual void AddAnimation(int id);
 };
