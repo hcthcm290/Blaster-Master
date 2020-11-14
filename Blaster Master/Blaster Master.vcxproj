@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\rapidjson\rapidjson\include;C:\rapidjson-master\include;D:\Document\NMGame\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\rapidjson\include;C:\rapidjson-master\include;D:\Document\NMGame\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -171,6 +171,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
+    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="CameraBoundaryLib.cpp" />
     <ClCompile Include="Canon.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="Behavior_Jason.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Ship.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="BigGate.h" />
