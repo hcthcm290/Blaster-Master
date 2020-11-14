@@ -1,10 +1,18 @@
 #include "Orb.h"
 #include "ColliableBrick.h"
 #include "Mine.h"
+#include "Utils.h"
+#include "DInput.h"
+#include "Debug.h"
 
 Orb::Orb()
 {
-	animator->AddAnimation(20902);
+	animator = new Animator();
+	animator->AddAnimation(orbUOD);
+	animator->AddAnimation(orbFly);
+	state = orbFly;
+	flip = false;
+	vx = vy = 0;
 }
 
 FRECT Orb::GetCollisionBox()
@@ -19,40 +27,69 @@ FRECT Orb::GetCollisionBox()
 
 void Orb::OnCollisionEnter(CollisionEvent e)
 {
-	if (e.ny < 0 && dynamic_cast<ColliableBrick*>(e.pGameObject) != NULL)
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject) != NULL)
 	{
-		//vy = 0;
-		onTheGround = true;
+		if (e.ny < 0)
+		{
+			ver_direction = -1;
+			hitWall = true;
+		}
+		if (e.ny>0)
+		{
+			ver_direction = 1;
+			hitWall = true;
+		}
+		if (e.nx < 0)
+		{
+			flip = false;
+			hor_direction = -1;
+		}
+		if (e.nx>0)
+		{
+			flip = true;
+			hor_direction = 1;
+		}
 	}
 }
 
 void Orb::Update(float dt)
 {
-	vy += 300*dt;
-
-	if (DInput::KeyPress(DIK_LEFT))
-		vx = -100;
-	else if (DInput::KeyPress(DIK_RIGHT))
-		vx = 100;
-	else
+	vx = hor_direction * orbSpeed;
+	if (vy != 0)
 		vx = 0;
-
-	if (DInput::KeyPress(DIK_X) && canJump)
+	waitForChange += dt;
+	if (this->state == orbUOD)
 	{
-		vy = -300;
-		onTheGround = false;
-		canJump = false;
+		turnAround += dt;
+		if (turnAround > 0.3)
+		{
+			this->state = orbFly;
+			turnAround = 0;
+			vy = 0;
+		}
 	}
-
-	if (onTheGround && !DInput::KeyPress(DIK_X))
+	if (waitForChange >= 5)
 	{
-		canJump = true;
+		this->state = orbUOD;
+		waitForChange = 0;
+		if (hitWall)
+		{
+			hitWall = false;
+		}
+		else
+		{
+			float random = RandomFloat(-1, 1);
+			if (random < 0) ver_direction = -1;
+			else ver_direction = 1;
+		}
+		vy = ver_direction * orbSpeed;
+		vx = 0;
 	}
 }
 
 void Orb::Render()
 {
-	animator->Draw(20902, x, y, false);
+	animator->Draw(state, x, y, flip);
 }
 
 

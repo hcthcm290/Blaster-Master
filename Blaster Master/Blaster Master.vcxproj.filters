@@ -49,29 +49,14 @@
     <ClCompile Include="Animator.cpp">
       <Filter>Source Files\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="Animator_Floater.cpp">
-      <Filter>Source Files\Animator</Filter>
-    </ClCompile>
     <ClCompile Include="Animator_Jason.cpp">
       <Filter>Source Files\Animator</Filter>
     </ClCompile>
     <ClCompile Include="Animator_Jumper.cpp">
       <Filter>Source Files\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="Animator_Mine_Explosion.cpp">
-      <Filter>Source Files\Animator</Filter>
-    </ClCompile>
     <ClCompile Include="Animator_Sophia.cpp">
       <Filter>Source Files\Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet_Jason.cpp">
-      <Filter>Source Files\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Floater_Bullet.cpp">
-      <Filter>Source Files\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="MineBullet.cpp">
-      <Filter>Source Files\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Skull_Bullet.cpp">
       <Filter>Source Files\Bullet</Filter>
@@ -109,9 +94,6 @@
     <ClCompile Include="Explosive.cpp">
       <Filter>Source Files\Explosion</Filter>
     </ClCompile>
-    <ClCompile Include="Mine_Explosion.cpp">
-      <Filter>Source Files\Explosion</Filter>
-    </ClCompile>
     <ClCompile Include="Sophia.cpp">
       <Filter>Source Files\Playable</Filter>
     </ClCompile>
@@ -121,8 +103,80 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sophia_Bullet_1.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet_Jason.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Floater_Bullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine_Explosion.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="MineBullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Floater.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Mine_Explosion.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Behavior.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Behavior_Jason.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Sophia_Bullet_Homing.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="VisionBox.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Skull_Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosive.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Floater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet_Jason.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Floater_Bullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Jason.cpp">
+      <Filter>Source Files\Playable</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AGR_Orb.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="CameraBoundaryLib.cpp" />
+    <ClCompile Include="PlayerItem.cpp">
+      <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -150,9 +204,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Intangibility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RECT.h">
@@ -185,31 +236,16 @@
     <ClInclude Include="Animator.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Floater.h">
-      <Filter>Header Files\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="Animator_Jason.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Jumper.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Mine_Explosion.h">
-      <Filter>Header Files\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="Animator_Sophia.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet_Jason.h">
-      <Filter>Header Files\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="MineBullet.h">
-      <Filter>Header Files\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="Skull_Bullet.h">
-      <Filter>Header Files\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="Floater_Bullet.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Canon.h">
@@ -245,9 +281,6 @@
     <ClInclude Include="Explosive.h">
       <Filter>Header Files\Explosion</Filter>
     </ClInclude>
-    <ClInclude Include="Mine_Explosion.h">
-      <Filter>Header Files\Explosion</Filter>
-    </ClInclude>
     <ClInclude Include="Jason.h">
       <Filter>Header Files\Playable</Filter>
     </ClInclude>
@@ -261,6 +294,58 @@
       <Filter>Header Files\Gates</Filter>
     </ClInclude>
     <ClInclude Include="CameraBoundaryLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia_Bullet_1.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet_Jason.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Floater_Bullet.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine_Explosion.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="MineBullet.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Floater.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Mine_Explosion.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior_Jason.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia_Bullet_Homing.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionBox.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="AGR_Orb.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Floater.h" />
+	  <ClInclude Include="PlayerItem.h">
+		  <Filter>Header Files\Other Objects</Filter>
+	  </ClInclude>
+    <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -328,6 +413,12 @@
     </Filter>
     <Filter Include="Source Files\Gates">
       <UniqueIdentifier>{d79e68b1-367b-4fe2-af7e-399da743a5be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Other Objects">
+      <UniqueIdentifier>{30cf37a6-fc7c-409d-966f-0a6bc9d82f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Other Objects">
+      <UniqueIdentifier>{774de3a1-254d-40d0-b954-36e141127860}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

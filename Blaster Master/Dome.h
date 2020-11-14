@@ -1,8 +1,9 @@
 #pragma once
 #include "DynamicObject.h"
 #include "ColliableBrick.h"
+#include "Enemy.h"
 
-class Dome : public DynamicObject
+class Dome : public DynamicObject, public Enemy
 {
 private:
 	D3DXVECTOR2 gravity;

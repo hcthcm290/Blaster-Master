@@ -20,10 +20,13 @@ class Sophia : public DynamicObject
 	bool last_flipX;
 	bool gun_turn;
 	DWORD start_shift;
+	DWORD last_bullet;
 
 	//JASON
 	Jason* jason;
 	int JasonCurrentHealth = 6;
+
+	DWORD switchDelay; //avoid switching back and forth so fast
 public:
 	Sophia();
 
@@ -32,6 +35,7 @@ public:
 	void Update(float dt);
 	void Render();
 	void StateChange();
+	void ShootHoming();
 
 	void Awake(int JasonHealth);
 };

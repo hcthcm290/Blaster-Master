@@ -9,7 +9,7 @@ void Animator::Draw(int animationID, float x, float y, bool flipX)
 
 	if (anim == NULL)
 	{
-		DebugOut(L"animation id not found");
+		DebugOut(L"animation id not found\n");
 		return;
 	}
 
@@ -29,7 +29,7 @@ void Animator::Draw(int animationID, float x, float y, bool flipX, float rotatio
 
 	if (anim == NULL)
 	{
-		DebugOut(L"animation id not found");
+		DebugOut(L"animation id not found\n");
 		return;
 	}
 
