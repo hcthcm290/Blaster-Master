@@ -172,7 +172,7 @@ void Sophia::Update(float dt)
 			return;
 		}
 
-		vy += 300 * dt;
+		vy += 460 * dt;
 
 		if (DInput::KeyPress(DIK_LEFT))
 		{
@@ -194,7 +194,7 @@ void Sophia::Update(float dt)
 
 		if (DInput::KeyPress(DIK_X) && canJump)
 		{
-			vy = -150;
+			vy = -230;
 			onTheGround = false;
 			canJump = false;
 		}

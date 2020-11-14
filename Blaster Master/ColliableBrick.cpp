@@ -3,10 +3,10 @@
 FRECT ColliableBrick::GetCollisionBox()
 {
     FRECT ColRECT;
-    ColRECT.left = x - 8;
-    ColRECT.right = x + 8;
-    ColRECT.top = y - 8;
-    ColRECT.bottom = y + 8;
+    ColRECT.left = x - width/2;
+    ColRECT.right = x + width/2;
+    ColRECT.top = y - height/2;
+    ColRECT.bottom = y + height/2;
 
     return ColRECT;
 }

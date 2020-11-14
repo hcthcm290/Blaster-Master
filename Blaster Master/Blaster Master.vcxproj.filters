@@ -172,10 +172,14 @@
     <ClCompile Include="Spike.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="BigGate.cpp" />
-    <ClCompile Include="CameraBoundaryLib.cpp" />
     <ClCompile Include="PlayerItem.cpp">
       <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BigGate.cpp">
+      <Filter>Source Files\Gates</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraBoundaryLib.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -342,9 +346,9 @@
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Floater.h" />
-	  <ClInclude Include="PlayerItem.h">
-		  <Filter>Header Files\Other Objects</Filter>
-	  </ClInclude>
+    <ClInclude Include="PlayerItem.h">
+      <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>

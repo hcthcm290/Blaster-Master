@@ -55,6 +55,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
 #define SCENE_SECTION_MAP 7
+#define SCENE_SECTION_MERGEDBRICK 8
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
@@ -235,12 +236,12 @@ void CPlayScene::_ParseSection_MAP(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 1) return;
+	if (tokens.size() < 1 || tokens[0] == "") return;
 
 	string map_file_path = tokens[0];
 
 	FILE* fp;
-	errno_t err = fopen_s(&fp, map_file_path.c_str(), "r"); // non-Windows use "r"
+	errno_t err = fopen_s(&fp, map_file_path.c_str(), "r");
 
 	char* readBuffer;
 	readBuffer = new char[65536];
@@ -317,6 +318,107 @@ void CPlayScene::_ParseSection_MAP(string line)
 	fclose(fp);
 }
 
+void CPlayScene::_ParseSection_MERGEDBRICK(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 1 || tokens[0] == "") return;
+
+	string map_file_path = tokens[0];
+
+	FILE* fp;
+	errno_t err = fopen_s(&fp, map_file_path.c_str(), "r"); // non-Windows use "r"
+
+	char* readBuffer;
+	readBuffer = new char[65536];
+
+	rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+	rapidjson::Document d;
+	d.ParseStream(is);
+
+	auto listObject = d.GetArray();
+
+	for (auto& object : listObject)
+	{
+		ColliableBrick* brick = new ColliableBrick();
+		
+		FRECT brickRECT = FRECT(
+			object["left"].GetInt(),
+			object["top"].GetInt(),
+			object["right"].GetInt(),
+			object["bottom"].GetInt()
+		);
+
+		brick->SetPosition((brickRECT.right + brickRECT.left) / 2 * 16, (brickRECT.bottom + brickRECT.top) / 2 * 16);
+		brick->SetWidth((brickRECT.right - brickRECT.left + 1) * 16);
+		brick->SetHeight((brickRECT.bottom - brickRECT.top + 1) * 16);
+
+		AddGameObjectToScene(brick);
+	}
+}
+
+
+
+#pragma endregion
+
+void CPlayScene::Load()
+{
+	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
+
+	ifstream f;
+	f.open(sceneFilePath);
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;	// skip comment lines	
+
+		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
+		if (line == "[SPRITES]") {
+			section = SCENE_SECTION_SPRITES; continue;
+		}
+		if (line == "[ANIMATIONS]") {
+			section = SCENE_SECTION_ANIMATIONS; continue;
+		}
+		if (line == "[ANIMATION_SETS]") {
+			section = SCENE_SECTION_ANIMATION_SETS; continue;
+		}
+		if (line == "[OBJECTS]") {
+			section = SCENE_SECTION_OBJECTS; continue;
+		}
+		if (line == "[MAP]") {
+			section = SCENE_SECTION_MAP; continue;
+		}
+		if (line == "[MERGEDBRICK]") {
+			section = SCENE_SECTION_MERGEDBRICK; continue;
+		}
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+		//
+		// data section
+		//
+		switch (section)
+		{
+		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
+		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
+		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
+		case SCENE_SECTION_MERGEDBRICK: _ParseSection_MERGEDBRICK(line); break;
+		}
+	}
+
+	f.close();
+
+	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+}
+
 void CPlayScene::AddGameObjectToScene(CGameObject* obj)
 {
 	std::vector<int> listMapBlockID = GetMapBlockID(obj);
@@ -334,7 +436,11 @@ void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 	for (auto mapBlockID : listMapBlockID)
 	{
 		auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
-		sceneObjects[mapBlockID].erase(e);
+
+		if (e != sceneObjects[mapBlockID].end())
+		{
+			sceneObjects[mapBlockID].erase(e);
+		}
 	}
 
 	/*if (e != sceneObjects[mapBlockID].end())
@@ -382,61 +488,6 @@ std::vector<int> CPlayScene::GetMapBlockID(CGameObject* object)
 	}
 
 	return listMapBlockID;
-}
-
-#pragma endregion
-
-void CPlayScene::Load()
-{
-	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
-
-	ifstream f;
-	f.open(sceneFilePath);
-
-	// current resource section flag
-	int section = SCENE_SECTION_UNKNOWN;
-
-	char str[MAX_SCENE_LINE];
-	while (f.getline(str, MAX_SCENE_LINE))
-	{
-		string line(str);
-
-		if (line[0] == '#') continue;	// skip comment lines	
-
-		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
-		if (line == "[SPRITES]") {
-			section = SCENE_SECTION_SPRITES; continue;
-		}
-		if (line == "[ANIMATIONS]") {
-			section = SCENE_SECTION_ANIMATIONS; continue;
-		}
-		if (line == "[ANIMATION_SETS]") {
-			section = SCENE_SECTION_ANIMATION_SETS; continue;
-		}
-		if (line == "[OBJECTS]") {
-			section = SCENE_SECTION_OBJECTS; continue;
-		}
-		if (line == "[MAP]") {
-			section = SCENE_SECTION_MAP; continue;
-		}
-		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
-
-		//
-		// data section
-		//
-		switch (section)
-		{
-		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
-		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
-		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
-		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
-		}
-	}
-
-	f.close();
-
-	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
 /// <summary>
@@ -631,7 +682,10 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 			{
 				auto location = std::find(sceneObjects[oldMapBlockID].begin(), sceneObjects[oldMapBlockID].end(), obj);
 
-				sceneObjects[oldMapBlockID].erase(location);
+				if (location != sceneObjects[oldMapBlockID].end())
+				{
+					sceneObjects[oldMapBlockID].erase(location);
+				}
 			}
 		}
 
@@ -664,7 +718,11 @@ void CPlayScene::Render()
 	mapBackground->Render();
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
+	{
+		if (dynamic_cast<ColliableBrick*>(onScreenObjs[i]) != NULL) continue;
 		onScreenObjs[i]->Render();
+
+	}
 }
 
 /*

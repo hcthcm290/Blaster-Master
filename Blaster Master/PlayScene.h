@@ -33,6 +33,7 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
+	void _ParseSection_MERGEDBRICK(string line);
 
 	virtual void ApllyVelocityToGameObjs(float dt);
 
