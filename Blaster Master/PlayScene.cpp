@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Textures.h"
 #include "Orb.h"
+#include "AGR_Orb.h"
 #include "Floater.h"
 #include "Jumper.h"
 #include "Jason.h"
@@ -27,10 +28,12 @@
 #include <unordered_map>
 #include "Bullet_Jason.h"
 #include "BigGate.h"
+#include "Spike.h"
 #include "Sophia.h"
 #include "Skull.h"
 #include "Worm.h"
 #include "Skull_Bullet.h"
+#include "PlayerItem.h"
 #include "CameraBoundaryLib.h"
 
 using namespace std;
@@ -162,8 +165,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 9:
 		obj = new Orb();
 		break;
-		//player = dynamic_cast<DynamicObject*>(obj);
-	case 99:
+	case -999:
 		obj = new Jason();
 		break;
 	case 98:
@@ -201,7 +203,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = bg;
 		break;
 	}
-
+	case 0:
+		obj = new PlayerItem();
+		break;
+	case 901:
+		obj = new AGR_Orb();
+		break;
+	case 23:
+	{
+		int rotation = atoi(tokens[3].c_str());
+		obj = new Spike(rotation);
+		obj->SetPosition(x, y);
+		break;
+	}
 	case 76:
 	{
 		std::string idSection = tokens[2].c_str();
