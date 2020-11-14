@@ -94,7 +94,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	}
 
 	D3DXMATRIX rotate;
-	D3DXMatrixRotationAxis(&rotate, &D3DXVECTOR3(0, 0, 1), angle*3.14/180);
+	D3DXMatrixRotationAxis(&rotate, new D3DXVECTOR3(0, 0, 1), angle*3.14/180);
 
 	mat *= flip;
 	mat *= rotate;

@@ -127,12 +127,6 @@
     <ClCompile Include="Animator_Mine_Explosion.cpp">
       <Filter>Source Files\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="Behavior.cpp">
-      <Filter>Source Files\Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="Behavior_Jason.cpp">
-      <Filter>Source Files\Animator</Filter>
-    </ClCompile>
     <ClCompile Include="Sophia_Bullet_Homing.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
@@ -323,12 +317,6 @@
     <ClInclude Include="Animator_Mine_Explosion.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="Behavior.h">
-      <Filter>Header Files\Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="Behavior_Jason.h">
-      <Filter>Header Files\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="Sophia_Bullet_Homing.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
@@ -342,9 +330,9 @@
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Floater.h" />
-	  <ClInclude Include="PlayerItem.h">
-		  <Filter>Header Files\Other Objects</Filter>
-	  </ClInclude>
+    <ClInclude Include="PlayerItem.h">
+      <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
