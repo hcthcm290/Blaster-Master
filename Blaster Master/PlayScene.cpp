@@ -202,10 +202,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		obj = bg;
 		break;
+	}
 	case 0:
 		obj = new PlayerItem();
 		break;
-	}
 	case 901:
 		obj = new AGR_Orb();
 		break;

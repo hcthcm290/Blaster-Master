@@ -342,8 +342,9 @@
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Floater.h" />
-    <ClInclude Include="PlayerItem.h">
-      <Filter>Header Files\Other Objects</Filter>
+	  <ClInclude Include="PlayerItem.h">
+		  <Filter>Header Files\Other Objects</Filter>
+	  </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
