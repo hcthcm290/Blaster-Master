@@ -30,9 +30,6 @@ private:
 	//bacic properties
 	int state;
 
-	static const int maxHealth = 6;
-	int health = 6;
-
 	int speed = 100;
 	int jumpSpeed = 40;
 	int flipX = false;
@@ -81,5 +78,5 @@ public:
 	void OnCollisionEnter(CollisionEvent e);
 
 	void PushBack(int _vx, int _vy);
-	void getDamage(int damage);
+	void TakeDamage(int dmg);
 };

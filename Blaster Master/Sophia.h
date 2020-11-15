@@ -27,7 +27,7 @@ class Sophia : public DynamicObject
 
 	//JASON
 	Jason* jason;
-	int JasonCurrentHealth = 6;
+	int JasonCurrentHealth = 100;
 
 	DWORD switchDelay; //avoid switching back and forth so fast
 public:
