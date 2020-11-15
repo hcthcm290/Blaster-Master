@@ -185,18 +185,35 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 6:
 		obj = new Insect();
 		break;
+	case 76:
+	{
+		FRECT cameraBoundingBox;
+		cameraBoundingBox.left = atoi(tokens[2].c_str()) * 16 - 8;
+		cameraBoundingBox.top = atoi(tokens[3].c_str()) * 16 - 8;
+		cameraBoundingBox.right = atoi(tokens[4].c_str()) * 16 + 8;
+		cameraBoundingBox.bottom = atoi(tokens[5].c_str()) * 16 + 8;
+
+		CameraBoundaryLib::AddCameraBoundary(tokens[1], cameraBoundingBox);
+		return;
+	}
 	case 77:
 	{
 		BigGate* bg = new BigGate();
+
+		x = atof(tokens[1].c_str()) * 16;
+		y = atof(tokens[2].c_str()) * 16;
+
 		bg->shift_direction = D3DXVECTOR2(atoi(tokens[3].c_str()), atoi(tokens[4].c_str()));
 
 		bg->shift_time1 = atof(tokens[5].c_str());
 		bg->shift_time2 = atof(tokens[6].c_str());
 
 		bg->pre_teleport_delta = D3DXVECTOR2(atof(tokens[7].c_str()), atof(tokens[8].c_str()));
-		bg->new_boundary_camera = FRECT(atof(tokens[9].c_str()), atof(tokens[10].c_str()), atof(tokens[11].c_str()), atof(tokens[12].c_str()));
+		//bg->new_boundary_camera = FRECT(atof(tokens[9].c_str()), atof(tokens[10].c_str()), atof(tokens[11].c_str()), atof(tokens[12].c_str()));
 
-		bg->teleport_delta = D3DXVECTOR2(atof(tokens[13].c_str()), atof(tokens[14].c_str()));
+		bg->new_boundary_camera = CameraBoundaryLib::getCameraBoundary(tokens[9]);
+
+		bg->teleport_delta = D3DXVECTOR2(atof(tokens[10].c_str()), atof(tokens[11].c_str()));
 
 		//bg->shift_speed = atoi(tokens[15].c_str());
 
@@ -216,13 +233,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Spike(rotation);
 		obj->SetPosition(x, y);
 		break;
-	}
-	case 76:
-	{
-		std::string idSection = tokens[2].c_str();
-		FRECT cameraBoundary = FRECT(atof(tokens[2].c_str()), atof(tokens[3].c_str()), atof(tokens[4].c_str()), atof(tokens[5].c_str()));
-		CameraBoundaryLib::AddCameraBoundary(idSection, cameraBoundary);
-		return;
 	}
 	}
 
@@ -416,6 +426,8 @@ void CPlayScene::Load()
 
 	f.close();
 
+	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary("A2_A"));
+
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -588,10 +600,12 @@ void CPlayScene::Update(DWORD dw_dt)
 	{
 		countingTime1 += dt;
 
+		RemoveGameObjectFromScene(player);
+
 		if (countingTime1 < gate->shift_time1)
 		{
 			// shifting time 1
-			player->SetPosition(player->GetPosition().x + 50 * dt, player->GetPosition().y);
+			player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
 		}
 		
 		if(countingTime1 > gate->shift_time1 && countingTime2 == 0)
@@ -599,34 +613,63 @@ void CPlayScene::Update(DWORD dw_dt)
 			// shift camera
 			shiftingCamera = true;
 
-			RemoveGameObjectFromScene(player);
-
-			if (deltaShift == 0) // that's mean we've not set it yet
+			if (deltaShiftX == 0) // that's mean we've not set it yet
 			{
 				if (gate->shift_direction.x > 0)
 				{
-					deltaShift = Camera::GetInstance()->GetCollisionBox().right - Camera::GetInstance()->GetCollisionBox().left;
+					deltaShiftX = Camera::GetInstance()->GetCollisionBox().right - Camera::GetInstance()->GetCollisionBox().left;
 				}
 
 				if (gate->shift_direction.x < 0)
 				{
-					deltaShift = Camera::GetInstance()->GetCollisionBox().left - Camera::GetInstance()->GetCollisionBox().right;
+					deltaShiftX = Camera::GetInstance()->GetCollisionBox().left - Camera::GetInstance()->GetCollisionBox().right;
 				}
 			}
 
+			// shift camera follow y-axis to respect the new camera boundary
+			auto cameraRECT = Camera::GetInstance()->GetCollisionBox();
 			auto cameraPosition = Camera::GetInstance()->GetPosition();
 
-			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
-
-			totalShifting += gate->shift_direction.x * 150 * dt;
-
-			if (abs(totalShifting) > abs(deltaShift))
+			if (cameraRECT.bottom + gate->teleport_delta.y > gate->new_boundary_camera.bottom)
 			{
-				shiftingCamera = false;
+				deltaShiftY = -(cameraRECT.bottom + gate->teleport_delta.y - gate->new_boundary_camera.bottom);
+			}
+			else if (cameraRECT.top + gate->teleport_delta.y < gate->new_boundary_camera.top)
+			{
+				deltaShiftY = -(cameraRECT.top + gate->teleport_delta.y - gate->new_boundary_camera.top);
+			}
+			else
+			{
+				deltaShiftY = 0;
+			}
 
-				auto playerPosition = player->GetPosition();
+			if (deltaShiftY != 0)
+			{
+				int directionY = deltaShiftY / abs(deltaShiftY);
 
-				player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
+				if (abs(directionY * 150 * dt) < abs(deltaShiftY))
+				{
+					Camera::GetInstance()->SetPosition(cameraPosition.x, cameraPosition.y + directionY * 150 * dt);
+				}
+				else
+				{
+					Camera::GetInstance()->SetPosition(cameraPosition.x, cameraPosition.y + deltaShiftY);
+				}
+			}
+			else
+			{
+				Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
+
+				totalShifting += gate->shift_direction.x * 150 * dt;
+
+				if (abs(totalShifting) >= abs(deltaShiftX))
+				{
+					shiftingCamera = false;
+
+					auto playerPosition = player->GetPosition();
+
+					player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
+				}
 			}
 		}
 		
@@ -635,7 +678,7 @@ void CPlayScene::Update(DWORD dw_dt)
 			// shifting time 2
 			countingTime2 += dt;
 
-			player->SetPosition(player->GetPosition().x + 50 * dt, player->GetPosition().y);
+			player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
 		}
 
 		if (countingTime2 >= gate->shift_time2)
@@ -746,6 +789,7 @@ void CPlayScene::SwitchSection(BigGate* gate)
 	countingTime1 = 0;
 	countingTime2 = 0;
 	shiftingCamera = false;
-	deltaShift = 0;
+	deltaShiftX = 0;
+	deltaShiftY = 0;
 	totalShifting = 0;
 }
