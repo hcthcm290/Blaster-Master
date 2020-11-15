@@ -8,6 +8,9 @@
 
 AGR_Orb::AGR_Orb()
 {
+	//set HP
+	HP = 50;
+
 	animator = new Animator();
 	animator->AddAnimation(orbIdle);
 	animator->AddAnimation(orbFly);
@@ -43,6 +46,7 @@ void AGR_Orb::OnCollisionEnter(CollisionEvent e)
 void AGR_Orb::Update(float dt)
 {
 	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
 	float Character_X = player->GetPosition().x;
 	float Character_Y = player->GetPosition().y;
 	float min_drc_x = min(abs(x - Character_X), 100);
@@ -67,6 +71,7 @@ void AGR_Orb::Update(float dt)
 	{
 		// TODO //
 		// Set Dmg and push back player //
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(12);
 
 		// Remove bullet from scene //
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);

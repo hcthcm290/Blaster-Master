@@ -10,6 +10,8 @@
 
 Skull::Skull()
 {
+	//set HP
+	HP = 60;
 	//boolean
 	flipX = false;
 	sleep = false;

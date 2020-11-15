@@ -9,6 +9,9 @@
 
 Floater::Floater()
 {
+	//set HP
+	HP = 50;
+
 	animator = new Animator_Floater();
 	animator->AddAnimation(floaterFly);
 	animator->AddAnimation(floaterIdle);

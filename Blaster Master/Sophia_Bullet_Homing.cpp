@@ -77,6 +77,7 @@ void Sophia_Bullet_Homing::OnCollisionEnter(CollisionEvent e)
 	//e.pGameObject lay va cham goi ham tinh sat thuong
 	if (dynamic_cast<Enemy*>(e.pGameObject) != nullptr)
 	{
+		dynamic_cast<DynamicObject*>(e.pGameObject)->TakeDamage(100);
 		ex = true;
 	}
 }

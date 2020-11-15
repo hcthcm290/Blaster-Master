@@ -42,7 +42,7 @@ void Skull_Bullet::Update(float dt)
 
 		if (CollisionSystem::CheckOverlap(this, player))
 		{
-			// Set Dmg
+			dynamic_cast<DynamicObject*>(player)->TakeDamage(30);
 			ex = true;
 		}
 		DWORD now = GetTickCount();

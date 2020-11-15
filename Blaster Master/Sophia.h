@@ -6,6 +6,9 @@
 
 class Sophia : public DynamicObject
 {
+	//
+	int invincible = 0;
+	//
 	bool onTheGround = true;
 	bool canJump = false;
 	int state;
@@ -30,12 +33,15 @@ class Sophia : public DynamicObject
 public:
 	Sophia();
 
+	bool isInvincible();
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	void Update(float dt);
 	void Render();
 	void StateChange();
 	void ShootHoming();
+
+	void TakeDamage(int dmg);
 
 	void Awake(int JasonHealth);
 };

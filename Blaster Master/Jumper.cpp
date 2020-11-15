@@ -5,9 +5,13 @@
 #include "Debug.h"
 #include "Orb.h"
 #include "Utils.h"
+#include "Explosive.h"
 
 Jumper::Jumper()
 {
+	//set HP
+	HP = 50;
+	//
 	animator = new Animator_Jumper();
 	animator->AddAnimation(jumperWalk);
 	animator->AddAnimation(jumperIdle);
@@ -39,6 +43,13 @@ void Jumper::OnCollisionEnter(CollisionEvent e)
 }
 void Jumper::Update(float dt)
 {
+	//added by Thang here
+	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(7);
+	}
 	//if (!canJump)
 	//{
 	//	                         

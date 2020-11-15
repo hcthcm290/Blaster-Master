@@ -2,9 +2,13 @@
 #include "PlayScene.h"
 #include "Debug.h"
 #include "ColliableBrick.h"
+#include "Explosive.h"
+#include "Sophia.h"
 
 Worm::Worm()
 {
+	//set HP
+	HP = 20;
 	//boolean
 	flipX = false;
 	//animator
@@ -48,6 +52,12 @@ void Worm::OnCollisionEnter(CollisionEvent e)
 
 void Worm::Update(float dt)
 {
+	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(8);
+	}
 	vy += 300 * dt;
 	float player_x = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
 	if (player_x < this->x - 18 / 2)

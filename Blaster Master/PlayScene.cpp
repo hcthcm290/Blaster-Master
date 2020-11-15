@@ -158,7 +158,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int gravity = atoi(tokens[3].c_str());
 		int direction = atoi(tokens[4].c_str());
-
 		obj = new Dome(gravity, direction);
 		break;
 	}
@@ -202,10 +201,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		obj = bg;
 		break;
+	}
 	case 0:
 		obj = new PlayerItem();
 		break;
-	}
 	case 901:
 		obj = new AGR_Orb();
 		break;

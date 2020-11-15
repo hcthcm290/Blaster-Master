@@ -317,9 +317,6 @@
     <ClInclude Include="MineBullet.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Floater.h">
-      <Filter>Header Files\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="Animator_Mine_Explosion.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
@@ -344,6 +341,7 @@
     <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="PlayerItem.h">
       <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>

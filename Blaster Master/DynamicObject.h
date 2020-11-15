@@ -13,6 +13,8 @@ protected:
 	Animator* animator = new Animator();
 
 public:
+	int HP = 0;
+	virtual void TakeDamage(int dmg);
 	FRECT GetCollisionBox() { return FRECT(x - 1, y - 1, x + 1, y + 1); }
 	D3DVECTOR GetVelocity();
 	void SetVelocity(float vx, float vy) { this->vx = vx; this->vy = vy; }

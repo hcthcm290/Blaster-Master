@@ -30,6 +30,8 @@
 
 Sophia::Sophia()
 {
+	//Setup HP
+	HP = 100;
 	//sx, sy
 	sx = x;
 	sy = y;
@@ -125,6 +127,9 @@ Sophia::Sophia()
 	animator->AddAnimation(29871);
 
 	animator->AddAnimation(29875);
+
+	//for test
+	animator->AddAnimation(20001);
 }
 
 FRECT Sophia::GetCollisionBox()
@@ -151,6 +156,18 @@ void Sophia::OnCollisionEnter(CollisionEvent e)
 
 void Sophia::Update(float dt)
 {
+	if (HP == 0)
+	{
+
+	}
+	if (invincible >= 0)
+	{
+		invincible -= dt * 1000;
+	}
+	else
+	{
+		invincible = 0;
+	}
 	DWORD now = GetTickCount();
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
@@ -263,7 +280,7 @@ void Sophia::Update(float dt)
 						up = true;
 					}
 					auto bullet = new Sophia_Bullet_1(up, !flipX);
-					bullet->SetPosition(x, y);
+					bullet->SetPosition(x, y - 4);
 					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
 				}
 			}
@@ -489,7 +506,34 @@ void Sophia::Render()
 	else
 	{
 		animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel - 1, sx, sy, flipX);
+		if (isInvincible())
+		{
+			animator->Draw(20001, sx, sy - 10, false);
+		}
 	}
+}
+
+void Sophia::TakeDamage(int dmg)
+{
+	if (invincible == 0)
+	{
+		this->HP -= dmg;
+		/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)
+			vx = -150;*/
+		invincible = 500;
+		if (HP < 0)
+		{
+			HP = 0;
+		}
+	}
+}
+
+bool Sophia::isInvincible()
+{
+	if (invincible <= 0)
+		return false;
+	else
+		return true;
 }
 
 void Sophia::Awake(int JasonHealth) {

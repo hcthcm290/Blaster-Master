@@ -7,6 +7,9 @@
 
 Dome::Dome(int id_gravity, int id_direction)
 {
+	//set HP
+	HP = 60;
+
 	animator->AddAnimation(20401);
 	animator->AddAnimation(20402);
 
@@ -48,6 +51,12 @@ Dome::Dome(int id_gravity, int id_direction)
 void Dome::Update(float dt)
 {
 	//DebugOut(L"d %f	%f\n", direction.x, direction.y);
+	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(7);
+	}
 
 	if (currentState == State::_DOME_WALKING_)
 	{
