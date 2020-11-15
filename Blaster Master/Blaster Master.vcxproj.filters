@@ -124,6 +124,12 @@
     <ClCompile Include="PlayerItem.cpp">
       <Filter>Source Files\Other Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Lava.cpp">
+      <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -259,6 +265,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerItem.h">
+      <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Lava.h">
+      <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
       <Filter>Header Files\Other Objects</Filter>
     </ClInclude>
   </ItemGroup>

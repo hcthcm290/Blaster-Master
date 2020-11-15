@@ -97,6 +97,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\rapidjson-master\include;C:\C#\rapidjson\rapidjson\include;D:\rapidjson-master\rapidjson-master\include;D:\UIT_2020-2021\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -184,6 +185,8 @@
     <ClCompile Include="Insect.cpp" />
     <ClCompile Include="Jason.cpp" />
     <ClCompile Include="Jumper.cpp" />
+    <ClCompile Include="Ladder.cpp" />
+    <ClCompile Include="Lava.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="MineBullet.cpp" />
@@ -226,6 +229,8 @@
     <ClInclude Include="DynamicObject.h" />
     <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Intangibility.h" />
+    <ClInclude Include="Ladder.h" />
+    <ClInclude Include="Lava.h" />
     <ClInclude Include="MineBullet.h" />
     <ClInclude Include="Insect.h" />
     <ClInclude Include="Jason.h" />

@@ -31,6 +31,8 @@
 #include "Worm.h"
 #include "Skull_Bullet.h"
 #include "PlayerItem.h"
+#include "Lava.h"
+#include "Ladder.h"
 
 using namespace std;
 
@@ -183,6 +185,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 0:
 		obj = new PlayerItem();
 		break;
+	case 30: {
+		int length = atoi(tokens[3].c_str());
+		obj = new Lava(length);
+		break;
+	}
+	case 31: {
+		int height = atoi(tokens[3].c_str());
+		obj = new Ladder(height);
+		break;
+	}
 	}
 
 	// General object setup
@@ -390,7 +402,8 @@ vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 									cameraRECT.right / MAP_BLOCK_WIDTH,
 									cameraRECT.bottom / MAP_BLOCK_HEIGHT);
 
-	int count = 0;
+	//int count = 0;
+	vector<CGameObject*> arrPlayerObjs;
 
 	for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
 	{
@@ -398,14 +411,22 @@ vector<CGameObject*> CPlayScene::GetOnScreenObjs()
 		{
 			for (auto object : sceneObjects[x * 1000 + y])
 			{
-				if (dynamic_cast<Skull_Bullet*>(object) != NULL)	count++;
+				//if (dynamic_cast<Skull_Bullet*>(object) != NULL)	count++;
 
 				if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
 				{
-					onScreenObjs.emplace_back(object);
+					//Hot fix by TrV
+					if (dynamic_cast<Jason*>(object) != NULL || dynamic_cast<Sophia*>(object) != NULL) {
+						arrPlayerObjs.emplace_back(object);
+					}
+					else onScreenObjs.emplace_back(object);
 				}
 			}
 		}
+	}
+
+	for (auto object : arrPlayerObjs) {
+		onScreenObjs.emplace_back(object);
 	}
 
 	// TODO : DELETE THIS DEBUG //
@@ -465,7 +486,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	mapBackground->Render();
+	//mapBackground->Render();
 
 	for (int i = 0; i < onSCeneObjs.size(); i++)
 		onSCeneObjs[i]->Render();

@@ -24,11 +24,23 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 
 void Jason::Update(float dt)
 {
-	if (DInput::GetInstance()->KeyPress(DIK_LSHIFT) && CollisionSystem::CheckOverlap(this, sophia) 
+	if (DInput::GetInstance()->KeyPress(DIK_LSHIFT) && CollisionSystem::CheckOverlap(this, sophia)
 		&& GetTickCount64() - switchDelay >= 1000) {
+		onLadderState = Null;
+		vy = -jumpSpeed;
+		attemptJump = true;
+		switchEffectDuration = 0.26f;
 		dynamic_cast<Sophia*>(sophia)->Awake(health);
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(sophia));
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
+
+	if (switchEffectDuration > 0) {
+		switchEffectDuration -= dt;
+		vy += 150*dt;
+		if (switchEffectDuration <= 0) {
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(sophia));
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+		}
+		return;
 	}
 
 	if (health <= 0) return;
@@ -36,10 +48,30 @@ void Jason::Update(float dt)
 
 	UpdateActionRecord();
 
-	vy -= jumpSpeed * (allowJump && attemptJump);
-	vy += 150 * dt;
-
-	vx = speed * horizontalMove;
+	if (onLadderState == Head) {
+		if (verticalMove > 0) vy = verticalMove * speed / 5; 
+		else {
+			vy = 0;
+			vx = horizontalMove * speed;
+		}
+	}
+	else if (onLadderState == Body) {
+		state = State::_JASON_CLIMB_;
+		vx = 0;
+		vy = verticalMove * speed / 5;
+	}
+	else if (onLadderState == Tail) {
+		if (verticalMove < 0) vy = verticalMove * speed / 5;
+		else {
+			//Jason can stop climbing and fall, so no (vy = 0)
+			vx = horizontalMove * speed;
+		}
+	}
+	else {
+		vx = horizontalMove * speed;
+		vy -= jumpSpeed * (allowJump && attemptJump);
+		vy += 150 * dt;
+	}
 
 	//reset position if Jason fell out
 	if (DInput::GetInstance()->KeyPress(DIK_R)) {
@@ -62,7 +94,6 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 	//reset
 	attemptJump = false;
 	enviColX = enviColY = enemyColX = enemyColY = 0;
-	damageTaken = 0;
 
 	//update action record by input
 	if (input->left && input->right) horizontalMove = horizontalMove; //hold old action
@@ -90,6 +121,8 @@ void Jason::Render()
 	else {
 		animator->Draw(state, x, y, flipX);
 	}
+
+	onLadderState = Null; //reset
 }
 
 void Jason::SetNewState() {
@@ -100,6 +133,9 @@ void Jason::SetNewState() {
 		switch (state) {
 			case State::_JASON_CLIMB_: {
 				allowJump = false;
+				if (onLadderState == Head || onLadderState == Tail) {
+					newState = State::_JASON_IDLE_;
+				}
 				break;
 			}
 			case State::_JASON_CMOVE_: {
@@ -131,7 +167,10 @@ void Jason::SetNewState() {
 			case State::_JASON_IDLE_: {
 				allowJump = true;
 				//collision with ladder
-				if (verticalMove == 1) {
+				if (onLadderState == Body) { //he is actually caught by a ladder !!
+					newState = State::_JASON_CLIMB_;
+				}
+				else if (onLadderState != Head && verticalMove == 1) {
 					//y += OFFSET_STAND_CRAWL;
 					newState = State::_JASON_CRAWL_;
 				}
@@ -158,7 +197,10 @@ void Jason::SetNewState() {
 			}
 			case State::_JASON_WALK_: {
 				allowJump = true;
-				if (verticalMove == 1) {
+				if (onLadderState == Body) {
+					newState = State::_JASON_CLIMB_;
+				}
+				else if (verticalMove == 1) {
 					newState = State::_JASON_CRAWL_;
 				}
 				else if (attemptJump) {

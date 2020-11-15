@@ -44,80 +44,6 @@ Sophia::Sophia()
 	state = STATE_SOPHIA_IDLE;
 	//animator
 	animator = new Animator_Sophia();
-	//Idle, gun 0
-	animator->AddAnimation(29801);
-	animator->AddAnimation(29802);
-	animator->AddAnimation(29803);
-	animator->AddAnimation(29804);
-	//Moving, gun 0
-	animator->AddAnimation(29805);
-	animator->AddAnimation(29806);
-	animator->AddAnimation(29807);
-	animator->AddAnimation(29808);
-	//Jumping, gun 0
-	animator->AddAnimation(29811);
-	animator->AddAnimation(29812);
-	animator->AddAnimation(29813);
-	animator->AddAnimation(29814);
-	//Falling, gun 0
-	animator->AddAnimation(29815);
-	animator->AddAnimation(29816);
-	animator->AddAnimation(29817);
-	animator->AddAnimation(29818);
-	//Moving, gun 45
-	animator->AddAnimation(29821);
-	animator->AddAnimation(29822);
-	animator->AddAnimation(29823);
-	animator->AddAnimation(29824);
-	//Moving, gun 90
-	animator->AddAnimation(29825);
-	animator->AddAnimation(29826);
-	animator->AddAnimation(29827);
-	animator->AddAnimation(29828);
-	//Jumping, gun 90
-	animator->AddAnimation(29831);
-	animator->AddAnimation(29832);
-	animator->AddAnimation(29833);
-	animator->AddAnimation(29834);
-	//Falling, gun 90
-	animator->AddAnimation(29835);
-	animator->AddAnimation(29836);
-	animator->AddAnimation(29837);
-	animator->AddAnimation(29838);
-	//Moving, gun turn
-	animator->AddAnimation(29841);
-	animator->AddAnimation(29842);
-	animator->AddAnimation(29843);
-	animator->AddAnimation(29844);
-	//jumping, gun turn
-	animator->AddAnimation(29845);
-	animator->AddAnimation(29846);
-	animator->AddAnimation(29847);
-	animator->AddAnimation(29848);
-	//idle, gun 90
-	animator->AddAnimation(29851);
-	animator->AddAnimation(29852);
-	animator->AddAnimation(29853);
-	animator->AddAnimation(29854);
-	//jumping, gun 45
-	animator->AddAnimation(29855);
-	animator->AddAnimation(29856);
-	animator->AddAnimation(29857);
-	animator->AddAnimation(29858);
-	//falling, gun 45
-	animator->AddAnimation(29861);
-	animator->AddAnimation(29862);
-	animator->AddAnimation(29863);
-	animator->AddAnimation(29864);
-	//falling, gun turn
-	animator->AddAnimation(29865);
-	animator->AddAnimation(29866);
-	animator->AddAnimation(29867);
-	animator->AddAnimation(29868);
-	//shift/sleep
-	animator->AddAnimation(29871);
-
-	animator->AddAnimation(29875);
 }
 
 FRECT Sophia::GetCollisionBox()
@@ -144,6 +70,10 @@ void Sophia::OnCollisionEnter(CollisionEvent e)
 
 void Sophia::Update(float dt)
 {
+	//if Sophia takes player control, switch it to IDLE (made by TrV)
+	if (state == STATE_SOPHIA_SLEEP && dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer() == this) {
+		state = STATE_SOPHIA_IDLE;
+	}
 
 	DWORD now = GetTickCount();
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
@@ -254,6 +184,7 @@ void Sophia::Update(float dt)
 
 void Sophia::StateChange()
 {
+
 	dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
 	if (vy < 0)
 	{
@@ -430,7 +361,7 @@ void Sophia::Render()
 }
 
 void Sophia::Awake(int JasonHealth) {
+	state = STATE_SOPHIA_SHIFT;
 	switchDelay = GetTickCount64();
 	JasonCurrentHealth = JasonHealth;
-	state = STATE_SOPHIA_IDLE;
 }

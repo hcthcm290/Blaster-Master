@@ -14,6 +14,7 @@ public:
 	bool right = false;
 	bool jump = false;
 	bool shoot = false;
+
 	void Update() {
 		up = DInput::GetInstance()->KeyPress(DIK_UP);
 		down = DInput::GetInstance()->KeyPress(DIK_DOWN);
@@ -23,6 +24,8 @@ public:
 		shoot = DInput::GetInstance()->KeyPress(DIK_Z);
 	}
 };
+
+enum OnLadderState {Head, Tail, Body, Null};
 
 class Jason : public DynamicObject
 {
@@ -52,7 +55,6 @@ private:
 	float enemyColX;
 	float enemyColY;
 	bool allowJump = false;
-	int damageTaken;
 
 	void UpdateActionRecord();
 	void SetNewState();
@@ -61,6 +63,7 @@ private:
 
 	DWORD switchDelay; //this avoid switching back and forth too fast 
 
+	float switchEffectDuration = -1;
 
 	//on damage
 	int invulnerable = -1; //trigger color-changing effect (-1: off, 0:green, 1: magneta)
@@ -82,4 +85,7 @@ public:
 
 	void PushBack(int _vx, int _vy);
 	void getDamage(int damage);
+
+	//use for ladder conditioning
+	OnLadderState onLadderState = Null;
 };

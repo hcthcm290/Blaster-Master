@@ -47,4 +47,12 @@ public:
 #pragma region Insect
 	static const int _INSECT_		=	20602;
 #pragma endregion
+
+#pragma region Lava
+	static const int _LAVA_			=	23001;
+#pragma endregion
+
+#pragma region Ladder
+	static const int _LADDER_		=	23101;
+#pragma endregion
 };
