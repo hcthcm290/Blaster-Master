@@ -4,6 +4,7 @@
 #include "DynamicObject.h"
 #include "StaticObject.h"
 #include "BigGate.h"
+#include "ForegroundTile.h"
 
 #define MAP_BLOCK_WIDTH 256
 #define MAP_BLOCK_HEIGHT 256
@@ -14,6 +15,7 @@ protected:
 	DynamicObject* player;
 
 	unordered_map<int, vector<CGameObject*>> sceneObjects;
+	unordered_map<int, vector<ForegroundTile*>> foregroundTiles;
 
 	vector<CGameObject*> onScreenObjs;
 
@@ -41,6 +43,9 @@ protected:
 	int GetMapBlockID(float x, float y);
 	std::vector<int> GetMapBlockID(CGameObject* object);
 	vector<CGameObject*> UpdateOnScreenObjs();
+
+	void AddForegroundTile(ForegroundTile* tile);
+	std::vector<ForegroundTile*> GetOnScreenForeGroundTiles();
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);

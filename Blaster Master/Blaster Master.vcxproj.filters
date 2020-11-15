@@ -181,6 +181,7 @@
     <ClCompile Include="CameraBoundaryLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ForegroundTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -321,9 +322,6 @@
     <ClInclude Include="MineBullet.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Floater.h">
-      <Filter>Header Files\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="Animator_Mine_Explosion.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
@@ -350,6 +348,9 @@
       <Filter>Header Files\Other Objects</Filter>
     </ClInclude>
     <ClInclude Include="SoundManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ForegroundTile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

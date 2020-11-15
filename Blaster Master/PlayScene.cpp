@@ -35,6 +35,7 @@
 #include "Skull_Bullet.h"
 #include "PlayerItem.h"
 #include "CameraBoundaryLib.h"
+#include "ForegroundTile.h"
 
 using namespace std;
 
@@ -279,6 +280,10 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	for (auto& layer : d["layers"].GetArray())
 	{
+		string layerName = layer["name"].GetString();
+
+		// we only care for the foreground for now
+		if (layerName != "Foreground")	continue;
 
 		const auto& data = layer["data"].GetArray();
 
@@ -286,8 +291,6 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 		int mapwidth = layer["width"].GetInt();
 		int mapheight = layer["height"].GetInt();
-
-		string layerName = layer["name"].GetString();
 
 		arr = new int* [mapwidth];
 
@@ -301,6 +304,9 @@ void CPlayScene::_ParseSection_MAP(string line)
 			for (int y = 0; y < mapheight; y++)
 			{
 				int tileid = data[mapwidth * y + x].GetInt() - 1;
+
+				if (tileid == -1)	continue;
+
 				arr[x][y] = tileid;
 
 				int x_index = tileid % tilesetwidth;
@@ -311,19 +317,18 @@ void CPlayScene::_ParseSection_MAP(string line)
 					CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
 				}
 
-				if (tileid == 0 || tileid == 1 || tileid == 2 || tileid == 3 || tileid == 12 || tileid == 132 || tileid == 133 || tileid == 134)
-				{
-					ColliableBrick* brick = new ColliableBrick();
-					brick->SetPosition(x * tilewidth, y * tileheight);
-					dynamic_cast<StaticObject*>(brick)->SetSpriteID(tileid);
+				ForegroundTile* tile = new ForegroundTile();
+				tile->SetPosition(x * tilewidth, y * tileheight);
+				tile->SetSpriteID(tileid);
 
-					AddGameObjectToScene(brick);
-				}
+				AddForegroundTile(tile);
 			}
 		}
 
 		mapInfo.emplace_back(layerName, arr);
 	}
+
+	delete [] readBuffer;
 
 	fclose(fp);
 }
@@ -560,6 +565,51 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 	return onScreenObjs;
 }
 
+void CPlayScene::AddForegroundTile(ForegroundTile* tile)
+{
+	std::vector<int> listMapBlockID = GetMapBlockID(tile);
+
+	for (auto mapBlockID : listMapBlockID)
+	{
+		foregroundTiles[mapBlockID].emplace_back(tile);
+	}
+}
+
+std::vector<ForegroundTile*> CPlayScene::GetOnScreenForeGroundTiles()
+{
+	FRECT cameraRECT = Camera::GetInstance()->GetCollisionBox();
+
+	std::vector<ForegroundTile*> return_listOnScreenTiles;
+
+	std::unordered_map<ForegroundTile*, ForegroundTile*> listOnScreenTile;
+
+	FRECT cameraInMapChunk = FRECT(cameraRECT.left / MAP_BLOCK_WIDTH,
+		cameraRECT.top / MAP_BLOCK_HEIGHT,
+		cameraRECT.right / MAP_BLOCK_WIDTH,
+		cameraRECT.bottom / MAP_BLOCK_HEIGHT);
+
+	for (auto mapBlockID : GetMapBlockID(Camera::GetInstance()))
+	{
+		for (auto tile : foregroundTiles[mapBlockID])
+		{
+			if (CollisionSystem::CheckOverlap(tile, Camera::GetInstance()))
+			{
+				if (listOnScreenTile.find(tile) == listOnScreenTile.end())
+				{
+					listOnScreenTile[tile] = tile;
+				}
+			}
+		}
+	}
+
+	for (auto tile : listOnScreenTile)
+	{
+		return_listOnScreenTiles.emplace_back(tile.first);
+	}
+
+	return return_listOnScreenTiles;
+}
+
 void CPlayScene::Update(DWORD dw_dt)
 {
 	UpdateOnScreenObjs();
@@ -758,13 +808,21 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	mapBackground->Render();
+	if (!DInput::KeyPress(DIK_B))
+	{
+		mapBackground->Render();
+	}
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
 	{
 		if (dynamic_cast<ColliableBrick*>(onScreenObjs[i]) != NULL) continue;
 		onScreenObjs[i]->Render();
+	}
 
+	auto foregroundTiles = GetOnScreenForeGroundTiles();
+	for (auto tile : foregroundTiles)
+	{
+		tile->Render();
 	}
 }
 
