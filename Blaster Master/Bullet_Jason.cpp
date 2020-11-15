@@ -1,6 +1,8 @@
 #include "Bullet_Jason.h"
 #include "Animator_Jason.h"
 #include "Debug.h"
+#include "Enemy.h"
+#include "ColliableBrick.h"
 
 #include "Jason.h"
 #include "PlayScene.h"
@@ -34,10 +36,16 @@ FRECT Bullet_Jason::GetCollisionBox() {
 }
 
 void Bullet_Jason::OnCollisionEnter(CollisionEvent e) {
-	if (dynamic_cast<Jason*>(e.pGameObject) || dynamic_cast<Bullet_Jason*>(e.pGameObject)) {
-		//do nothing
-	}
-	else {
+	if (dynamic_cast<Enemy*>(e.pGameObject))
+	{
+		dynamic_cast<DynamicObject*>(e.pGameObject)->TakeDamage(20);
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
+	else
+	{
+		if (dynamic_cast<ColliableBrick*>(e.pGameObject))
+		{
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+		}
 	}
 }
