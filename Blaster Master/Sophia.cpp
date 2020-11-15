@@ -137,8 +137,21 @@ FRECT Sophia::GetCollisionBox()
 	FRECT colRect;
 	colRect.left = this->x - 24 / 2;
 	colRect.right = this->x + 22 / 2;
-	colRect.top = this->y - 20 / 2;
-	colRect.bottom = this->y + 22 / 2;
+	if (onTheGround)
+	{
+		colRect.top = this->y - 5.5;
+		colRect.bottom = this->y + 10;
+	}
+	else if (!onTheGround && vy < 0)
+	{
+		colRect.top = this->y - 9;
+		colRect.bottom = this->y + 6.5;
+	}
+	else
+	{
+		colRect.top = this->y - 5.5;
+		colRect.bottom = this->y + 10;
+	}
 	return colRect;
 }
 
@@ -189,7 +202,7 @@ void Sophia::Update(float dt)
 			return;
 		}
 
-		vy += 300 * dt;
+		vy += 480 * dt;
 
 		if (DInput::KeyPress(DIK_LEFT))
 		{
@@ -211,7 +224,7 @@ void Sophia::Update(float dt)
 
 		if (DInput::KeyPress(DIK_X) && canJump)
 		{
-			vy = -150;
+			vy = -240;
 			onTheGround = false;
 			canJump = false;
 		}

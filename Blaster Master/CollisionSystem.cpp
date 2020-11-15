@@ -40,7 +40,6 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	// deal with collision object at x axis
 	if (filteredCol.first.size() != 0) 
 	{
-		// only push moving obj back if both of them have rigidbody
 		for (auto Event : filteredCol.first)
 		{
 			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL && dynamic_cast<Intangibility*>(movingObj) == NULL)
@@ -54,7 +53,6 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	// deal with collision object at y axis
 	if (filteredCol.second.size() != 0)
 	{
-		// only push moving obj back if both of them have rigidbody
 		for (auto Event : filteredCol.second)
 		{
 			if (dynamic_cast<ColliableBrick*>(Event->obj) != NULL && dynamic_cast<Intangibility*>(movingObj) == NULL)
@@ -423,13 +421,13 @@ void CollisionSystem::FixPreOverlapped(DynamicObject* movingObj, std::vector<CGa
 		if (movingObjColBox.right > overlapedObjColBox.left && movingObjColBox.left < overlapedObjColBox.left &&
 			oldMovingObjPos.x < overlapedObjColBox.left)
 		{
-			deltaX -= movingObjColBox.right - overlapedObjColBox.left + 0.5;
+			deltaX -= movingObjColBox.right - overlapedObjColBox.left + 0.2;
 		}
 
 		if (movingObjColBox.left < overlapedObjColBox.right && movingObjColBox.right > overlapedObjColBox.right &&
 			oldMovingObjPos.x > overlapedObjColBox.right)
 		{
-			deltaX += overlapedObjColBox.right - movingObjColBox.left + 0.5;
+			deltaX += overlapedObjColBox.right - movingObjColBox.left + 0.2;
 		}
 
 		if (movingObjColBox.bottom > overlapedObjColBox.top && movingObjColBox.top < overlapedObjColBox.top &&
@@ -459,7 +457,7 @@ void CollisionSystem::FixPreOverlapped(DynamicObject* movingObj, std::vector<CGa
 	{
 		auto oldMovingObjPos = movingObj->GetPosition();
 
-		if (pushbackVector.first < pushbackVector.second)
+		if (abs(pushbackVector.first) < abs(pushbackVector.second))
 			pushbackVector.second = 0;
 		else
 			pushbackVector.first = 0;

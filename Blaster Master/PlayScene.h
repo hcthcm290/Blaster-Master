@@ -23,7 +23,8 @@ protected:
 	float countingTime1;
 	float countingTime2;
 	bool shiftingCamera = false;
-	float deltaShift = 0;
+	float deltaShiftY = 0;
+	float deltaShiftX = 0;
 	float totalShifting = 0;
 
 	int state = State::_PLAYSCENE_FREE_PLAYING_;
@@ -33,6 +34,7 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
+	void _ParseSection_MERGEDBRICK(string line);
 
 	virtual void ApllyVelocityToGameObjs(float dt);
 
