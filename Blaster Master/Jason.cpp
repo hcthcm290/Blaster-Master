@@ -27,7 +27,7 @@ void Jason::Update(float dt)
 	if (DInput::GetInstance()->KeyPress(DIK_LSHIFT) && CollisionSystem::CheckOverlap(this, sophia)
 		&& GetTickCount64() - switchDelay >= 1000) {
 		onLadderState = Null;
-		vy = -jumpSpeed;
+		vy = -jumpSpeed*1.25;
 		attemptJump = true;
 		switchEffectDuration = 0.26f;
 		dynamic_cast<Sophia*>(sophia)->Awake(health);
@@ -48,22 +48,31 @@ void Jason::Update(float dt)
 
 	UpdateActionRecord();
 
-	if (onLadderState == Head) {
-		if (verticalMove > 0) vy = verticalMove * speed / 5; 
+	if (state!=State::_JASON_JUMP_ && onLadderState == Head) {
+		if (verticalMove > 0) vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
 		else {
 			vy = 0;
-			vx = horizontalMove * speed;
+			vx = horizontalMove * speed;	
 		}
 	}
-	else if (onLadderState == Body) {
+	else if (state != State::_JASON_JUMP_ && onLadderState == Body) {
 		state = State::_JASON_CLIMB_;
 		vx = 0;
-		vy = verticalMove * speed / 5;
+		if (verticalMove != 0) {
+			vy = verticalMove * speed / 5;
+			flipCountDown -= dt;
+			if (flipCountDown <= 0) {
+				flipX = ~flipX;
+				flipCountDown = 0.25f;
+			}
+		}
+		else vy = 0;
 	}
-	else if (onLadderState == Tail) {
+	else if (state != State::_JASON_JUMP_ && onLadderState == Tail) {
 		if (verticalMove < 0) vy = verticalMove * speed / 5;
 		else {
 			//Jason can stop climbing and fall, so no (vy = 0)
+			vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
 			vx = horizontalMove * speed;
 		}
 	}

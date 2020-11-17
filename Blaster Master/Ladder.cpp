@@ -19,6 +19,11 @@ void Ladder::Update(float dt) {
 		jason = NULL;
 	}
 
+	//if jason is jumping, ignore
+	if (jason != NULL && jason->GetState() == State::_JASON_JUMP_) {
+		return;
+	}
+
 	if (jason != NULL) {
 		FRECT jasonColBox = jason->GetCollisionBox();
 		if (jasonColBox.top <= top) {

@@ -64,6 +64,7 @@ private:
 	DWORD switchDelay; //this avoid switching back and forth too fast 
 
 	float switchEffectDuration = -1;
+	float flipCountDown = 0.25f;
 
 	//on damage
 	int invulnerable = -1; //trigger color-changing effect (-1: off, 0:green, 1: magneta)
@@ -88,4 +89,6 @@ public:
 
 	//use for ladder conditioning
 	OnLadderState onLadderState = Null;
+
+	int GetState() { return state; }
 };
