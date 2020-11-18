@@ -24,6 +24,15 @@ class Sophia : public DynamicObject
 	bool gun_turn;
 	DWORD start_shift;
 	DWORD last_bullet;
+	static constexpr D3DCOLOR damageColor[] = {
+	D3DCOLOR_ARGB(255,255,255,255),
+	D3DCOLOR_ARGB(255,148,247,207),
+	D3DCOLOR_ARGB(128,124,124,124),
+	D3DCOLOR_ARGB(255,247,164,143),
+	D3DCOLOR_ARGB(128,124,124,124),
+	};
+	int currentColor;
+	DWORD lastDamageTime;
 
 	//JASON
 	Jason* jason;

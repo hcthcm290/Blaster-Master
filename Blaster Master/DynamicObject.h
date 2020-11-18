@@ -14,6 +14,14 @@ protected:
 
 public:
 	int HP = 0;
+	int inv;
+	DWORD last_blink;
+	DWORD startTakeDamage;
+	static constexpr D3DCOLOR Color[] = {
+	D3DCOLOR_ARGB(255,255,75,75),
+	D3DCOLOR_ARGB(128,255,255,255)
+	};
+	DynamicObject();
 	virtual void TakeDamage(int dmg);
 	FRECT GetCollisionBox() { return FRECT(x - 1, y - 1, x + 1, y + 1); }
 	D3DVECTOR GetVelocity();

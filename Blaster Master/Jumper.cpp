@@ -10,7 +10,7 @@
 Jumper::Jumper()
 {
 	//set HP
-	HP = 50;
+	HP = 6000;
 	//
 	animator = new Animator_Jumper();
 	animator->AddAnimation(jumperWalk);
@@ -137,7 +137,28 @@ void Jumper::Update(float dt)
 
 void Jumper::Render()
 {
-	animator->Draw(state, x, y, flip);
+	if (inv != -1) {
+		animator->Draw(state, x, y, flip, 0, Color[inv]);
+		if (GetTickCount64() - last_blink >= 50) {
+			if (GetTickCount64() > startTakeDamage + 150)
+			{
+				inv = -1;
+			}
+			else
+			{
+				last_blink = GetTickCount64();
+				switch (inv)
+				{
+				case 1: inv = 0; break;
+				case 0: inv = 1; break;
+				}
+			}
+		}
+	}
+	else
+	{
+		animator->Draw(state, x, y, flip);
+	}
 }
 
 FRECT Jumper::GetCollisionBox()

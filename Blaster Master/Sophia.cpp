@@ -30,6 +30,7 @@
 
 Sophia::Sophia()
 {
+	currentColor = 0;
 	//Setup HP
 	HP = 100;
 	//sx, sy
@@ -49,6 +50,8 @@ Sophia::Sophia()
 	last_flipX = false;
 	//bullet
 	last_bullet = GetTickCount();
+	//time
+	lastDamageTime = GetTickCount();
 	//state
 	state = STATE_SOPHIA_IDLE;
 	//animator
@@ -182,6 +185,31 @@ void Sophia::Update(float dt)
 		invincible = 0;
 	}
 	DWORD now = GetTickCount();
+	if (isInvincible() && currentColor == 0)
+	{
+		//currentColor = 2;
+		currentColor = 4;
+		lastDamageTime = now;
+	}
+	if (isInvincible())
+	{
+		if (now - lastDamageTime > 100)
+		{
+			switch (currentColor)
+			{
+			case 4: currentColor = 3; break;
+			case 3: currentColor = 2; break;
+			case 2: currentColor = 1; break;
+			case 1: currentColor = 4; break;
+			}
+			//currentColor = 5 - currentColor;
+			lastDamageTime = now;
+		}
+	}
+	else
+	{
+		currentColor = 0;
+	}
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
 		vx = 0;
@@ -518,11 +546,7 @@ void Sophia::Render()
 	}
 	else
 	{
-		animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel - 1, sx, sy, flipX);
-		if (isInvincible())
-		{
-			animator->Draw(20001, sx, sy - 10, false);
-		}
+		animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel - 1, sx, sy, flipX, 0, damageColor[currentColor]);
 	}
 }
 

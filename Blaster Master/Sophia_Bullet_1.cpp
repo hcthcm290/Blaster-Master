@@ -79,10 +79,14 @@ void Sophia_Bullet_1::OnCollisionEnter(CollisionEvent e)
 	{
 		ex = true;
 	}
-	if (dynamic_cast<Enemy*>(e.pGameObject) != nullptr)
+	if (!isHit)
 	{
-		dynamic_cast<DynamicObject*>(e.pGameObject)->TakeDamage(30);
-		RemoveBullet();
+		if (dynamic_cast<Enemy*>(e.pGameObject) != nullptr)
+		{
+			dynamic_cast<DynamicObject*>(e.pGameObject)->TakeDamage(30);
+			isHit = true;
+			RemoveBullet();
+		}
 	}
 }
 

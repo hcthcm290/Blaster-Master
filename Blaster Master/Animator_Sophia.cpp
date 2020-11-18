@@ -7,7 +7,7 @@ Animator_Sophia::Animator_Sophia()
 	this->isResetFrame = false;
 	this->wheel = 1;
 }
-void Animator_Sophia::Draw(int animationID, float x, float y, bool flipX)
+void Animator_Sophia::Draw(int animationID, float x, float y, bool flipX, float rotation,  D3DCOLOR color)
 {
 	LPANIMATION anim = animationSet[animationID];
 
@@ -24,5 +24,5 @@ void Animator_Sophia::Draw(int animationID, float x, float y, bool flipX)
 
 	curAnimationID = animationID;
 
-	curFrame = anim->Render(curFrame, x, y, flipX);
+	curFrame = anim->Render(curFrame, x, y, flipX, 0, color);
 }

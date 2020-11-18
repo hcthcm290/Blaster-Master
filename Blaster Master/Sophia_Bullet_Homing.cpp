@@ -94,7 +94,7 @@ void Sophia_Bullet_Homing::Update(float dt)
 		{
 			if (vx > -100)
 			{
-				vx += dt * -100 * 4;
+				vx += dt * -100 * 4.5;
 			}
 			else
 			{
@@ -102,13 +102,13 @@ void Sophia_Bullet_Homing::Update(float dt)
 			}
 			if (vy > 0)
 			{
-				vy += dt * -100 * 4;
+				vy += dt * -100 * 4.5;
 			}
 			else
 			{
 				if (vy < 0)
 				{
-					vy += dt * 100 * 4;
+					vy += dt * 100 * 4.5;
 				}
 				else
 					vy = 0;
@@ -121,7 +121,7 @@ void Sophia_Bullet_Homing::Update(float dt)
 			{
 				if (vx < 100)
 				{
-					vx += dt * 100 * 4;
+					vx += dt * 100 * 4.5;
 				}
 				else
 				{
@@ -129,13 +129,13 @@ void Sophia_Bullet_Homing::Update(float dt)
 				}
 				if (vy > 0)
 				{
-					vy += dt * -100 * 4;
+					vy += dt * -100 * 4.5;
 				}
 				else
 				{
 					if (vy < 0)
 					{
-						vy += dt * 100 * 4;
+						vy += dt * 100 * 4.5;
 					}
 					else
 						vy = 0;
@@ -149,20 +149,20 @@ void Sophia_Bullet_Homing::Update(float dt)
 				{
 					if (vx > 0)
 					{
-						vx += dt * -100 * 4;
+						vx += dt * -100 * 4.5;
 					}
 					else
 					{
 						if (vx < 0)
 						{
-							vx += dt * 100 * 4;
+							vx += dt * 100 * 4.5;
 						}
 						else
 							vx = 0;
 					}
 					if (vy < 100)
 					{
-						vy += dt * 100 * 4;
+						vy += dt * 100 * 4.5;
 					}
 					else
 					{
@@ -177,20 +177,20 @@ void Sophia_Bullet_Homing::Update(float dt)
 					{
 						if (vx > 0)
 						{
-							vx += dt * -100 * 4;
+							vx += dt * -100 * 4.5;
 						}
 						else
 						{
 							if (vx < 0)
 							{
-								vx += dt * 100 * 4;
+								vx += dt * 100 * 4.5;
 							}
 							else
 								vx = 0;
 						}
 						if (vy > -100)
 						{
-							vy += dt * -100 * 4;
+							vy += dt * -100 * 4.5;
 						}
 						else
 						{

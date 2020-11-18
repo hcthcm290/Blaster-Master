@@ -64,8 +64,10 @@ private:
 	DWORD lastTakeDamage = 0;
 	float invulnerableTime = 500;
 	static constexpr D3DCOLOR damageColor[] = {
-		D3DCOLOR_ARGB(255,0,255,0),
-		D3DCOLOR_ARGB(255,255,0,255)
+		D3DCOLOR_ARGB(255,148,247,207),
+		D3DCOLOR_ARGB(128,124,124,124),
+		D3DCOLOR_ARGB(255,247,164,143),
+		D3DCOLOR_ARGB(128,124,124,124),
 	};
 	int damageEffectTimer = -999;
 

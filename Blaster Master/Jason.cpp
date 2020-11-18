@@ -95,7 +95,13 @@ void Jason::Render()
 			else
 			{
 				damageEffectTimer = GetTickCount64();
-				invulnerable = 1 - invulnerable; // 0 -> 1 -> 0 -> 1 -> ...
+				switch (invulnerable)
+				{
+				case 3: invulnerable = 2; break;
+				case 2: invulnerable = 1; break;
+				case 1: invulnerable = 0; break;
+				case 0: invulnerable = 3; break;
+				}
 			}
 		}
 	}
@@ -252,7 +258,7 @@ void Jason::TakeDamage(int dmg) {
 			HP -= dmg;
 			if (HP < 0)
 				HP = 0;
-			invulnerable = 1;
+			invulnerable = 3;
 		}
 		else invulnerable = -1;
 	}

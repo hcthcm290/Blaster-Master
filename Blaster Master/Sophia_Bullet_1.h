@@ -12,6 +12,7 @@ protected:
 	bool ex;
 	bool flipX;
 	bool up;
+	bool isHit = false;
 public:
 	static int count;
 	Sophia_Bullet_1();

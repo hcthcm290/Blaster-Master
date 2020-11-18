@@ -1,7 +1,13 @@
 #include "DynamicObject.h"
 #include "Explosive.h"
 #include "PlayScene.h"
+#include "Debug.h"
 
+DynamicObject::DynamicObject()
+{
+    last_blink = GetTickCount();
+    startTakeDamage = GetTickCount();
+}
 D3DVECTOR DynamicObject::GetVelocity()
 {
     D3DVECTOR velocity;
@@ -14,6 +20,9 @@ D3DVECTOR DynamicObject::GetVelocity()
 void DynamicObject::TakeDamage(int dmg)
 {
     this->HP -= dmg;
+    startTakeDamage = GetTickCount();
+    last_blink = GetTickCount();
+    inv = 1;
     if (HP < 0)
     {
         HP = 0;
