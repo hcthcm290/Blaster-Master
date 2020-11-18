@@ -83,8 +83,9 @@ HRESULT SoundManager::ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize
     return hr;
 }
 
-HRESULT SoundManager::LoadAudioDataFile(string filename)
+HRESULT SoundManager::LoadAudioDataFile(string filename, WAVEFORMATEXTENSIBLE& wfx, XAUDIO2_BUFFER& buffer)
 {
+
     // Open the audio file with CreateFile
     HANDLE hFile = CreateFileA(
         filename.c_str(),
@@ -138,11 +139,14 @@ SoundManager* SoundManager::GetInstance()
 	return __instance;
 }
 
-void SoundManager::PlaySound(std::string filename)
+void SoundManager::PlaySoundW(std::string filename)
 {
+    WAVEFORMATEXTENSIBLE wfx = { 0 };
+    XAUDIO2_BUFFER buffer = { 0 };
+
     HRESULT hr;
 
-    hr = LoadAudioDataFile(DefaultSoundPath + filename);
+    hr = LoadAudioDataFile(DefaultSoundPath + filename, wfx, buffer);
 
     if (hr != S_OK)
     {
@@ -164,8 +168,7 @@ void SoundManager::PlaySound(std::string filename)
     {
         DebugOut(L"Fail to start Source Voice: %d\n", hr);
     }
-
-    buffer = { 0 };
+    buffer.LoopCount = XAUDIO2_LOOP_INFINITE;
 }
 
 void SoundManager::Release()
