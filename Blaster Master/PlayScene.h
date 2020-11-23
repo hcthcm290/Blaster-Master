@@ -20,6 +20,8 @@ protected:
 
 	vector<CGameObject*> onScreenObjs;
 
+	unordered_map<CGameObject*, pair<D3DXVECTOR3, int>> playableObjectBackup;
+
 	StaticObject* mapBackground;
 
 	BigGate* gate;
@@ -32,6 +34,7 @@ protected:
 
 	int state = State::_PLAYSCENE_FREE_PLAYING_;
 
+protected:
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -47,6 +50,8 @@ protected:
 
 	void AddForegroundTile(ForegroundTile* tile);
 	std::vector<ForegroundTile*> GetOnScreenForeGroundTiles();
+
+	void BackupPlayableObject();
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);

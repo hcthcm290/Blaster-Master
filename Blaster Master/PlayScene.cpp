@@ -621,6 +621,11 @@ std::vector<ForegroundTile*> CPlayScene::GetOnScreenForeGroundTiles()
 	return return_listOnScreenTiles;
 }
 
+void CPlayScene::BackupPlayableObject()
+{
+
+}
+
 void CPlayScene::Update(DWORD dw_dt)
 {
 	UpdateOnScreenObjs();
