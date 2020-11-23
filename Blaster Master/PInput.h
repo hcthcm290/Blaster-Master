@@ -17,14 +17,14 @@ using namespace std;
 
 //Key customization here
 static int Key[] = {
-	DIK_UP, 
-	DIK_DOWN, 
-	DIK_LEFT,
-	DIK_RIGHT, 
-	DIK_Z,
-	DIK_X,
-	DIK_LSHIFT,
-	DIK_RETURN,
+	DIK_UP, //Up
+	DIK_DOWN, //Down
+	DIK_LEFT, //Left
+	DIK_RIGHT,  //Right
+	DIK_Z, //Shoot
+	DIK_X, //Jump
+	DIK_LSHIFT, //Shift
+	DIK_RETURN, //Enter
 };
 
 class PInput {
