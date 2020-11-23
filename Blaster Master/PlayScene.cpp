@@ -539,7 +539,7 @@ void CPlayScene::Update(DWORD dw_dt)
 		if (dt == 0) return;
 
 		// Update Keyboard state
-		PUpdate();
+		PInput::Update();
 
 		// Update for all the game object
 		for (auto obj : onScreenObjs)

@@ -15,11 +15,6 @@ using namespace std;
 #define SHIFT 6
 #define ENTER 7
 
-//faster call
-#define PKeyPress(x) PInput::GetInstance()->KeyPressed(x)
-#define PKeyDown(x) PInput::GetInstance()->KeyDown(x)
-#define PUpdate(x) PInput::GetInstance()->Update()
-
 //Key customization here
 static int Key[] = {
 	DIK_UP, 
@@ -52,11 +47,11 @@ public:
 	static PInput* GetInstance();
 
 	//call this before updating Sophia and Jason
-	void Update();
+	static void Update();
 
 	//return true if the key is being pressed
-	bool KeyPressed(int key);
+	static bool KeyPressed(int key);
 
 	//return true if the key was pressed in the this frame
-	bool KeyDown(int key);
+	static bool KeyDown(int key);
 };

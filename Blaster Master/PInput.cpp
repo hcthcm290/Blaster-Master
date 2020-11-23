@@ -38,20 +38,20 @@ void PInput::Update() {
 	//convert from DInput to PInput
 	for (int i = 0; i < PINPUT_SIZE; i++) {
 		if (DInput::GetInstance()->KeyUp(Key[i]) || !DInput::GetInstance()->KeyPress(Key[i])) {
-			Release(i);
+			PInput::GetInstance()->Release(i);
 		}
 		else if (DInput::GetInstance()->KeyPress(Key[i])) {
-			Press(i);
+			PInput::GetInstance()->Press(i);
 		}
 	}
 }
 
 bool PInput::KeyPressed(int key) {
-	if (isPressed[key]) DebugOut(L"%d is pressed\n", key);
-	return isPressed[key];
+	if (PInput::GetInstance()->isPressed[key]) DebugOut(L"%d is pressed\n", key);
+	return PInput::GetInstance()->isPressed[key];
 }
 
 bool PInput::KeyDown(int key) {
-	if (firstPress[key]) DebugOut(L"%d is down\n", key);
-	return firstPress[key];
+	if (PInput::GetInstance()->firstPress[key]) DebugOut(L"%d is down\n", key);
+	return PInput::GetInstance()->firstPress[key];
 }

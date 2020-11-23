@@ -26,7 +26,7 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 void Jason::Update(float dt)
 {
 	/** SOPHIA TRANSITION */
-	if (PKeyDown(SHIFT) && CollisionSystem::CheckOverlap(this, sophia)
+	if (PInput::KeyDown(SHIFT) && CollisionSystem::CheckOverlap(this, sophia)
 		&& GetTickCount64() - switchDelay >= 1000) {
 		onLadderState = Null;
 		vy = -jumpSpeed*1.25;
@@ -95,7 +95,7 @@ void Jason::Update(float dt)
 	}
 
 
-	if ( PKeyDown(SHOOT) ) {
+	if ( PInput::KeyDown(SHOOT) ) {
 		Fire();
 	}
 }
@@ -106,13 +106,13 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 	enviColX = enviColY = enemyColX = enemyColY = 0;
 
 	//update action record by input
-	if ( PKeyPress(LEFT) && PKeyPress(RIGHT) ) horizontalMove = horizontalMove; //hold old action
-	else horizontalMove = PKeyPress(LEFT) * (-1) + PKeyPress(RIGHT) * 1; //left or right
+	if ( PInput::KeyPressed(LEFT) && PInput::KeyPressed(RIGHT) ) horizontalMove = horizontalMove; //hold old action
+	else horizontalMove = PInput::KeyPressed(LEFT) * (-1) + PInput::KeyPressed(RIGHT) * 1; //left or right
 
-	if ( PKeyPress(UP) && PKeyPress(DOWN) ) verticalMove = verticalMove; //hold old action
-	else verticalMove = PKeyPress(UP) * (-1) + PKeyPress(DOWN) * 1; //left or right
+	if ( PInput::KeyPressed(UP) && PInput::KeyPressed(DOWN) ) verticalMove = verticalMove; //hold old action
+	else verticalMove = PInput::KeyPressed(UP) * (-1) + PInput::KeyPressed(DOWN) * 1; //left or right
 
-	attemptJump = PKeyDown(JUMP);
+	attemptJump = PInput::KeyDown(JUMP);
 }
 
 void Jason::Render()
