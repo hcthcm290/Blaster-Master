@@ -40,7 +40,17 @@ public:
 	static const int _FLOATER_BULLET_ = 22203;
 #pragma endregion
 
-#pragma region Jason_Bullet
+#pragma region Orb
+	static const int _ORB_FLY_ = 20901;
+	static const int _ORB_UOD_ = 20902;
+	static const int _AGR_ORB_IDLE_ = 20911;
+	static const int _AGR_ORB_FLY_ = 20912;
+#pragma endregion
+
+#pragma region Spike
+	static const int _SPIKE_ = 12301;
+#pragma endregion
+
 	static const int _BULLET_JASON_	=	26901;
 #pragma endregion
 
@@ -55,4 +65,10 @@ public:
 #pragma region Ladder
 	static const int _LADDER_		=	23101;
 #pragma endregion
+
+#pragma region PlayScene
+	static const int _PLAYSCENE_FREE_PLAYING_ = 27001;
+	static const int _PLAYSCENE_SWITCH_SECTION = 27002;
+#pragma endregion
+
 };

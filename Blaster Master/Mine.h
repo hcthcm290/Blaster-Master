@@ -1,7 +1,8 @@
 #pragma once
 #include "DynamicObject.h"
+#include "Enemy.h"
 
-class Mine : public DynamicObject
+class Mine : public DynamicObject, public Enemy
 {
 private:
 	bool active = false;

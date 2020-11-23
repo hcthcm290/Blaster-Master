@@ -5,6 +5,7 @@
 #include "PlayScene.h"
 #include "Utils.h"
 #include "MineBullet.h"
+#include "SoundManager.h"
 
 Mine::Mine()
 {
@@ -65,5 +66,8 @@ void Mine::OnCollisionEnter(CollisionEvent e)
 
 		// Remove bullet from scene //
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+
+		// Play Explosion Sound //
+		SoundManager::GetInstance()->PlaySoundW("Blaster Master SFX (24).wav");
 	}
 }

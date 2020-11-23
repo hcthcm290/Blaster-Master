@@ -12,6 +12,6 @@ void BigGate::OnCollisionEnter(CollisionEvent e)
 {
 	if (e.pGameObject == dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer())
 	{
-		//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SwitchSection(this);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SwitchSection(this);
 	}
 }

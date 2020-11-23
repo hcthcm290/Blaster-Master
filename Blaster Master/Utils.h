@@ -19,3 +19,4 @@ wstring ToWSTR(string st);
 LPCWSTR ToLPCWSTR(string st);
 
 float RandomFloat(float a, float b);
+std::wstring s2ws(const std::string& s);

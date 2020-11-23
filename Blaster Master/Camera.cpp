@@ -59,3 +59,4 @@ void Camera::FollowTarget()
 	
 	//SetPosition(target->GetPosition().x, target->GetPosition().y);
 }
+
