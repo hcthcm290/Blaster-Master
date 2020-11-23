@@ -11,7 +11,7 @@
 Mine::Mine()
 {
 	//set HP
-	HP = 40;
+	HP = 30;
 	
 	animator->AddAnimation(20301);
 	animator->AddAnimation(20302);
@@ -25,6 +25,7 @@ void Mine::Update(float dt)
 
 void Mine::Render()
 {
+
 	animator->Draw(20302, x, y, true);
 }
 

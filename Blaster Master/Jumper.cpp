@@ -10,7 +10,7 @@
 Jumper::Jumper()
 {
 	//set HP
-	HP = 6000;
+	HP = 50;
 	//
 	animator = new Animator_Jumper();
 	animator->AddAnimation(jumperWalk);

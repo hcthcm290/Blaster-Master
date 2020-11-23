@@ -74,5 +74,26 @@ void Worm::Update(float dt)
 
 void Worm::Render()
 {
-	animator->Draw(20502, x, y, flipX);
+	if (inv != -1) {
+		animator->Draw(20502, x, y, flipX, 0, Color[inv]);
+		if (GetTickCount64() - last_blink >= 50) {
+			if (GetTickCount64() > startTakeDamage + 150)
+			{
+				inv = -1;
+			}
+			else
+			{
+				last_blink = GetTickCount64();
+				switch (inv)
+				{
+				case 1: inv = 0; break;
+				case 0: inv = 1; break;
+				}
+			}
+		}
+	}
+	else
+	{
+		animator->Draw(20502, x, y, flipX);
+	}
 }
