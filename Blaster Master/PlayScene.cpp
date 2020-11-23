@@ -37,6 +37,7 @@
 #include "Lava.h"
 #include "Ladder.h"
 #include "CameraBoundaryLib.h"
+#include "PInput.h"
 
 using namespace std;
 
@@ -217,6 +218,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Spike(rotation);
 		obj->SetPosition(x, y);
 		break;
+	}
 	case 30: {
 		int length = atoi(tokens[3].c_str());
 		obj = new Lava(length);
@@ -228,7 +230,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		FRECT cameraBoundary = FRECT(atof(tokens[2].c_str()), atof(tokens[3].c_str()), atof(tokens[4].c_str()), atof(tokens[5].c_str()));
 		CameraBoundaryLib::AddCameraBoundary(idSection, cameraBoundary);
 		return;
-	}
 	}
 	case 31: {
 		int height = atoi(tokens[3].c_str());
@@ -467,6 +468,7 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 	FRECT cameraRECT = Camera::GetInstance()->GetCollisionBox();
 
 	std::unordered_map<CGameObject*, CGameObject*> listOnScreenObjs;
+	vector<CGameObject*> arrPlayerObjs;
 
 	FRECT cameraInMapChunk = FRECT(cameraRECT.left / MAP_BLOCK_WIDTH,
 		cameraRECT.top / MAP_BLOCK_HEIGHT,
@@ -487,32 +489,34 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 		}
 	}
 	//int count = 0;
-	vector<CGameObject*> arrPlayerObjs;
 
 	for (auto object : listOnScreenObjs)
 	{
-		onScreenObjs.emplace_back(object.first);
-	}
-
-	for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
-	{
-		for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
-		{
-			for (auto object : sceneObjects[x * 1000 + y])
-			{
-				//if (dynamic_cast<Skull_Bullet*>(object) != NULL)	count++;
-
-				if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
-				{
-					//Hot fix by TrV
-					if (dynamic_cast<Jason*>(object) != NULL || dynamic_cast<Sophia*>(object) != NULL) {
-						arrPlayerObjs.emplace_back(object);
-					}
-					else onScreenObjs.emplace_back(object);
-				}
-			}
+		if (dynamic_cast<Jason*>(object.first) != NULL || dynamic_cast<Sophia*>(object.first) != NULL) {
+			arrPlayerObjs.emplace_back(object.first);
 		}
+		else onScreenObjs.emplace_back(object.first);
 	}
+
+	//for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
+	//{
+	//	for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
+	//	{
+	//		for (auto object : sceneObjects[x * 1000 + y])
+	//		{
+	//			//if (dynamic_cast<Skull_Bullet*>(object) != NULL)	count++;
+	//
+	//			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
+	//			{
+	//				//Hot fix by TrV
+	//				if (dynamic_cast<Jason*>(object) != NULL || dynamic_cast<Sophia*>(object) != NULL) {
+	//					arrPlayerObjs.emplace_back(object);
+	//				}
+	//				else onScreenObjs.emplace_back(object);
+	//			}
+	//		}
+	//	}
+	//}
 
 	for (auto object : arrPlayerObjs) {
 		onScreenObjs.emplace_back(object);
@@ -533,6 +537,9 @@ void CPlayScene::Update(DWORD dw_dt)
 		if (dt > 0.1) dt = 0.1;
 
 		if (dt == 0) return;
+
+		// Update Keyboard state
+		PUpdate();
 
 		// Update for all the game object
 		for (auto obj : onScreenObjs)
@@ -685,7 +692,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	//mapBackground->Render();
+	mapBackground->Render();
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
 		onScreenObjs[i]->Render();

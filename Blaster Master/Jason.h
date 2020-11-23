@@ -6,6 +6,7 @@
 
 using namespace std;
 
+
 class PlayerInput {
 public:
 	bool up = false;
@@ -16,12 +17,14 @@ public:
 	bool shoot = false;
 
 	void Update() {
+		/**
 		up = DInput::GetInstance()->KeyPress(DIK_UP);
 		down = DInput::GetInstance()->KeyPress(DIK_DOWN);
 		left = DInput::GetInstance()->KeyPress(DIK_LEFT);
 		right = DInput::GetInstance()->KeyPress(DIK_RIGHT);
 		jump = DInput::GetInstance()->KeyPress(DIK_X);
 		shoot = DInput::GetInstance()->KeyPress(DIK_Z);
+		*/
 	}
 };
 
@@ -37,7 +40,7 @@ private:
 	int health = 6;
 
 	int speed = 100;
-	int jumpSpeed = 40;
+	int jumpSpeed = 100;
 	int flipX = false;
 
 	DWORD lastFire = 0;

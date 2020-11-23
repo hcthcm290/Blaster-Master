@@ -166,8 +166,6 @@
     <ClCompile Include="Spike.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="BigGate.cpp" />
-    <ClCompile Include="CameraBoundaryLib.cpp" />
     <ClCompile Include="PlayerItem.cpp">
       <Filter>Source Files\Other Objects</Filter>
     </ClCompile>
@@ -176,6 +174,15 @@
     </ClCompile>
     <ClCompile Include="Ladder.cpp">
       <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BigGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraBoundaryLib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PInput.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,12 +321,6 @@
     <ClInclude Include="Mine_Explosion.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="MineBullet.h">
-      <Filter>Header Files\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator_Floater.h">
-      <Filter>Header Files\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="Animator_Mine_Explosion.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
@@ -335,7 +336,6 @@
     <ClInclude Include="Spike.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="PlayerItem.h">
       <Filter>Header Files\Other Objects</Filter>
     </ClInclude>
@@ -347,6 +347,15 @@
     </ClInclude>
     <ClInclude Include="Ladder.h">
       <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Mine_Explosion.h">
+      <Filter>Header Files\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="Intangibility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PInput.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

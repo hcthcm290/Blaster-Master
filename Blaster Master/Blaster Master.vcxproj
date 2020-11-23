@@ -170,6 +170,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
+    <ClCompile Include="PInput.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="CameraBoundaryLib.cpp" />
     <ClCompile Include="Canon.cpp" />
@@ -217,9 +218,9 @@
   <ItemGroup>
     <ClInclude Include="AGR_Orb.h" />
     <ClInclude Include="Animator.h" />
-    <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="PInput.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="BigGate.h" />
     <ClInclude Include="Bullet_Jason.h" />
@@ -242,16 +243,13 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DynamicObject.h" />
-    <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Intangibility.h" />
     <ClInclude Include="Ladder.h" />
     <ClInclude Include="Lava.h" />
-    <ClInclude Include="MineBullet.h" />
     <ClInclude Include="Insect.h" />
     <ClInclude Include="Jason.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Mine.h" />
-    <ClInclude Include="MineBullet.h" />
     <ClInclude Include="Mine_Explosion.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="PlayerItem.h" />

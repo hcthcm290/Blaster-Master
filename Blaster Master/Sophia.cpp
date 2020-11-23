@@ -194,7 +194,14 @@ void Sophia::Update(float dt)
 						up = true;
 					}
 					auto bullet = new Sophia_Bullet_1(up, !flipX);
-					bullet->SetPosition(x, y);
+					//adjust x,y for more realistic firing
+					if (state != STATE_SOPHIA_FALL_90 && state != STATE_SOPHIA_IDLE_90 && state != STATE_SOPHIA_JUMP_90) {
+						bullet->SetPosition(x + (flipX ? -20 : 20), y - 3.5f);
+					}
+					else {
+						bullet->SetPosition(x - (flipX ? -3.5f : 3.5f), y - 20);
+					}
+					
 					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
 				}
 			}

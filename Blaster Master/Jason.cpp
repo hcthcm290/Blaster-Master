@@ -5,6 +5,7 @@
 #include "Bullet_Jason.h"
 #include "ColliableBrick.h"
 #include "Sophia.h"
+#include "PInput.h"
 
 Jason::Jason() {
 	animator = new Animator_Jason();
@@ -24,7 +25,8 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 
 void Jason::Update(float dt)
 {
-	if (DInput::GetInstance()->KeyPress(DIK_LSHIFT) && CollisionSystem::CheckOverlap(this, sophia)
+	/** SOPHIA TRANSITION */
+	if (PKeyDown(SHIFT) && CollisionSystem::CheckOverlap(this, sophia)
 		&& GetTickCount64() - switchDelay >= 1000) {
 		onLadderState = Null;
 		vy = -jumpSpeed*1.25;
@@ -44,14 +46,13 @@ void Jason::Update(float dt)
 	}
 
 	if (health <= 0) return;
-	input->Update();
 
 	UpdateActionRecord();
 
 	if (state!=State::_JASON_JUMP_ && onLadderState == Head) {
 		if (verticalMove > 0) vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
 		else {
-			vy = 0;
+			vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
 			vx = horizontalMove * speed;	
 		}
 	}
@@ -59,7 +60,7 @@ void Jason::Update(float dt)
 		state = State::_JASON_CLIMB_;
 		vx = 0;
 		if (verticalMove != 0) {
-			vy = verticalMove * speed / 5;
+			vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
 			flipCountDown -= dt;
 			if (flipCountDown <= 0) {
 				flipX = ~flipX;
@@ -94,7 +95,7 @@ void Jason::Update(float dt)
 	}
 
 
-	if (input->shoot) {
+	if ( PKeyDown(SHOOT) ) {
 		Fire();
 	}
 }
@@ -105,13 +106,13 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 	enviColX = enviColY = enemyColX = enemyColY = 0;
 
 	//update action record by input
-	if (input->left && input->right) horizontalMove = horizontalMove; //hold old action
-	else horizontalMove = input->left * (-1) + input->right * 1; //left or right
+	if ( PKeyPress(LEFT) && PKeyPress(RIGHT) ) horizontalMove = horizontalMove; //hold old action
+	else horizontalMove = PKeyPress(LEFT) * (-1) + PKeyPress(RIGHT) * 1; //left or right
 
-	if (input->up && input->down) verticalMove = verticalMove; //hold old action
-	else verticalMove = input->up * (-1) + input->down * 1; //left or right
+	if ( PKeyPress(UP) && PKeyPress(DOWN) ) verticalMove = verticalMove; //hold old action
+	else verticalMove = PKeyPress(UP) * (-1) + PKeyPress(DOWN) * 1; //left or right
 
-	attemptJump = input->jump;
+	attemptJump = PKeyDown(JUMP);
 }
 
 void Jason::Render()
@@ -141,7 +142,7 @@ void Jason::SetNewState() {
 	if (newState != State::_JASON_DIE_) { //if die, cannot perform any state
 		switch (state) {
 			case State::_JASON_CLIMB_: {
-				allowJump = false;
+				allowJump = true;
 				if (onLadderState == Head || onLadderState == Tail) {
 					newState = State::_JASON_IDLE_;
 				}
