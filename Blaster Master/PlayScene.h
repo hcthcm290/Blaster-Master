@@ -16,6 +16,7 @@ protected:
 
 	unordered_map<int, vector<CGameObject*>> sceneObjects;
 	unordered_map<int, vector<ForegroundTile*>> foregroundTiles;
+	unordered_map<int, vector<CGameObject*>> playableObjects;
 
 	vector<CGameObject*> onScreenObjs;
 

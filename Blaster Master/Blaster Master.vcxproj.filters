@@ -343,7 +343,6 @@
     <ClInclude Include="Spike.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="PlayerItem.h">
       <Filter>Header Files\Other Objects</Filter>
     </ClInclude>
@@ -352,6 +351,9 @@
     </ClInclude>
     <ClInclude Include="ForegroundTile.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playable.h">
+      <Filter>Header Files\Playable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -442,7 +442,14 @@ void CPlayScene::AddGameObjectToScene(CGameObject* obj)
 
 	for (auto mapBlockID : listMapBlockID)
 	{
-		sceneObjects[mapBlockID].emplace_back(obj);
+		if (dynamic_cast<Playable*>(obj) != NULL)
+		{
+			playableObjects[mapBlockID].emplace_back(obj);
+		}
+		else
+		{
+			sceneObjects[mapBlockID].emplace_back(obj);
+		}
 	}
 }
 
@@ -452,32 +459,25 @@ void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 
 	for (auto mapBlockID : listMapBlockID)
 	{
-		auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
-
-		if (e != sceneObjects[mapBlockID].end())
+		if (dynamic_cast<Playable*>(obj) != NULL)
 		{
-			sceneObjects[mapBlockID].erase(e);
-		}
-	}
+			auto e = std::find(playableObjects[mapBlockID].begin(), playableObjects[mapBlockID].end(), obj);
 
-	/*if (e != sceneObjects[mapBlockID].end())
-	{
-		sceneObjects[mapBlockID].erase(e);
-		return;
-	}
-	else
-	{
-		for (auto& block : sceneObjects)
-		{
-			auto e = std::find(block.second.begin(), block.second.end(), obj);
-
-			if (e != block.second.end())
+			if (e != playableObjects[mapBlockID].end())
 			{
-				block.second.erase(e);
-				return;
+				playableObjects[mapBlockID].erase(e);
 			}
 		}
-	}*/
+		else
+		{
+			auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+
+			if (e != sceneObjects[mapBlockID].end())
+			{
+				sceneObjects[mapBlockID].erase(e);
+			}
+		}
+	}
 }
 
 int CPlayScene::GetMapBlockID(float x, float y)
@@ -532,6 +532,17 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 	for (auto mapBlockID : GetMapBlockID(Camera::GetInstance()))
 	{
 		for (auto object : sceneObjects[mapBlockID])
+		{
+			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
+			{
+				if (listOnScreenObjs.find(object) == listOnScreenObjs.end())
+				{
+					listOnScreenObjs[object] = object;
+				}
+			}
+		}
+
+		for (auto object : playableObjects[mapBlockID])
 		{
 			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
 			{
@@ -773,11 +784,23 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 			// if the old id dont appear in the new list id, delete the object from that map block
 			if (e == newListMapBlockID.end())
 			{
-				auto location = std::find(sceneObjects[oldMapBlockID].begin(), sceneObjects[oldMapBlockID].end(), obj);
-
-				if (location != sceneObjects[oldMapBlockID].end())
+				if (dynamic_cast<Playable*>(obj) != NULL)
 				{
-					sceneObjects[oldMapBlockID].erase(location);
+					auto location = std::find(playableObjects[oldMapBlockID].begin(), playableObjects[oldMapBlockID].end(), obj);
+
+					if (location != playableObjects[oldMapBlockID].end())
+					{
+						playableObjects[oldMapBlockID].erase(location);
+					}
+				}
+				else
+				{
+					auto location = std::find(sceneObjects[oldMapBlockID].begin(), sceneObjects[oldMapBlockID].end(), obj);
+
+					if (location != sceneObjects[oldMapBlockID].end())
+					{
+						sceneObjects[oldMapBlockID].erase(location);
+					}
 				}
 			}
 		}
@@ -785,11 +808,17 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 		for (auto newMapBlockID : newListMapBlockID)
 		{
 			auto e = std::find(oldListMapBlockID.begin(), oldListMapBlockID.end(), newMapBlockID);
-
 			// if the new id dont appear in the old list id, add the object to that map block
 			if (e == oldListMapBlockID.end())
 			{
-				sceneObjects[newMapBlockID].emplace_back(obj);
+				if (dynamic_cast<Playable*>(obj) != NULL)
+				{
+					playableObjects[newMapBlockID].emplace_back(obj);
+				}
+				else
+				{
+					sceneObjects[newMapBlockID].emplace_back(obj);
+				}
 			}
 		}
 

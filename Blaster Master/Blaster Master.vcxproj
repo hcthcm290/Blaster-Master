@@ -225,6 +225,7 @@
     <ClInclude Include="Behavior_Jason.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="ForegroundTile.h" />
+    <ClInclude Include="Playable.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="BigGate.h" />
     <ClInclude Include="Bullet_Jason.h" />

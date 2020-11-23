@@ -3,6 +3,7 @@
 #include "RigidBody.h"
 #include "CollisionSystem.h"
 #include <d3dx9.h>
+#include "Playable.h"
 
 using namespace std;
 
@@ -24,7 +25,7 @@ public:
 	}
 };
 
-class Jason : public DynamicObject
+class Jason : public DynamicObject, public Playable
 {
 private:
 	//bacic properties

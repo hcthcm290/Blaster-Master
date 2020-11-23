@@ -3,8 +3,9 @@
 #include "RigidBody.h"
 #include "Jason.h"
 #include "CollisionSystem.h"
+#include "Playable.h"
 
-class Sophia : public DynamicObject
+class Sophia : public DynamicObject, public Playable
 {
 	bool onTheGround = true;
 	bool canJump = false;
