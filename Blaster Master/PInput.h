@@ -22,10 +22,10 @@ using namespace std;
 
 //Key customization here
 static int Key[] = {
-	DIK_UP,
-	DIK_DOWN,
+	DIK_UP, 
+	DIK_DOWN, 
 	DIK_LEFT,
-	DIK_RIGHT,
+	DIK_RIGHT, 
 	DIK_Z,
 	DIK_X,
 	DIK_LSHIFT,
