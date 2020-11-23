@@ -43,8 +43,7 @@ void Jason::Update(float dt)
 
 	//reset position if Jason fell out
 	if (DInput::GetInstance()->KeyPress(DIK_R)) {
-		x = 1120;
-		y = 1120;
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->HardReload();
 	}
 
 	//virtual damage trigger

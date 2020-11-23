@@ -39,5 +39,7 @@ public:
 	void ShootHoming();
 
 	void Awake(int JasonHealth);
+	virtual int GetState() { return this->state; }
+	virtual void SetState(int state) { this->state = state; }
 };
 

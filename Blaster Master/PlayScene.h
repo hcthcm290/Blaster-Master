@@ -13,6 +13,7 @@ class CPlayScene : public CScene
 {
 protected:
 	DynamicObject* player;
+	DynamicObject* playerBackup;
 
 	unordered_map<int, vector<CGameObject*>> sceneObjects;
 	unordered_map<int, vector<ForegroundTile*>> foregroundTiles;
@@ -34,6 +35,8 @@ protected:
 
 	int state = State::_PLAYSCENE_FREE_PLAYING_;
 
+	bool canSpawnPlayer = true;
+
 protected:
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -41,6 +44,9 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
 	void _ParseSection_MERGEDBRICK(string line);
+
+	void ReloadSceneObject();
+	void HardReloadSceneObject();
 
 	virtual void ApllyVelocityToGameObjs(float dt);
 
@@ -52,6 +58,8 @@ protected:
 	std::vector<ForegroundTile*> GetOnScreenForeGroundTiles();
 
 	void BackupPlayableObject();
+	void UpdateFreePlaying(float dt);
+	void UpdateSwitchSection(float dt);
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);
@@ -62,6 +70,9 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+
+	void ReloadBackup();
+	void HardReload();
 	
 	DynamicObject* GetPlayer() { return player; }
 	void SetPlayer(DynamicObject* newPlayer) { player = newPlayer; }

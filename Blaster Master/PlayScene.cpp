@@ -171,9 +171,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Jason();
 		break;
 	case 98:
+	{
+		if (!canSpawnPlayer)	return;
+
 		obj = new Sophia();
 		player = dynamic_cast<DynamicObject*>(obj);
 		break;
+	}
 	case 5:
 		obj = new Worm();
 		break;
@@ -373,6 +377,81 @@ void CPlayScene::_ParseSection_MERGEDBRICK(string line)
 	}
 }
 
+void CPlayScene::ReloadSceneObject()
+{
+	unordered_map<CGameObject*, int> listObject;
+
+	for (auto& block : sceneObjects)
+	{
+		for (auto obj : block.second)
+		{
+			listObject[obj] = 1;
+		}
+		block.second.clear();
+	}
+	sceneObjects.clear();
+
+	for (auto& obj : listObject)
+	{
+		delete obj.first;
+	}
+
+	ifstream f;
+	f.open(sceneFilePath);
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;
+
+		if (line == "[OBJECTS]") {
+			section = SCENE_SECTION_OBJECTS; continue;
+		}
+		if (line == "[MERGEDBRICK]") {
+			section = SCENE_SECTION_MERGEDBRICK; continue;
+		}
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+		//
+		// data section
+		//
+		switch (section)
+		{
+		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_MERGEDBRICK: _ParseSection_MERGEDBRICK(line); break;
+		}
+	}
+
+	f.close();
+}
+
+void CPlayScene::HardReloadSceneObject()
+{
+	unordered_map<CGameObject*, int> listObject;
+
+	for (auto& block : sceneObjects)
+	{
+		for (auto obj : block.second)
+		{
+			listObject[obj] = 1;
+		}
+		block.second.clear();
+	}
+	sceneObjects.clear();
+
+	for (auto& obj : listObject)
+	{
+		delete obj.first;
+	}
+
+	Load();
+}
+
 
 
 #pragma endregion
@@ -432,6 +511,7 @@ void CPlayScene::Load()
 	f.close();
 
 	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary("A2_A"));
+	BackupPlayableObject();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -529,6 +609,8 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 		cameraRECT.right / MAP_BLOCK_WIDTH,
 		cameraRECT.bottom / MAP_BLOCK_HEIGHT);
 
+	auto csu = GetMapBlockID(Camera::GetInstance());
+
 	for (auto mapBlockID : GetMapBlockID(Camera::GetInstance()))
 	{
 		for (auto object : sceneObjects[mapBlockID])
@@ -558,20 +640,6 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 	{
 		onScreenObjs.emplace_back(object.first);
 	}
-
-	/*for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
-	{
-		for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
-		{
-			for (auto object : sceneObjects[x * 1000 + y])
-			{
-				if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
-				{
-					onScreenObjs.emplace_back(object);
-				}
-			}
-		}
-	}*/
 
 	return onScreenObjs;
 }
@@ -623,7 +691,150 @@ std::vector<ForegroundTile*> CPlayScene::GetOnScreenForeGroundTiles()
 
 void CPlayScene::BackupPlayableObject()
 {
+	playableObjectBackup.clear();
 
+	for (auto listObject : playableObjects)
+	{
+		for (auto object : listObject.second)
+		{
+			playableObjectBackup[object] = std::pair<D3DXVECTOR3, int>(object->GetPosition(), object->GetState());
+		}
+	}
+
+	playerBackup = player;
+}
+
+void CPlayScene::UpdateFreePlaying(float dt)
+{
+	if (dt > 0.1) dt = 0.1;
+
+	if (dt == 0) return;
+
+	// Update for all the game object
+	for (int i = 0; i< onScreenObjs.size(); i++)
+	{
+		onScreenObjs[i]->Update(dt);
+	}
+
+	for (int i = 0; i < onScreenObjs.size(); i++)
+	{
+		if (dynamic_cast<DynamicObject*>(onScreenObjs.at(i)) == NULL)
+		{
+			continue; // if it not moving, we don't need to docollision for it
+		}
+		else if (D3DXVECTOR3(dynamic_cast<DynamicObject*>(onScreenObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0, 0, 0))
+		{
+			continue;
+		}
+		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onScreenObjs.at(i)), &onScreenObjs, dt);
+	}
+
+	ApllyVelocityToGameObjs(dt);
+
+	Camera::GetInstance()->Update(dt);
+}
+
+void CPlayScene::UpdateSwitchSection(float dt)
+{
+	countingTime1 += dt;
+
+	RemoveGameObjectFromScene(player);
+
+	if (countingTime1 < gate->shift_time1)
+	{
+		// shifting time 1
+		player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
+	}
+
+	if (countingTime1 > gate->shift_time1 && countingTime2 == 0)
+	{
+		// shift camera
+		shiftingCamera = true;
+
+		if (deltaShiftX == 0) // that's mean we've not set it yet
+		{
+			if (gate->shift_direction.x > 0)
+			{
+				deltaShiftX = Camera::GetInstance()->GetCollisionBox().right - Camera::GetInstance()->GetCollisionBox().left;
+			}
+
+			if (gate->shift_direction.x < 0)
+			{
+				deltaShiftX = Camera::GetInstance()->GetCollisionBox().left - Camera::GetInstance()->GetCollisionBox().right;
+			}
+		}
+
+		// shift camera follow y-axis to respect the new camera boundary
+		auto cameraRECT = Camera::GetInstance()->GetCollisionBox();
+		auto cameraPosition = Camera::GetInstance()->GetPosition();
+
+		if (cameraRECT.bottom + gate->teleport_delta.y > gate->new_boundary_camera.bottom)
+		{
+			deltaShiftY = -(cameraRECT.bottom + gate->teleport_delta.y - gate->new_boundary_camera.bottom);
+		}
+		else if (cameraRECT.top + gate->teleport_delta.y < gate->new_boundary_camera.top)
+		{
+			deltaShiftY = -(cameraRECT.top + gate->teleport_delta.y - gate->new_boundary_camera.top);
+		}
+		else
+		{
+			deltaShiftY = 0;
+		}
+
+		if (deltaShiftY != 0)
+		{
+			int directionY = deltaShiftY / abs(deltaShiftY);
+
+			if (abs(directionY * 150 * dt) < abs(deltaShiftY))
+			{
+				Camera::GetInstance()->SetPosition(cameraPosition.x, cameraPosition.y + directionY * 150 * dt);
+			}
+			else
+			{
+				Camera::GetInstance()->SetPosition(cameraPosition.x, cameraPosition.y + deltaShiftY);
+			}
+		}
+		else
+		{
+			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
+
+			totalShifting += gate->shift_direction.x * 150 * dt;
+
+			if (abs(totalShifting) >= abs(deltaShiftX))
+			{
+				shiftingCamera = false;
+
+				auto playerPosition = player->GetPosition();
+
+				player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
+			}
+		}
+	}
+
+	if (countingTime1 > gate->shift_time1 && shiftingCamera == false)
+	{
+		// shifting time 2
+		countingTime2 += dt;
+
+		player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
+	}
+
+	if (countingTime2 >= gate->shift_time2)
+	{
+		Camera::GetInstance()->SetCameraBoundary(gate->new_boundary_camera);
+
+		auto playerPosition = player->GetPosition();
+		auto cameraPosition = Camera::GetInstance()->GetPosition();
+
+		player->SetPosition(playerPosition.x + gate->teleport_delta.x, playerPosition.y + gate->teleport_delta.y);
+
+		Camera::GetInstance()->SetPosition(cameraPosition.x + gate->teleport_delta.x, cameraPosition.y + gate->teleport_delta.y);
+
+		state = State::_PLAYSCENE_FREE_PLAYING_;
+	}
+
+	AddGameObjectToScene(player);
+	BackupPlayableObject();
 }
 
 void CPlayScene::Update(DWORD dw_dt)
@@ -633,135 +844,16 @@ void CPlayScene::Update(DWORD dw_dt)
 	float dt = (float)(dw_dt);
 	dt /= 1000;
 
+	if (dt > 0.1)
+		dt = 0.1;
+
 	if (state == State::_PLAYSCENE_FREE_PLAYING_)
 	{
-		if (dt > 0.1) dt = 0.1;
-
-		if (dt == 0) return;
-
-		// Update for all the game object
-		for (auto obj : onScreenObjs)
-		{
-			obj->Update(dt);
-		}
-
-		for (int i = 0; i < onScreenObjs.size(); i++)
-		{
-			if (dynamic_cast<DynamicObject*>(onScreenObjs.at(i)) == NULL)
-			{
-				continue; // if it not moving, we don't need to docollision for it
-			}
-			else if (D3DXVECTOR3(dynamic_cast<DynamicObject*>(onScreenObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0, 0, 0))
-			{
-				continue;
-			}
-			CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onScreenObjs.at(i)), &onScreenObjs, dt);
-		}
-
-		ApllyVelocityToGameObjs(dt);
-
-		Camera::GetInstance()->Update(dt);
+		UpdateFreePlaying(dt);
 	}
 	else if (state == State::_PLAYSCENE_SWITCH_SECTION)
 	{
-		countingTime1 += dt;
-
-		RemoveGameObjectFromScene(player);
-
-		if (countingTime1 < gate->shift_time1)
-		{
-			// shifting time 1
-			player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
-		}
-		
-		if(countingTime1 > gate->shift_time1 && countingTime2 == 0)
-		{
-			// shift camera
-			shiftingCamera = true;
-
-			if (deltaShiftX == 0) // that's mean we've not set it yet
-			{
-				if (gate->shift_direction.x > 0)
-				{
-					deltaShiftX = Camera::GetInstance()->GetCollisionBox().right - Camera::GetInstance()->GetCollisionBox().left;
-				}
-
-				if (gate->shift_direction.x < 0)
-				{
-					deltaShiftX = Camera::GetInstance()->GetCollisionBox().left - Camera::GetInstance()->GetCollisionBox().right;
-				}
-			}
-
-			// shift camera follow y-axis to respect the new camera boundary
-			auto cameraRECT = Camera::GetInstance()->GetCollisionBox();
-			auto cameraPosition = Camera::GetInstance()->GetPosition();
-
-			if (cameraRECT.bottom + gate->teleport_delta.y > gate->new_boundary_camera.bottom)
-			{
-				deltaShiftY = -(cameraRECT.bottom + gate->teleport_delta.y - gate->new_boundary_camera.bottom);
-			}
-			else if (cameraRECT.top + gate->teleport_delta.y < gate->new_boundary_camera.top)
-			{
-				deltaShiftY = -(cameraRECT.top + gate->teleport_delta.y - gate->new_boundary_camera.top);
-			}
-			else
-			{
-				deltaShiftY = 0;
-			}
-
-			if (deltaShiftY != 0)
-			{
-				int directionY = deltaShiftY / abs(deltaShiftY);
-
-				if (abs(directionY * 150 * dt) < abs(deltaShiftY))
-				{
-					Camera::GetInstance()->SetPosition(cameraPosition.x, cameraPosition.y + directionY * 150 * dt);
-				}
-				else
-				{
-					Camera::GetInstance()->SetPosition(cameraPosition.x, cameraPosition.y + deltaShiftY);
-				}
-			}
-			else
-			{
-				Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
-
-				totalShifting += gate->shift_direction.x * 150 * dt;
-
-				if (abs(totalShifting) >= abs(deltaShiftX))
-				{
-					shiftingCamera = false;
-
-					auto playerPosition = player->GetPosition();
-
-					player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
-				}
-			}
-		}
-		
-		if (countingTime1 > gate->shift_time1 && shiftingCamera == false)
-		{
-			// shifting time 2
-			countingTime2 += dt;
-
-			player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
-		}
-
-		if (countingTime2 >= gate->shift_time2)
-		{
-			Camera::GetInstance()->SetCameraBoundary(gate->new_boundary_camera);
-
-			auto playerPosition = player->GetPosition();
-			auto cameraPosition = Camera::GetInstance()->GetPosition();
-
-			player->SetPosition(playerPosition.x + gate->teleport_delta.x, playerPosition.y + gate->teleport_delta.y);
-			
-			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->teleport_delta.x, cameraPosition.y + gate->teleport_delta.y);
-
-			state = State::_PLAYSCENE_FREE_PLAYING_;
-		}
-
-		AddGameObjectToScene(player);
+		UpdateSwitchSection(dt);
 	}
 }
 
@@ -872,6 +964,38 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
+}
+
+void CPlayScene::ReloadBackup()
+{
+	canSpawnPlayer = false;
+
+	ReloadSceneObject();
+
+	playableObjects.clear();
+	onScreenObjs.clear();
+
+	for (auto backup : playableObjectBackup)
+	{
+		auto backupObj = backup.first;
+		backupObj->SetPosition(backup.second.first.x, backup.second.first.y);
+		backupObj->SetState(backup.second.second);
+
+		AddGameObjectToScene(backupObj);
+	}
+
+	player = playerBackup;
+
+	canSpawnPlayer = true;
+}
+
+void CPlayScene::HardReload()
+{
+	onScreenObjs.clear();
+	playableObjects.clear();
+
+	HardReloadSceneObject();
+
 }
 
 void CPlayScene::SwitchSection(BigGate* gate)

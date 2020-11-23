@@ -179,9 +179,7 @@ void Sophia::Update(float dt)
 	{
 		//reset position
 		if (DInput::GetInstance()->KeyPress(DIK_R)) {
-			x = 1120;
-			y = 1136;
-			state = STATE_SOPHIA_IDLE;
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->HardReload();
 			return;
 		}
 
