@@ -27,8 +27,7 @@ private:
 	IXAudio2MasteringVoice* pMasterVoice = NULL;
 	IXAudio2SourceVoice* pSourceVoice;
 
-	WAVEFORMATEXTENSIBLE wfx = { 0 };
-	XAUDIO2_BUFFER buffer = { 0 };
+	
 
 	static SoundManager* __instance;
 
@@ -38,11 +37,11 @@ private:
 	SoundManager();
 	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
 	HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
-	HRESULT LoadAudioDataFile(std::string filename);
+	HRESULT LoadAudioDataFile(std::string filename, WAVEFORMATEXTENSIBLE& wfx, XAUDIO2_BUFFER& buffer);
 
 public:
 	static SoundManager* GetInstance();
 
-	void PlaySound(std::string filename);
+	void PlaySoundW(std::string filename);
 	void Release();
 };
