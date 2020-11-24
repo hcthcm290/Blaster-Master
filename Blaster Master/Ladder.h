@@ -2,13 +2,13 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "Animator.h"
-#include "Jason.h"
+
+enum class LadderPos { Top, Body, Bottom, Null };
 
 class Ladder : public DynamicObject
 {
 private:
 	int height;
-	Jason* jason;
 	float top, bottom;
 public:
 	Ladder(int h);
@@ -17,5 +17,7 @@ public:
 
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
+
+	LadderPos CheckLadderPos(int jasonState, FRECT jasonColBox                   );
 };
 

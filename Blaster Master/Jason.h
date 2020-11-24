@@ -2,39 +2,15 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "CollisionSystem.h"
+#include "Ladder.h"
 #include <d3dx9.h>
 
 using namespace std;
-
-
-class PlayerInput {
-public:
-	bool up = false;
-	bool down = false;
-	bool left = false;
-	bool right = false;
-	bool jump = false;
-	bool shoot = false;
-
-	void Update() {
-		/**
-		up = DInput::GetInstance()->KeyPress(DIK_UP);
-		down = DInput::GetInstance()->KeyPress(DIK_DOWN);
-		left = DInput::GetInstance()->KeyPress(DIK_LEFT);
-		right = DInput::GetInstance()->KeyPress(DIK_RIGHT);
-		jump = DInput::GetInstance()->KeyPress(DIK_X);
-		shoot = DInput::GetInstance()->KeyPress(DIK_Z);
-		*/
-	}
-};
-
-enum OnLadderState {Head, Tail, Body, Null};
 
 class Jason : public DynamicObject
 {
 private:
 	//bacic properties
-	int state;
 
 	static const int maxHealth = 6;
 	int health = 6;
@@ -46,7 +22,6 @@ private:
 	DWORD lastFire = 0;
 	float recoilTime = 500;
 
-	PlayerInput* input = new PlayerInput();
 	DynamicObject* sophia;
 
 	//ACTION RECORD vairable to set new state
@@ -57,6 +32,8 @@ private:
 	float enviColY;
 	float enemyColX;
 	float enemyColY;
+
+	bool allowShoot = true;
 	bool allowJump = false;
 
 	void UpdateActionRecord();
@@ -65,9 +42,6 @@ private:
 	void Fire();
 
 	DWORD switchDelay; //this avoid switching back and forth too fast 
-
-	float switchEffectDuration = -1;
-	float flipCountDown = 0.25f;
 
 	//on damage
 	int invulnerable = -1; //trigger color-changing effect (-1: off, 0:green, 1: magneta)
@@ -78,6 +52,15 @@ private:
 		D3DCOLOR_ARGB(255,255,0,255)
 	};
 	int damageEffectTimer = -999;
+
+
+	#pragma region LADDER VARS
+	Ladder* ladder;
+	LadderPos ladderPos;
+
+	float switchEffectDuration = -1;
+	float flipCountDown = 0.25f;
+	#pragma endregion
 
 public:
 	Jason();
@@ -90,8 +73,5 @@ public:
 	void PushBack(int _vx, int _vy);
 	void getDamage(int damage);
 
-	//use for ladder conditioning
-	OnLadderState onLadderState = Null;
-
-	int GetState() { return state; }
+	int GetState() { return currentState; }
 };

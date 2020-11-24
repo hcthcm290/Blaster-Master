@@ -47,11 +47,28 @@ void PInput::Update() {
 }
 
 bool PInput::KeyPressed(int key) {
-	if (PInput::GetInstance()->isPressed[key]) DebugOut(L"%d is pressed\n", key);
+	//if (PInput::GetInstance()->isPressed[key]) DebugOut(L"%d is pressed\n", key);
 	return PInput::GetInstance()->isPressed[key];
 }
 
 bool PInput::KeyDown(int key) {
-	if (PInput::GetInstance()->firstPress[key]) DebugOut(L"%d is down\n", key);
+	//if (PInput::GetInstance()->firstPress[key]) DebugOut(L"%d is down\n", key);
 	return PInput::GetInstance()->firstPress[key];
+}
+
+bool PInput::OneOfThoseIsPressed(	bool up,
+									bool down, 
+									bool left, 
+									bool right, 
+									bool shoot, 
+									bool jump, 
+									bool shift, 
+									bool enter) {
+
+	vector<bool> expected = { up, down, left, right, shoot, jump, shift, enter };
+	for (int i = 0; i < PINPUT_SIZE; i++) {
+		if (expected[i] != NULL && 
+			expected[i] == PInput::GetInstance()->isPressed[i]) return true;
+	}
+	return false;
 }

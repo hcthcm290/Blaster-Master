@@ -54,4 +54,14 @@ public:
 
 	//return true if the key was pressed in the this frame
 	static bool KeyDown(int key);
+
+	//check if input is as expected
+	static bool OneOfThoseIsPressed(bool up,
+									bool down,
+									bool left,
+									bool right,
+									bool shoot,
+									bool jump,
+									bool shift,
+									bool enter);
 };

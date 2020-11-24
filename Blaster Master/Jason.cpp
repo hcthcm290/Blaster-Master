@@ -9,13 +9,13 @@
 
 Jason::Jason() {
 	animator = new Animator_Jason();
-	state = State::_JASON_IDLE_;
+	currentState = State::_JASON_IDLE_;
 	health = maxHealth;
 }
 
 Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	animator = new Animator_Jason();
-	state = State::_JASON_JUMP_;
+	currentState = State::_JASON_JUMP_;
 	this->x = x;
 	this->y = y;
 	this->sophia = sophia;
@@ -25,10 +25,12 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 
 void Jason::Update(float dt)
 {
+	#pragma region SOPHIA TRANSITION
 	/** SOPHIA TRANSITION */
-	if (PInput::KeyDown(SHIFT) && CollisionSystem::CheckOverlap(this, sophia)
+	if (currentState == State::_JASON_IDLE_ && PInput::KeyDown(SHIFT) 
+		&& CollisionSystem::CheckOverlap(this, sophia)
 		&& GetTickCount64() - switchDelay >= 1000) {
-		onLadderState = Null;
+
 		vy = -jumpSpeed*1.25;
 		attemptJump = true;
 		switchEffectDuration = 0.26f;
@@ -44,20 +46,78 @@ void Jason::Update(float dt)
 		}
 		return;
 	}
+	#pragma endregion
 
 	if (health <= 0) return;
 
 	UpdateActionRecord();
 
-	if (state!=State::_JASON_JUMP_ && onLadderState == Head) {
+	#pragma region LADDER CHECK
+	//LADDER CHECK
+	if (ladder != NULL) {
+		//if ladder is no more collide with jason, remove it
+		if (CollisionSystem::CheckOverlap(ladder, this)) {
+			ladderPos = ladder->CheckLadderPos(currentState, GetCollisionBox());
+		}
+		else {
+			ladder = NULL;
+		}
+	}
+	else ladderPos = LadderPos::Null;
+	//-------------------------------//
+	#pragma endregion
+
+	#pragma region Update state vx vy up to LADDER
+	//UPDATE VX VY
+	if (ladderPos == LadderPos::Null) { //FREE MOVEMENT
+		if (GetState() == State::_JASON_CLIMB_)
+			SetState(State::_JASON_IDLE_);
+
+		vx = horizontalMove * speed;
+		vy -= jumpSpeed * (allowJump && attemptJump);
+		vy += 150 * dt * (ladder == NULL 
+							|| !CollisionSystem::CheckOverlap(ladder, this) 
+							|| attemptJump == false);
+	}
+	else if (ladderPos == LadderPos::Top) { //TOP OF LADDER
+		if (GetState() == State::_JASON_CLIMB_)
+			SetState(State::_JASON_IDLE_);
+		vx = 0;
+		vy = 0;
+	}
+	else if (ladderPos == LadderPos::Bottom) { //BOTTOM OF LADDER
+		if (GetState() == State::_JASON_CLIMB_)
+			SetState(State::_JASON_IDLE_);
+		vx = 0;
+		vy = 0;
+	}
+	else if (ladderPos == LadderPos::Body) { //BODY OF LADDER
+		SetState(State::_JASON_CLIMB_);
+		x = ladder->GetPosition().x;
+		vx = 0;
+		if (verticalMove != 0) {
+			vy = verticalMove * speed / 5;
+			flipCountDown -= dt;
+			if (flipCountDown <= 0) {
+				flipX = ~flipX;
+				flipCountDown = 0.25f;
+			}
+		}
+		else vy = 0;
+	}
+	//-------------------------------//
+	#pragma endregion
+
+	/**
+	if (currentState!=State::_JASON_JUMP_ && onLaddercurrentState == Head) {
 		if (verticalMove > 0) vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
 		else {
 			vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
 			vx = horizontalMove * speed;	
 		}
 	}
-	else if (state != State::_JASON_JUMP_ && onLadderState == Body) {
-		state = State::_JASON_CLIMB_;
+	else if (currentState != State::_JASON_JUMP_ && onLaddercurrentState == Body) {
+		currentState = State::_JASON_CLIMB_;
 		vx = 0;
 		if (verticalMove != 0) {
 			vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
@@ -69,7 +129,7 @@ void Jason::Update(float dt)
 		}
 		else vy = 0;
 	}
-	else if (state != State::_JASON_JUMP_ && onLadderState == Tail) {
+	else if (currentState != State::_JASON_JUMP_ && onLaddercurrentState == Tail) {
 		if (verticalMove < 0) vy = verticalMove * speed / 5;
 		else {
 			//Jason can stop climbing and fall, so no (vy = 0)
@@ -82,20 +142,9 @@ void Jason::Update(float dt)
 		vy -= jumpSpeed * (allowJump && attemptJump);
 		vy += 150 * dt;
 	}
+	**/
 
-	//reset position if Jason fell out
-	if (DInput::GetInstance()->KeyPress(DIK_R)) {
-		x = 1120;
-		y = 1120;
-	}
-
-	//virtual damage trigger
-	if (DInput::GetInstance()->KeyPress(DIK_Q)) {
-		getDamage(1);
-	}
-
-
-	if ( PInput::KeyDown(SHOOT) ) {
+	if ( PInput::KeyDown(SHOOT) && allowShoot ) {
 		Fire();
 	}
 }
@@ -122,30 +171,26 @@ void Jason::Render()
 
 	//use color effect if they got damaged
 	if (invulnerable != -1) {
-		animator->Draw(state, x, y, flipX, 0, damageColor[invulnerable]);
+		animator->Draw(currentState, x, y, flipX, 0, damageColor[invulnerable]);
 		if (GetTickCount64() - damageEffectTimer >= 100) {
 			damageEffectTimer = GetTickCount64();
 			invulnerable = 1 - invulnerable; // 0 -> 1 -> 0 -> 1 -> ...
 		}
 	}
 	else {
-		animator->Draw(state, x, y, flipX);
+		animator->Draw(currentState, x, y, flipX);
 	}
-
-	onLadderState = Null; //reset
 }
 
 void Jason::SetNewState() {
-	int newState = state;
+	int newState = currentState;
 	if (health <= 0) newState = State::_JASON_DIE_; //if no health, die anyway
 
-	if (newState != State::_JASON_DIE_) { //if die, cannot perform any state
-		switch (state) {
+	if (newState != State::_JASON_DIE_) { //if die, cannot perform any currentState
+		switch (currentState) {
 			case State::_JASON_CLIMB_: {
 				allowJump = true;
-				if (onLadderState == Head || onLadderState == Tail) {
-					newState = State::_JASON_IDLE_;
-				}
+				allowShoot = false;
 				break;
 			}
 			case State::_JASON_CMOVE_: {
@@ -177,18 +222,15 @@ void Jason::SetNewState() {
 			case State::_JASON_IDLE_: {
 				allowJump = true;
 				//collision with ladder
-				if (onLadderState == Body) { //he is actually caught by a ladder !!
-					newState = State::_JASON_CLIMB_;
-				}
-				else if (onLadderState != Head && verticalMove == 1) {
-					//y += OFFSET_STAND_CRAWL;
-					newState = State::_JASON_CRAWL_;
-				}
-				else if (attemptJump) {
+
+				if (attemptJump) {
 					newState = State::_JASON_JUMP_;
 				}
 				else if (horizontalMove != 0) {
 					newState = State::_JASON_WALK_;
+				}
+				else if (PInput::KeyDown(DOWN)) {
+					newState = State::_JASON_CRAWL_;
 				}
 				break;
 			}
@@ -207,10 +249,7 @@ void Jason::SetNewState() {
 			}
 			case State::_JASON_WALK_: {
 				allowJump = true;
-				if (onLadderState == Body) {
-					newState = State::_JASON_CLIMB_;
-				}
-				else if (verticalMove == 1) {
+				if (verticalMove == 1) {
 					newState = State::_JASON_CRAWL_;
 				}
 				else if (attemptJump) {
@@ -224,32 +263,18 @@ void Jason::SetNewState() {
 		}
 	}
 
-	bool stateChanged = (state != newState);
-	FRECT stateColBox = GetCollisionBox();
-	state = newState;
+	bool currentStateChanged = (currentState != newState);
+	FRECT currentStateColBox = GetCollisionBox();
+	currentState = newState;
 	FRECT newStateColBox = GetCollisionBox();
 
-	y += ceil( ((stateColBox.bottom - stateColBox.top) - (newStateColBox.bottom - newStateColBox.top) ) / 2);
-
-	//hot fix, will fix later
-	/**
-	if (stateChanged) {
-		switch (state) {
-		case State::_JASON_CRAWL_:
-			y -= 5;
-			break;
-		case State::_JASON_DIE_:
-			y -= 5;
-			break;
-		}
-	}
-	**/
+	y += ceil( ((currentStateColBox.bottom - currentStateColBox.top) - (newStateColBox.bottom - newStateColBox.top) ) / 2);
 }
 
 FRECT Jason::GetCollisionBox() {
 	float w = 10;
 	float h = 200;
-	switch (state) {
+	switch (currentState) {
 		case State::_JASON_CLIMB_	: w = 12; h = 16;	break;
 		case State::_JASON_CMOVE_	: w = 16; h = 8;	break;
 		case State::_JASON_CRAWL_	: w = 16; h = 8;	break;
@@ -263,17 +288,13 @@ FRECT Jason::GetCollisionBox() {
 }
  
 void Jason::OnCollisionEnter(CollisionEvent e) {
-	/**
-	//check sophia first
-	if (dynamic_cast<Sophia*>(e.pGameObject)) {
-		DebugOut(L"Sophia awake pls\n");
-		if (DInput::GetInstance()->KeyPress(DIK_LSHIFT)) {
-			dynamic_cast<Sophia*>(e.pGameObject)->Awake();
-			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(e.pGameObject));
-			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
-		}
+	//Check if collisiion with ladder
+	if (dynamic_cast<Ladder*>(e.pGameObject) != NULL) {
+		ladder = dynamic_cast<Ladder*>(e.pGameObject);
+		DebugOut(L"Ouch\n");
+		return;
 	}
-	*/
+
 	if (dynamic_cast<ColliableBrick*>(e.pGameObject) == NULL) return;
 
 	//first this can only handle collision with environment

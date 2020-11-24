@@ -2,6 +2,7 @@
 #include "StateConstant.h"
 #include "CollisionSystem.h"
 #include "Debug.h"
+#include "PInput.h"
 
 Ladder::Ladder(int h) {
 	animator = new Animator();
@@ -10,54 +11,10 @@ Ladder::Ladder(int h) {
 }
 
 void Ladder::Update(float dt) {
-	if (top == NULL) {
-		top = y - 8;
-		bottom = y + height * 16 - 9; //avoid flicking between body and tail
-	}
-
-	if (jason != NULL && !CollisionSystem::CheckOverlap(this, jason)) {
-		jason = NULL;
-	}
-
-	//if jason is jumping, ignore
-	if (jason != NULL && jason->GetState() == State::_JASON_JUMP_) {
-		return;
-	}
-
-	if (jason != NULL) {
-		FRECT jasonColBox = jason->GetCollisionBox();
-		if (jasonColBox.top <= top) {
-			jason->onLadderState = Head;
-		}
-		else if (jasonColBox.bottom >= bottom) {
-			jason->onLadderState = Tail;
-		}
-		else {
-			float jasonY = jason->GetPosition().y;
-			jason->SetPosition(this->x, jasonY);
-			jason->onLadderState = Body;
-		}
-	}
+	
 }
 
 void Ladder::Render() {
-	if (jason != NULL) {
-		switch (jason->onLadderState) {
-		case Tail: 
-			DebugOut(L"Tail\n");
-			break; 
-		case Head:
-			DebugOut(L"Head\n");
-			break;
-		case Body:
-			DebugOut(L"Body\n");
-			break;
-		case Null:
-			DebugOut(L"Tail\n");
-			break;
-		}
-	}
-
 	for (int i = 0; i < height; i++) {
 		animator->Draw(State::_LADDER_, x, y + i * 16, false);
 	}
@@ -68,7 +25,59 @@ FRECT Ladder::GetCollisionBox() {
 }
 
 void Ladder::OnCollisionEnter(CollisionEvent e) {
-	if (dynamic_cast<Jason*>(e.pGameObject) != NULL) {
-		jason = dynamic_cast<Jason*>(e.pGameObject);
+	
+}
+
+LadderPos Ladder::CheckLadderPos(int jasonState, FRECT jasonColBox) {
+	if (top == NULL) {
+		top = y - 8;
+		bottom = y + height * 16 - 9; //avoid flicking between body and tail
 	}
+
+	LadderPos result = LadderPos::Body;
+
+	//PHASE 1
+	if (jasonState == State::_JASON_JUMP_ || PInput::KeyPressed(JUMP)) {
+		result = LadderPos::Null;
+	}
+	else if (jasonColBox.bottom >= bottom) {
+		result = LadderPos::Bottom;
+	}
+	else if (jasonColBox.top <= top) {
+		result = LadderPos::Top;
+	}
+
+	//PHASE 2
+	if (result == LadderPos::Top) {
+		if (PInput::OneOfThoseIsPressed(NULL, NULL, true, true, NULL, true, true, NULL)) {
+			result = LadderPos::Null;
+		}
+		else if (PInput::KeyDown(DOWN)) {
+			result = LadderPos::Body;
+		}
+	}
+	else if (result == LadderPos::Bottom) {
+		if (PInput::OneOfThoseIsPressed(NULL, true, true, true, NULL, true, true, NULL)) {
+			result = LadderPos::Null;
+		}
+		else if (PInput::KeyDown(UP)) {
+			result = LadderPos::Body;
+		}
+	}
+
+	switch (result) {
+	case LadderPos::Null:
+		DebugOut(L"Null\n");
+		break;
+	case LadderPos::Top:
+		DebugOut(L"Top\n");
+		break;
+	case LadderPos::Bottom:
+		DebugOut(L"Bottom\n");
+		break;
+	case LadderPos::Body:
+		DebugOut(L"Body\n");
+		break;
+	}
+	return result;
 }
