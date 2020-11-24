@@ -509,7 +509,7 @@ void CPlayScene::Load()
 
 	f.close();
 
-	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary("A2_A"));
+	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary("A2_D"));
 	BackupPlayableObject();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
@@ -622,7 +622,10 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 				}
 			}
 		}
+	}
 
+	for (auto mapBlockID : GetMapBlockID(Camera::GetInstance()))
+	{
 		for (auto object : playableObjects[mapBlockID])
 		{
 			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))

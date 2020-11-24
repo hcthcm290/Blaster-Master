@@ -8,7 +8,7 @@ class Bullet_Jason : public DynamicObject, public PlayerBullet
 {
 private:
 	int speed = 150;
-	float livingTime = 5;
+	float livingTime = 0.5;
 
 public:
 	Bullet_Jason(int horizontalDirection, float xs, float ys);
