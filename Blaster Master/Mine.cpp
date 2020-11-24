@@ -7,6 +7,8 @@
 #include "MineBullet.h"
 #include "SoundManager.h"
 #include "Explosive.h"
+#include "Playable.h"
+#include "PlayerBullet.h"
 
 Mine::Mine()
 {
@@ -39,7 +41,7 @@ FRECT Mine::GetCollisionBox()
 
 void Mine::OnCollisionEnter(CollisionEvent e)
 {
-	if (e.pGameObject== dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer())
+	if (dynamic_cast<Playable*>(e.pGameObject) != NULL || dynamic_cast<PlayerBullet*>(e.pGameObject))
 	{
 		// Create explosion animation
 		auto explosion = new Mine_Explosion();
@@ -68,12 +70,16 @@ void Mine::OnCollisionEnter(CollisionEvent e)
 
 		// TODO //
 		// Set dmg to player if player touched it //
+		if (dynamic_cast<Playable*>(e.pGameObject) != NULL)
+		{
 
-		// Remove bullet from scene //
+		}
+
+		// Remove mine from scene //
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 
 		// Play Explosion Sound //
-		SoundManager::GetInstance()->PlaySoundW("Blaster Master SFX (24).wav");
+		//SoundManager::GetInstance()->PlaySoundW("Blaster Master SFX (24).wav");
 	}
 }
 

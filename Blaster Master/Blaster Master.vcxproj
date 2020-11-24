@@ -225,6 +225,7 @@
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="Behavior_Jason.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="Sophia_Bullet_Rocket.h" />
     <ClInclude Include="ForegroundTile.h" />
     <ClInclude Include="Playable.h" />

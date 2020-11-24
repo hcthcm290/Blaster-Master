@@ -2,10 +2,10 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "CollisionSystem.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 #include "Intangibility.h"
 class Sophia_Bullet_Rocket :
-	public DynamicObject, public Bullet, public Intangibility
+	public DynamicObject, public PlayerBullet, public Intangibility
 {
 protected:
 	DWORD last;

@@ -280,36 +280,57 @@ std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> CollisionSystem::F
 	LPCOLLISION minTxCol = nullptr;
 	LPCOLLISION minTyCol = nullptr;
 
+	float minTxColDtPercent = 2;
+	float minTyColDtPercent = 2;
+
 	std::pair<std::vector<LPCOLLISION>, std::vector<LPCOLLISION>> filteredCol;
 
 	// check what minTxCol and minTyCol
 	for (auto Event : colList)
 	{
-		if (Event->nx != 0 && (Event->nx / movingObj->GetVelocity().x) < 0)
+		if (Event->nx != 0 && (Event->nx / movingObj->GetVelocity().x) < 0 && dynamic_cast<ColliableBrick*>(Event->obj) != NULL)
 		{
-			if (minTxCol == nullptr) minTxCol = Event;
-			else if (minTxCol->dt_Percent < Event->dt_Percent) minTxCol = Event;
+			if (minTxCol == nullptr)
+			{
+				minTxCol = Event;
+				minTxColDtPercent = minTxCol->dt_Percent;
+			}
+			else if (minTxCol->dt_Percent < Event->dt_Percent)
+			{
+				minTxCol = Event;
+				minTxColDtPercent = minTxCol->dt_Percent;
+			}
+
 		}
 
-		if (Event->ny != 0 && (Event->ny / movingObj->GetVelocity().y) < 0)
+		if (Event->ny != 0 && (Event->ny / movingObj->GetVelocity().y) < 0 && dynamic_cast<ColliableBrick*>(Event->obj) != NULL)
 		{
-			if (minTyCol == nullptr) minTyCol = Event;
-			else if (minTyCol->dt_Percent < Event->dt_Percent) minTyCol = Event;
+			if (minTyCol == nullptr)
+			{
+				minTyCol = Event;
+				minTyColDtPercent = minTyCol->dt_Percent;
+			}
+			else if (minTyCol->dt_Percent < Event->dt_Percent)
+			{
+				minTyCol = Event;
+				minTyColDtPercent = minTyCol->dt_Percent;
+			}
+
 		}
 	}
 
-	// find all collision that have the same minimum as minTxCol and minTyCol
+	// find all collision that have the same or less than minimum as minTxCol and minTyCol
 	for (auto Event : colList)
 	{
 		if (Event->nx != 0 && (Event->nx / movingObj->GetVelocity().x) < 0)
 		{
-			if (Event->dt_Percent == minTxCol->dt_Percent)
+			if (Event->dt_Percent <= minTxColDtPercent)
 				filteredCol.first.emplace_back(Event);
 		}
 
 		if (Event->ny != 0 && (Event->ny / movingObj->GetVelocity().y) < 0)
 		{
-			if (Event->dt_Percent == minTyCol->dt_Percent)
+			if (Event->dt_Percent <= minTyColDtPercent)
 				filteredCol.second.emplace_back(Event);
 		}
 	}

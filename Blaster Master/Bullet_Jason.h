@@ -2,8 +2,9 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "CollisionSystem.h"
+#include "PlayerBullet.h"
 
-class Bullet_Jason : public DynamicObject
+class Bullet_Jason : public DynamicObject, public PlayerBullet
 {
 private:
 	int speed = 150;
