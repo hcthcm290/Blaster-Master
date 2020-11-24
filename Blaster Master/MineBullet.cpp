@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "PlayScene.h"
 #include "CollisionSystem.h"
+#include "Playable.h"
 
 MineBullet::MineBullet()
 {
@@ -24,9 +25,12 @@ void MineBullet::Update(float dt)
 	{
 		// TODO //
 		// Set Dmg and push back player //
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(14);
-		// Remove bullet from scene //
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+		if (!dynamic_cast<Playable*>(player)->IsInvulnerable())
+		{
+			dynamic_cast<DynamicObject*>(player)->TakeDamage(14);
+			// Remove bullet from scene //
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+		}
 	}
 }
 

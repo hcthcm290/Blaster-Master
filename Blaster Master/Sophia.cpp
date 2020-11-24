@@ -625,7 +625,7 @@ void Sophia::Render()
 
 void Sophia::TakeDamage(int dmg)
 {
-	if (invincible == 0)
+	if (invincible <= 0)
 	{
 		this->HP -= dmg;
 		/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)

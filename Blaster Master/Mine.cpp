@@ -72,7 +72,7 @@ void Mine::OnCollisionEnter(CollisionEvent e)
 		// Set dmg to player if player touched it //
 		if (dynamic_cast<Playable*>(e.pGameObject) != NULL)
 		{
-
+			dynamic_cast<DynamicObject*>(e.pGameObject)->TakeDamage(damage);
 		}
 
 		// Remove mine from scene //

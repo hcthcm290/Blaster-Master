@@ -6,6 +6,7 @@ class Mine : public DynamicObject, public Enemy
 {
 private:
 	bool active = false;
+	int damage = 15;
 
 public:
 	Mine();
