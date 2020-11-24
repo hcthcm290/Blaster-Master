@@ -4,9 +4,13 @@
 #include "Utils.h"
 #include "DInput.h"
 #include "Debug.h"
+#include "PlayScene.h"
 
 Orb::Orb()
 {
+	//set HP
+	HP = 50;
+
 	animator = new Animator();
 	animator->AddAnimation(orbUOD);
 	animator->AddAnimation(orbFly);
@@ -85,11 +89,38 @@ void Orb::Update(float dt)
 		vy = ver_direction * orbSpeed;
 		vx = 0;
 	}
+	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(7);
+	}
 }
 
 void Orb::Render()
 {
-	animator->Draw(state, x, y, flip);
+	if (inv != -1) {
+		animator->Draw(state, x, y, flip, 0, Color[inv]);
+		if (GetTickCount64() - last_blink >= 50) {
+			if (GetTickCount64() > startTakeDamage + 150)
+			{
+				inv = -1;
+			}
+			else
+			{
+				last_blink = GetTickCount64();
+				switch (inv)
+				{
+				case 1: inv = 0; break;
+				case 0: inv = 1; break;
+				}
+			}
+		}
+	}
+	else
+	{
+		animator->Draw(state, x, y, flip);
+	}
 }
 
 

@@ -10,6 +10,8 @@
 
 Skull::Skull()
 {
+	//set HP
+	HP = 60;
 	//boolean
 	flipX = false;
 	sleep = false;
@@ -39,6 +41,12 @@ void Skull::OnCollisionEnter(CollisionEvent e)
 
 void Skull::Update(float dt)
 {
+	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(7);
+	}
 	DWORD now = GetTickCount();
 	float player_x = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
 	if (sleep)
@@ -101,7 +109,28 @@ void Skull::Update(float dt)
 
 void Skull::Render()
 {
-	animator->Draw(state, x, y, flipX);
+	if (inv != -1) {
+		animator->Draw(state, x, y, flipX, 0, Color[inv]);
+		if (GetTickCount64() - last_blink >= 50) {
+			if (GetTickCount64() > startTakeDamage + 150)
+			{
+				inv = -1;
+			}
+			else
+			{
+				last_blink = GetTickCount64();
+				switch (inv)
+				{
+				case 1: inv = 0; break;
+				case 0: inv = 1; break;
+				}
+			}
+		}
+	}
+	else
+	{
+		animator->Draw(state, x, y, flipX);
+	}
 }
 
 void Skull::DropBomb()

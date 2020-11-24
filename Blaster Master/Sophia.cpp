@@ -3,6 +3,7 @@
 #include "Debug.h"
 #include "Sophia_Bullet_1.h"
 #include "Sophia_Bullet_Homing.h"
+#include "Sophia_Bullet_Rocket.h"
 #include "ColliableBrick.h"
 #include "PlayScene.h"
 #include "Enemy.h"
@@ -27,9 +28,15 @@
 
 #define STATE_SOPHIA_SHIFT 29871
 #define STATE_SOPHIA_SLEEP 29875
+#define STATE_SOPHIA_SHIFT_IN 29872
+
+#define STATE_SOPHIA_DIE 29881
 
 Sophia::Sophia()
 {
+	currentColor = 0;
+	//Setup HP
+	HP = 100;
 	//sx, sy
 	sx = x;
 	sy = y;
@@ -47,6 +54,8 @@ Sophia::Sophia()
 	last_flipX = false;
 	//bullet
 	last_bullet = GetTickCount();
+	//time
+	lastDamageTime = GetTickCount();
 	//state
 	state = STATE_SOPHIA_IDLE;
 	//animator
@@ -125,6 +134,11 @@ Sophia::Sophia()
 	animator->AddAnimation(29871);
 
 	animator->AddAnimation(29875);
+
+	//for test
+	animator->AddAnimation(20001);
+	//die
+	animator->AddAnimation(29881);
 }
 
 FRECT Sophia::GetCollisionBox()
@@ -164,15 +178,70 @@ void Sophia::OnCollisionEnter(CollisionEvent e)
 
 void Sophia::Update(float dt)
 {
+	if (HP == 0)
+	{
+		if (state != STATE_SOPHIA_DIE && state != 20000)
+		{
+			state = STATE_SOPHIA_DIE;
+			die = GetTickCount();
+		}
+		else
+		{
+			if (GetTickCount() - die > 500)
+			{
+				state = 20000;
+			}
+		}
+		return;
+	}
+	if (invincible >= 0)
+	{
+		invincible -= dt * 1000;
+	}
+	else
+	{
+		invincible = 0;
+	}
 	DWORD now = GetTickCount();
-	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
+	if (isInvincible() && currentColor == 0)
+	{
+		//currentColor = 2;
+		currentColor = 4;
+		lastDamageTime = now;
+	}
+	if (isInvincible())
+	{
+		if (now - lastDamageTime > 100)
+		{
+			switch (currentColor)
+			{
+			case 4: currentColor = 3; break;
+			case 3: currentColor = 2; break;
+			case 2: currentColor = 1; break;
+			case 1: currentColor = 4; break;
+			}
+			//currentColor = 5 - currentColor;
+			lastDamageTime = now;
+		}
+	}
+	else
+	{
+		currentColor = 0;
+	}
+	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP || state == STATE_SOPHIA_SHIFT_IN)
 	{
 		vx = 0;
 		vy = 0;
 		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
 		if (now - start_shift > 300)
 		{
-			state = STATE_SOPHIA_SLEEP;
+			if(state == STATE_SOPHIA_SHIFT)
+				state = STATE_SOPHIA_SLEEP;
+			else
+			{
+				if (state == STATE_SOPHIA_SHIFT_IN)
+					state = STATE_SOPHIA_IDLE;
+			}
 		}
 	}
 	else
@@ -260,8 +329,9 @@ void Sophia::Update(float dt)
 		{
 			if (DInput::KeyPress(DIK_DOWN))
 			{
-				if(now - last_bullet > 300)
-					ShootHoming();
+				if (now - last_bullet > 300)
+					//ShootHoming();
+					ShootRocket();
 			}
 			else
 			{
@@ -274,7 +344,7 @@ void Sophia::Update(float dt)
 						up = true;
 					}
 					auto bullet = new Sophia_Bullet_1(up, !flipX);
-					bullet->SetPosition(x, y);
+					bullet->SetPosition(x, y - 4);
 					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
 				}
 			}
@@ -294,6 +364,8 @@ void Sophia::Update(float dt)
 
 void Sophia::ShootHoming()
 {
+	if (Homing <= 0)
+		return;
 	FRECT camera = Camera::GetInstance()->GetCollisionBox();
 	CGameObject* vision = new VisionBox(camera.left, camera.right, camera.top, camera.bottom);
 	int count = 0;
@@ -305,16 +377,14 @@ void Sophia::ShootHoming()
 			if (count <= 4)
 			{
 				last_bullet = GetTickCount();
-				bool up = false;
-				if (gun_up == 90)
-				{
-					up = true;
-				}
 				if (CollisionSystem::CheckOverlap(enemy, vision))
 				{
+					if (Homing <= 0)
+						return;
 					auto bullet = new Sophia_Bullet_Homing(!flipX, dynamic_cast<DynamicObject*>(enemy));
 					bullet->SetPosition(x, y);
 					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
+					Homing--;
 				}
 			}
 			else
@@ -325,6 +395,41 @@ void Sophia::ShootHoming()
 	}
 	delete vision;
 }
+
+void Sophia::ShootRocket()
+{
+	if (Rocket <= 0)
+		return;
+	if ((new Sophia_Bullet_Rocket)->count >= 3)
+		return;
+	int a;
+	if (flipX)
+	{
+		a = -8;
+	}
+	else
+	{
+		a = 8;
+	}
+	auto bullet = new Sophia_Bullet_Rocket(!flipX, 1);
+	bullet->SetPosition(x + a, y);
+	Rocket--;
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
+	if (Rocket <= 0)
+		return;
+	auto bullet1 = new Sophia_Bullet_Rocket(!flipX, 2);
+	bullet1->SetPosition(x + a, y);
+	Rocket--;
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet1);
+	if (Rocket <= 0)
+		return;
+	auto bullet2 = new Sophia_Bullet_Rocket(!flipX, 3);
+	bullet2->SetPosition(x + a, y);
+	Rocket--;
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet2);
+	last_bullet = GetTickCount();
+}
+
 
 void Sophia::StateChange()
 {
@@ -440,6 +545,11 @@ void Sophia::StateChange()
 
 void Sophia::Render()
 {
+	if (state == STATE_SOPHIA_DIE)
+	{
+		animator->Draw(state, x, y - 4, flipX);
+		return;
+	}
 	if (moving)
 	{
 		DWORD now = GetTickCount();
@@ -495,16 +605,50 @@ void Sophia::Render()
 	//DebugOut(L"%d\n", state);
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
-		animator->Draw(state, sx, sy, flipX);	
+		if(state == STATE_SOPHIA_SHIFT)
+			animator->Draw(state, sx, sy-2, flipX);
+		else
+			animator->Draw(state, sx, sy, flipX);	
 	}
 	else
 	{
-		animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel - 1, sx, sy, flipX);
+		if (state == STATE_SOPHIA_SHIFT_IN)
+		{
+			animator->Draw(state - 1, sx, sy - 2, flipX);
+		}
+		else
+		{
+			animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel - 1, sx, sy, flipX, 0, damageColor[currentColor]);
+		}
 	}
+}
+
+void Sophia::TakeDamage(int dmg)
+{
+	if (invincible == 0)
+	{
+		this->HP -= dmg;
+		/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)
+			vx = -150;*/
+		invincible = 500;
+		if (HP < 0)
+		{
+			HP = 0;
+		}
+	}
+}
+
+bool Sophia::isInvincible()
+{
+	if (invincible <= 0)
+		return false;
+	else
+		return true;
 }
 
 void Sophia::Awake(int JasonHealth) {
 	switchDelay = GetTickCount64();
 	JasonCurrentHealth = JasonHealth;
-	state = STATE_SOPHIA_IDLE;
+	state = STATE_SOPHIA_SHIFT_IN;
+	start_shift = GetTickCount();
 }

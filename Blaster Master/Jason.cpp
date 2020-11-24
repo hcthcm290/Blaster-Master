@@ -9,7 +9,7 @@
 Jason::Jason() {
 	animator = new Animator_Jason();
 	state = State::_JASON_IDLE_;
-	health = maxHealth;
+	HP = 100;
 }
 
 Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
@@ -18,7 +18,7 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	this->x = x;
 	this->y = y;
 	this->sophia = sophia;
-	health = currentHealth;
+	HP = currentHealth;
 	switchDelay = GetTickCount64();
 }
 
@@ -26,12 +26,17 @@ void Jason::Update(float dt)
 {
 	if (DInput::GetInstance()->KeyPress(DIK_LSHIFT) && CollisionSystem::CheckOverlap(this, sophia) 
 		&& GetTickCount64() - switchDelay >= 1000) {
-		dynamic_cast<Sophia*>(sophia)->Awake(health);
+		dynamic_cast<Sophia*>(sophia)->Awake(HP);
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(sophia));
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
 
-	if (health <= 0) return;
+	if (HP <= 0)
+	{
+		vx = 0;
+		vy = 0;
+		return;
+	}
 	input->Update();
 
 	UpdateActionRecord();
@@ -48,7 +53,7 @@ void Jason::Update(float dt)
 
 	//virtual damage trigger
 	if (DInput::GetInstance()->KeyPress(DIK_Q)) {
-		getDamage(1);
+		TakeDamage(1);
 	}
 
 
@@ -82,8 +87,21 @@ void Jason::Render()
 	if (invulnerable != -1) {
 		animator->Draw(state, x, y, flipX, 0, damageColor[invulnerable]);
 		if (GetTickCount64() - damageEffectTimer >= 100) {
-			damageEffectTimer = GetTickCount64();
-			invulnerable = 1 - invulnerable; // 0 -> 1 -> 0 -> 1 -> ...
+			if (GetTickCount64() > lastTakeDamage + invulnerableTime)
+			{
+				invulnerable = -1;
+			}
+			else
+			{
+				damageEffectTimer = GetTickCount64();
+				switch (invulnerable)
+				{
+				case 3: invulnerable = 2; break;
+				case 2: invulnerable = 1; break;
+				case 1: invulnerable = 0; break;
+				case 0: invulnerable = 3; break;
+				}
+			}
 		}
 	}
 	else {
@@ -93,7 +111,7 @@ void Jason::Render()
 
 void Jason::SetNewState() {
 	int newState = state;
-	if (health <= 0) newState = State::_JASON_DIE_; //if no health, die anyway
+	if (HP <= 0) newState = State::_JASON_DIE_; //if no health, die anyway
 
 	if (newState != State::_JASON_DIE_) { //if die, cannot perform any state
 		switch (state) {
@@ -231,17 +249,17 @@ void Jason::OnCollisionEnter(CollisionEvent e) {
 	if (e.ny < 0 ) vy = 0;
 }
 
-void Jason::getDamage(int damage) {
+void Jason::TakeDamage(int dmg) {
 	DWORD thisTime = GetTickCount64();
 	if (lastTakeDamage == 0  || thisTime > lastTakeDamage + invulnerableTime) {
 		lastTakeDamage = thisTime;
 		if (invulnerable == -1) {
-			health -= damage;
-
-			invulnerable = 1;
-			DebugOut(L"Damage taken\n");
+			HP -= dmg;
+			if (HP < 0)
+				HP = 0;
+			invulnerable = 3;
 		}
-		else invulnerable = -1;	
+		else invulnerable = -1;
 	}
 }
 

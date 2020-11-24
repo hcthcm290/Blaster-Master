@@ -160,7 +160,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int gravity = atoi(tokens[3].c_str());
 		int direction = atoi(tokens[4].c_str());
-
 		obj = new Dome(gravity, direction);
 		break;
 	}

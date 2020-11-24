@@ -15,5 +15,7 @@ public:
 	FRECT GetCollisionBox();
 
 	void OnCollisionEnter(CollisionEvent e);
+
+	void TakeDamage(int dmg);
 };
 

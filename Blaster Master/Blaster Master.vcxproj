@@ -174,6 +174,7 @@
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="ForegroundTile.cpp" />
+    <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="CameraBoundaryLib.cpp" />
     <ClCompile Include="Canon.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="Behavior_Jason.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Sophia_Bullet_Rocket.h" />
     <ClInclude Include="ForegroundTile.h" />
     <ClInclude Include="Playable.h" />
     <ClInclude Include="SoundManager.h" />

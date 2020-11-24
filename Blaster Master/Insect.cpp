@@ -3,14 +3,25 @@
 #include "Debug.h"
 #include "DynamicObject.h"
 #include "ColliableBrick.h"
+#include "PlayScene.h"
+#include "CollisionSystem.h"
 
 Insect::Insect() {
+	//set HP
+	HP = 50;
+
 	animator = new Animator();
 	animator->AddAnimation(State::_INSECT_);
 }
 
 void Insect::Update(float dt)
 {
+	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(7);
+	}
 	//reset some variable
 	ColX = 0;
 	ColY = 0;
@@ -43,7 +54,28 @@ void Insect::Update(float dt)
 void Insect::Render()
 {
 	SetNextState();
-	animator->Draw(State::_INSECT_, x, y, flipX);
+	if (inv != -1) {
+		animator->Draw(State::_INSECT_, x, y, flipX, 0, Color[inv]);
+		if (GetTickCount64() - last_blink >= 50) {
+			if (GetTickCount64() > startTakeDamage + 150)
+			{
+				inv = -1;
+			}
+			else
+			{
+				last_blink = GetTickCount64();
+				switch (inv)
+				{
+				case 1: inv = 0; break;
+				case 0: inv = 1; break;
+				}
+			}
+		}
+	}
+	else
+	{
+		animator->Draw(State::_INSECT_, x, y, flipX);
+	}
 }
 
 FRECT Insect::GetCollisionBox() {

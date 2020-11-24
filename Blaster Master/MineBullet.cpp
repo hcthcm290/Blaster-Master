@@ -24,7 +24,7 @@ void MineBullet::Update(float dt)
 	{
 		// TODO //
 		// Set Dmg and push back player //
-
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(14);
 		// Remove bullet from scene //
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
