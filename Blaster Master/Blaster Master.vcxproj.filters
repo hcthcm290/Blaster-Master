@@ -127,12 +127,6 @@
     <ClCompile Include="Animator_Mine_Explosion.cpp">
       <Filter>Source Files\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="Behavior.cpp">
-      <Filter>Source Files\Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="Behavior_Jason.cpp">
-      <Filter>Source Files\Animator</Filter>
-    </ClCompile>
     <ClCompile Include="Sophia_Bullet_Homing.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
@@ -177,12 +171,22 @@
     </ClCompile>
     <ClCompile Include="BigGate.cpp">
       <Filter>Source Files\Gates</Filter>
+    <ClCompile Include="Lava.cpp">
+      <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BigGate.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CameraBoundaryLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sophia_Bullet_Rocket.cpp">
       <Filter>Source Files\Bullet</Filter>
+    <ClCompile Include="PInput.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -327,12 +331,6 @@
     <ClInclude Include="Animator_Mine_Explosion.h">
       <Filter>Header Files\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="Behavior.h">
-      <Filter>Header Files\Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="Behavior_Jason.h">
-      <Filter>Header Files\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="Sophia_Bullet_Homing.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
@@ -353,6 +351,20 @@
     </ClInclude>
     <ClInclude Include="Sophia_Bullet_Rocket.h">
       <Filter>Header Files\Bullet</Filter>
+    <ClInclude Include="Lava.h">
+      <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <Filter>Header Files\Other Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Mine_Explosion.h">
+      <Filter>Header Files\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="Intangibility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PInput.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

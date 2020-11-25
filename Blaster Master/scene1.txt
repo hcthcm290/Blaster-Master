@@ -22,6 +22,8 @@
 22	textures\22_FloaterBullet.png	255	0	255
 15	textures\Items_Objects.png	255	0	255
 69	textures\69_JasonBullet.png	255	0	255
+30	textures\30_Lava.png	255	0	255
+31	textures\31_Ladder.png	255	0	255
 23	textures\23_Spike.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
@@ -168,7 +170,7 @@
 19852	34	282	62	322	998
 19853	66	282	94	322	998
 19854	98	282	126	322	998
-#WH: low, W: all, G: 90, GT: no
+#WH: low, W: all, G: 90, GT: no0
 19855	2	322	30	362	998
 19856	34	322	62	362	998
 19857	66	322	94	362	998
@@ -208,7 +210,12 @@
 19604	82	19	89	28	100
 19605	0	0	1	1	100
 #Floater_Bullet
-12203	0	0	4	4	22
+12203	0	0	8	8	22
+#Lava
+13001	0	0	16	16	30
+#Ladder
+13101	0	0	16	16	31
+
 #SPIKE
 12301	0	0	16	16	23
 ##MAP BACKGROUND
@@ -406,8 +413,13 @@
 29602	19602	500
 29603	19603	500
 29604	19604	500
+#=====LAVA EFFECT=======
+23001	13001	9999
+#=====LADDER	 =======
+23101	13101	9999
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
+# 9: ORB, 1: JUMPER, 2: FLOATER, 4: DOME,  98 SOPHIA, 7: SKULL, 5: WORM, 6: INSECT, 99 JASON, 0 PLAYER ITEM, 30 LAVA
 # 9: ORB, 1: JUMPER, 2: FLOATER, 4: DOME,  98 SOPHIA, 7: SKULL, 5: WORM, 6: INSECT, 99: JASON, 77: Big Gate |Thanh
 # 9: ORB,901: AGR_ORB, 1: JUMPER, 2: FLOATER, 4: DOME,  98 SOPHIA, 7: SKULL, 5: WORM, 23:SPIKE |trungng
 # 9: ORB, 1: JUMPER, 2: FLOATER, 4: DOME,  98 SOPHIA, 7: SKULL, 5: WORM, 6: INSECT, 99 JASON, 0 PLAYER ITEM |trungvo
@@ -420,6 +432,8 @@
 #0	50.0	50.0
 #0	1120.0	1136.0
 #98	1120.0	1136.0
+30	120.0	2928.0	3
+31	500.0	2912.0	7
 #99	1120.0	1136.0
 #7	1300.0	1080.0
 #5	1300.0	1120.0

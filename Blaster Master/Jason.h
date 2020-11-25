@@ -2,42 +2,23 @@
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "CollisionSystem.h"
+#include "Ladder.h"
 #include <d3dx9.h>
 
 using namespace std;
-
-class PlayerInput {
-public:
-	bool up = false;
-	bool down = false;
-	bool left = false;
-	bool right = false;
-	bool jump = false;
-	bool shoot = false;
-	void Update() {
-		up = DInput::GetInstance()->KeyPress(DIK_UP);
-		down = DInput::GetInstance()->KeyPress(DIK_DOWN);
-		left = DInput::GetInstance()->KeyPress(DIK_LEFT);
-		right = DInput::GetInstance()->KeyPress(DIK_RIGHT);
-		jump = DInput::GetInstance()->KeyPress(DIK_X);
-		shoot = DInput::GetInstance()->KeyPress(DIK_Z);
-	}
-};
 
 class Jason : public DynamicObject
 {
 private:
 	//bacic properties
-	int state;
 
 	int speed = 100;
-	int jumpSpeed = 40;
+	int jumpSpeed = 100;
 	int flipX = false;
 
 	DWORD lastFire = 0;
 	float recoilTime = 500;
 
-	PlayerInput* input = new PlayerInput();
 	DynamicObject* sophia;
 
 	//ACTION RECORD vairable to set new state
@@ -48,8 +29,9 @@ private:
 	float enviColY;
 	float enemyColX;
 	float enemyColY;
+
+	bool allowShoot = true;
 	bool allowJump = false;
-	int damageTaken;
 
 	void UpdateActionRecord();
 	void SetNewState();
@@ -57,7 +39,6 @@ private:
 	void Fire();
 
 	DWORD switchDelay; //this avoid switching back and forth too fast 
-
 
 	//on damage
 	int invulnerable = -1; //trigger color-changing effect (-1: off, 0:green, 1: magneta)
@@ -71,6 +52,15 @@ private:
 	};
 	int damageEffectTimer = -999;
 
+
+	#pragma region LADDER VARS
+	Ladder* ladder;
+	LadderPos ladderPos;
+
+	float switchEffectDuration = -1;
+	float flipCountDown = 0.25f;
+	#pragma endregion
+
 public:
 	Jason();
 	Jason(int currentHealth, int x, int y, DynamicObject* sophia);
@@ -81,4 +71,6 @@ public:
 
 	void PushBack(int _vx, int _vy);
 	void TakeDamage(int dmg);
+
+	int GetState() { return currentState; }
 };
