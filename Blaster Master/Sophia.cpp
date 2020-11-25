@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "VisionBox.h"
 #include "Camera.h"
+#include "PInput.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -175,22 +176,22 @@ void Sophia::Update(float dt)
 	else
 	{
 		//reset position
-		if (DInput::GetInstance()->KeyPress(DIK_R)) {
+		/*if (PInput::KeyPressed()) {
 			x = 1120;
 			y = 1136;
 			state = STATE_SOPHIA_IDLE;
 			return;
-		}
+		}*/
 
 		vy += 480 * dt;
 
-		if (DInput::KeyPress(DIK_LEFT))
+		if (PInput::KeyPressed(LEFT))
 		{
 			vx = -100;
 			flipX = true;
 			moving = true;
 		}
-		else if (DInput::KeyPress(DIK_RIGHT))
+		else if (PInput::KeyPressed(RIGHT))
 		{
 			vx = 100;
 			flipX = false;
@@ -202,18 +203,18 @@ void Sophia::Update(float dt)
 			moving = false;
 		}
 
-		if (DInput::KeyPress(DIK_X) && canJump)
+		if (PInput::KeyPressed(JUMP) && canJump)
 		{
 			vy = -240;
 			onTheGround = false;
 			canJump = false;
 		}
 
-		if (onTheGround && !DInput::KeyPress(DIK_X))
+		if (onTheGround && !PInput::KeyPressed(JUMP))
 		{
 			canJump = true;
 		}
-		if (DInput::KeyPress(DIK_UP))
+		if (PInput::KeyPressed(UP))
 		{
 			if (gun_up == 0)
 			{
@@ -255,9 +256,9 @@ void Sophia::Update(float dt)
 				gun_turn = false;
 			}
 		}
-		if (DInput::KeyPress(DIK_Z))
+		if (PInput::KeyPressed(SHOOT))
 		{
-			if (DInput::KeyPress(DIK_DOWN))
+			if (PInput::KeyPressed(DOWN))
 			{
 				if (now - last_bullet > 300)
 					//ShootHoming();
@@ -288,7 +289,7 @@ void Sophia::Update(float dt)
 		}
 		StateChange();
 		last_flipX = flipX;
-		if (onTheGround && DInput::KeyDown(DIK_LSHIFT) && (GetTickCount64() - switchDelay >= 1000))
+		if (onTheGround && PInput::KeyDown(SHIFT) && (GetTickCount64() - switchDelay >= 1000))
 		{
 			jason = new Jason(JasonCurrentHealth, x, y - 10, this);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(jason);

@@ -222,6 +222,7 @@
     <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="MineBullet.h" />
     <ClInclude Include="Sophia_Bullet_Rocket.h" />
     <ClInclude Include="PInput.h" />
     <ClInclude Include="SoundManager.h" />
