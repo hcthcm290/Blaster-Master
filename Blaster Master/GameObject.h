@@ -34,7 +34,8 @@ public:
 	/// <param name="x">position x</param>
 	/// <param name="y">position y</param>
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
-	void SetState(int state) { this->currentState = state; }
+	virtual void SetState(int state) { this->currentState = state; }
+	virtual int GetState() { return this->currentState; }
 
 	D3DVECTOR GetPosition();
 

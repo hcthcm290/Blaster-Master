@@ -131,6 +131,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\rapidjson-master\include;C:\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -171,6 +172,7 @@
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="ForegroundTile.cpp" />
     <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
     <ClCompile Include="PInput.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -225,7 +227,10 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
+    <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="Sophia_Bullet_Rocket.h" />
+    <ClInclude Include="ForegroundTile.h" />
+    <ClInclude Include="Playable.h" />
     <ClInclude Include="PInput.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="BigGate.h" />

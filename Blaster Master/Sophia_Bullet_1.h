@@ -3,8 +3,10 @@
 #include "RigidBody.h"
 #include "CollisionSystem.h"
 #include "Bullet.h"
+#include "PlayerBullet.h"
+
 class Sophia_Bullet_1 :
-    public DynamicObject, public Bullet
+    public DynamicObject, public PlayerBullet
 {
 protected:
 	DWORD last;

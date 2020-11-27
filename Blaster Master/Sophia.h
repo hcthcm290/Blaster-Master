@@ -3,8 +3,9 @@
 #include "RigidBody.h"
 #include "Jason.h"
 #include "CollisionSystem.h"
+#include "Playable.h"
 
-class Sophia : public DynamicObject
+class Sophia : public DynamicObject, public Playable
 {
 	//
 	int invincible = 0;
@@ -46,6 +47,7 @@ public:
 	Sophia();
 
 	bool isInvincible();
+	virtual bool IsInvulnerable() { return isInvincible(); }
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	void Update(float dt);
@@ -57,5 +59,7 @@ public:
 	void TakeDamage(int dmg);
 
 	void Awake(int JasonHealth);
+	virtual int GetState() { return this->state; }
+	virtual void SetState(int state) { this->state = state; }
 };
 

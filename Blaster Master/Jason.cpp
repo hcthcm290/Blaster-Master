@@ -300,7 +300,7 @@ FRECT Jason::GetCollisionBox() {
 		case State::_JASON_IDLE_	: w = 10; h = 17;	break;
 		case State::_JASON_JUMP_	: w = 10; h = 16;	break;
 		case State::_JASON_SWIM_	: w = 17; h = 12;	break;
-		case State::_JASON_WALK_	: w = 10; h = 17;	break;
+		case State::_JASON_WALK_	: w = 10; h = 16;	break;
 	}
 	return FRECT(x - w / 2, y - h / 2, x + w / 2, y + h / 2);
 }

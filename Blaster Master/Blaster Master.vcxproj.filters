@@ -167,6 +167,19 @@
     <ClCompile Include="Ship.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerItem.cpp">
+      <Filter>Source Files\Other Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BigGate.cpp">
+      <Filter>Source Files\Gates</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraBoundaryLib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ForegroundTile.cpp" />
+    <ClCompile Include="Sophia_Bullet_Rocket.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -344,12 +357,22 @@
     <ClInclude Include="Sophia.h">
       <Filter>Header Files\Playable</Filter>
     </ClInclude>
+    <ClInclude Include="ForegroundTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playable.h">
+      <Filter>Header Files\Playable</Filter>
+    </ClInclude>
+    <ClInclude Include="Sophia_Bullet_Rocket.h">
+      <Filter>Header Files\Bullet</Filter>
     <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Ship.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Floater.h" />
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png" />

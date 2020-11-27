@@ -4,6 +4,7 @@
 #include "CollisionSystem.h"
 #include "Ladder.h"
 #include <d3dx9.h>
+#include "Playable.h"
 
 using namespace std;
 
@@ -68,6 +69,7 @@ public:
 	void Render();
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
+	virtual bool IsInvulnerable() { return this->invulnerable != -1; }
 
 	void PushBack(int _vx, int _vy);
 	void TakeDamage(int dmg);
