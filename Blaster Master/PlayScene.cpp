@@ -522,7 +522,7 @@ void CPlayScene::Load()
 
 	f.close();
 
-	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary("A2_D"));
+	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary("A2_A"));
 	BackupPlayableObject();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
@@ -659,6 +659,11 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 			arrPlayerObjs.emplace_back(object.first);
 		}
 		else onScreenObjs.emplace_back(object.first);
+	}
+
+	for (auto player : arrPlayerObjs)
+	{
+		onScreenObjs.emplace_back(player);
 	}
 
 	return onScreenObjs;

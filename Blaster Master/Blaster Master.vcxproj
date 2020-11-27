@@ -171,8 +171,8 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
-    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="ForegroundTile.cpp" />
+    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
     <ClCompile Include="PInput.cpp" />
     <ClCompile Include="SoundManager.cpp" />

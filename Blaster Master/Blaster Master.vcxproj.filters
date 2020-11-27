@@ -58,7 +58,6 @@
     <ClCompile Include="VisionBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-
     <ClCompile Include="AGR_Orb.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
@@ -176,9 +175,11 @@
     <ClCompile Include="CameraBoundaryLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ForegroundTile.cpp" />
     <ClCompile Include="Sophia_Bullet_Rocket.cpp">
       <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="ForegroundTile.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,7 +252,6 @@
     <ClInclude Include="VisionBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-
     <ClInclude Include="AGR_Orb.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
@@ -365,7 +365,7 @@
     </ClInclude>
     <ClInclude Include="Sophia_Bullet_Rocket.h">
       <Filter>Header Files\Bullet</Filter>
-    <ClInclude Include="Animator_Floater.h" />
+    </ClInclude>
     <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Ship.h">
       <Filter>Header Files\Enemy</Filter>
