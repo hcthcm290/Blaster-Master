@@ -356,6 +356,7 @@
     <ClInclude Include="Ship.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Animator_Floater.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png">
