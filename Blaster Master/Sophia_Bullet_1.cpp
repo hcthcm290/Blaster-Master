@@ -6,6 +6,8 @@
 #include "Skull_Bullet.h"
 #include "Explosive.h"
 #include "Camera.h"
+#include "Enemy.h"
+#include "ColliableBrick.h"
 
 #define SOPHIA_BULLET_LR 29701
 #define SOPHIA_BULLET_UP 29702
@@ -73,13 +75,18 @@ void Sophia_Bullet_1::OnCollisionEnter(CollisionEvent e)
 {
 	//CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	//e.pGameObject lay va cham goi ham tinh sat thuong
-	if (dynamic_cast<Bullet*>(e.pGameObject) != nullptr)
-	{
-		DebugOut(L"No damage\n");
-	}
-	else
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject) != nullptr)
 	{
 		ex = true;
+	}
+	if (!isHit)
+	{
+		if (dynamic_cast<Enemy*>(e.pGameObject) != nullptr)
+		{
+			dynamic_cast<DynamicObject*>(e.pGameObject)->TakeDamage(30);
+			isHit = true;
+			RemoveBullet();
+		}
 	}
 }
 

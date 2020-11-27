@@ -9,8 +9,8 @@ private:
 	static Camera* __instance;
 	CGameObject* target;
 
-	int width = 300;
-	int height = 200;
+	int width = 256;
+	int height = 224;
 
 	FRECT boundary = FRECT(0, 1008, 1024, 3024);
 

@@ -3,11 +3,13 @@
 #include "Debug.h"
 #include "Sophia_Bullet_1.h"
 #include "Sophia_Bullet_Homing.h"
+#include "Sophia_Bullet_Rocket.h"
 #include "ColliableBrick.h"
 #include "PlayScene.h"
 #include "Enemy.h"
 #include "VisionBox.h"
 #include "Camera.h"
+#include "PInput.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -27,9 +29,15 @@
 
 #define STATE_SOPHIA_SHIFT 29871
 #define STATE_SOPHIA_SLEEP 29875
+#define STATE_SOPHIA_SHIFT_IN 29872
+
+#define STATE_SOPHIA_DIE 29881
 
 Sophia::Sophia()
 {
+	currentColor = 0;
+	//Setup HP
+	HP = 100;
 	//sx, sy
 	sx = x;
 	sy = y;
@@ -47,84 +55,12 @@ Sophia::Sophia()
 	last_flipX = false;
 	//bullet
 	last_bullet = GetTickCount();
+	//time
+	lastDamageTime = GetTickCount();
 	//state
 	state = STATE_SOPHIA_IDLE;
 	//animator
 	animator = new Animator_Sophia();
-	//Idle, gun 0
-	animator->AddAnimation(29801);
-	animator->AddAnimation(29802);
-	animator->AddAnimation(29803);
-	animator->AddAnimation(29804);
-	//Moving, gun 0
-	animator->AddAnimation(29805);
-	animator->AddAnimation(29806);
-	animator->AddAnimation(29807);
-	animator->AddAnimation(29808);
-	//Jumping, gun 0
-	animator->AddAnimation(29811);
-	animator->AddAnimation(29812);
-	animator->AddAnimation(29813);
-	animator->AddAnimation(29814);
-	//Falling, gun 0
-	animator->AddAnimation(29815);
-	animator->AddAnimation(29816);
-	animator->AddAnimation(29817);
-	animator->AddAnimation(29818);
-	//Moving, gun 45
-	animator->AddAnimation(29821);
-	animator->AddAnimation(29822);
-	animator->AddAnimation(29823);
-	animator->AddAnimation(29824);
-	//Moving, gun 90
-	animator->AddAnimation(29825);
-	animator->AddAnimation(29826);
-	animator->AddAnimation(29827);
-	animator->AddAnimation(29828);
-	//Jumping, gun 90
-	animator->AddAnimation(29831);
-	animator->AddAnimation(29832);
-	animator->AddAnimation(29833);
-	animator->AddAnimation(29834);
-	//Falling, gun 90
-	animator->AddAnimation(29835);
-	animator->AddAnimation(29836);
-	animator->AddAnimation(29837);
-	animator->AddAnimation(29838);
-	//Moving, gun turn
-	animator->AddAnimation(29841);
-	animator->AddAnimation(29842);
-	animator->AddAnimation(29843);
-	animator->AddAnimation(29844);
-	//jumping, gun turn
-	animator->AddAnimation(29845);
-	animator->AddAnimation(29846);
-	animator->AddAnimation(29847);
-	animator->AddAnimation(29848);
-	//idle, gun 90
-	animator->AddAnimation(29851);
-	animator->AddAnimation(29852);
-	animator->AddAnimation(29853);
-	animator->AddAnimation(29854);
-	//jumping, gun 45
-	animator->AddAnimation(29855);
-	animator->AddAnimation(29856);
-	animator->AddAnimation(29857);
-	animator->AddAnimation(29858);
-	//falling, gun 45
-	animator->AddAnimation(29861);
-	animator->AddAnimation(29862);
-	animator->AddAnimation(29863);
-	animator->AddAnimation(29864);
-	//falling, gun turn
-	animator->AddAnimation(29865);
-	animator->AddAnimation(29866);
-	animator->AddAnimation(29867);
-	animator->AddAnimation(29868);
-	//shift/sleep
-	animator->AddAnimation(29871);
-
-	animator->AddAnimation(29875);
 }
 
 FRECT Sophia::GetCollisionBox()
@@ -132,8 +68,21 @@ FRECT Sophia::GetCollisionBox()
 	FRECT colRect;
 	colRect.left = this->x - 24 / 2;
 	colRect.right = this->x + 22 / 2;
-	colRect.top = this->y - 20 / 2;
-	colRect.bottom = this->y + 22 / 2;
+	if (onTheGround)
+	{
+		colRect.top = this->y - 5.5;
+		colRect.bottom = this->y + 10;
+	}
+	else if (!onTheGround && vy < 0)
+	{
+		colRect.top = this->y - 9;
+		colRect.bottom = this->y + 6.5;
+	}
+	else
+	{
+		colRect.top = this->y - 5.5;
+		colRect.bottom = this->y + 10;
+	}
 	return colRect;
 }
 
@@ -151,36 +100,98 @@ void Sophia::OnCollisionEnter(CollisionEvent e)
 
 void Sophia::Update(float dt)
 {
+	if (HP == 0)
+	{
+		vx = 0;
+		vy = 0;
+		if (state != STATE_SOPHIA_DIE && state != 20000)
+		{
+			state = STATE_SOPHIA_DIE;
+			die = GetTickCount();
+		}
+		else
+		{
+			if (GetTickCount() - die > 500)
+			{
+				state = 20000;
+			}
+		}
+		return;
+	}
+	if (invincible >= 0)
+	{
+		invincible -= dt * 1000;
+	}
+	else
+	{
+		invincible = 0;
+	}
+	//if Sophia takes player control, switch it to IDLE (made by TrV)
+	if (state == STATE_SOPHIA_SLEEP && dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer() == this) {
+		state = STATE_SOPHIA_IDLE;
+	}
+
 	DWORD now = GetTickCount();
-	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
+	if (isInvincible() && currentColor == 0)
+	{
+		//currentColor = 2;
+		currentColor = 4;
+		lastDamageTime = now;
+	}
+	if (isInvincible())
+	{
+		if (now - lastDamageTime > 100)
+		{
+			switch (currentColor)
+			{
+			case 4: currentColor = 3; break;
+			case 3: currentColor = 2; break;
+			case 2: currentColor = 1; break;
+			case 1: currentColor = 4; break;
+			}
+			//currentColor = 5 - currentColor;
+			lastDamageTime = now;
+		}
+	}
+	else
+	{
+		currentColor = 0;
+	}
+	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP || state == STATE_SOPHIA_SHIFT_IN)
 	{
 		vx = 0;
 		vy = 0;
 		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
 		if (now - start_shift > 300)
 		{
-			state = STATE_SOPHIA_SLEEP;
+			if(state == STATE_SOPHIA_SHIFT)
+				state = STATE_SOPHIA_SLEEP;
+			else
+			{
+				if (state == STATE_SOPHIA_SHIFT_IN)
+					state = STATE_SOPHIA_IDLE;
+			}
 		}
 	}
 	else
 	{
 		//reset position
-		if (DInput::GetInstance()->KeyPress(DIK_R)) {
+		/*if (PInput::KeyPressed()) {
 			x = 1120;
 			y = 1136;
 			state = STATE_SOPHIA_IDLE;
 			return;
-		}
+		}*/
 
-		vy += 300 * dt;
+		vy += 480 * dt;
 
-		if (DInput::KeyPress(DIK_LEFT))
+		if (PInput::KeyPressed(LEFT))
 		{
 			vx = -100;
 			flipX = true;
 			moving = true;
 		}
-		else if (DInput::KeyPress(DIK_RIGHT))
+		else if (PInput::KeyPressed(RIGHT))
 		{
 			vx = 100;
 			flipX = false;
@@ -192,18 +203,18 @@ void Sophia::Update(float dt)
 			moving = false;
 		}
 
-		if (DInput::KeyPress(DIK_X) && canJump)
+		if (PInput::KeyPressed(JUMP) && canJump)
 		{
-			vy = -150;
+			vy = -240;
 			onTheGround = false;
 			canJump = false;
 		}
 
-		if (onTheGround && !DInput::KeyPress(DIK_X))
+		if (onTheGround && !PInput::KeyPressed(JUMP))
 		{
 			canJump = true;
 		}
-		if (DInput::KeyPress(DIK_UP))
+		if (PInput::KeyPressed(UP))
 		{
 			if (gun_up == 0)
 			{
@@ -245,12 +256,13 @@ void Sophia::Update(float dt)
 				gun_turn = false;
 			}
 		}
-		if (DInput::KeyPress(DIK_Z))
+		if (PInput::KeyPressed(SHOOT))
 		{
-			if (DInput::KeyPress(DIK_DOWN))
+			if (PInput::KeyPressed(DOWN))
 			{
-				if(now - last_bullet > 300)
-					ShootHoming();
+				if (now - last_bullet > 300)
+					//ShootHoming();
+					ShootRocket();
 			}
 			else
 			{
@@ -263,14 +275,21 @@ void Sophia::Update(float dt)
 						up = true;
 					}
 					auto bullet = new Sophia_Bullet_1(up, !flipX);
-					bullet->SetPosition(x, y);
+					//adjust x,y for more realistic firing
+					if (state != STATE_SOPHIA_FALL_90 && state != STATE_SOPHIA_IDLE_90 && state != STATE_SOPHIA_JUMP_90) {
+						bullet->SetPosition(x + (flipX ? -20 : 20), y - 3.5f);
+					}
+					else {
+						bullet->SetPosition(x - (flipX ? -3.5f : 3.5f), y - 20);
+					}
+					
 					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
 				}
 			}
 		}
 		StateChange();
 		last_flipX = flipX;
-		if (onTheGround && DInput::KeyDown(DIK_LSHIFT) && (GetTickCount64() - switchDelay >= 1000))
+		if (onTheGround && PInput::KeyDown(SHIFT) && (GetTickCount64() - switchDelay >= 1000))
 		{
 			jason = new Jason(JasonCurrentHealth, x, y - 10, this);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(jason);
@@ -283,6 +302,8 @@ void Sophia::Update(float dt)
 
 void Sophia::ShootHoming()
 {
+	if (Homing <= 0)
+		return;
 	FRECT camera = Camera::GetInstance()->GetCollisionBox();
 	CGameObject* vision = new VisionBox(camera.left, camera.right, camera.top, camera.bottom);
 	int count = 0;
@@ -294,16 +315,14 @@ void Sophia::ShootHoming()
 			if (count <= 4)
 			{
 				last_bullet = GetTickCount();
-				bool up = false;
-				if (gun_up == 90)
-				{
-					up = true;
-				}
 				if (CollisionSystem::CheckOverlap(enemy, vision))
 				{
+					if (Homing <= 0)
+						return;
 					auto bullet = new Sophia_Bullet_Homing(!flipX, dynamic_cast<DynamicObject*>(enemy));
 					bullet->SetPosition(x, y);
 					dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
+					Homing--;
 				}
 			}
 			else
@@ -315,8 +334,44 @@ void Sophia::ShootHoming()
 	delete vision;
 }
 
+void Sophia::ShootRocket()
+{
+	if (Rocket <= 0)
+		return;
+	if ((new Sophia_Bullet_Rocket)->count >= 3)
+		return;
+	int a;
+	if (flipX)
+	{
+		a = -8;
+	}
+	else
+	{
+		a = 8;
+	}
+	auto bullet = new Sophia_Bullet_Rocket(!flipX, 1);
+	bullet->SetPosition(x + a, y);
+	Rocket--;
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
+	if (Rocket <= 0)
+		return;
+	auto bullet1 = new Sophia_Bullet_Rocket(!flipX, 2);
+	bullet1->SetPosition(x + a, y);
+	Rocket--;
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet1);
+	if (Rocket <= 0)
+		return;
+	auto bullet2 = new Sophia_Bullet_Rocket(!flipX, 3);
+	bullet2->SetPosition(x + a, y);
+	Rocket--;
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet2);
+	last_bullet = GetTickCount();
+}
+
+
 void Sophia::StateChange()
 {
+
 	dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
 	if (vy < 0)
 	{
@@ -429,6 +484,11 @@ void Sophia::StateChange()
 
 void Sophia::Render()
 {
+	if (state == STATE_SOPHIA_DIE)
+	{
+		animator->Draw(state, x, y - 4, flipX);
+		return;
+	}
 	if (moving)
 	{
 		DWORD now = GetTickCount();
@@ -484,16 +544,51 @@ void Sophia::Render()
 	//DebugOut(L"%d\n", state);
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP)
 	{
-		animator->Draw(state, sx, sy, flipX);	
+		if(state == STATE_SOPHIA_SHIFT)
+			animator->Draw(state, sx, sy-2, flipX);
+		else
+			animator->Draw(state, sx, sy, flipX);	
 	}
 	else
 	{
-		animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel - 1, sx, sy, flipX);
+		if (state == STATE_SOPHIA_SHIFT_IN)
+		{
+			animator->Draw(state - 1, sx, sy - 2, flipX);
+		}
+		else
+		{
+			animator->Draw(state + dynamic_cast<Animator_Sophia*>(animator)->wheel - 1, sx, sy, flipX, 0, damageColor[currentColor]);
+		}
 	}
 }
 
+void Sophia::TakeDamage(int dmg)
+{
+	if (invincible == 0)
+	{
+		this->HP -= dmg;
+		/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)
+			vx = -150;*/
+		invincible = 500;
+		if (HP < 0)
+		{
+			HP = 0;
+		}
+	}
+}
+
+bool Sophia::isInvincible()
+{
+	if (invincible <= 0)
+		return false;
+	else
+		return true;
+}
+
 void Sophia::Awake(int JasonHealth) {
+	state = STATE_SOPHIA_SHIFT;
 	switchDelay = GetTickCount64();
 	JasonCurrentHealth = JasonHealth;
-	state = STATE_SOPHIA_IDLE;
+	state = STATE_SOPHIA_SHIFT_IN;
+	start_shift = GetTickCount();
 }

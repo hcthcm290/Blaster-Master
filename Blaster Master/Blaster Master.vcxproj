@@ -97,6 +97,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\rapidjson-master\rapidjson-master\include;$(ProjectDir)\rapidjson\rapidjson\include;C:\rapidjson-master\include;D:\Document\NMGame\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -170,6 +171,8 @@
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
+    <ClCompile Include="PInput.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="CameraBoundaryLib.cpp" />
     <ClCompile Include="Canon.cpp" />
@@ -190,6 +193,8 @@
     <ClCompile Include="Insect.cpp" />
     <ClCompile Include="Jason.cpp" />
     <ClCompile Include="Jumper.cpp" />
+    <ClCompile Include="Ladder.cpp" />
+    <ClCompile Include="Lava.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="MineBullet.cpp" />
@@ -219,6 +224,9 @@
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Ship.h" />
+    <ClInclude Include="MineBullet.h" />
+    <ClInclude Include="Sophia_Bullet_Rocket.h" />
+    <ClInclude Include="PInput.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="BigGate.h" />
     <ClInclude Include="Bullet_Jason.h" />
@@ -241,11 +249,13 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="Intangibility.h" />
+    <ClInclude Include="Ladder.h" />
+    <ClInclude Include="Lava.h" />
     <ClInclude Include="Insect.h" />
     <ClInclude Include="Jason.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Mine.h" />
-    <ClInclude Include="MineBullet.h" />
     <ClInclude Include="Mine_Explosion.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="PlayerItem.h" />

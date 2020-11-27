@@ -6,6 +6,6 @@ public:
 	bool isResetFrame = false;
 	int wheel;
 	Animator_Sophia();
-	void Draw(int animationID, float x, float y, bool flipX);
+	void Draw(int animationID, float x, float y, bool flipX, float rotation, D3DCOLOR color);
 };
 

@@ -34,7 +34,10 @@
 #include "Worm.h"
 #include "Skull_Bullet.h"
 #include "PlayerItem.h"
+#include "Lava.h"
+#include "Ladder.h"
 #include "CameraBoundaryLib.h"
+#include "PInput.h"
 
 using namespace std;
 
@@ -55,6 +58,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
 #define SCENE_SECTION_MAP 7
+#define SCENE_SECTION_MERGEDBRICK 8
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
@@ -158,7 +162,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int gravity = atoi(tokens[3].c_str());
 		int direction = atoi(tokens[4].c_str());
-
 		obj = new Dome(gravity, direction);
 		break;
 	}
@@ -184,18 +187,35 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 6:
 		obj = new Insect();
 		break;
+	case 76:
+	{
+		FRECT cameraBoundingBox;
+		cameraBoundingBox.left = atoi(tokens[2].c_str()) * 16 - 8;
+		cameraBoundingBox.top = atoi(tokens[3].c_str()) * 16 - 8;
+		cameraBoundingBox.right = atoi(tokens[4].c_str()) * 16 + 8;
+		cameraBoundingBox.bottom = atoi(tokens[5].c_str()) * 16 + 8;
+
+		CameraBoundaryLib::AddCameraBoundary(tokens[1], cameraBoundingBox);
+		return;
+	}
 	case 77:
 	{
 		BigGate* bg = new BigGate();
+
+		x = atof(tokens[1].c_str()) * 16;
+		y = atof(tokens[2].c_str()) * 16;
+
 		bg->shift_direction = D3DXVECTOR2(atoi(tokens[3].c_str()), atoi(tokens[4].c_str()));
 
 		bg->shift_time1 = atof(tokens[5].c_str());
 		bg->shift_time2 = atof(tokens[6].c_str());
 
 		bg->pre_teleport_delta = D3DXVECTOR2(atof(tokens[7].c_str()), atof(tokens[8].c_str()));
-		bg->new_boundary_camera = FRECT(atof(tokens[9].c_str()), atof(tokens[10].c_str()), atof(tokens[11].c_str()), atof(tokens[12].c_str()));
+		//bg->new_boundary_camera = FRECT(atof(tokens[9].c_str()), atof(tokens[10].c_str()), atof(tokens[11].c_str()), atof(tokens[12].c_str()));
 
-		bg->teleport_delta = D3DXVECTOR2(atof(tokens[13].c_str()), atof(tokens[14].c_str()));
+		bg->new_boundary_camera = CameraBoundaryLib::getCameraBoundary(tokens[9]);
+
+		bg->teleport_delta = D3DXVECTOR2(atof(tokens[10].c_str()), atof(tokens[11].c_str()));
 
 		//bg->shift_speed = atoi(tokens[15].c_str());
 
@@ -216,12 +236,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj->SetPosition(x, y);
 		break;
 	}
-	case 76:
-	{
-		std::string idSection = tokens[2].c_str();
-		FRECT cameraBoundary = FRECT(atof(tokens[2].c_str()), atof(tokens[3].c_str()), atof(tokens[4].c_str()), atof(tokens[5].c_str()));
-		CameraBoundaryLib::AddCameraBoundary(idSection, cameraBoundary);
-		return;
+	case 30: {
+		int length = atoi(tokens[3].c_str());
+		obj = new Lava(length);
+		break;
+	}
+	case 31: {
+		int height = atoi(tokens[3].c_str());
+		obj = new Ladder(height);
+		break;
 	}
 	}
 
@@ -235,12 +258,12 @@ void CPlayScene::_ParseSection_MAP(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 1) return;
+	if (tokens.size() < 1 || tokens[0] == "") return;
 
 	string map_file_path = tokens[0];
 
 	FILE* fp;
-	errno_t err = fopen_s(&fp, map_file_path.c_str(), "r"); // non-Windows use "r"
+	errno_t err = fopen_s(&fp, map_file_path.c_str(), "r");
 
 	char* readBuffer;
 	readBuffer = new char[65536];
@@ -317,6 +340,109 @@ void CPlayScene::_ParseSection_MAP(string line)
 	fclose(fp);
 }
 
+void CPlayScene::_ParseSection_MERGEDBRICK(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 1 || tokens[0] == "") return;
+
+	string map_file_path = tokens[0];
+
+	FILE* fp;
+	errno_t err = fopen_s(&fp, map_file_path.c_str(), "r"); // non-Windows use "r"
+
+	char* readBuffer;
+	readBuffer = new char[65536];
+
+	rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+	rapidjson::Document d;
+	d.ParseStream(is);
+
+	auto listObject = d.GetArray();
+
+	for (auto& object : listObject)
+	{
+		ColliableBrick* brick = new ColliableBrick();
+		
+		FRECT brickRECT = FRECT(
+			object["left"].GetInt(),
+			object["top"].GetInt(),
+			object["right"].GetInt(),
+			object["bottom"].GetInt()
+		);
+
+		brick->SetPosition((brickRECT.right + brickRECT.left) / 2 * 16, (brickRECT.bottom + brickRECT.top) / 2 * 16);
+		brick->SetWidth((brickRECT.right - brickRECT.left + 1) * 16);
+		brick->SetHeight((brickRECT.bottom - brickRECT.top + 1) * 16);
+
+		AddGameObjectToScene(brick);
+	}
+}
+
+
+
+#pragma endregion
+
+void CPlayScene::Load()
+{
+	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
+
+	ifstream f;
+	f.open(sceneFilePath);
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;	// skip comment lines	
+
+		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
+		if (line == "[SPRITES]") {
+			section = SCENE_SECTION_SPRITES; continue;
+		}
+		if (line == "[ANIMATIONS]") {
+			section = SCENE_SECTION_ANIMATIONS; continue;
+		}
+		if (line == "[ANIMATION_SETS]") {
+			section = SCENE_SECTION_ANIMATION_SETS; continue;
+		}
+		if (line == "[OBJECTS]") {
+			section = SCENE_SECTION_OBJECTS; continue;
+		}
+		if (line == "[MAP]") {
+			section = SCENE_SECTION_MAP; continue;
+		}
+		if (line == "[MERGEDBRICK]") {
+			section = SCENE_SECTION_MERGEDBRICK; continue;
+		}
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+		//
+		// data section
+		//
+		switch (section)
+		{
+		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
+		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
+		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
+		case SCENE_SECTION_MERGEDBRICK: _ParseSection_MERGEDBRICK(line); break;
+		}
+	}
+
+	f.close();
+
+	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary("A2_A"));
+
+	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+}
+
 void CPlayScene::AddGameObjectToScene(CGameObject* obj)
 {
 	std::vector<int> listMapBlockID = GetMapBlockID(obj);
@@ -334,7 +460,11 @@ void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 	for (auto mapBlockID : listMapBlockID)
 	{
 		auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
-		sceneObjects[mapBlockID].erase(e);
+
+		if (e != sceneObjects[mapBlockID].end())
+		{
+			sceneObjects[mapBlockID].erase(e);
+		}
 	}
 
 	/*if (e != sceneObjects[mapBlockID].end())
@@ -384,61 +514,6 @@ std::vector<int> CPlayScene::GetMapBlockID(CGameObject* object)
 	return listMapBlockID;
 }
 
-#pragma endregion
-
-void CPlayScene::Load()
-{
-	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
-
-	ifstream f;
-	f.open(sceneFilePath);
-
-	// current resource section flag
-	int section = SCENE_SECTION_UNKNOWN;
-
-	char str[MAX_SCENE_LINE];
-	while (f.getline(str, MAX_SCENE_LINE))
-	{
-		string line(str);
-
-		if (line[0] == '#') continue;	// skip comment lines	
-
-		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
-		if (line == "[SPRITES]") {
-			section = SCENE_SECTION_SPRITES; continue;
-		}
-		if (line == "[ANIMATIONS]") {
-			section = SCENE_SECTION_ANIMATIONS; continue;
-		}
-		if (line == "[ANIMATION_SETS]") {
-			section = SCENE_SECTION_ANIMATION_SETS; continue;
-		}
-		if (line == "[OBJECTS]") {
-			section = SCENE_SECTION_OBJECTS; continue;
-		}
-		if (line == "[MAP]") {
-			section = SCENE_SECTION_MAP; continue;
-		}
-		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
-
-		//
-		// data section
-		//
-		switch (section)
-		{
-		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
-		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
-		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
-		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
-		}
-	}
-
-	f.close();
-
-	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
-}
-
 /// <summary>
 /// Get all gameobjects appear on camera view
 /// </summary>
@@ -455,6 +530,7 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 	FRECT cameraRECT = Camera::GetInstance()->GetCollisionBox();
 
 	std::unordered_map<CGameObject*, CGameObject*> listOnScreenObjs;
+	vector<CGameObject*> arrPlayerObjs;
 
 	FRECT cameraInMapChunk = FRECT(cameraRECT.left / MAP_BLOCK_WIDTH,
 		cameraRECT.top / MAP_BLOCK_HEIGHT,
@@ -474,25 +550,39 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 			}
 		}
 	}
+	//int count = 0;
 
 	for (auto object : listOnScreenObjs)
 	{
-		onScreenObjs.emplace_back(object.first);
+		if (dynamic_cast<Jason*>(object.first) != NULL || dynamic_cast<Sophia*>(object.first) != NULL) {
+			arrPlayerObjs.emplace_back(object.first);
+		}
+		else onScreenObjs.emplace_back(object.first);
 	}
 
-	/*for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
-	{
-		for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
-		{
-			for (auto object : sceneObjects[x * 1000 + y])
-			{
-				if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
-				{
-					onScreenObjs.emplace_back(object);
-				}
-			}
-		}
-	}*/
+	//for (int x = cameraInMapChunk.left; x <= cameraInMapChunk.right; x++)
+	//{
+	//	for (int y = cameraInMapChunk.top; y <= cameraInMapChunk.bottom; y++)
+	//	{
+	//		for (auto object : sceneObjects[x * 1000 + y])
+	//		{
+	//			//if (dynamic_cast<Skull_Bullet*>(object) != NULL)	count++;
+	//
+	//			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
+	//			{
+	//				//Hot fix by TrV
+	//				if (dynamic_cast<Jason*>(object) != NULL || dynamic_cast<Sophia*>(object) != NULL) {
+	//					arrPlayerObjs.emplace_back(object);
+	//				}
+	//				else onScreenObjs.emplace_back(object);
+	//			}
+	//		}
+	//	}
+	//}
+
+	for (auto object : arrPlayerObjs) {
+		onScreenObjs.emplace_back(object);
+	}
 
 	return onScreenObjs;
 }
@@ -509,6 +599,9 @@ void CPlayScene::Update(DWORD dw_dt)
 		if (dt > 0.1) dt = 0.1;
 
 		if (dt == 0) return;
+
+		// Update Keyboard state
+		PInput::Update();
 
 		// Update for all the game object
 		for (auto obj : onScreenObjs)
@@ -537,10 +630,12 @@ void CPlayScene::Update(DWORD dw_dt)
 	{
 		countingTime1 += dt;
 
+		RemoveGameObjectFromScene(player);
+
 		if (countingTime1 < gate->shift_time1)
 		{
 			// shifting time 1
-			player->SetPosition(player->GetPosition().x + 50 * dt, player->GetPosition().y);
+			player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
 		}
 		
 		if(countingTime1 > gate->shift_time1 && countingTime2 == 0)
@@ -548,34 +643,63 @@ void CPlayScene::Update(DWORD dw_dt)
 			// shift camera
 			shiftingCamera = true;
 
-			RemoveGameObjectFromScene(player);
-
-			if (deltaShift == 0) // that's mean we've not set it yet
+			if (deltaShiftX == 0) // that's mean we've not set it yet
 			{
 				if (gate->shift_direction.x > 0)
 				{
-					deltaShift = Camera::GetInstance()->GetCollisionBox().right - Camera::GetInstance()->GetCollisionBox().left;
+					deltaShiftX = Camera::GetInstance()->GetCollisionBox().right - Camera::GetInstance()->GetCollisionBox().left;
 				}
 
 				if (gate->shift_direction.x < 0)
 				{
-					deltaShift = Camera::GetInstance()->GetCollisionBox().left - Camera::GetInstance()->GetCollisionBox().right;
+					deltaShiftX = Camera::GetInstance()->GetCollisionBox().left - Camera::GetInstance()->GetCollisionBox().right;
 				}
 			}
 
+			// shift camera follow y-axis to respect the new camera boundary
+			auto cameraRECT = Camera::GetInstance()->GetCollisionBox();
 			auto cameraPosition = Camera::GetInstance()->GetPosition();
 
-			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
-
-			totalShifting += gate->shift_direction.x * 150 * dt;
-
-			if (abs(totalShifting) > abs(deltaShift))
+			if (cameraRECT.bottom + gate->teleport_delta.y > gate->new_boundary_camera.bottom)
 			{
-				shiftingCamera = false;
+				deltaShiftY = -(cameraRECT.bottom + gate->teleport_delta.y - gate->new_boundary_camera.bottom);
+			}
+			else if (cameraRECT.top + gate->teleport_delta.y < gate->new_boundary_camera.top)
+			{
+				deltaShiftY = -(cameraRECT.top + gate->teleport_delta.y - gate->new_boundary_camera.top);
+			}
+			else
+			{
+				deltaShiftY = 0;
+			}
 
-				auto playerPosition = player->GetPosition();
+			if (deltaShiftY != 0)
+			{
+				int directionY = deltaShiftY / abs(deltaShiftY);
 
-				player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
+				if (abs(directionY * 150 * dt) < abs(deltaShiftY))
+				{
+					Camera::GetInstance()->SetPosition(cameraPosition.x, cameraPosition.y + directionY * 150 * dt);
+				}
+				else
+				{
+					Camera::GetInstance()->SetPosition(cameraPosition.x, cameraPosition.y + deltaShiftY);
+				}
+			}
+			else
+			{
+				Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
+
+				totalShifting += gate->shift_direction.x * 150 * dt;
+
+				if (abs(totalShifting) >= abs(deltaShiftX))
+				{
+					shiftingCamera = false;
+
+					auto playerPosition = player->GetPosition();
+
+					player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
+				}
 			}
 		}
 		
@@ -584,7 +708,7 @@ void CPlayScene::Update(DWORD dw_dt)
 			// shifting time 2
 			countingTime2 += dt;
 
-			player->SetPosition(player->GetPosition().x + 50 * dt, player->GetPosition().y);
+			player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
 		}
 
 		if (countingTime2 >= gate->shift_time2)
@@ -631,7 +755,10 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 			{
 				auto location = std::find(sceneObjects[oldMapBlockID].begin(), sceneObjects[oldMapBlockID].end(), obj);
 
-				sceneObjects[oldMapBlockID].erase(location);
+				if (location != sceneObjects[oldMapBlockID].end())
+				{
+					sceneObjects[oldMapBlockID].erase(location);
+				}
 			}
 		}
 
@@ -661,10 +788,14 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	//mapBackground->Render();
+	mapBackground->Render();
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
+	{
+		if (dynamic_cast<ColliableBrick*>(onScreenObjs[i]) != NULL) continue;
 		onScreenObjs[i]->Render();
+
+	}
 }
 
 /*
@@ -688,6 +819,7 @@ void CPlayScene::SwitchSection(BigGate* gate)
 	countingTime1 = 0;
 	countingTime2 = 0;
 	shiftingCamera = false;
-	deltaShift = 0;
+	deltaShiftX = 0;
+	deltaShiftY = 0;
 	totalShifting = 0;
 }

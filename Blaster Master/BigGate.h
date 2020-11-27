@@ -17,6 +17,6 @@ public:
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	void Render() {
-		CSprites::GetInstance()->Get(0)->Draw(x, y);
+		
 	}
 };

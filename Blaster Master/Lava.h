@@ -1,21 +1,20 @@
 #pragma once
 #include "DynamicObject.h"
-#include "Enemy.h"
+#include "RigidBody.h"
+#include "Animator.h"
 
-class Mine : public DynamicObject, public Enemy
+class Lava : public DynamicObject
 {
 private:
-	bool active = false;
-
+	bool flipX = true;
+	int flipCountDown;
+	int length;
 public:
-	Mine();
+	Lava(int length);
 	void Update(float dt);
 	void Render();
 
 	FRECT GetCollisionBox();
-
 	void OnCollisionEnter(CollisionEvent e);
-
-	void TakeDamage(int dmg);
 };
 
