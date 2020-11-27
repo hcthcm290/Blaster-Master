@@ -169,6 +169,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
+    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="CameraBoundaryLib.cpp" />
     <ClCompile Include="Canon.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Ship.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="BigGate.h" />
     <ClInclude Include="Bullet_Jason.h" />

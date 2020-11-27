@@ -171,6 +171,9 @@
     <ClCompile Include="PlayerItem.cpp">
       <Filter>Source Files\Other Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -336,6 +339,12 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Animator_Floater.h" />
+    <ClInclude Include="Animator_Floater.h" />
+    <ClInclude Include="Ship.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Floater.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png">
