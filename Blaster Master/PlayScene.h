@@ -38,12 +38,12 @@ protected:
 	bool canSpawnPlayer = true;
 
 protected:
-	void _ParseSection_TEXTURES(string line);
-	void _ParseSection_SPRITES(string line);
-	void _ParseSection_ANIMATIONS(string line);
-	void _ParseSection_OBJECTS(string line);
-	void _ParseSection_MAP(string line);
-	void _ParseSection_MERGEDBRICK(string line);
+	virtual void _ParseSection_TEXTURES(string line);
+	virtual void _ParseSection_SPRITES(string line);
+	virtual void _ParseSection_ANIMATIONS(string line);
+	virtual void _ParseSection_OBJECTS(string line);
+	virtual void _ParseSection_MAP(string line);
+	virtual void _ParseSection_MERGEDBRICK(string line);
 
 	void ReloadSceneObject();
 	void HardReloadSceneObject();

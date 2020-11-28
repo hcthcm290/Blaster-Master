@@ -37,12 +37,6 @@
     <ClCompile Include="PlayerItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Sprites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -181,6 +175,14 @@
     <ClCompile Include="ForegroundTile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorScene.cpp" />
+    <ClCompile Include="BigJason.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -222,16 +224,10 @@
     <ClInclude Include="PlayerItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RECT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sprites.h">
@@ -366,12 +362,23 @@
     <ClInclude Include="Sophia_Bullet_Rocket.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Ship.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBullet.h">
       <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorScene.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BigJason.h">
+      <Filter>Header Files\Playable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +437,12 @@
     </Filter>
     <Filter Include="Source Files\Other">
       <UniqueIdentifier>{8b1f712d-04bd-4484-9271-c68ffec08466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene">
+      <UniqueIdentifier>{05744acb-8a46-47f1-9591-66a08f2811f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene">
+      <UniqueIdentifier>{fdacc922-3093-45f4-93e1-0b287f43aa33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
