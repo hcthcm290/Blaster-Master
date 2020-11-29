@@ -35,6 +35,7 @@
 
 Sophia::Sophia()
 {
+	vx = 0;
 	currentColor = 0;
 	//Setup HP
 	HP = 100;
@@ -184,22 +185,58 @@ void Sophia::Update(float dt)
 		}*/
 
 		vy += 480 * dt;
+		int speed = 150;
 
 		if (PInput::KeyPressed(LEFT))
 		{
-			vx = -100;
+			//vx = -100;
+			if (vx <= -100)
+			{
+				vx = -100;
+			}
+			else
+			{
+				if (vx == 0)
+					vx = -25;
+				vx -= speed * dt;
+			}
 			flipX = true;
 			moving = true;
 		}
 		else if (PInput::KeyPressed(RIGHT))
 		{
-			vx = 100;
+			//vx = 100;
+			if (vx >= 100)
+			{
+				vx = 100;
+			}
+			else
+			{
+				if (vx == 0)
+					vx = 25;
+				vx += speed * dt;
+			}
 			flipX = false;
 			moving = true;
 		}
 		else
 		{
-			vx = 0;
+			//vx = 0;
+			if (vx > 0)
+			{
+				vx -= speed * dt;
+				if (vx < 0)
+					vx = 0;
+			}
+			else
+			{
+				if (vx < 0)
+				{
+					vx += speed * dt;
+					if (vx > 0)
+						vx = 0;
+				}
+			}
 			moving = false;
 		}
 
@@ -261,8 +298,8 @@ void Sophia::Update(float dt)
 			if (PInput::KeyPressed(DOWN))
 			{
 				if (now - last_bullet > 300)
-					//ShootHoming();
-					ShootRocket();
+					ShootHoming();
+					//ShootRocket();
 			}
 			else
 			{

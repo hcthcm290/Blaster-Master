@@ -103,7 +103,7 @@ void Sophia_Bullet_1::Update(float dt)
 
 		if (up)
 		{
-			vy = -150;
+			vy = -200;
 			vx = 0;
 		}
 		else
@@ -111,12 +111,12 @@ void Sophia_Bullet_1::Update(float dt)
 
 			if (flipX)
 			{
-				vx = 150;
+				vx = 200;
 				vy = 0;
 			}
 			else
 			{
-				vx = -150;
+				vx = -200;
 				vy = 0;
 			}
 		}
@@ -134,17 +134,17 @@ void Sophia_Bullet_1::Explode()
 	auto explode = new Explosive();
 	if (up)
 	{
-		explode->SetPosition(x, y - 4);
+		explode->SetPosition(x, y - 10);
 	}
 	else
 	{
 		if (flipX)
 		{
-			explode->SetPosition(x + 4, y);
+			explode->SetPosition(x + 10, y);
 		}
 		else
 		{
-			explode->SetPosition(x - 4, y);
+			explode->SetPosition(x - 10, y);
 		}
 	}
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);
