@@ -770,6 +770,38 @@ void CPlayScene::UpdateFreePlaying(float dt)
 
 void CPlayScene::UpdateSwitchSection(float dt)
 {
+	if (dt > 0.1) dt = 0.1;
+
+	if (dt == 0) return;
+
+	PInput::Update();
+
+	// Update for all the game object
+	for (int i = 0; i< onScreenObjs.size(); i++)
+	{
+		if (dynamic_cast<Playable*>(onScreenObjs[i]) != NULL)
+			continue;
+		onScreenObjs[i]->Update(dt);
+	}
+
+	for (int i = 0; i < onScreenObjs.size(); i++)
+	{
+		if (dynamic_cast<Playable*>(onScreenObjs[i]) != NULL)
+			continue;
+
+		if (dynamic_cast<DynamicObject*>(onScreenObjs.at(i)) == NULL)
+		{
+			continue; // if it not moving, we don't need to docollision for it
+		}
+		else if (D3DXVECTOR3(dynamic_cast<DynamicObject*>(onScreenObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0, 0, 0))
+		{
+			continue;
+		}
+		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onScreenObjs.at(i)), &onScreenObjs, dt);
+	}
+
+	ApllyVelocityToGameObjs(dt);
+
 	countingTime1 += dt;
 
 	RemoveGameObjectFromScene(player);
@@ -895,6 +927,9 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 {
 	for (auto obj : onScreenObjs)
 	{
+		if (dynamic_cast<Playable*>(obj) != NULL && state == State::_PLAYSCENE_SWITCH_SECTION)
+			continue;
+
 		std::vector<int> oldListMapBlockID = GetMapBlockID(obj);
 
 		if (dynamic_cast<DynamicObject*>(obj) == NULL) continue;
