@@ -60,6 +60,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_OBJECTS	6
 #define SCENE_SECTION_MAP 7
 #define SCENE_SECTION_MERGEDBRICK 8
+#define SCENE_SECTION_DEFAULTCAMERA 9
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
@@ -504,6 +505,9 @@ void CPlayScene::Load()
 		if (line == "[MERGEDBRICK]") {
 			section = SCENE_SECTION_MERGEDBRICK; continue;
 		}
+		if (line == "[DEFAULTCAMERA]")	{
+			section = SCENE_SECTION_DEFAULTCAMERA; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -517,12 +521,15 @@ void CPlayScene::Load()
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		case SCENE_SECTION_MERGEDBRICK: _ParseSection_MERGEDBRICK(line); break;
+		case SCENE_SECTION_DEFAULTCAMERA: 
+		{
+			if(line != "")	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary(line));
+		}
 		}
 	}
 
 	f.close();
 
-	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary("A2_A"));
 	BackupPlayableObject();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
