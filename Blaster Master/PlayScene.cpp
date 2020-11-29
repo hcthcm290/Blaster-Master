@@ -770,6 +770,8 @@ void CPlayScene::UpdateFreePlaying(float dt)
 
 void CPlayScene::UpdateSwitchSection(float dt)
 {
+	#pragma region Update Enemy Object
+
 	if (dt > 0.1) dt = 0.1;
 
 	if (dt == 0) return;
@@ -802,14 +804,18 @@ void CPlayScene::UpdateSwitchSection(float dt)
 
 	ApllyVelocityToGameObjs(dt);
 
+	#pragma endregion
+
 	countingTime1 += dt;
 
 	RemoveGameObjectFromScene(player);
 
+	float baseMovingSpeed = dynamic_cast<Playable*>(player)->GetEnterGateSpeed();
+
 	if (countingTime1 < gate->shift_time1)
 	{
 		// shifting time 1
-		player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
+		player->SetPosition(player->GetPosition().x + baseMovingSpeed * dt * gate->shift_direction.x, player->GetPosition().y);
 	}
 
 	if (countingTime1 > gate->shift_time1 && countingTime2 == 0)
@@ -848,6 +854,7 @@ void CPlayScene::UpdateSwitchSection(float dt)
 		}
 
 		if (deltaShiftY != 0)
+		// if we still need to shift y-axis
 		{
 			int directionY = deltaShiftY / abs(deltaShiftY);
 
@@ -861,6 +868,7 @@ void CPlayScene::UpdateSwitchSection(float dt)
 			}
 		}
 		else
+		// when we dont need to shift y-axis anymore, shift x-axis
 		{
 			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
 
@@ -882,7 +890,7 @@ void CPlayScene::UpdateSwitchSection(float dt)
 		// shifting time 2
 		countingTime2 += dt;
 
-		player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
+		player->SetPosition(player->GetPosition().x + baseMovingSpeed * dt * gate->shift_direction.x, player->GetPosition().y);
 	}
 
 	if (countingTime2 >= gate->shift_time2)

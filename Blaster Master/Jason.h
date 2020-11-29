@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class Jason : public DynamicObject
+class Jason : public DynamicObject, public Playable
 {
 private:
 	//bacic properties
@@ -70,7 +70,7 @@ public:
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	virtual bool IsInvulnerable() { return this->invulnerable != -1; }
-
+	float GetEnterGateSpeed();
 	void PushBack(int _vx, int _vy);
 	void TakeDamage(int dmg);
 

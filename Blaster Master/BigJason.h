@@ -10,4 +10,5 @@ public:
 	void Render();
 	virtual FRECT GetCollisionBox();
 	bool IsInvulnerable();
+	float GetEnterGateSpeed();
 };

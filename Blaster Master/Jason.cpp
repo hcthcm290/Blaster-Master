@@ -297,10 +297,10 @@ FRECT Jason::GetCollisionBox() {
 		case State::_JASON_CMOVE_	: w = 16; h = 8;	break;
 		case State::_JASON_CRAWL_	: w = 16; h = 8;	break;
 		case State::_JASON_DIE_		: w = 16; h = 16;	break;
-		case State::_JASON_IDLE_	: w = 10; h = 17;	break;
+		case State::_JASON_IDLE_	: w = 10; h = 15;	break;
 		case State::_JASON_JUMP_	: w = 10; h = 16;	break;
 		case State::_JASON_SWIM_	: w = 17; h = 12;	break;
-		case State::_JASON_WALK_	: w = 10; h = 16;	break;
+		case State::_JASON_WALK_	: w = 10; h = 15;	break;
 	}
 	return FRECT(x - w / 2, y - h / 2, x + w / 2, y + h / 2);
 }
@@ -321,6 +321,11 @@ void Jason::OnCollisionEnter(CollisionEvent e) {
 
 	//if (e.nx * vx < 0) vx = 0;
 	if (e.ny < 0 ) vy = 0;
+}
+
+float Jason::GetEnterGateSpeed()
+{
+	return 40;
 }
 
 void Jason::TakeDamage(int dmg) {

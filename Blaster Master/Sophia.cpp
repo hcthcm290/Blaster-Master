@@ -63,6 +63,11 @@ Sophia::Sophia()
 	animator = new Animator_Sophia();
 }
 
+float Sophia::GetEnterGateSpeed()
+{
+	return 50;
+}
+
 FRECT Sophia::GetCollisionBox()
 {
 	FRECT colRect;

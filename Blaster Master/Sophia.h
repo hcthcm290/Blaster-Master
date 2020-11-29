@@ -48,6 +48,7 @@ public:
 
 	bool isInvincible();
 	virtual bool IsInvulnerable() { return isInvincible(); }
+	float GetEnterGateSpeed();
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	void Update(float dt);

@@ -57,3 +57,8 @@ bool BigJason::IsInvulnerable()
 {
 	return false;
 }
+
+float BigJason::GetEnterGateSpeed()
+{
+	return 40;
+}
