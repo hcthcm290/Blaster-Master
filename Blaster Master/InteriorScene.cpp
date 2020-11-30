@@ -3,6 +3,7 @@
 #include "BigJason.h"
 #include "Camera.h"
 #include "CameraBoundaryLib.h"
+#include "Teleporter.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -33,6 +34,9 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		dynamic_cast<StaticObject*>(obj)->SetSpriteID(-1);
 		mapBackground = dynamic_cast<StaticObject*>(obj);
 		return;
+	case 10:
+		obj = new Teleporter();
+		break;
 	case 99:
 		obj = new BigJason();
 		player = dynamic_cast<DynamicObject*>(obj);

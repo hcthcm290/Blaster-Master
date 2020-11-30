@@ -181,8 +181,12 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="InteriorScene.cpp" />
-    <ClCompile Include="BigJason.cpp" />
+    <ClCompile Include="BigJason.cpp">
+      <Filter>Source Files\Playable</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorScene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
