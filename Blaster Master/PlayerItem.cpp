@@ -34,10 +34,27 @@ FRECT PlayerItem::GetCollisionBox() {
 }
 
 void PlayerItem::OnCollisionEnter(CollisionEvent e) {
-	if (dynamic_cast<Sophia*>(e.pGameObject) || dynamic_cast<ColliableBrick*>(e.pGameObject)) {
-		if (dynamic_cast<Sophia*>(e.pGameObject))
-			DebugOut(L"PONK!\n");
-		MakeNew();
+	if (dynamic_cast<Sophia*>(e.pGameObject) || dynamic_cast<Jason*>(e.pGameObject)) {
+		switch (itemType) {
+		case Power:
+			//Power UP
+			break;
+		case Hover:
+			//Hover UP
+			break;
+		case Gun:
+			//Gun UP
+			break; 
+		case HomingMissle:
+			//HM UP
+			break;
+		case MultiWarhead:
+			//MW UP
+			break;
+		case ThunderBreak:
+			//TB UP
+			break;
+		}
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
 }
