@@ -27,24 +27,24 @@ void Insect::Update(float dt)
 	ColY = 0;
 
 	//update vx vy
-	vx = 20 * (flipX ? 1 : -1);
-	vy += 100 * dt;
+	vx = speed * (flipX ? 1 : -1);
+	vy += 300 * dt;
 
 	//update vx vy up to state
 	switch ( state )
 	{
 	case Forceburst:
-		vy = abs(vx) * (-4);
+		vy = speed * (-6);
 		break;
 	case GoUp:
 		//do nothing
 		break;
 	case HoldHeight:
-		vy = abs(vx / 2);
+		vy = abs(speed / 3);
 		break;
 	case FallDown:
-		vy = 200; //fall down faster
-		vx /= 4;
+		vy *= 1.25; //fall down faster
+		vx /= 3;
 		break;
 	}
 
@@ -98,8 +98,14 @@ void Insect::SetNextState() {
 	switch (state)
 	{
 		case Forceburst: {
-			newState = GoUp;
-			break;
+			if (ColY > 0) {
+				newState = FallDown;
+				//DebugOut(L"FallDown\n");
+			}
+			else {
+				newState = GoUp;
+				break;
+			}
 			//DebugOut(L"GoUp\n");
 		}
 		case GoUp: {

@@ -25,13 +25,18 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 
 void Jason::Update(float dt)
 {
+	#pragma region JUMP PROCESS
+	if (GetState() == State::_JASON_JUMP_) jumpTime += dt;
+	//if (jumpTime > 0) DebugOut(L"Jump time %f \n", jumpTime);
+	#pragma endregion
+
 	#pragma region SOPHIA TRANSITION
 	/** SOPHIA TRANSITION */
 	if (currentState == State::_JASON_IDLE_ && PInput::KeyDown(SHIFT) 
 		&& CollisionSystem::CheckOverlap(this, sophia)
 		&& GetTickCount64() - switchDelay >= 1000) {
 
-		vy = -jumpSpeed*1.25;
+		vy = -jumpForce * 0.7f;
 		attemptJump = true;
 		switchEffectDuration = 0.26f;
 		dynamic_cast<Sophia*>(sophia)->Awake(HP);
@@ -39,7 +44,7 @@ void Jason::Update(float dt)
 
 	if (switchEffectDuration > 0) {
 		switchEffectDuration -= dt;
-		vy += 150*dt;
+		vy += GRAVITY * dt;
 		if (switchEffectDuration <= 0) {
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Sophia*>(sophia));
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
@@ -48,12 +53,12 @@ void Jason::Update(float dt)
 	}
 	#pragma endregion
 
-	if (HP <= 0)
-	{
-		vx = 0;
-		vy = 0;
+	#pragma region DIE ACTION
+	if (HP <= 0) {
+		vy += GRAVITY * dt; //fall naturally
 		return;
 	}
+	#pragma endregion	
 
 	UpdateActionRecord();
 
@@ -78,9 +83,9 @@ void Jason::Update(float dt)
 		if (GetState() == State::_JASON_CLIMB_)
 			SetState(State::_JASON_IDLE_);
 
-		vx = horizontalMove * speed;
-		vy -= jumpSpeed * (allowJump && attemptJump);
-		vy += 150 * dt * (ladder == NULL 
+		vx = horizontalMove * speed * dt * (GetState() == State::_JASON_CMOVE_ ? 0.5 : 1);
+		vy -= jumpForce * (allowJump && attemptJump);
+		vy += GRAVITY * dt * (ladder == NULL 
 							|| !CollisionSystem::CheckOverlap(ladder, this) 
 							|| attemptJump == false);
 	}
@@ -100,57 +105,33 @@ void Jason::Update(float dt)
 		SetState(State::_JASON_CLIMB_);
 		x = ladder->GetPosition().x;
 		vx = 0;
-		if (verticalMove != 0) {
+		if (verticalMove != 0) { //move
 			vy = verticalMove * speed / 5;
 			flipCountDown -= dt;
 			if (flipCountDown <= 0) {
-				flipX = ~flipX;
-				flipCountDown = 0.25f;
+				flipX = !flipX;
+				flipCountDown = 0.15f;
 			}
 		}
-		else vy = 0;
+		else vy = 0; //stop moving
 	}
 	//-------------------------------//
 	#pragma endregion
 
-	/**
-	if (currentState!=State::_JASON_JUMP_ && onLaddercurrentState == Head) {
-		if (verticalMove > 0) vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
-		else {
-			vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
-			vx = horizontalMove * speed;	
-		}
-	}
-	else if (currentState != State::_JASON_JUMP_ && onLaddercurrentState == Body) {
-		currentState = State::_JASON_CLIMB_;
-		vx = 0;
-		if (verticalMove != 0) {
-			vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
-			flipCountDown -= dt;
-			if (flipCountDown <= 0) {
-				flipX = ~flipX;
-				flipCountDown = 0.25f;
-			}
-		}
-		else vy = 0;
-	}
-	else if (currentState != State::_JASON_JUMP_ && onLaddercurrentState == Tail) {
-		if (verticalMove < 0) vy = verticalMove * speed / 5;
-		else {
-			//Jason can stop climbing and fall, so no (vy = 0)
-			vy = verticalMove * speed / 5 - jumpSpeed * (allowJump && attemptJump);
-			vx = horizontalMove * speed;
-		}
-	}
-	else {
-		vx = horizontalMove * speed;
-		vy -= jumpSpeed * (allowJump && attemptJump);
-		vy += 150 * dt;
-	}
-	**/
-
 	if ( PInput::KeyDown(SHOOT) && allowShoot ) {
 		Fire();
+	}
+	
+	//reset Jason
+	if (DInput::KeyPress(DIK_R)) {
+		Jason* newJason = new Jason(HP, 48, 2900, sophia);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newJason);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(dynamic_cast<Jason*>(newJason));
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
+
+	if (DInput::KeyPress(DIK_Q)) {
+		TakeDamage(1000);
 	}
 }
 
@@ -202,8 +183,9 @@ void Jason::Render()
 
 void Jason::SetNewState() {
 	int newState = currentState;
-	if (HP <= 0) newState = State::_JASON_DIE_; //if no HP, die anyway
+	if (HP <= 0) SetState(State::_JASON_DIE_); //if no HP, die anyway
 
+	//choose newstate due to currentstate
 	if (newState != State::_JASON_DIE_) { //if die, cannot perform any currentState
 		switch (currentState) {
 			case State::_JASON_CLIMB_: {
@@ -213,6 +195,7 @@ void Jason::SetNewState() {
 			}
 			case State::_JASON_CMOVE_: {
 				allowJump = false;
+				allowShoot = true;
 				if (verticalMove == -1) {
 					//y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
 					newState = State::_JASON_IDLE_;
@@ -224,6 +207,7 @@ void Jason::SetNewState() {
 			}
 			case State::_JASON_CRAWL_: {
 				allowJump = false;
+				allowShoot = true;
 				if (verticalMove == -1) {
 					//y -= OFFSET_STAND_CRAWL; //offset to avoid overlapping
 					newState = State::_JASON_IDLE_;
@@ -233,12 +217,16 @@ void Jason::SetNewState() {
 			}
 			case State::_JASON_DIE_: {
 				allowJump = false;
-				vx = 0;
-				vy = 0;
+				allowShoot = false;
+				if (enviColX != 0 || enviColY != 0) {
+					vx = 0;
+				}
+				return;
 				break;
 			}
 			case State::_JASON_IDLE_: {
 				allowJump = true;
+				allowShoot = true;
 				//collision with ladder
 
 				if (attemptJump) {
@@ -254,6 +242,7 @@ void Jason::SetNewState() {
 			}
 			case State::_JASON_JUMP_: {
 				allowJump = false;
+				allowShoot = true;
 				//switch to idle when fall into wall	
 				if (enviColY < 0) {
 					newState = State::_JASON_IDLE_;
@@ -267,6 +256,7 @@ void Jason::SetNewState() {
 			}
 			case State::_JASON_WALK_: {
 				allowJump = true;
+				allowShoot = true;
 				if (verticalMove == 1) {
 					newState = State::_JASON_CRAWL_;
 				}
@@ -281,7 +271,15 @@ void Jason::SetNewState() {
 		}
 	}
 
-	bool currentStateChanged = (currentState != newState);
+	//newstate pre-definition
+	if (currentState != newState) {
+		switch (newState) {
+		case State::_JASON_JUMP_:
+			jumpTime = 0;
+			break;
+		}
+	}
+
 	FRECT currentStateColBox = GetCollisionBox();
 	currentState = newState;
 	FRECT newStateColBox = GetCollisionBox();
@@ -320,7 +318,18 @@ void Jason::OnCollisionEnter(CollisionEvent e) {
 	enviColY = (e.ny != 0 ? e.ny : enviColY);
 
 	//if (e.nx * vx < 0) vx = 0;
-	if (e.ny < 0 ) vy = 0;
+	if (e.ny < 0) {
+		//check jumpTime, if overtime, inflict damage
+		if (jumpTime >= MAX_JUMPTIME) {
+			float dame = max(5, (jumpTime / MAX_JUMPTIME - 1) * MAXHP *  1.75); 
+			//up to 40 damage if fall ${ MAX_JUMPTIME*2 } second
+			//guaranteed inflicted dame is at least 5
+
+			this->TakeDamage(ceilf(dame));
+			jumpTime = 0;
+		}
+		vy = 0;
+	}
 }
 
 void Jason::TakeDamage(int dmg) {
@@ -332,6 +341,8 @@ void Jason::TakeDamage(int dmg) {
 			if (HP < 0)
 				HP = 0;
 			invulnerable = 3;
+
+			DebugOut(L"Jason - damage taken %d\n", dmg);
 		}
 		else invulnerable = -1;
 	}

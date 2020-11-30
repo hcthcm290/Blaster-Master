@@ -9,7 +9,6 @@ class Insect : public DynamicObject, public Enemy
 private:
 	//FlipX ( true = right, false = left )
 	bool flipX = false;
-
 	int speed = 20;
 	
 	//behaviour

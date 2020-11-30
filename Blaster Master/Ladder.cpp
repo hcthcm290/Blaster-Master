@@ -65,6 +65,7 @@ LadderPos Ladder::CheckLadderPos(int jasonState, FRECT jasonColBox) {
 		}
 	}
 
+	/**
 	switch (result) {
 	case LadderPos::Null:
 		DebugOut(L"Null\n");
@@ -79,5 +80,6 @@ LadderPos Ladder::CheckLadderPos(int jasonState, FRECT jasonColBox) {
 		DebugOut(L"Body\n");
 		break;
 	}
+	**/
 	return result;
 }

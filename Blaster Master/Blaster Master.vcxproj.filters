@@ -366,7 +366,6 @@
     <ClInclude Include="Sophia_Bullet_Rocket.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Ship.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
@@ -375,15 +374,23 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="D:\DOWNLOAD\P2_Jason.png" />
-    <Image Include="map.png" />
     <Image Include="Sprite\FlyingEye.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="D:\DOWNLOAD\P2_Jason.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="game-info.txt" />
-    <Text Include="scene1.txt" />
+    <Text Include="game-info.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="scene1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
