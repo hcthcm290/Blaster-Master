@@ -45,4 +45,4 @@ A2I1_1
 Interior1.json
 
 [MERGEDBRICK]
-Interior1_merged.json
+Interior1_sandbox.json
