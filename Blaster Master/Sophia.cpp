@@ -204,7 +204,7 @@ void Sophia::Update(float dt)
 			{
 				if (vx == 0)
 					vx = -25;
-				vx -= speed * dt;
+				vx -= speed * 3 * dt;
 			}
 			flipX = true;
 			moving = true;
@@ -220,7 +220,7 @@ void Sophia::Update(float dt)
 			{
 				if (vx == 0)
 					vx = 25;
-				vx += speed * dt;
+				vx += speed * 3* dt;
 			}
 			flipX = false;
 			moving = true;
@@ -230,7 +230,7 @@ void Sophia::Update(float dt)
 			//vx = 0;
 			if (vx > 0)
 			{
-				vx -= speed * dt;
+				vx -= speed * 3 * dt;
 				if (vx < 0)
 					vx = 0;
 			}
@@ -238,7 +238,7 @@ void Sophia::Update(float dt)
 			{
 				if (vx < 0)
 				{
-					vx += speed * dt;
+					vx += speed * 3 * dt;
 					if (vx > 0)
 						vx = 0;
 				}

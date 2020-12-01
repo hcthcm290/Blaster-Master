@@ -15,6 +15,8 @@ Teleporter::Teleporter(FRECT zone)
 	HP = 40;
 	//animator
 	animator->AddAnimation(21001);
+	animator->AddAnimation(21002);
+	animator->AddAnimation(21003);
 	DebugOut(L"%f, %f, %f, %f", zone.left, zone.top, zone.right, zone.bottom);
 	state = TELEPORTER_CD;
 }
@@ -45,6 +47,7 @@ void Teleporter::Update(float dt)
 	cooldown -= (int) (dt * 1000);
 	if (cooldown <= 0)
 	{
+		state = TELEPORTER_TELE;
 		if (step > 0)
 		{
 			switch (step)
@@ -84,6 +87,7 @@ void Teleporter::Update(float dt)
 			sy = 0;
 			cooldown = 2000;
 			step = 5;
+			state = TELEPORTER_END;
 		}
 	}
 	else
@@ -112,7 +116,7 @@ void Teleporter::Update(float dt)
 	{
 		y = zone.bottom;
 	}
-
+	
 }
 
 void Teleporter::Render()
