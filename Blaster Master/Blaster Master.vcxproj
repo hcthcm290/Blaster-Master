@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="AGR_Orb.cpp" />
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Animator_Canon.cpp" />
     <ClCompile Include="Animator_Floater.cpp" />
     <ClCompile Include="Animator_Jumper.cpp" />
     <ClCompile Include="Animator_Mine_Explosion.cpp" />
@@ -225,6 +226,8 @@
   <ItemGroup>
     <ClInclude Include="AGR_Orb.h" />
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="Animator_Canon.h" />
+    <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="BigJason.h" />

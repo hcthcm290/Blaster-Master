@@ -1,11 +1,11 @@
 #include "Canon.h"
-#include "Animator.h"
+#include "Animator_Canon.h"
 #include "Canon_Bullet.h"
-
+#include "Debug.h"
 
 Canon::Canon()
 {
-	animator = new Animator();
+	animator = new Animator_Canon();
 	animator->AddAnimation(canon);
 	animator->AddAnimation(canonHor);
 	animator->AddAnimation(canonVer);
@@ -21,13 +21,15 @@ void Canon::Update(float dt)
 			this->state = canonVer;
 			verFirst = !verFirst; 
 			#pragma region Canon_Bullet
-				DynamicObject* obj = NULL;
-				obj = new Canon_Bullet();
-				obj->SetPosition(x, y);
-				obj->SetVelocity(0,-150);
-				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
-				obj->SetVelocity(0, 150);
-				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+				DynamicObject* obj1,*obj2;
+				obj1 = new Canon_Bullet();
+				obj1->SetPosition(x, y);
+				obj1->SetVelocity(0,-200);
+				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj1);
+				obj2 = new Canon_Bullet();
+				obj2->SetPosition(x, y);
+				obj2->SetVelocity(0, 200);
+				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj2);
 			#pragma endregion
 		}
 		else
@@ -36,54 +38,36 @@ void Canon::Update(float dt)
 			this->state = canonHor;
 			verFirst = !verFirst;
 			#pragma region Canon_Bullet
-				DynamicObject* obj = NULL;
-				obj = new Canon_Bullet();
-				obj->SetPosition(x, y);
-				obj->SetVelocity(-150,0);
-				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
-				obj->SetVelocity(150,0);
-				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+				DynamicObject* obj1,*obj2;
+				obj1 = new Canon_Bullet();
+				obj1->SetPosition(x, y);
+				obj1->SetVelocity(-200,0);
+				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj1);
+				obj2 = new Canon_Bullet();
+				obj2->SetPosition(x, y);
+				obj2->SetVelocity(200,0);
+				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj2);
 			#pragma endregion
 		}
+		waitForShot = 0;
 	}
-	else
-		if (waitForShot >= 0.5)
-			this->state = canon;
+	if (waitForShot>=0.5)
+	this->state = canon;
 	waitForShot += dt;
 }
 
 void Canon::Render()
 {
-	if (inv != -1) {
-		animator->Draw(state, x, y, false, 0, Color[inv]);
-		if (GetTickCount64() - last_blink >= 50) {
-			if (GetTickCount64() > startTakeDamage + 150)
-			{
-				inv = -1;
-			}
-			else
-			{
-				last_blink = GetTickCount64();
-				switch (inv)
-				{
-				case 1: inv = 0; break;
-				case 0: inv = 1; break;
-				}
-			}
-		}
-	}
-	else
-	{
 		animator->Draw(state, x, y, false);
-	}
+
 }
 FRECT Canon::GetCollisionBox()
 {
 	FRECT colRect;
-	colRect.left = x - 13;
-	colRect.right = x + 13;
-	colRect.top = y - 13;
-	colRect.bottom = y + 13;
+	colRect.left = x - 14;
+	colRect.right = x + 14;
+	colRect.top = y - 14;
+	colRect.bottom = y + 14;
 
 	return colRect;
 }

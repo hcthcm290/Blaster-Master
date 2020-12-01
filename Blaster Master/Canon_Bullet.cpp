@@ -13,21 +13,21 @@ Canon_Bullet::Canon_Bullet()
 }
 void Canon_Bullet::OnCollisionEnter(CollisionEvent e)
 {
-	if (dynamic_cast<ColliableBrick*>(e.pGameObject) || e.pGameObject == dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer())
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject) )/*|| e.pGameObject == dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer())*/
 		boom = true;
 }
 void Canon_Bullet::Update(float dt)
 {
 	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	if (CollisionSystem::CheckOverlap(this, player))
-	{
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(10);
-	}
+	//if (CollisionSystem::CheckOverlap(this, player))
+	//{
+	//	dynamic_cast<DynamicObject*>(player)->TakeDamage(10);
+	//}
 	if (boom)
 	{
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
-		DynamicObject* obj;
+		DynamicObject* obj=NULL;
 		obj = new Explosive();
 		obj->SetPosition(x, y);
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
@@ -36,7 +36,7 @@ void Canon_Bullet::Update(float dt)
 
 void Canon_Bullet::Render()
 {
-	animator->Draw(state, x, y, flip);
+	animator->Draw(state, x, y, false);
 }
 
 FRECT Canon_Bullet::GetCollisionBox()

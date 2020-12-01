@@ -1,7 +1,7 @@
 #pragma once
 #include "DynamicObject.h"
 #include "CollisionSystem.h"
-#include "InteriorScene.h"
+#include "PlayScene.h"
 #include "GameObject.h"
 #include "Enemy.h"
 
