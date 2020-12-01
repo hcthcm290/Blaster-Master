@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include "BigJason.h"
 #include "Camera.h"
+#include "Canon.h"
 #include "CameraBoundaryLib.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
@@ -36,6 +37,9 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 	case 99:
 		obj = new BigJason();
 		player = dynamic_cast<DynamicObject*>(obj);
+		break;
+	case 11:
+		obj = new Canon();
 		break;
 	case 76:
 	{

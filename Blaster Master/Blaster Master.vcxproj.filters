@@ -183,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="InteriorScene.cpp" />
     <ClCompile Include="BigJason.cpp" />
+    <ClCompile Include="Canon_Bullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -380,6 +383,9 @@
     <ClInclude Include="BigJason.h">
       <Filter>Header Files\Playable</Filter>
     </ClInclude>
+    <ClInclude Include="Canon_Bullet.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png" />
@@ -391,6 +397,7 @@
   <ItemGroup>
     <Text Include="game-info.txt" />
     <Text Include="scene1.txt" />
+    <Text Include="Interior1.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

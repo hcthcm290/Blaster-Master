@@ -21,12 +21,12 @@ void Ship::OnCollisionEnter(CollisionEvent e)
 	{
 		if (e.nx < 0)
 		{
-			vx = -shipSpeed;
+			vx = -100;
 			flip = true;
 		}
 		if (e.nx > 0)
 		{
-			vx = shipSpeed;
+			vx = 100;
 			flip = false;
 		}
 	}
@@ -50,7 +50,7 @@ void Ship::Update(float dt)
 		this->state = shipFly;
 		if (fly)
 		{
-			vx = -shipSpeed;
+			vx = -100;
 			fly = false;
 		}
 		waitForShot += dt;

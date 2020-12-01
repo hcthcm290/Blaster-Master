@@ -4,7 +4,6 @@
 #include "ColliableBrick.h"
 #include "Debug.h"
 #include "Floater.h"
-#include "Orb.h"
 #include "Floater_Bullet.h"
 #include "Utils.h"
 
@@ -15,8 +14,8 @@ Floater::Floater()
 
 	animator = new Animator_Floater();
 	animator->AddAnimation(floaterFly);
-	animator->AddAnimation(floaterIdle);
-	state = floaterIdle;
+	animator->AddAnimation(floaterShot);
+	state = floaterFly;
 	vx = vy = 0;
 	trigger = false;
 	float randWait = RandomFloat(-1, 1);
@@ -95,6 +94,7 @@ void Floater::Update(float dt)
 		}
 		if (mini_waitForShot>=0.5 && shotCount>0)
 		{
+			this->state = floaterShot;
 			#pragma region Floater_Bullet
 						DynamicObject* obj = NULL;
 						obj = new Floater_Bullet();
