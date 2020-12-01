@@ -35,8 +35,16 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		mapBackground = dynamic_cast<StaticObject*>(obj);
 		return;
 	case 10:
-		obj = new Teleporter();
+	{
+		FRECT zone;
+		zone.left = atoi(tokens[3].c_str()) * 16 - 8;
+		zone.top = atoi(tokens[4].c_str()) * 16 - 8;
+		zone.right = atoi(tokens[5].c_str()) * 16 + 8;
+		zone.bottom = atoi(tokens[6].c_str()) * 16 + 8;
+		obj = new Teleporter(zone);
+
 		break;
+	}
 	case 99:
 		obj = new BigJason();
 		player = dynamic_cast<DynamicObject*>(obj);

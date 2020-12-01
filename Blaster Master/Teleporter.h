@@ -11,8 +11,9 @@ protected:
 	int step = 5;
 	int sx, sy;
 	int ox, oy;
+	FRECT zone;
 public:
-	Teleporter();
+	Teleporter(FRECT zone);
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	void Update(float dt);

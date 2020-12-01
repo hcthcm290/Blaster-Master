@@ -4,12 +4,19 @@
 #include "CollisionSystem.h"
 #include "Debug.h"
 
-Teleporter::Teleporter()
+#define TELEPORTER_TELE 21001
+#define TELEPORTER_END 21002
+#define TELEPORTER_CD 21003
+
+Teleporter::Teleporter(FRECT zone)
 {
+	this->zone = zone;
 	//set HP
 	HP = 40;
 	//animator
 	animator->AddAnimation(21001);
+	DebugOut(L"%f, %f, %f, %f", zone.left, zone.top, zone.right, zone.bottom);
+	state = TELEPORTER_CD;
 }
 FRECT Teleporter::GetCollisionBox()
 {
@@ -36,7 +43,6 @@ void Teleporter::Update(float dt)
 	float player_x = player->GetPosition().x;
 	float player_y = player->GetPosition().y;
 	cooldown -= (int) (dt * 1000);
-	DebugOut(L"%d\n",cooldown);
 	if (cooldown <= 0)
 	{
 		if (step > 0)
@@ -76,7 +82,7 @@ void Teleporter::Update(float dt)
 		{
 			sx = 0;
 			sy = 0;
-			cooldown = 3000;
+			cooldown = 2000;
 			step = 5;
 		}
 	}
@@ -90,9 +96,26 @@ void Teleporter::Update(float dt)
 	sy *= rand() % 2 + 1;
 	x += sx;
 	y += sy;
+	if (x < zone.left)
+	{
+		x = zone.left;
+	}
+	if (x > zone.right)
+	{
+		x = zone.right;
+	}
+	if (y < zone.top)
+	{
+		y = zone.top;
+	}
+	if (y > zone.bottom)
+	{
+		y = zone.bottom;
+	}
+
 }
 
 void Teleporter::Render()
 {
-	animator->Draw(21001, x, y, false);
+	animator->Draw(state, x, y, false);
 }

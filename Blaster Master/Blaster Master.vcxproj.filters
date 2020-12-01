@@ -395,6 +395,7 @@
   <ItemGroup>
     <Text Include="game-info.txt" />
     <Text Include="scene1.txt" />
+    <Text Include="Interior1.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
