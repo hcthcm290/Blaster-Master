@@ -12,6 +12,7 @@ protected:
 	int sx, sy;
 	int ox, oy;
 	FRECT zone;
+	DWORD start_tele;
 public:
 	Teleporter(FRECT zone);
 	FRECT GetCollisionBox();
