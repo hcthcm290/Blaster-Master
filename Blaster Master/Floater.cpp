@@ -6,6 +6,7 @@
 #include "Floater.h"
 #include "Orb.h"
 #include "Floater_Bullet.h"
+#include "Utils.h"
 
 Floater::Floater()
 {
@@ -18,6 +19,9 @@ Floater::Floater()
 	state = floaterIdle;
 	vx = vy = 0;
 	trigger = false;
+	float randWait = RandomFloat(-1, 1);
+	if (randWait < 0) maxWait = 5;
+	else maxWait = 6;
 }
 void Floater::OnCollisionEnter(CollisionEvent e)
 {
@@ -68,15 +72,24 @@ void Floater::Update(float dt)
 		this->state = floaterFly;
 		if (fly)
 		{
-			vx = -floaterSpeed;
-			vy = floaterSpeed;
+			float randDirx = RandomFloat(-1, 1);
+			float randDiry = RandomFloat(-1, 1);
+			if (randDirx > 0) randDirx = 1;
+			else randDirx = -1;
+			if (randDiry > 0) randDiry = 1;
+			else randDiry = -1;
+			vx = randDirx*floaterSpeed;
+			vy = randDiry*floaterSpeed;
 			fly = false;
 		}
 		waitForShot += dt;
 		mini_waitForShot += dt;
-		if (waitForShot >= 5)
+		
+		if (waitForShot >= maxWait)
 		{
-			shotCount = 2;
+			float randCount = RandomFloat(-1, 1);
+			if (randCount < 0) shotCount = 1;
+			else shotCount = 2;
 			waitForShot = 0;
 			mini_waitForShot = 0;
 		}

@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\rapidjson-master\rapidjson-master\include;$(ProjectDir)\rapidjson\rapidjson\include;C:\rapidjson-master\include;D:\Document\NMGame\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\rapidjson-master\rapidjson-master\include;$(ProjectDir)\rapidjson\include;C:\rapidjson-master\include;D:\Document\NMGame\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
