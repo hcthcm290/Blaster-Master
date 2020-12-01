@@ -1,5 +1,6 @@
 #include "BigJason.h"
 #include "Animator.h"
+#include "PInput.h"
 
 BigJason::BigJason()
 {
@@ -9,6 +10,10 @@ BigJason::BigJason()
 
 void BigJason::Update(float dt)
 {
+	//check 
+	bulletManager->CheckBullet();
+	bulletManager->CheckCheat();
+
 	if (DInput::KeyPress(DIK_LEFT))
 	{
 		vx = -40;
@@ -35,6 +40,13 @@ void BigJason::Update(float dt)
 		vy = 0;
 	}
 
+	if (PInput::KeyDown(SHOOT)) {
+		int dx = 0;
+		int dy = 0;
+		if (vx != 0) dx = (vx < 0 ? -1 : 1);
+		else if (vy != 0) dy = (vy < 0 ? -1 : 1);
+		bulletManager->Fire(x, y, dx, dy);
+	}
 }
 
 void BigJason::Render()

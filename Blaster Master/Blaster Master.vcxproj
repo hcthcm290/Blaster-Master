@@ -172,8 +172,11 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
+    <ClCompile Include="Bullet_Jason_Interior.cpp" />
+    <ClCompile Include="Explosion_Interior.cpp" />
     <ClCompile Include="ForegroundTile.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
+    <ClCompile Include="Jason_BulletManager_Interior.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
     <ClCompile Include="PInput.cpp" />
@@ -228,7 +231,10 @@
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_Jason_Interior.h" />
+    <ClInclude Include="Explosion_Interior.h" />
     <ClInclude Include="InteriorScene.h" />
+    <ClInclude Include="Jason_BulletManager_Interior.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
     <ClInclude Include="PlayerBullet.h" />
@@ -294,6 +300,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="game-info.txt" />
+    <Text Include="Interior1.txt" />
     <Text Include="scene1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

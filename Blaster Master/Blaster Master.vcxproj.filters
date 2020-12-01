@@ -181,8 +181,21 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="InteriorScene.cpp" />
-    <ClCompile Include="BigJason.cpp" />
+    <ClCompile Include="Explosion_Interior.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet_Jason_Interior.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="Jason_BulletManager_Interior.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="BigJason.cpp">
+      <Filter>Source Files\Playable</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorScene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -380,6 +393,15 @@
     <ClInclude Include="BigJason.h">
       <Filter>Header Files\Playable</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet_Jason_Interior.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion_Interior.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Jason_BulletManager_Interior.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png" />
@@ -391,6 +413,7 @@
   <ItemGroup>
     <Text Include="game-info.txt" />
     <Text Include="scene1.txt" />
+    <Text Include="Interior1.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -443,6 +466,12 @@
     </Filter>
     <Filter Include="Source Files\Scene">
       <UniqueIdentifier>{fdacc922-3093-45f4-93e1-0b287f43aa33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interior">
+      <UniqueIdentifier>{85d5e818-957e-475f-a524-5dcca30bc5a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Interior">
+      <UniqueIdentifier>{282443a2-c37e-4227-a53a-36d30cda1274}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

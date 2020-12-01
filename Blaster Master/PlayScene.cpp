@@ -552,6 +552,18 @@ void CPlayScene::AddGameObjectToScene(CGameObject* obj)
 	}
 }
 
+bool CPlayScene::GameObjectIsInScene(CGameObject* obj)
+{
+	std::vector<int> listMapBlockID = GetMapBlockID(obj);
+
+	for (auto mapBlockID : listMapBlockID)
+	{
+		auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+
+		return (e != sceneObjects[mapBlockID].end());
+	}
+}
+
 void CPlayScene::RemoveGameObjectFromScene(CGameObject* obj)
 {
 	std::vector<int> listMapBlockID = GetMapBlockID(obj);

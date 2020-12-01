@@ -64,6 +64,7 @@ protected:
 public:
 	CPlayScene(int id, LPCWSTR filePath);
 	void AddGameObjectToScene(CGameObject* obj);
+	bool GameObjectIsInScene(CGameObject* obj);
 	void RemoveGameObjectFromScene(CGameObject* obj);
 	vector<CGameObject*> GetOnScreenObjs();
 	virtual void Load();
