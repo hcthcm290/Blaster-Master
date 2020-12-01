@@ -155,3 +155,12 @@ bool BigJason::IsInvulnerable()
 {
 	return false;
 }
+
+void BigJason::TakeDamage(int dmg)
+{
+}
+
+float BigJason::GetEnterGateSpeed()
+{
+	return 40;
+}
