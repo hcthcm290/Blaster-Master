@@ -913,6 +913,8 @@ void CPlayScene::UpdateSwitchSection(float dt)
 
 void CPlayScene::Update(DWORD dw_dt)
 {
+	CollisionSystem::ClearPairColObjCache();
+
 	UpdateOnScreenObjs();
 
 	float dt = (float)(dw_dt);

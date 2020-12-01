@@ -10,6 +10,8 @@
 #include "Debug.h"
 #include "Intangibility.h"
 
+unordered_map<CGameObject*, CGameObject*> CollisionSystem::listPairMessagedColObj;
+
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
 	FixPreOverlapped(movingObj, anotherObjs);
@@ -73,28 +75,38 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	{
 		for (auto Event : filteredCol.first)
 		{
-			movingObj->OnCollisionEnter(CollisionEvent(Event));
+			if (!IsExistPairColObj(movingObj, Event->obj))
+			{
+				movingObj->OnCollisionEnter(CollisionEvent(Event));
 
-			CollisionEvent e;
-			e.nx = -Event->nx;
-			e.ny = -Event->ny;
-			e.pGameObject = movingObj;
+				CollisionEvent e;
+				e.nx = -Event->nx;
+				e.ny = -Event->ny;
+				e.pGameObject = movingObj;
 
-			Event->obj->OnCollisionEnter(e);
+				Event->obj->OnCollisionEnter(e);
+
+				AddPairColObj(movingObj, Event->obj);
+			}
 		}
 	}
 	if (filteredCol.second.size() != 0)
 	{
 		for (auto Event : filteredCol.second)
 		{
-			movingObj->OnCollisionEnter(CollisionEvent(Event));
+			if (!IsExistPairColObj(movingObj, Event->obj))
+			{
+				movingObj->OnCollisionEnter(CollisionEvent(Event));
 
-			CollisionEvent e;
-			e.nx = -Event->nx;
-			e.ny = -Event->ny;
-			e.pGameObject = movingObj;
+				CollisionEvent e;
+				e.nx = -Event->nx;
+				e.ny = -Event->ny;
+				e.pGameObject = movingObj;
 
-			Event->obj->OnCollisionEnter(e);
+				Event->obj->OnCollisionEnter(e);
+
+				AddPairColObj(movingObj, Event->obj);
+			}
 		}
 	}
 }
@@ -485,4 +497,26 @@ void CollisionSystem::FixPreOverlapped(DynamicObject* movingObj, std::vector<CGa
 
 		movingObj->SetPosition(oldMovingObjPos.x + pushbackVector.first, oldMovingObjPos.y + pushbackVector.second);
 	}
+}
+
+bool CollisionSystem::IsExistPairColObj(CGameObject* first, CGameObject* second)
+{
+	if (listPairMessagedColObj[first] == second)
+	{
+		return true;
+	}
+	if (listPairMessagedColObj[second] == first)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void CollisionSystem::AddPairColObj(CGameObject* first, CGameObject* second)
+{
+	listPairMessagedColObj[first] = second;
+	listPairMessagedColObj[second] = first;
+
+	return;
 }
