@@ -168,10 +168,12 @@
     <ClCompile Include="Animator_Jumper.cpp" />
     <ClCompile Include="Animator_Mine_Explosion.cpp" />
     <ClCompile Include="Animator_Sophia.cpp" />
+    <ClCompile Include="BigJason.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="ForegroundTile.cpp" />
+    <ClCompile Include="InteriorScene.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
     <ClCompile Include="PInput.cpp" />
@@ -224,7 +226,9 @@
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Animator_Sophia.h" />
+    <ClInclude Include="BigJason.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="InteriorScene.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
     <ClInclude Include="PlayerBullet.h" />

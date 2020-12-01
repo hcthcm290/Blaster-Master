@@ -4,6 +4,7 @@
 #include "PlayScene.h"
 #include "Textures.h"
 #include "Camera.h"
+#include "InteriorScene.h"
 #include <fstream>
 
 CGame* CGame::__instance = NULL;
@@ -183,8 +184,17 @@ void CGame::_ParseSection_SCENES(string line)
 	if (tokens.size() < 2) return;
 	int id = atoi(tokens[0].c_str());
 	LPCWSTR path = ToLPCWSTR(tokens[1]);
-
-	LPSCENE scene = new CPlayScene(id, path);
+	int sceneType = atoi(tokens[0].c_str());
+	LPSCENE scene = NULL;
+	switch (sceneType)
+	{
+	case 1:
+		scene = new CPlayScene(id, path);
+		break;
+	case 2:
+		scene = new InteriorScene(id, path);
+		break;
+	}
 	scenes[id] = scene;
 }
 

@@ -60,6 +60,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_OBJECTS	6
 #define SCENE_SECTION_MAP 7
 #define SCENE_SECTION_MERGEDBRICK 8
+#define SCENE_SECTION_DEFAULTCAMERA 9
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
@@ -504,6 +505,9 @@ void CPlayScene::Load()
 		if (line == "[MERGEDBRICK]") {
 			section = SCENE_SECTION_MERGEDBRICK; continue;
 		}
+		if (line == "[DEFAULTCAMERA]")	{
+			section = SCENE_SECTION_DEFAULTCAMERA; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -517,12 +521,15 @@ void CPlayScene::Load()
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		case SCENE_SECTION_MERGEDBRICK: _ParseSection_MERGEDBRICK(line); break;
+		case SCENE_SECTION_DEFAULTCAMERA: 
+		{
+			if(line != "")	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary(line));
+		}
 		}
 	}
 
 	f.close();
 
-	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary("A2_A"));
 	BackupPlayableObject();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
@@ -763,6 +770,38 @@ void CPlayScene::UpdateFreePlaying(float dt)
 
 void CPlayScene::UpdateSwitchSection(float dt)
 {
+	if (dt > 0.1) dt = 0.1;
+
+	if (dt == 0) return;
+
+	PInput::Update();
+
+	// Update for all the game object
+	for (int i = 0; i< onScreenObjs.size(); i++)
+	{
+		if (dynamic_cast<Playable*>(onScreenObjs[i]) != NULL)
+			continue;
+		onScreenObjs[i]->Update(dt);
+	}
+
+	for (int i = 0; i < onScreenObjs.size(); i++)
+	{
+		if (dynamic_cast<Playable*>(onScreenObjs[i]) != NULL)
+			continue;
+
+		if (dynamic_cast<DynamicObject*>(onScreenObjs.at(i)) == NULL)
+		{
+			continue; // if it not moving, we don't need to docollision for it
+		}
+		else if (D3DXVECTOR3(dynamic_cast<DynamicObject*>(onScreenObjs.at(i))->GetVelocity()) == D3DXVECTOR3(0, 0, 0))
+		{
+			continue;
+		}
+		CollisionSystem::DoCollision(dynamic_cast<DynamicObject*>(onScreenObjs.at(i)), &onScreenObjs, dt);
+	}
+
+	ApllyVelocityToGameObjs(dt);
+
 	countingTime1 += dt;
 
 	RemoveGameObjectFromScene(player);
@@ -888,6 +927,9 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 {
 	for (auto obj : onScreenObjs)
 	{
+		if (dynamic_cast<Playable*>(obj) != NULL && state == State::_PLAYSCENE_SWITCH_SECTION)
+			continue;
+
 		std::vector<int> oldListMapBlockID = GetMapBlockID(obj);
 
 		if (dynamic_cast<DynamicObject*>(obj) == NULL) continue;
