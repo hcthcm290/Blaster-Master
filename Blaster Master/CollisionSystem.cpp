@@ -5,7 +5,7 @@
 #include "Orb.h"
 #include "Jumper.h"
 #include "ColliableBrick.h"
-
+#include "Sophia_Bullet_1.h"
 #include "Jason.h"
 #include "Debug.h"
 #include "Intangibility.h"
@@ -109,6 +109,35 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 			}
 		}
 	}
+
+
+	// Check overlap after do all collision check
+	auto oldPosition = movingObj->GetPosition();
+	auto velocity = movingObj->GetVelocity();
+
+	movingObj->SetPosition(oldPosition.x + velocity.x * dt,oldPosition.y + velocity.y * dt);
+
+	for (int i=0; i<anotherObjs->size(); i++)
+	{
+		if (dynamic_cast<Sophia_Bullet_1*>(movingObj))
+		{
+			DebugOut(L"This");
+		}
+
+		auto obj = (*anotherObjs)[i];
+
+		if (obj == movingObj) continue;
+
+		if (CheckOverlap(movingObj, obj) && !IsExistPairColObj(movingObj, obj))
+		{
+			movingObj->OnOverlap(obj);
+			obj->OnOverlap(movingObj);
+
+			AddPairColObj(movingObj, obj);
+		}
+	}
+
+	movingObj->SetPosition(oldPosition.x, oldPosition.y);
 }
 
 

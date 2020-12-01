@@ -33,3 +33,7 @@ void CGameObject::Render()
 CGameObject::~CGameObject()
 {
 }
+
+void CGameObject::OnOverlap(CGameObject* obj)
+{
+}

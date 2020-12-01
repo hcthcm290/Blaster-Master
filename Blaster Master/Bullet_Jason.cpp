@@ -49,3 +49,19 @@ void Bullet_Jason::OnCollisionEnter(CollisionEvent e) {
 		}
 	}
 }
+
+void Bullet_Jason::OnOverlap(CGameObject* obj)
+{
+	if (dynamic_cast<Enemy*>(obj))
+	{
+		dynamic_cast<DynamicObject*>(obj)->TakeDamage(20);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
+	else
+	{
+		if (dynamic_cast<ColliableBrick*>(obj))
+		{
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+		}
+	}
+}

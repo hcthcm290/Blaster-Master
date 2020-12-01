@@ -15,12 +15,15 @@ protected:
 	bool flipX;
 	bool up;
 	bool isHit = false;
+	bool explosionOverlap = false;
+
 public:
 	static int count;
 	Sophia_Bullet_1();
 	Sophia_Bullet_1(bool up, bool flipX);
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
+	void OnOverlap(CGameObject* obj);
 	void Explode();
 	void Update(float dt);
 	void Render();
