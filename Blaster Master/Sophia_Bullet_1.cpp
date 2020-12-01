@@ -121,7 +121,7 @@ void Sophia_Bullet_1::Update(float dt)
 
 		if (up)
 		{
-			vy = -150;
+			vy = -200;
 			vx = 0;
 		}
 		else
@@ -129,12 +129,12 @@ void Sophia_Bullet_1::Update(float dt)
 
 			if (flipX)
 			{
-				vx = 150;
+				vx = 200;
 				vy = 0;
 			}
 			else
 			{
-				vx = -150;
+				vx = -200;
 				vy = 0;
 			}
 		}

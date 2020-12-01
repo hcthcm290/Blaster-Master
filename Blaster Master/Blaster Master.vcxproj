@@ -294,6 +294,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="game-info.txt" />
+    <Text Include="Interior1.txt" />
     <Text Include="scene1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

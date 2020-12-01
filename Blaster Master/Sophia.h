@@ -34,7 +34,7 @@ class Sophia : public DynamicObject, public Playable
 	};
 	int currentColor;
 	DWORD lastDamageTime;
-	int Homing = 0;
+	int Homing = 20;
 	int Rocket = 5;
 	DWORD die;
 

@@ -35,6 +35,7 @@
 
 Sophia::Sophia()
 {
+	vx = 0;
 	currentColor = 0;
 	//Setup HP
 	HP = 100;
@@ -98,6 +99,7 @@ void Sophia::OnCollisionEnter(CollisionEvent e)
 		if (e.ny < 0)
 		{
 			//vy = 0;
+			if (!onTheGround)
 			onTheGround = true;
 		}
 	}
@@ -189,23 +191,63 @@ void Sophia::Update(float dt)
 		}*/
 
 		vy += 480 * dt;
+		int speed = 150;
 
 		if (PInput::KeyPressed(LEFT))
 		{
-			vx = -100;
+			//vx = -100;
+			if (vx <= -100)
+			{
+				vx = -100;
+			}
+			else
+			{
+				if (vx == 0)
+					vx = -25;
+				vx -= speed * dt;
+			}
 			flipX = true;
 			moving = true;
 		}
 		else if (PInput::KeyPressed(RIGHT))
 		{
-			vx = 100;
+			//vx = 100;
+			if (vx >= 100)
+			{
+				vx = 100;
+			}
+			else
+			{
+				if (vx == 0)
+					vx = 25;
+				vx += speed * dt;
+			}
 			flipX = false;
 			moving = true;
 		}
 		else
 		{
-			vx = 0;
+			//vx = 0;
+			if (vx > 0)
+			{
+				vx -= speed * dt;
+				if (vx < 0)
+					vx = 0;
+			}
+			else
+			{
+				if (vx < 0)
+				{
+					vx += speed * dt;
+					if (vx > 0)
+						vx = 0;
+				}
+			}
 			moving = false;
+		}
+		if (!onTheGround)
+		{
+			canJump = false;
 		}
 
 		if (PInput::KeyPressed(JUMP) && canJump)
@@ -266,8 +308,8 @@ void Sophia::Update(float dt)
 			if (PInput::KeyPressed(DOWN))
 			{
 				if (now - last_bullet > 300)
-					//ShootHoming();
-					ShootRocket();
+					ShootHoming();
+					//ShootRocket();
 			}
 			else
 			{
@@ -281,7 +323,7 @@ void Sophia::Update(float dt)
 					}
 					auto bullet = new Sophia_Bullet_1(up, !flipX);
 					//adjust x,y for more realistic firing
-					if (state != STATE_SOPHIA_FALL_90 && state != STATE_SOPHIA_IDLE_90 && state != STATE_SOPHIA_JUMP_90) {
+					if (state != STATE_SOPHIA_FALL_90 && state != STATE_SOPHIA_IDLE_90 && state != STATE_SOPHIA_JUMP_90 && state != STATE_SOPHIA_MOVE_90) {
 						bullet->SetPosition(x + (flipX ? -20 : 20), y - 3.5f);
 					}
 					else {
@@ -303,6 +345,7 @@ void Sophia::Update(float dt)
 			start_shift = now;
 		}
 	}
+	onTheGround = false;
 }
 
 void Sophia::ShootHoming()
@@ -376,7 +419,6 @@ void Sophia::ShootRocket()
 
 void Sophia::StateChange()
 {
-
 	dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = false;
 	if (vy < 0)
 	{
@@ -461,7 +503,7 @@ void Sophia::StateChange()
 		}
 		return;
 	}
-	if (vx == 0 && gun_up == 45)
+	if (!moving && gun_up == 45)
 	{
 		if (state != STATE_SOPHIA_MOVE_45)
 		{
@@ -470,13 +512,13 @@ void Sophia::StateChange()
 		}
 		return;
 	}
-	if (vx == 0 && gun_up == 90)
+	if (!moving && gun_up == 90)
 	{
 		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
 		state = STATE_SOPHIA_IDLE_90;
 		return;
 	}
-	if (vx == 0 && gun_up == 0)
+	if (!moving && gun_up == 0)
 	{
 		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
 		if (gun_turn)
