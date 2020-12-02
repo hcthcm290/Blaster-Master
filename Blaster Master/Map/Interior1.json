@@ -204,6 +204,15 @@
                          "type":"bool",
                          "value":true
                         }]
+                }, 
+                {
+                 "id":33,
+                 "properties":[
+                        {
+                         "name":"collision",
+                         "type":"bool",
+                         "value":true
+                        }]
                 }],
          "tilewidth":16
         }],

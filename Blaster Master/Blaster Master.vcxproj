@@ -175,6 +175,7 @@
     <ClCompile Include="ForegroundTile.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
     <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="SmallGate.cpp" />
     <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
     <ClCompile Include="PInput.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="SmallGate.h" />
     <ClInclude Include="Sophia_Bullet_Rocket.h" />
     <ClInclude Include="ForegroundTile.h" />
     <ClInclude Include="Playable.h" />

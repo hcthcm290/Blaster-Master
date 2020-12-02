@@ -187,6 +187,7 @@
     <ClCompile Include="InteriorScene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="SmallGate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -383,6 +384,9 @@
     </ClInclude>
     <ClInclude Include="BigJason.h">
       <Filter>Header Files\Playable</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallGate.h">
+      <Filter>Header Files\Other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

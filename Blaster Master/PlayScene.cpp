@@ -39,6 +39,7 @@
 #include "CameraBoundaryLib.h"
 #include "PInput.h"
 #include "ForegroundTile.h"
+#include "SmallGate.h"
 
 using namespace std;
 
@@ -230,6 +231,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 
 		obj = bg;
+		break;
+	}
+	case 78:
+	{
+		obj = new SmallGate();
+
+		dynamic_cast<SmallGate*>(obj)->SetIDTargetScene(atoi(tokens[3].c_str()));
+
 		break;
 	}
 	case 0:
