@@ -62,6 +62,8 @@ Sophia::Sophia()
 	state = STATE_SOPHIA_IDLE;
 	//animator
 	animator = new Animator_Sophia();
+	onTheGround = true;
+	start_shift = GetTickCount();
 }
 
 FRECT Sophia::GetCollisionBox()
@@ -128,10 +130,6 @@ void Sophia::Update(float dt)
 	{
 		invincible = 0;
 	}
-	//if Sophia takes player control, switch it to IDLE (made by TrV)
-	if (state == STATE_SOPHIA_SLEEP && dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer() == this) {
-		state = STATE_SOPHIA_IDLE;
-	}
 
 	DWORD now = GetTickCount();
 	if (isInvincible() && currentColor == 0)
@@ -161,6 +159,7 @@ void Sophia::Update(float dt)
 	}
 	if (state == STATE_SOPHIA_SHIFT || state == STATE_SOPHIA_SLEEP || state == STATE_SOPHIA_SHIFT_IN)
 	{
+		switching = true;
 		vx = 0;
 		vy = 0;
 		dynamic_cast<Animator_Sophia*>(animator)->isResetFrame = true;
@@ -171,12 +170,18 @@ void Sophia::Update(float dt)
 			else
 			{
 				if (state == STATE_SOPHIA_SHIFT_IN)
+				{
 					state = STATE_SOPHIA_IDLE;
+					onTheGround = true;
+				}
 			}
 		}
 	}
 	else
 	{
+		switching = false;
+		if (now - start_shift < 1000)
+			switching = true;
 		//reset position
 		/*if (PInput::KeyPressed()) {
 			x = 1120;
@@ -339,8 +344,10 @@ void Sophia::Update(float dt)
 			state = STATE_SOPHIA_SHIFT;
 			start_shift = now;
 		}
+		if(!switching)
+			onTheGround = false;
 	}
-	onTheGround = false;
+	
 }
 
 void Sophia::ShootHoming()
@@ -633,4 +640,5 @@ void Sophia::Awake(int JasonHealth) {
 	JasonCurrentHealth = JasonHealth;
 	state = STATE_SOPHIA_SHIFT_IN;
 	start_shift = GetTickCount();
+	onTheGround = true;
 }
