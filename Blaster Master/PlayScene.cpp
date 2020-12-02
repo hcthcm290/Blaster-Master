@@ -179,6 +179,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		obj = new Sophia();
 		player = dynamic_cast<DynamicObject*>(obj);
+
+		canSpawnPlayer = false;
+
 		break;
 	}
 	case 5:
@@ -461,6 +464,8 @@ void CPlayScene::HardReloadSceneObject()
 	{
 		delete obj.first;
 	}
+
+	canSpawnPlayer = true;
 
 	Load();
 }
@@ -1041,13 +1046,24 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	/*for (int i = 0; i < sceneObjects.size(); i++)
-		delete sceneObjects[i];
+	unordered_map<CGameObject*, int> listObject;
 
+	for (auto& block : sceneObjects)
+	{
+		for (auto obj : block.second)
+		{
+			listObject[obj] = 1;
+		}
+		block.second.clear();
+	}
 	sceneObjects.clear();
-	player = NULL;
 
-	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
+	for (auto& obj : listObject)
+	{
+		delete obj.first;
+	}
+
+	onScreenObjs.clear();
 }
 
 void CPlayScene::ReloadBackup()

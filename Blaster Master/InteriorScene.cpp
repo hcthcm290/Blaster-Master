@@ -11,6 +11,38 @@ InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 {
 }
 
+void InteriorScene::Unload()
+{
+	unordered_map<CGameObject*, int> listObject;
+
+	for (auto& block : sceneObjects)
+	{
+		for (auto obj : block.second)
+		{
+			listObject[obj] = 1;
+		}
+		block.second.clear();
+	}
+	sceneObjects.clear();
+
+	for (auto& block : playableObjects)
+	{
+		for (auto obj : block.second)
+		{
+			listObject[obj] = 1;
+		}
+		block.second.clear();
+	}
+	sceneObjects.clear();
+
+	for (auto& obj : listObject)
+	{
+		delete obj.first;
+	}
+
+	onScreenObjs.clear();
+}
+
 void InteriorScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);

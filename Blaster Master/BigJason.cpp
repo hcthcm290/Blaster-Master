@@ -2,6 +2,7 @@
 #include "Animator.h"
 #include "PInput.h"
 #include "Debug.h"
+#include "Game.h"
 #define I_JASON_IDLE_DOWN 29901
 #define I_JASON_IDLE_UP 29902
 #define I_JASON_IDLE_SIDE 29903
@@ -27,6 +28,11 @@ BigJason::BigJason()
 
 void BigJason::Update(float dt)
 {
+	if (DInput::KeyDown(DIK_P))
+	{
+		CGame::GetInstance()->SwitchScene(1);
+		return;
+	}
 	//sat thuong
 	if (HP == 0)
 	{

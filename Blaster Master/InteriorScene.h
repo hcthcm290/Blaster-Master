@@ -6,6 +6,7 @@ class InteriorScene: public CPlayScene
 
 public:
 	InteriorScene(int id, LPCWSTR filePath);
+	void Unload();
 protected:
 	virtual void _ParseSection_OBJECTS(string line);
 };

@@ -107,6 +107,12 @@ void Sophia::OnCollisionEnter(CollisionEvent e)
 
 void Sophia::Update(float dt)
 {
+	if (DInput::KeyDown(DIK_P))
+	{
+		CGame::GetInstance()->SwitchScene(2);
+		return;
+	}
+
 	if (HP == 0)
 	{
 		vx = 0;
