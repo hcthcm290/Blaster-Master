@@ -5,17 +5,18 @@
 #include "Enemy.h"
 #include "ColliableBrick.h"
 #include "PlayScene.h"
+#include "Explosion_Interior.h"
 
-BulletJasonInterior::BulletJasonInterior(int horizontal, int vertical, int level) {
+BulletJasonInterior::BulletJasonInterior(int dx, int dy, int level) {
 	//if no horizontal either vertical, ignore this construction
-	if ((vertical == 0 && horizontal == 0) || (vertical != 0 && horizontal !=0)) {
+	if ((dy == 0 && dx == 0) || (dy != 0 && dx !=0)) {
 		DebugOut(L"BulletJasonInterior is invalid\n");
-		return;
+		dx = 1;
+		dy = 0;
+		//return;
 	}
 
 	animator->AddAnimation(State::_BULLET_JASON_INTERIOR_);
-	dx = horizontal; //-1(left) or 0(none) or 1(right)
-	dy = vertical;	//-1(up) or 0(none) or 1(down)
 	bulletLevel = level;
 	damage = BASE_DAMAGE + 5 * (bulletLevel - 1); //draft damage, will be adjusted later
 
@@ -42,17 +43,18 @@ void BulletJasonInterior::Update(float dt) {
 	}
 
 	flyPattern->Update(dt);
-	vx = dx*speed + flyPattern->GetVx();
-	vy = dy*speed + flyPattern->GetVy();
+	vx = speed * flyPattern->GetVx();
+	vy = speed * flyPattern->GetVy();
 
+	//decreasing colorDelay for changing-color effect (apply in GetColor() )
+	colorDelay -= dt;
 }
 
 void BulletJasonInterior::Render() {
 	if (livingTime <= 0) return;
 
-	//flipX = true ==> bullet faces right at default
-	animator->Draw(State::_BULLET_JASON_INTERIOR_, x, y, true, GetRotation(), GetColor());
-	DebugOut(L"Bullet is at %f %f \n", x, y);
+	//flipX = false ==> bullet faces left at default
+	animator->Draw(State::_BULLET_JASON_INTERIOR_, x, y, false, 180 + GetRotation(), GetColor());
 }
 
 FRECT BulletJasonInterior::GetCollisionBox() {
@@ -71,8 +73,10 @@ void BulletJasonInterior::OnCollisionEnter(CollisionEvent e) {
 
 void BulletJasonInterior::Explode() {
 	//Add Explode GameObject
-	DebugOut(L"Booom\n");
+	ExplosionInterior* explosion = new ExplosionInterior(x + vx / 16, y + vy / 16);
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explosion);
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	exploded = true;
 }
 
 float BulletJasonInterior::GetRotation() {
@@ -90,13 +94,14 @@ float BulletJasonInterior::GetRotation() {
 }
 
 D3DCOLOR BulletJasonInterior::GetColor() {
-	if (bulletLevel == 8) { //at level 8, bullets have color-change effect
-		//TODO: add color changing effect
-		D3DCOLOR result = D3DCOLOR_ARGB(255, 255, 255, 255); //demo: return white
-		return result;
+	if (bulletLevel == 8 && colorDelay <= 0) { //at level 8, bullets have color-change effect
+		if (color == 7) color = rand() % 7;
+		else color = 7;
+
+		colorDelay = COLOR_DELAY;
 	}
 	//else return white color -> dont change color
-	else return D3DCOLOR_ARGB(255, 255, 255, 255); 
+	return arrColor[color];
 }
 
 #pragma region Fly Pattern 
@@ -106,43 +111,51 @@ void BulletJasonInteriorFlyPattern::Update(float dt) {
 }
 
 //===	STARIGHT 1->4 ===
-StraightPattern::StraightPattern(int& livingTime, int& speed, int level, int dx, int dy) {
-	speed = BASE_SPEED; //Bullets from level4 or higher will fly faster 
+StraightPattern::StraightPattern(float& livingTime, int& speed, int level, int dx, int dy) {
+	speed = BASE_SPEED; 
 	livingTime = BASE_LIVINGTIME * (level >= 2 ? 99999 : 1); //all bullets which its level is higher than 2 is not disapear automatically
+	
+	if (dx == 0) vx = 0;
+	else vx = (dx < 0 ? -1 : 1);
 
-	DebugOut(L"Staright Boom\n");
+	if (dy == 0) vy = 0;
+	else vy = (dy < 0 ? -1 : 1);
 }
 
 //===	CIRCLE	5->6 ===
-CirclePattern::CirclePattern(int& livingTime, int& speed, int level, int dx, int dy) {
-	speed = BASE_SPEED;
-	livingTime = BASE_LIVINGTIME * 99999;
+CirclePattern::CirclePattern(float& livingTime, int& speed, int level, int dx, int dy) {
+	speed = BASE_SPEED * (level == 6 ? 1 : 0.5);
+	livingTime = 5; //5s
 
-	angleOffset = BASE_ANGLEOFFSET * (level == 6 ? 2 : 1); //level6 Bullet will roll faster
+	angleOffset = BASE_ANGLEOFFSET * (level == 6 ? 2 : 2); //level6 Bullet will roll faster
 	//bullets will go counter-clockwise, at first they head to the firing direction
 	if (dx == 0) {
-		vx = 0 * (dy < 0 ? -1 : 1);
-		vy = speed;
-		currentAngle = 90 * (dy < 0 ? -1 : 1); 
+		vx = 0;
+		vy = (dy < 0 ? -1 : 1);
+		currentAngle = 90 * (dy < 0 ? -1 : 1);
 		//-1:UP(-90), 1:DOWN(90)
 	}
 	else { //dy == 0
-		vx = speed * (dx < 0 ? -1 : 1);
+		vx = (dx < 0 ? -1 : 1);
 		vy = 0;
 		currentAngle = 180 * (dx < 0 ? 1 : 0);
 		//0:LEFT(180), 1:RIGHT(0)
 	}
 
-	DebugOut(L"Circle Boom\n");
+	direction = arrDirection[iDirection];
+	iDirection = (iDirection + 1) % 4;
 }
+
+int CirclePattern::iDirection = 0;
+int CirclePattern::arrDirection[4] = { 0,1,0,-1 };
 
 void CirclePattern::Update(float dt) {
 	//update currentAngle for recording and GetAngle();
-	currentAngle = (currentAngle + angleOffset * dt);
-	if (currentAngle > 360) currentAngle -= 360;
+	float degAlpha = angleOffset * dt * direction;
+	currentAngle += degAlpha;
 
 	//calculate new vector
-	float alpha = Deg2Rad(angleOffset * dt);
+	float alpha = Deg2Rad(degAlpha);
 	float new_vx = vx*cos(alpha) - vy*sin(alpha);
 	float new_vy = vy*cos(alpha) + vx*sin(alpha);
 
@@ -151,26 +164,61 @@ void CirclePattern::Update(float dt) {
 	vy = new_vy;
 }
 
-//===	WAVE 7->8	===
-WavePattern::WavePattern(int& livingTime, int& speed, int level, int dx, int dy) {
-	speed = BASE_SPEED;
-	livingTime = BASE_LIVINGTIME * 99999; 
+float CirclePattern::GetAngle() {
+	float result = currentAngle;
+	while (result >= 360) result -= 360;
+	while (result < 0) result += 360;
 
-	isHorizontal = (dx != 0); //if not horizontal, definately veritcal
-	fiOffset = BASE_FI_OFFSET * (level == 8 ? 2 : 1); //level8 bullets wave faster
-
-	DebugOut(L"Wave Boom\n");
+	return result;
 }
 
+//===	WAVE 7->8	===
+WavePattern::WavePattern(float& livingTime, int& speed, int level, int dx, int dy) {
+	speed = BASE_SPEED * 0.5;
+	livingTime = BASE_LIVINGTIME * 99999; 
+
+	if (dx == 0) vx = 0; else vx = (dx < 0 ? -1 : 1);
+	if (dy == 0) vy = 0; else vy = (dy < 0 ? -1 : 1);
+	isHorizontal = (dx != 0); //if not horizontal, definately veritcal
+	fiOffset = BASE_FI_OFFSET; //level8 bullets wave faster
+
+	//get new delay
+	delay = nextDelay;
+	nextDelay += DELAY_WAVE_OFFSET;
+	if (nextDelay > DELAY_WAVE_MAX) nextDelay = 0;
+
+	//get new direction
+	direction = nextDirection;
+	nextDirection = -nextDirection;
+
+	//level 8 adjustment
+	if (level == 8) {
+		fiOffset *= 2;
+		direction *= 2;
+		spreadDiv = 1.25; //no shrink
+	}
+}
+
+float WavePattern::nextDelay = 0;
+float WavePattern::nextDirection = 1;
+
 void WavePattern::Update(float dt) {
+	//if the bullet is "delaying", it flies straight
+	delay -= dt;
+	if (delay > 0) return;
+
 	fi += fiOffset * dt;
+	if (abs(sin(fi)) <= dt) {	//the height/width shrinks every time it reach center point
+		spread /= spreadDiv;
+	}
+
 	if (isHorizontal) { //flying horizontal - adjust vy
-		vx = 0;
-		vy = cos(fi) * BASE_SPEED; //cos(fi) la dao ham cua sin(fi)
+		vy = cos(fi) * spread * direction; //cos(fi) la dao ham cua sin(fi)
+		
 	}
 	else { //flying vertical - adjust vx
-		vx = cos(fi) * BASE_SPEED;
-		vy = 0;
+		vx = cos(fi) * spread * direction;
+		
 	}
 }
 #pragma endregion

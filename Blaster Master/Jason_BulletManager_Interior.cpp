@@ -9,10 +9,9 @@ Jason_BulletManager::Jason_BulletManager() {
 }
 
 void Jason_BulletManager::CheckBullet() {
-	for (int i = 0; i < bullets.size(); i++)
-		if (dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GameObjectIsInScene(bullets[i]) == false) 
-			
-		//if (bullets[i] == NULL)
+	for (int i = 0; i < bullets.size(); i++)			
+		if (bullets[i]->IsExploded() 
+			|| dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GameObjectIsInScene(bullets[i]) == false)
 			bullets.erase(bullets.begin() + i);
 }
 
