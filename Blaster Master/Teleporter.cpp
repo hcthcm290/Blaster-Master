@@ -18,7 +18,6 @@ Teleporter::Teleporter(FRECT zone)
 	animator->AddAnimation(21001);
 	animator->AddAnimation(21002);
 	animator->AddAnimation(21003);
-	DebugOut(L"%f, %f, %f, %f", zone.left, zone.top, zone.right, zone.bottom);
 	state = TELEPORTER_CD;
 	start_tele = GetTickCount();
 }
