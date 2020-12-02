@@ -189,6 +189,9 @@
     <ClCompile Include="Animator_Canon.cpp">
       <Filter>Source Files\Animator</Filter>
     </ClCompile>
+    <ClCompile Include="Explosive_Cannon_Bullet.cpp">
+      <Filter>Source Files\Explosion</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="Animator_Floater.h">
       <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosive_Cannon_Bullet.h">
+      <Filter>Header Files\Explosion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

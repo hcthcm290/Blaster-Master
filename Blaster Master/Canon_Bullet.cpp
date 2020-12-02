@@ -3,7 +3,7 @@
 #include "ColliableBrick.h"
 #include "Debug.h"
 #include "Canon_Bullet.h"
-#include "Explosive.h"
+#include "Explosive_Cannon_Bullet.h"
 
 Canon_Bullet::Canon_Bullet()
 {
@@ -28,7 +28,7 @@ void Canon_Bullet::Update(float dt)
 	{
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 		DynamicObject* obj=NULL;
-		obj = new Explosive();
+		obj = new Explosive_Cannon_Bullet();
 		obj->SetPosition(x, y);
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
 	}

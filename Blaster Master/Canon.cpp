@@ -13,7 +13,7 @@ Canon::Canon()
 }
 void Canon::Update(float dt)
 {
-	if (waitForShot >= 1)
+	if (waitForShot >= 0.6)
 	{
 		if (verFirst)
 		{
@@ -24,11 +24,11 @@ void Canon::Update(float dt)
 				DynamicObject* obj1,*obj2;
 				obj1 = new Canon_Bullet();
 				obj1->SetPosition(x, y);
-				obj1->SetVelocity(0,-200);
+				obj1->SetVelocity(0,-300);
 				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj1);
 				obj2 = new Canon_Bullet();
 				obj2->SetPosition(x, y);
-				obj2->SetVelocity(0, 200);
+				obj2->SetVelocity(0, 300);
 				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj2);
 			#pragma endregion
 		}
@@ -41,17 +41,17 @@ void Canon::Update(float dt)
 				DynamicObject* obj1,*obj2;
 				obj1 = new Canon_Bullet();
 				obj1->SetPosition(x, y);
-				obj1->SetVelocity(-200,0);
+				obj1->SetVelocity(-300,0);
 				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj1);
 				obj2 = new Canon_Bullet();
 				obj2->SetPosition(x, y);
-				obj2->SetVelocity(200,0);
+				obj2->SetVelocity(300,0);
 				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj2);
 			#pragma endregion
 		}
 		waitForShot = 0;
 	}
-	if (waitForShot>=0.5)
+	if (waitForShot>=0.2)
 	this->state = canon;
 	waitForShot += dt;
 }
