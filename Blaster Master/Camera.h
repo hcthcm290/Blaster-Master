@@ -65,6 +65,19 @@ public:
 		return colRect;
 	}
 
+	FRECT GetExpansionCollisionBox()
+	{
+		float expansionRange = 10;
+
+		FRECT colRect;
+		colRect.left = int(x - width / 2) - expansionRange;
+		colRect.right = int(x + width / 2) + expansionRange;
+		colRect.top = int(y - height / 2) - expansionRange;
+		colRect.bottom = int(y + height / 2) + expansionRange;
+
+		return colRect;
+	}
+
 	void SetWidth(int width) { __instance->width = width; }
 	void SetHeight(int height) { __instance->height = height; }
 

@@ -629,13 +629,18 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 		cameraRECT.right / MAP_BLOCK_WIDTH,
 		cameraRECT.bottom / MAP_BLOCK_HEIGHT);
 
-	auto csu = GetMapBlockID(Camera::GetInstance());
-
 	for (auto mapBlockID : GetMapBlockID(Camera::GetInstance()))
 	{
 		for (auto object : sceneObjects[mapBlockID])
 		{
-			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
+			if (dynamic_cast<ColliableBrick*>(object))
+			{
+				if (listOnScreenObjs.find(object) == listOnScreenObjs.end())
+				{
+					listOnScreenObjs[object] = object;
+				}
+			}
+			else if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
 			{
 				if (listOnScreenObjs.find(object) == listOnScreenObjs.end())
 				{
