@@ -528,7 +528,10 @@ void CPlayScene::Load()
 		case SCENE_SECTION_MERGEDBRICK: _ParseSection_MERGEDBRICK(line); break;
 		case SCENE_SECTION_DEFAULTCAMERA: 
 		{
-			if(line != "")	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary(line));
+			// we do not have to use the old way anymore
+			// if(line != "")	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary(line));
+
+			Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 		}
 		}
 	}

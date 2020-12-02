@@ -155,6 +155,17 @@ bool CollisionSystem::CheckOverlap(CGameObject* obj1, CGameObject* obj2)
 	return true;
 }
 
+bool CollisionSystem::CheckOverlap(FRECT obj1_RECT, FRECT obj2_RECT)
+{
+	if (obj1_RECT.left >= obj2_RECT.right || obj2_RECT.left >= obj1_RECT.right)
+		return false;
+
+	if (obj1_RECT.top >= obj2_RECT.bottom || obj2_RECT.top >= obj1_RECT.bottom)
+		return false;
+
+	return true;
+}
+
 #pragma region SweptAABB functions
 
 void CollisionSystem::SweptAABB(

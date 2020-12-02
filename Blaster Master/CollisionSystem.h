@@ -12,6 +12,7 @@ public:
 	/// <param name="dt"></param>
 	static void DoCollision(DynamicObject* dynamicObj, std::vector<CGameObject*>* anotherObjs, float dt);
 	static bool CheckOverlap(CGameObject* obj1, CGameObject* obj2);
+	static bool CheckOverlap(FRECT obj1_RECT, FRECT obj2_RECT);
 	
 	// this should be call every frame
 	static void ClearPairColObjCache() { listPairMessagedColObj.clear(); }
