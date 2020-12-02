@@ -3,6 +3,7 @@
 #include "InteriorScene.h"
 #include "CollisionSystem.h"
 #include "Debug.h"
+#include "Explosive.h"
 
 #define TELEPORTER_TELE 21001
 #define TELEPORTER_START 21002
@@ -52,10 +53,11 @@ void Teleporter::Update(float dt)
 		{
 			state = TELEPORTER_START;
 			start_tele = GetTickCount();
+			invincible = false;
 		}
 		else
 		{
-			if (GetTickCount() - start_tele > 500)
+			if (GetTickCount() - start_tele > 400)
 			{
 				state = TELEPORTER_TELE;
 				if (step > 0)
@@ -151,4 +153,21 @@ void Teleporter::Update(float dt)
 void Teleporter::Render()
 {
 	animator->Draw(state, x, y, false);
+}
+void Teleporter::TakeDamage(int dmg)
+{
+	if (invincible)
+		return;
+	this->HP -= dmg;
+	startTakeDamage = GetTickCount();
+	last_blink = GetTickCount();
+	inv = 1;
+	if (HP < 0)
+	{
+		HP = 0;
+	}
+	if (HP == 0)
+	{
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
 }
