@@ -192,6 +192,9 @@
     <ClCompile Include="Explosive_Cannon_Bullet.cpp">
       <Filter>Source Files\Explosion</Filter>
     </ClCompile>
+    <ClCompile Include="Grenade.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -261,19 +264,19 @@
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
-      <Filter>Header Files\Animator</Filter>
+      <Filter>Header Files\Bullet\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Jason.h">
-      <Filter>Header Files\Animator</Filter>
+      <Filter>Header Files\Bullet\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Jumper.h">
-      <Filter>Header Files\Animator</Filter>
+      <Filter>Header Files\Bullet\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Mine_Explosion.h">
-      <Filter>Header Files\Animator</Filter>
+      <Filter>Header Files\Bullet\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Sophia.h">
-      <Filter>Header Files\Animator</Filter>
+      <Filter>Header Files\Bullet\Animator</Filter>
     </ClInclude>
     <ClInclude Include="BigGate.h">
       <Filter>Header Files\Other</Filter>
@@ -393,13 +396,16 @@
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Canon.h">
-      <Filter>Header Files\Animator</Filter>
+      <Filter>Header Files\Bullet\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Animator_Floater.h">
-      <Filter>Header Files\Animator</Filter>
+      <Filter>Header Files\Bullet\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Explosive_Cannon_Bullet.h">
       <Filter>Header Files\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="Grenade.h">
+      <Filter>Header Files\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -423,9 +429,6 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{bf17a5b4-ffab-470e-85ad-88e09440adfe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Animator">
-      <UniqueIdentifier>{7203b64e-bc9b-4b80-8e43-77eafeb7ffbd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Bullet">
       <UniqueIdentifier>{a0c79161-05f4-4bda-ac09-4ab3d22c92b8}</UniqueIdentifier>
@@ -465,6 +468,9 @@
     </Filter>
     <Filter Include="Source Files\Scene">
       <UniqueIdentifier>{fdacc922-3093-45f4-93e1-0b287f43aa33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bullet\Animator">
+      <UniqueIdentifier>{7203b64e-bc9b-4b80-8e43-77eafeb7ffbd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

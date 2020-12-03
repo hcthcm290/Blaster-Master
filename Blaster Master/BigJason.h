@@ -4,6 +4,8 @@
 
 class BigJason : public DynamicObject, public Playable
 {
+private:
+	bool keypress = true;
 public:
 	BigJason();
 	void Update(float dt);

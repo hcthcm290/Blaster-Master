@@ -64,7 +64,15 @@ public:
 	static const int _SPIKE_ = 12301;
 #pragma endregion
 
-	static const int _BULLET_JASON_	=	26901;
+
+#pragma region Bullet
+	static const int _Grenade_ = 126101;
+	static const int _Grenade_Small_Boom = 131301;
+	static const int _Grenade_Big_Boom = 132201;
+	static const int _BULLET_JASON_ = 26901;
+#pragma endregion
+
+	
 #pragma endregion
 
 #pragma region Insect

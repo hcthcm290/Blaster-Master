@@ -20,10 +20,10 @@ void Canon_Bullet::Update(float dt)
 {
 	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	//if (CollisionSystem::CheckOverlap(this, player))
-	//{
-	//	dynamic_cast<DynamicObject*>(player)->TakeDamage(10);
-	//}
+	/*if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(10);
+	}*/
 	if (boom)
 	{
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);

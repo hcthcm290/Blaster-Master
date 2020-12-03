@@ -5,28 +5,28 @@
 
 Explosive_Cannon_Bullet::Explosive_Cannon_Bullet()
 {
-	animator->AddAnimation(27201);
+	animator->AddAnimation(211201);
 	last = GetTickCount();
 }
 
 FRECT Explosive_Cannon_Bullet::GetCollisionBox()
 {
 	FRECT colRect;
-	colRect.left = x + 5;
-	colRect.right = x - 5;
-	colRect.top = y + 5;
-	colRect.bottom = y - 5;
+	colRect.left = x + 8;
+	colRect.right = x - 8;
+	colRect.top = y + 8;
+	colRect.bottom = y - 8;
 	return colRect;
 }
 
 void Explosive_Cannon_Bullet::Update(float dt)
 {
 	DWORD now = GetTickCount();
-	if (now - last > 110)
+	if (now - last > 160)
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 }
 
 void Explosive_Cannon_Bullet::Render()
 {
-	animator->Draw(27201, x, y, false);
+	animator->Draw(211201, x, y, false);
 }

@@ -176,6 +176,7 @@
     <ClCompile Include="Canon_Bullet.cpp" />
     <ClCompile Include="Explosive_Cannon_Bullet.cpp" />
     <ClCompile Include="ForegroundTile.cpp" />
+    <ClCompile Include="Grenade.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Canon_Bullet.h" />
     <ClInclude Include="Explosive_Cannon_Bullet.h" />
+    <ClInclude Include="Grenade.h" />
     <ClInclude Include="InteriorScene.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />

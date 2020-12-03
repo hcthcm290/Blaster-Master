@@ -1,6 +1,7 @@
 #include "BigJason.h"
 #include "Animator.h"
-
+#include "Grenade.h"
+#include "PlayScene.h"
 BigJason::BigJason()
 {
 	animator = new Animator();
@@ -34,7 +35,47 @@ void BigJason::Update(float dt)
 	{
 		vy = 0;
 	}
-
+	if (DInput::KeyPress(DIK_C)&& keypress)
+	{
+		DynamicObject* obj = NULL;
+		obj = new Grenade(false);
+		obj->SetPosition(x, y);
+		obj->SetVelocity(0, 150);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+		keypress = false;
+	}
+	if (DInput::KeyPress(DIK_V) && keypress)
+	{
+		DynamicObject* obj = NULL;
+		obj = new Grenade(false);
+		obj->SetPosition(x, y);
+		obj->SetVelocity(0, -150);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+		keypress = false;
+	}
+	
+	if (DInput::KeyPress(DIK_X) && keypress)
+	{
+		DynamicObject* obj = NULL;
+		obj = new Grenade(true);
+		obj->SetPosition(x, y);
+		obj->SetVelocity(-300, 100);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+		keypress = false;
+	}
+	if (DInput::KeyPress(DIK_N) && keypress)
+	{
+		DynamicObject* obj = NULL;
+		obj = new Grenade(true);
+		obj->SetPosition(x, y);
+		obj->SetVelocity(300, 100);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+		keypress = false;
+	}
+	if (!DInput::KeyPress(DIK_N) && !DInput::KeyPress(DIK_X)&& !DInput::KeyPress(DIK_V)&& !DInput::KeyPress(DIK_C))
+	{
+		keypress = true;
+	}
 }
 
 void BigJason::Render()
