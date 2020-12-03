@@ -4,11 +4,13 @@
 11	textures\11_Canon.png	255	0	255
 111	textures\111_CanonBullet.png	255	0	255
 100	textures\100-stuff.png	255	0	255
-
+23	textures\23_Spike.png	0	0	0
 
 [SPRITES]
 ## MAP BACKGROUND 
 -1	0	0	1024	480	-1
+#SPIKE
+12301	0	0	16	16	23
 
 # CANON
 11101	0	0	28	28	11
@@ -58,7 +60,7 @@
 -1	504	232
 11	64	70
 99	64	64
-
+23	70	70	3
 ## CAMERA BOUNDARY LIST
 #	#id_sec	left	top	right	bottom
 76	A2I1_1	0	0	31	13

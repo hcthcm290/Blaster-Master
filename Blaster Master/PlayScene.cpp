@@ -237,9 +237,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 23:
 	{
-		int rotation = atoi(tokens[3].c_str());
-		obj = new Spike(rotation);
-		obj->SetPosition(x, y);
+		int length = atoi(tokens[3].c_str());
+		obj = new Spike(length);
 		break;
 	}
 	case 30: {

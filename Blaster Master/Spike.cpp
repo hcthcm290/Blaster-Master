@@ -5,10 +5,9 @@
 #include "Debug.h"
 #include "Sprites.h"
 
-Spike::Spike(int x)
+Spike::Spike(int length)
 {
-	if (x<0) flipRotation = -180;
-	state = spikeSprite;
+	this->len = length;
 }
 
 FRECT Spike::GetCollisionBox()
@@ -31,13 +30,17 @@ void Spike::Update(float dt)
 	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		DebugOut(L"hithithtihtihtih");
+		DebugOut(L"SPIKEEEE \n");
 	}
 }
 
 void Spike::Render()
 {
-	CSprites::GetInstance()->Get(spikeSprite)->Draw(x, y, false, flipRotation);
+
+	for (int i = 0; i < len; i++) {
+		CSprites::GetInstance()->Get(State::_SPIKE_)->Draw(x+i*16, y, false);
+	}
+	
 }
 
 

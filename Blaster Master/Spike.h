@@ -5,16 +5,14 @@
 #include "PlayScene.h"
 #include "GameObject.h"
 
-#define spikeSprite State::_SPIKE_
 
 
 class Spike : public StaticObject
 {
 private:
-	int state;
-	int flipRotation=0;
+	int len;
 public:
-	Spike() {};
+	
 	Spike(int);
 	void Update(float dt);
 	void Render();

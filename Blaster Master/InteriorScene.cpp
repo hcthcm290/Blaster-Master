@@ -3,6 +3,7 @@
 #include "BigJason.h"
 #include "Camera.h"
 #include "Canon.h"
+#include "Spike.h"
 #include "CameraBoundaryLib.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
@@ -51,6 +52,12 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 
 		CameraBoundaryLib::AddCameraBoundary(tokens[1], cameraBoundingBox);
 		return;
+	}
+	case 23:
+	{
+		int length = atoi(tokens[3].c_str());
+		obj = new Spike(length);
+		break;
 	}
 	}
 

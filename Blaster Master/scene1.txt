@@ -23,7 +23,7 @@
 69	textures\69_JasonBullet.png	255	0	255
 30	textures\30_Lava.png	255	0	255
 31	textures\31_Ladder.png	255	0	255
-23	textures\23_Spike.png	255	255	255
+23	textures\23_Spike.png	0	0	0
 27	textures\27_Ship.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
@@ -456,9 +456,12 @@
 2	608	2864
 2	832	2944
 2	928	2864
-
-
+## SPIKE ##
+23	288	3008	7
+23	480	3008	7
+23	672	3008	7
 ##########  SECTION B ##########
+
 ## FLOATER ##
 2	1120	2896
 2	1152	2864
@@ -491,7 +494,15 @@
 ## WORM ##
 5	1280	2032
 5	1216	2032
-
+## SPIKE ##
+23	1136	2784	2
+23	1136	2016	2
+23	1200	2016	2
+23	1264	2016	2
+23	1328	2016	2
+23	1136	1824	2
+23	1200	1824	2
+23	1264	1824	2
 
 ##########  SECTION C ##########
 ## SKULL ##
