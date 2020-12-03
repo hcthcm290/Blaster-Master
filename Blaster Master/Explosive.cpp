@@ -1,11 +1,13 @@
 #include "Explosive.h"
 #include "PlayScene.h"
 #include "Debug.h"
+#include "SoundManager.h"
 
 Explosive::Explosive()
 {
 	animator->AddAnimation(27201);
 	last = GetTickCount();
+	SoundManager::GetInstance()->PlaySoundW("Explosive_bullet.wav");
 }
 
 FRECT Explosive::GetCollisionBox()

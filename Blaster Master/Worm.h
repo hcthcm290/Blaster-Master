@@ -7,6 +7,7 @@ class Worm : public DynamicObject, public Enemy
 {
 	bool flipX;
 	bool onTheGround = false;
+	float SoundCount = 0;//trungnguyen
 public:
 	Worm();
 	FRECT GetCollisionBox();

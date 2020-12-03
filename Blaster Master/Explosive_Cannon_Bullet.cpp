@@ -2,11 +2,13 @@
 #include "Explosive_Cannon_Bullet.h"
 #include "InteriorScene.h"
 #include "Debug.h"
+#include "SoundManager.h"
 
 Explosive_Cannon_Bullet::Explosive_Cannon_Bullet()
 {
 	animator->AddAnimation(211201);
 	last = GetTickCount();
+	SoundManager::GetInstance()->PlaySoundW("Explosive_bullet.wav");
 }
 
 FRECT Explosive_Cannon_Bullet::GetCollisionBox()

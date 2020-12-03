@@ -4,6 +4,7 @@
 #include "ColliableBrick.h"
 #include "Explosive.h"
 #include "Sophia.h"
+#include "SoundManager.h"
 
 Worm::Worm()
 {
@@ -46,6 +47,7 @@ void Worm::OnCollisionEnter(CollisionEvent e)
 		{
 			//vy = 0;
 			onTheGround = true;
+
 		}
 	}
 }
@@ -53,7 +55,12 @@ void Worm::OnCollisionEnter(CollisionEvent e)
 void Worm::Update(float dt)
 {
 	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-
+	SoundCount += dt;
+	if (SoundCount >= 1)
+	{
+		SoundManager::GetInstance()->PlaySoundW("WormMoving_CannonShot_TeleporterShot.wav");
+		SoundCount = 0;
+	}
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
 		dynamic_cast<DynamicObject*>(player)->TakeDamage(8);

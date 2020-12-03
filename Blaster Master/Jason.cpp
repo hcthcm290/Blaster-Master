@@ -6,6 +6,7 @@
 #include "ColliableBrick.h"
 #include "Sophia.h"
 #include "PInput.h"
+#include "SoundManager.h"
 
 Jason::Jason() {
 	animator = new Animator_Jason();
@@ -21,6 +22,7 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	this->sophia = sophia;
 	HP = currentHealth;
 	switchDelay = GetTickCount64();
+	SoundManager::GetInstance()->PlaySoundW("swapSophiaAndJason.wav");
 }
 
 void Jason::Update(float dt)
@@ -167,6 +169,10 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 	else verticalMove = PInput::KeyPressed(UP) * (-1) + PInput::KeyPressed(DOWN) * 1; //left or right
 
 	attemptJump = PInput::KeyDown(JUMP);
+	if (attemptJump)
+	{
+		SoundManager::GetInstance()->PlaySoundW("JasonJump.wav");
+	}
 }
 
 void Jason::Render()
@@ -326,11 +332,15 @@ void Jason::OnCollisionEnter(CollisionEvent e) {
 void Jason::TakeDamage(int dmg) {
 	DWORD thisTime = GetTickCount64();
 	if (lastTakeDamage == 0  || thisTime > lastTakeDamage + invulnerableTime) {
+		SoundManager::GetInstance()->PlaySoundW("JasonGotHit_Outside.wav");
 		lastTakeDamage = thisTime;
 		if (invulnerable == -1) {
 			HP -= dmg;
 			if (HP < 0)
+			{
 				HP = 0;
+				SoundManager::GetInstance()->PlaySoundW("JasonDie.wav");
+			}
 			invulnerable = 3;
 		}
 		else invulnerable = -1;

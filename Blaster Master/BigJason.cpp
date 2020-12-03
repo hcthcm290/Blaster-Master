@@ -48,7 +48,7 @@ void BigJason::Update(float dt)
 	{
 		DynamicObject* obj = NULL;
 		obj = new Grenade(false);
-		obj->SetPosition(x, y);
+		obj->SetPosition(x, y+12);
 		obj->SetVelocity(0, -150);
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
 		keypress = false;
