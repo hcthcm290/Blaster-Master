@@ -4,6 +4,7 @@
 #include "CollisionSystem.h"
 #include "Debug.h"
 #include "Explosive.h"
+#include "Rock.h"
 
 #define TELEPORTER_TELE 21001
 #define TELEPORTER_START 21002
@@ -146,7 +147,17 @@ void Teleporter::Update(float dt)
 	{
 		y = zone.bottom;
 	}
-	
+	for (auto object : dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetOnScreenObjs())
+	{
+		if (dynamic_cast<Rock*>(object) != nullptr)
+		{
+			if (CollisionSystem::CheckOverlap(object, this))
+			{
+				x -= sx / 50 * 8;
+				y -= sy / 50 * 8;
+			}
+		}
+	}
 }
 
 void Teleporter::Render()

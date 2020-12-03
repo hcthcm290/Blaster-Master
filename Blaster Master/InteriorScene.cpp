@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "CameraBoundaryLib.h"
 #include "Teleporter.h"
+#include "Rock.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -43,6 +44,11 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		zone.bottom = atoi(tokens[6].c_str()) * 16 + 8;
 		obj = new Teleporter(zone);
 
+		break;
+	}
+	case 16:
+	{
+		obj = new Rock();
 		break;
 	}
 	case 99:

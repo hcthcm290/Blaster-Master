@@ -174,6 +174,7 @@
     <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="ForegroundTile.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
+    <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
     <ClCompile Include="PInput.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="InteriorScene.h" />
+    <ClInclude Include="Rock.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
     <ClInclude Include="PlayerBullet.h" />

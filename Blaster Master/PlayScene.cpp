@@ -39,6 +39,7 @@
 #include "CameraBoundaryLib.h"
 #include "PInput.h"
 #include "ForegroundTile.h"
+#include "Rock.h"
 
 using namespace std;
 
@@ -975,6 +976,7 @@ void CPlayScene::Render()
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
 	{
+		if (dynamic_cast<Rock*>(onScreenObjs[i]) != NULL) { onScreenObjs[i]->Render(); }
 		if (dynamic_cast<ColliableBrick*>(onScreenObjs[i]) != NULL) continue;
 		onScreenObjs[i]->Render();
 	}

@@ -2,6 +2,7 @@
 
 void StaticObject::Update(float dt)
 {
+
 }
 
 void StaticObject::Render()
