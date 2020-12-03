@@ -341,10 +341,7 @@ void CPlayScene::_ParseSection_MAP(string line)
 				int x_index = tileid % tilesetwidth;
 				int y_index = tileid / tilesetwidth;
 
-				if (CSprites::GetInstance()->Get(tileid) == NULL)
-				{
-					CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
-				}
+				CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
 
 				ForegroundTile* tile = new ForegroundTile();
 				tile->SetPosition(x * tilewidth, y * tileheight);

@@ -1,5 +1,5 @@
 [TEXTURES]
--1	textures\Interior1.png	255	0	255
+-1	textures\Interior3.png	255	0	255
 99	textures\99_BigJason.png	255	0	255
 10	textures\10_Teleporter.png	255	0	255
 11	textures\11_Canon.png	255	0	255
@@ -7,7 +7,7 @@
 98	textures\98-Jasondie.png	255	0	255
 [SPRITES]
 ## MAP BACKGROUND 
--1	0	0	1024	480	-1
+-1	0	0	256	512	-1
 
 ## BIG JASON
 # FACE DOWN
@@ -75,19 +75,17 @@
 21202	11203	100	11201	100	11203	100	11201	100	11203	100	11202	100
 
 [OBJECTS]
--1	504	232
-10	100	64	3	2	14	11
-99	64	64
+-1	120	248
+99	112	384
 
 ## CAMERA BOUNDARY LIST
 #	#id_sec	left	top	right	bottom
-76	A2I1_1	0	0	31	13
-76	A2I1_2	32	0	63	29
+76	A2I1_1	0	0	15	30
 
 [DEFAULTCAMERA]
 
 [MAP]
-Interior1.json
+Interior3.json
 
 [MERGEDBRICK]
-Interior1_merged.json
+Interior3_merged.json

@@ -197,7 +197,7 @@ void Sophia::Update(float dt)
 		}*/
 
 		vy += 480 * dt;
-		int speed = 150;
+		int speed = 170;
 
 		if (PInput::KeyPressed(LEFT))
 		{

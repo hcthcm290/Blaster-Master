@@ -149,7 +149,7 @@ void BigJason::Render()
 FRECT BigJason::GetCollisionBox()
 {
 	int width = 20;
-	int height = 6;
+	int height = 12;
 
 	// center of collision box is at the shadow of jason
 	int deltaShiftY = 12;
