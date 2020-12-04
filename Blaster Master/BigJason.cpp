@@ -93,7 +93,7 @@ void BigJason::Update(float dt)
 	if (PInput::KeyPressed(LEFT) && !PInput::KeyPressed(RIGHT))
 	{
 		flipX = true;
-		vx = -80;
+		vx = -120;
 		if(!isUpDown)
 			state = I_JASON_WALK_SIDE;
 		isSide = true;
@@ -101,7 +101,7 @@ void BigJason::Update(float dt)
 	else if (PInput::KeyPressed(RIGHT) && !PInput::KeyPressed(LEFT))
 	{
 		flipX = false;
-		vx = 80;
+		vx = 120;
 		if(!isUpDown)
 			state = I_JASON_WALK_SIDE;
 		isSide = true;
@@ -114,14 +114,14 @@ void BigJason::Update(float dt)
 
 	if (PInput::KeyPressed(UP) && !PInput::KeyPressed(DOWN))
 	{
-		vy = -40;
+		vy = -120;
 		isUpDown = true;
 		if (!isSide)
 			state = I_JASON_WALK_UP;
 	}
 	else if (PInput::KeyPressed(DOWN) && !PInput::KeyPressed(UP))
 	{
-		vy = 40;
+		vy = 120;
 		isUpDown = true;
 		if(!isSide)
 			state = I_JASON_WALK_DOWN;

@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "PlayScene.h"
+#include "InteriorScene.h"
 
 Camera* Camera::__instance = NULL;
 
@@ -11,7 +12,7 @@ void Camera::SnapToBoundary()
 	{
 		x += boundary.left - cameraRECT.left;
 	}
-
+	
 	if (cameraRECT.right > boundary.right)
 	{
 		x -= cameraRECT.right - boundary.right;
@@ -21,7 +22,7 @@ void Camera::SnapToBoundary()
 	{
 		y += boundary.top - cameraRECT.top;
 	}
-
+	
 	if (cameraRECT.bottom > boundary.bottom)
 	{
 		y -= cameraRECT.bottom - boundary.bottom;
@@ -30,12 +31,24 @@ void Camera::SnapToBoundary()
 
 void Camera::FollowTarget()
 {
-	target = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (target == NULL)
+	{
+		target = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	}
 
 	if (target == NULL) return;
 
 	float deltaX = target->GetPosition().x - x;
 	float deltaY = target->GetPosition().y - y;
+
+	if (dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene()) != NULL)
+	{
+		freeMovingArea = freeMovingInterior;
+	}
+	else
+	{
+		freeMovingArea = freeMovingSideview;
+	}
 
 	if (deltaX > freeMovingArea.right)
 	{

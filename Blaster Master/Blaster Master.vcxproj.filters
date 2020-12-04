@@ -401,6 +401,8 @@
     <Text Include="scene1.txt" />
     <Text Include="Interior1.txt" />
     <Text Include="Interior4.txt" />
+    <Text Include="Interior3.txt" />
+    <Text Include="Interior2.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
