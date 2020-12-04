@@ -914,12 +914,13 @@ void CPlayScene::UpdateSwitchSection(float dt)
 
 	if (countingTime2 >= gate->shift_time2)
 	{
-		Camera::GetInstance()->SetCameraBoundary(gate->new_boundary_camera);
 
 		auto playerPosition = player->GetPosition();
 		auto cameraPosition = Camera::GetInstance()->GetPosition();
 
 		player->SetPosition(playerPosition.x + gate->teleport_delta.x, playerPosition.y + gate->teleport_delta.y);
+
+		Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 
 		Camera::GetInstance()->SetPosition(cameraPosition.x + gate->teleport_delta.x, cameraPosition.y + gate->teleport_delta.y);
 

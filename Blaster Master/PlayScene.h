@@ -58,8 +58,8 @@ protected:
 	std::vector<ForegroundTile*> GetOnScreenForeGroundTiles();
 
 	void BackupPlayableObject();
-	void UpdateFreePlaying(float dt);
-	void UpdateSwitchSection(float dt);
+	virtual void UpdateFreePlaying(float dt);
+	virtual void UpdateSwitchSection(float dt);
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);

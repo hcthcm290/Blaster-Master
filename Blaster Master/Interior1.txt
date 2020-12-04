@@ -76,13 +76,16 @@
 
 [OBJECTS]
 -1	504	232
-10	100	64	3	2	14	11
 99	64	64
 
 ## CAMERA BOUNDARY LIST
 #	#id_sec	left	top	right	bottom
 76	A2I1_1	0	0	31	13
 76	A2I1_2	32	0	63	29
+
+#GATE	x	y	dx	dy	st1	st2	pre_dx	pre_dy	id_sec	tel_dx	tel_dy	
+77	30	7.5	1	0	0.6	0.8	36	0	0	A2I2	0	0
+77	33	7.5	-1	0	0.6	0.8	-36	0	0	A2I2	0	0
 
 [DEFAULTCAMERA]
 

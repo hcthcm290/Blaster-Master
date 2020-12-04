@@ -9,4 +9,5 @@ public:
 	void Unload();
 protected:
 	virtual void _ParseSection_OBJECTS(string line);
+	virtual void UpdateSwitchSection(float dt);
 };
