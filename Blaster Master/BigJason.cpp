@@ -152,7 +152,7 @@ void BigJason::Update(float dt)
 				dy = -1;
 			}
 		}
-		if (state == I_JASON_WALK_SIDE || state == I_JASON_WALK_SIDE)
+		if (state == I_JASON_WALK_SIDE || state == I_JASON_IDLE_SIDE)
 		{
 			if (flipX)
 			{

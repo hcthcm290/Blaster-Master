@@ -6,6 +6,7 @@
 #include "ColliableBrick.h"
 #include "PlayScene.h"
 #include "Explosion_Interior.h"
+#include "Rock.h"
 
 BulletJasonInterior::BulletJasonInterior(int dx, int dy, int level) {
 	//if no horizontal either vertical, ignore this construction
@@ -63,10 +64,13 @@ FRECT BulletJasonInterior::GetCollisionBox() {
 
 void BulletJasonInterior::OnCollisionEnter(CollisionEvent e) {
 	if (dynamic_cast<Enemy*>(e.pGameObject)) {
-		if (bulletLevel == 8) //at level 8, bullets are not explode if collide with Enemy
+		dynamic_cast<DynamicObject*>(e.pGameObject)->TakeDamage(10);
+		if (bulletLevel != 8) //at level 8, bullets are not explode if collide with Enemy
 			Explode();
 	}
 	else if (dynamic_cast<ColliableBrick*>(e.pGameObject)) {
+		if(dynamic_cast<Rock*>(e.pGameObject))
+			dynamic_cast<Rock*>(e.pGameObject)->TakeDamage(10);
 		Explode(); //explode anyway :)
 	}
 }
