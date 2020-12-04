@@ -64,6 +64,10 @@ Sophia::Sophia()
 	animator = new Animator_Sophia();
 }
 
+Sophia::~Sophia()
+{
+	SoundManager::GetInstance()->Release();
+}
 FRECT Sophia::GetCollisionBox()
 {
 	FRECT colRect;
@@ -492,6 +496,7 @@ void Sophia::Render()
 	{
 		animator->Draw(state, x, y - 4, flipX);
 		return;
+		SoundManager::GetInstance()->Release();
 	}
 	if (moving)
 	{

@@ -17,7 +17,7 @@ private:
 	bool flip = true;
 	bool trigger, fly = true;
 	int shotCount = 0;
-	float waitForShot = 5,maxWait;
+	float waitForShot = 4.7,maxWait;
 	float mini_waitForShot = 0.5;
 public:
 	Floater();
