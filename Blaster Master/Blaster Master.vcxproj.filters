@@ -190,6 +190,9 @@
     <ClCompile Include="Rock.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet_Jason_Interior.cpp" />
+    <ClCompile Include="Explosion_Interior.cpp" />
+    <ClCompile Include="Jason_BulletManager_Interior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -390,6 +393,10 @@
     <ClInclude Include="Rock.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet_Jason_Interior.h" />
+    <ClInclude Include="Explosion_Interior.h" />
+    <ClInclude Include="Jason_BulletManager_Interior.h" />
+    <ClInclude Include="Animator_Floater.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png" />
@@ -397,6 +404,7 @@
     <Image Include="Sprite\FlyingEye.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="FlyingEye.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game-info.txt" />

@@ -140,8 +140,29 @@ void BigJason::Update(float dt)
 	if (PInput::KeyDown(SHOOT)) {
 		int dx = 0;
 		int dy = 0;
-		if (vx != 0) dx = (vx < 0 ? -1 : 1);
-		else if (vy != 0) dy = (vy < 0 ? -1 : 1);
+		if (state == I_JASON_WALK_DOWN || state == I_JASON_IDLE_DOWN || state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP)
+		{
+			if (state == I_JASON_WALK_DOWN || state == I_JASON_IDLE_DOWN)
+			{
+				DebugOut(L"a");
+				dy = 1;
+			}
+			if (state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP)
+			{
+				dy = -1;
+			}
+		}
+		if (state == I_JASON_WALK_SIDE || state == I_JASON_WALK_SIDE)
+		{
+			if (flipX)
+			{
+				dx = -1;
+			}
+			else
+			{
+				dx = 1;
+			}
+		}
 		bulletManager->Fire(x, y, dx, dy);
 	}
 }
