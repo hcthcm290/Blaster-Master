@@ -78,4 +78,8 @@ public:
 #pragma region Bullet Jason Interior
 	static const int _BULLET_JASON_INTERIOR_ = 25100;
 #pragma endregion
+
+#pragma region Eyeball
+	static const int _EYEBALL_ = 20900;
+#pragma endregion
 };

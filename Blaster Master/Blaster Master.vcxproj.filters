@@ -34,9 +34,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Sprites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,9 +90,6 @@
     </ClCompile>
     <ClCompile Include="Explosive.cpp">
       <Filter>Source Files\Explosion</Filter>
-    </ClCompile>
-    <ClCompile Include="Eyeball.cpp">
-      <Filter>Source Files\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Floater.cpp">
       <Filter>Source Files\Enemy</Filter>
@@ -195,6 +189,15 @@
     </ClCompile>
     <ClCompile Include="InteriorScene.cpp">
       <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Eyeball_Linear.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="Eyeball_Spawner.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerItem.cpp">
+      <Filter>Source Files\Other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -303,9 +306,6 @@
     <ClInclude Include="Explosive.h">
       <Filter>Header Files\Explosion</Filter>
     </ClInclude>
-    <ClInclude Include="Eyeball.h">
-      <Filter>Header Files\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Floater.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
@@ -400,6 +400,12 @@
       <Filter>Header Files\Interior</Filter>
     </ClInclude>
     <ClInclude Include="Jason_BulletManager_Interior.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball_Linear.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball_Spawner.h">
       <Filter>Header Files\Interior</Filter>
     </ClInclude>
   </ItemGroup>

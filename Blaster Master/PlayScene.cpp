@@ -39,6 +39,7 @@
 #include "CameraBoundaryLib.h"
 #include "PInput.h"
 #include "ForegroundTile.h"
+#include "Eyeball_Spawner.h"
 
 using namespace std;
 
@@ -252,6 +253,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Ladder(height);
 		break;
 	}
+	
 	}
 
 	// General object setup
