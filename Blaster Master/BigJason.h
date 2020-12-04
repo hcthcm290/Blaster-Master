@@ -1,6 +1,7 @@
 #pragma once
 #include "DynamicObject.h"
 #include "Playable.h"
+#include "Jason_BulletManager_Interior.h"
 
 class BigJason : public DynamicObject, public Playable
 {
@@ -23,6 +24,7 @@ protected:
 	int currentColor = 0;
 	DWORD lastDamageTime;
 	DWORD die;
+	Jason_BulletManager* bulletManager = new Jason_BulletManager();
 public:
 	BigJason();
 	void Update(float dt);

@@ -71,4 +71,11 @@ public:
 	static const int _PLAYSCENE_SWITCH_SECTION = 27002;
 #pragma endregion
 
+#pragma region Explosion Interior
+	static const int _EXPLOSION_INTERIOR_ = 25000;
+#pragma endregion
+
+#pragma region Bullet Jason Interior
+	static const int _BULLET_JASON_INTERIOR_ = 25100;
+#pragma endregion
 };
