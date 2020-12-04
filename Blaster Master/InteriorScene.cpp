@@ -168,7 +168,8 @@ void InteriorScene::UpdateSwitchSection(float dt)
 	if (countingTime1 < gate->shift_time1)
 	{
 		// shifting time 1
-		player->SetPosition(player->GetPosition().x + baseMovingSpeed * dt * gate->shift_direction.x, player->GetPosition().y);
+		player->SetPosition(player->GetPosition().x + baseMovingSpeed * dt * gate->shift_direction.x, 
+							player->GetPosition().y + baseMovingSpeed * dt * gate->shift_direction.y);
 	}
 
 	if (countingTime1 > gate->shift_time1 && countingTime2 == 0)
@@ -176,7 +177,9 @@ void InteriorScene::UpdateSwitchSection(float dt)
 		// shift camera
 		shiftingCamera = true;
 
-		if (deltaShiftX == 0) // that's mean we've not set it yet
+
+		// we set the maximum shift distance for the camera
+		if (deltaShiftX == 0 && gate->shift_direction.x != 0) // that's mean we've not set it yet
 		{
 			if (gate->shift_direction.x > 0)
 			{
@@ -187,22 +190,54 @@ void InteriorScene::UpdateSwitchSection(float dt)
 			{
 				deltaShiftX = Camera::GetInstance()->GetCollisionBox().left - Camera::GetInstance()->GetCollisionBox().right;
 			}
-		}
 
-		// shift camera follow y-axis to respect the new camera boundary
-		auto cameraRECT = Camera::GetInstance()->GetCollisionBox();
-		auto cameraPosition = Camera::GetInstance()->GetPosition();
-		Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
-
-		totalShifting += gate->shift_direction.x * 150 * dt;
-
-		if (abs(totalShifting) >= abs(deltaShiftX))
-		{
-			shiftingCamera = false;
-
+			// before shift the camera, we do the pre_tele for the player
 			auto playerPosition = player->GetPosition();
 
 			player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
+		}
+		else if(deltaShiftY == 0 && gate->shift_direction.y != 0)
+		{
+			// magic number 32: 2x16 we shift extra 2 tile
+			if (gate->shift_direction.y > 0)
+			{
+				deltaShiftY = Camera::GetInstance()->GetCollisionBox().bottom - Camera::GetInstance()->GetCollisionBox().top + 32;
+			}
+			if(gate->shift_direction.y < 0)
+			{
+				deltaShiftY = Camera::GetInstance()->GetCollisionBox().top - Camera::GetInstance()->GetCollisionBox().bottom - 32;
+			}
+
+			// before shift the camera, we do the pre_tele for the player
+			auto playerPosition = player->GetPosition();
+
+			player->SetPosition(playerPosition.x + gate->pre_teleport_delta.x, playerPosition.y + gate->pre_teleport_delta.y);
+		}
+
+		auto cameraRECT = Camera::GetInstance()->GetCollisionBox();
+		auto cameraPosition = Camera::GetInstance()->GetPosition();
+
+		// magic number 150: speed of camera when shifting
+		Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, 
+										   cameraPosition.y + gate->shift_direction.y * 150 * dt);
+
+		if (gate->shift_direction.x != 0)
+		{
+			totalShifting += gate->shift_direction.x * 150 * dt;
+		}
+		else if (gate->shift_direction.y != 0)
+		{
+			totalShifting += gate->shift_direction.y * 150 * dt;
+		}
+
+		// if the total distance camera shifted over the maximum the distance, we swith to shift time 2 for the player
+		if (abs(totalShifting) >= abs(deltaShiftX) && gate->shift_direction.x != 0)
+		{
+			shiftingCamera = false;
+		}
+		else if (abs(totalShifting) >= abs(deltaShiftY) && gate->shift_direction.y != 0)
+		{
+			shiftingCamera = false;
 		}
 	}
 
@@ -211,9 +246,11 @@ void InteriorScene::UpdateSwitchSection(float dt)
 		// shifting time 2
 		countingTime2 += dt;
 
-		player->SetPosition(player->GetPosition().x + baseMovingSpeed * dt * gate->shift_direction.x, player->GetPosition().y);
+		player->SetPosition(player->GetPosition().x + baseMovingSpeed * dt * gate->shift_direction.x, 
+							player->GetPosition().y + baseMovingSpeed * dt * gate->shift_direction.y);
 	}
 
+	// we finish shifttime 2 for the player
 	if (countingTime2 >= gate->shift_time2)
 	{
 
