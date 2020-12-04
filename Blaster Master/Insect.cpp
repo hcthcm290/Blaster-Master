@@ -1,10 +1,11 @@
-#include "Insect.h"
+﻿#include "Insect.h"
 #include "StateConstant.h"
 #include "Debug.h"
 #include "DynamicObject.h"
 #include "ColliableBrick.h"
 #include "PlayScene.h"
 #include "CollisionSystem.h"
+#include "SoundManager.h"
 
 Insect::Insect() {
 	//set HP
@@ -29,24 +30,33 @@ void Insect::Update(float dt)
 	//update vx vy
 	vx = 20 * (flipX ? 1 : -1);
 	vy += 100 * dt;
-
+	soundCount += dt;
 	//update vx vy up to state
-	switch ( state )
-	{
-	case Forceburst:
-		vy = abs(vx) * (-4);
-		break;
-	case GoUp:
-		//do nothing
-		break;
-	case HoldHeight:
-		vy = abs(vx / 2);
-		break;
-	case FallDown:
-		vy = 200; //fall down faster
-		vx /= 4;
-		break;
-	}
+	
+		switch (state)
+		{
+		case Forceburst:
+			vy = abs(vx) * (-4);
+			break;
+		case GoUp:
+			//do nothing: Trung Võ
+			//Noooo: Trung Nguyễn
+			//do Sound
+			if (soundCount >= 1)
+			{
+				SoundManager::GetInstance()->PlaySoundW("Insect.wav");
+				soundCount = 0;
+			}
+			break;
+		case HoldHeight:
+			vy = abs(vx / 2);
+			break;
+		case FallDown:
+			vy = 200; //fall down faster
+			vx /= 4;
+			break;
+		}
+		
 
 	//DebugOut(L"%f\n", vy);
 }

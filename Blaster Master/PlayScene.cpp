@@ -39,12 +39,16 @@
 #include "CameraBoundaryLib.h"
 #include "PInput.h"
 #include "ForegroundTile.h"
+#include "SoundManager.h"
 
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
+}
+CPlayScene::~CPlayScene() {
+	SoundManager::GetInstance()->Release();
 }
 
 /*

@@ -30,7 +30,8 @@ void Spike::Update(float dt)
 	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(20);
+		//dynamic_cast<DynamicObject*>(player)->TakeDamage(20);
+		DebugOut(L"Set Damage for Big Jason, this can be use in both scene \n");
 	}
 }
 

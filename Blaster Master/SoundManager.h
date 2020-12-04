@@ -43,5 +43,6 @@ public:
 	static SoundManager* GetInstance();
 
 	void PlaySoundW(std::string filename);
+	void PlaySoundInfinite(std::string filename);
 	void Release();
 };

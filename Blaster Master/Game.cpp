@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "InteriorScene.h"
 #include <fstream>
+#include "SoundManager.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -254,5 +255,11 @@ void CGame::SwitchScene(int scene_id)
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
+	if (scene_id == 1) //Main scene
+	{
+		SoundManager::GetInstance()->PlaySoundInfinite("ThemeSong.wav");
+	}
+	else //interior 
+		SoundManager::GetInstance()->PlaySoundInfinite("InteriorTheme.wav");
 	s->Load();
 }

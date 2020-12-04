@@ -22,6 +22,7 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	this->sophia = sophia;
 	HP = currentHealth;
 	switchDelay = GetTickCount64();
+	
 	SoundManager::GetInstance()->PlaySoundW("swapSophiaAndJason.wav");
 }
 

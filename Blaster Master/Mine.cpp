@@ -89,6 +89,7 @@ void Mine::TakeDamage(int dmg)
 	if (HP < 0)
 	{
 		HP = 0;
+		SoundManager::GetInstance()->PlaySoundW("MineExplosion.wav");
 	}
 	if (HP == 0)
 	{

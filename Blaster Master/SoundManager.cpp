@@ -145,9 +145,37 @@ void SoundManager::PlaySoundW(std::string filename)
     XAUDIO2_BUFFER buffer = { 0 };
 
     HRESULT hr;
-
+    buffer.LoopCount = XAUDIO2_NO_LOOP_REGION;
     hr = LoadAudioDataFile(DefaultSoundPath + filename, wfx, buffer);
+    if (hr != S_OK)
+    {
+        DebugOut(L"Fail to load Audio Data file: %d\n", hr);
+        return;
+    }
+    if (FAILED(hr = pXAudio2->CreateSourceVoice(&pSourceVoice, (WAVEFORMATEX*)&wfx)))
+    {
+        DebugOut(L"Fail to create Source Voice: %d\n", hr);
+    }
 
+    if (FAILED(hr = pSourceVoice->SubmitSourceBuffer(&buffer)))
+    {
+        DebugOut(L"Fail to submit Source Voice: %d\n", hr);
+    }
+
+    if (FAILED(hr = pSourceVoice->Start(0)))
+    {
+        DebugOut(L"Fail to start Source Voice: %d\n", hr);
+    }
+    
+}
+void SoundManager::PlaySoundInfinite(std::string filename)
+{
+    WAVEFORMATEXTENSIBLE wfx = { 0 };
+    XAUDIO2_BUFFER buffer = { 0 };
+
+    HRESULT hr;
+    buffer.LoopCount = XAUDIO2_LOOP_INFINITE;
+    hr = LoadAudioDataFile(DefaultSoundPath + filename, wfx, buffer);
     if (hr != S_OK)
     {
         DebugOut(L"Fail to load Audio Data file: %d\n", hr);
@@ -168,7 +196,10 @@ void SoundManager::PlaySoundW(std::string filename)
     {
         DebugOut(L"Fail to start Source Voice: %d\n", hr);
     }
-    buffer.LoopCount = XAUDIO2_LOOP_INFINITE;
+    if (FAILED(hr = pSourceVoice->SetVolume(0.5)))
+    {
+        DebugOut(L"Fail to start Source Voice: %d\n", hr);
+    }
 }
 
 void SoundManager::Release()
