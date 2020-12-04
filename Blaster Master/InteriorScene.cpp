@@ -98,8 +98,8 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 	{
 		BigGate* bg = new BigGate();
 
-		x = atof(tokens[1].c_str()) * 16;
-		y = atof(tokens[2].c_str()) * 16;
+		x = (float)atof(tokens[1].c_str()) * 16;
+		y = (float)atof(tokens[2].c_str()) * 16;
 
 		bg->shift_direction = D3DXVECTOR2(atoi(tokens[3].c_str()), atoi(tokens[4].c_str()));
 
@@ -158,6 +158,24 @@ void InteriorScene::UpdateSwitchSection(float dt)
 	ApllyVelocityToGameObjs(dt);
 
 	#pragma endregion
+
+
+	// at the first of shifting we snap the feet of player to correct position of gate
+	if (countingTime1 == 0)
+	{
+		// magic number 10: distance from center of player to its feet
+		if (gate->shift_direction.x != 0)
+		{
+			player->SetPosition(player->GetPosition().x,
+								gate->GetPosition().y - 10);
+		}
+
+		if (gate->shift_direction.y != 0)
+		{
+			player->SetPosition(gate->GetPosition().x,
+								player->GetPosition().y);
+		}
+	}
 
 	countingTime1 += dt;
 
@@ -261,7 +279,6 @@ void InteriorScene::UpdateSwitchSection(float dt)
 
 		Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 
-		Camera::GetInstance()->SetPosition(cameraPosition.x + gate->teleport_delta.x, cameraPosition.y + gate->teleport_delta.y);
 
 		state = State::_PLAYSCENE_FREE_PLAYING_;
 	}
