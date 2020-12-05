@@ -2,14 +2,21 @@
 #include "Utils.h"
 #include "BigJason.h"
 #include "Camera.h"
+#include "Canon.h"
+#include "Spike.h"
 #include "CameraBoundaryLib.h"
 #include "Teleporter.h"
 #include "Rock.h"
+#include  "SoundManager.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
 	CPlayScene(id, filePath)
 {
+}
+InteriorScene::~InteriorScene()
+{
+	SoundManager::GetInstance()->Release();
 }
 
 void InteriorScene::_ParseSection_OBJECTS(string line)
@@ -55,6 +62,9 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		obj = new BigJason();
 		player = dynamic_cast<DynamicObject*>(obj);
 		break;
+	case 11:
+		obj = new Canon();
+		break;
 	case 76:
 	{
 		FRECT cameraBoundingBox;
@@ -65,6 +75,12 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 
 		CameraBoundaryLib::AddCameraBoundary(tokens[1], cameraBoundingBox);
 		return;
+	}
+	case 23:
+	{
+		int length = atoi(tokens[3].c_str());
+		obj = new Spike(length);
+		break;
 	}
 	}
 

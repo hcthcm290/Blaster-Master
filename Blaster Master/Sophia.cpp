@@ -10,6 +10,7 @@
 #include "VisionBox.h"
 #include "Camera.h"
 #include "PInput.h"
+#include "SoundManager.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -66,6 +67,10 @@ Sophia::Sophia()
 	start_shift = GetTickCount();
 }
 
+Sophia::~Sophia()
+{
+	SoundManager::GetInstance()->Release();
+}
 FRECT Sophia::GetCollisionBox()
 {
 	FRECT colRect;
@@ -111,6 +116,7 @@ void Sophia::Update(float dt)
 		if (state != STATE_SOPHIA_DIE && state != 20000)
 		{
 			state = STATE_SOPHIA_DIE;
+			SoundManager::GetInstance()->PlaySoundW("SophiaDie.wav");
 			die = GetTickCount();
 		}
 		else
@@ -252,6 +258,7 @@ void Sophia::Update(float dt)
 
 		if (PInput::KeyPressed(JUMP) && canJump)
 		{
+			SoundManager::GetInstance()->PlaySoundW("BigObjectJump.wav");
 			vy = -240;
 			onTheGround = false;
 			canJump = false;
@@ -339,6 +346,7 @@ void Sophia::Update(float dt)
 		if (onTheGround && PInput::KeyDown(SHIFT) && (GetTickCount64() - switchDelay >= 1000))
 		{
 			jason = new Jason(JasonCurrentHealth, x, y - 10, this);
+
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(jason);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(jason);
 			state = STATE_SOPHIA_SHIFT;
@@ -537,6 +545,7 @@ void Sophia::Render()
 	{
 		animator->Draw(state, x, y - 4, flipX);
 		return;
+		SoundManager::GetInstance()->Release();
 	}
 	if (moving)
 	{
@@ -616,6 +625,7 @@ void Sophia::TakeDamage(int dmg)
 	if (invincible <= 0)
 	{
 		this->HP -= dmg;
+		SoundManager::GetInstance()->PlaySoundW("JasonGotHit_Outside.wav");
 		/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)
 			vx = -150;*/
 		invincible = 500;
@@ -635,6 +645,7 @@ bool Sophia::isInvincible()
 }
 
 void Sophia::Awake(int JasonHealth) {
+	SoundManager::GetInstance()->PlaySoundW("swapSophiaAndJason.wav");
 	state = STATE_SOPHIA_SHIFT;
 	switchDelay = GetTickCount64();
 	JasonCurrentHealth = JasonHealth;

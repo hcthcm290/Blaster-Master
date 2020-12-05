@@ -40,6 +40,7 @@ void AGR_Orb::OnCollisionEnter(CollisionEvent e)
 		{
 			vx = orbSpeed;
 		}
+		fly = false;
 	}
 }
 
@@ -57,15 +58,15 @@ void AGR_Orb::Update(float dt)
 		trigger = true;
 	if (distance < 100)
 		trigger = true;
-	if (trigger)
+	if ((y - Character_Y) > 30) fly = false;
+	if (trigger&& fly)
 	{
 		this->state = orbFly;
-		float module = sqrt(pow(Character_X - x, 2) + pow(Character_Y - y, 2));
-		float direction_X = float(Character_X - x) / module;
-		float direction_Y = float(Character_Y - y) / module;
+		float modulo = sqrt(pow(Character_X - x, 2) + pow(Character_Y - y, 2));
+		float direction_X = float(Character_X - x) / modulo;
+		float direction_Y = float(Character_Y - y) / modulo;
 		this->SetVelocity(direction_X * orbSpeed, direction_Y * orbSpeed);
 	}
-	
 
 	if (CollisionSystem::CheckOverlap(this, player))
 	{

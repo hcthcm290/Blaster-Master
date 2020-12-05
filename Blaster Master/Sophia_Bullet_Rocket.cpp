@@ -7,7 +7,7 @@
 #include "Camera.h"
 #include "Enemy.h"
 #include "VisionBox.h"
-
+#include "SoundManager.h"
 #define SOPHIA_BULLET_H_LR 29601
 
 int Sophia_Bullet_Rocket::count = 0;
@@ -43,6 +43,7 @@ Sophia_Bullet_Rocket::Sophia_Bullet_Rocket(bool flipX, int num)
 	count++;
 	vx = 0;
 	vy = 0;
+	SoundManager::GetInstance()->PlaySoundW("3Missile.wav");
 }
 
 FRECT Sophia_Bullet_Rocket::GetCollisionBox()

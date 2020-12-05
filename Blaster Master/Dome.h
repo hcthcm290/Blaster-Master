@@ -8,7 +8,7 @@ class Dome : public DynamicObject, public Enemy
 private:
 	D3DXVECTOR2 gravity;
 	D3DXVECTOR2 direction;
-
+	float soundCount = 1;
 	float movingSpeed = 50;
 	float flyingSpeed = 200;
 

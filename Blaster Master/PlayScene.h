@@ -63,6 +63,7 @@ protected:
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);
+	~CPlayScene();
 	void AddGameObjectToScene(CGameObject* obj);
 	bool GameObjectIsInScene(CGameObject* obj);
 	void RemoveGameObjectFromScene(CGameObject* obj);

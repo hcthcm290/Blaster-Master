@@ -6,6 +6,7 @@
 #include "Orb.h"
 #include "Utils.h"
 #include "Explosive.h"
+#include "SoundManager.h"
 
 Jumper::Jumper()
 {
@@ -50,32 +51,6 @@ void Jumper::Update(float dt)
 	{
 		dynamic_cast<DynamicObject*>(player)->TakeDamage(7);
 	}
-	//if (!canJump)
-	//{
-	//	                         
-	//	if (onTheGround)
-	//	{
-	//		DebugOut(L"OnTheGround\n");
-	//	}
-	//	else
-	//	{
-	//		DebugOut(L"not OnTheGround\n");
-	//	}
-	//}
-
-	///*DebugOut(L"%f\n", waitForJump);
-	//DebugOut(L"count %d\n", jumpCount);
-	
-	/*if (!onTheGround)
-	{
-		jumpTime -= dt;
-
-		if (jumpTime <= 0 && vy < 0)
-		{
-			vy = 0;
-			accelerateY = 700;
-		}
-	}*/
 
 	float Character_X = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
 	float Character_Y = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().y;
@@ -108,6 +83,7 @@ void Jumper::Update(float dt)
 		DebugOut(L"Jump %d", jumpCount);
 		canJump = true;
 		mini_waitForJump = -99;
+		SoundManager::GetInstance()->PlaySoundW("JumperJump.wav");
 	}
 	if (jumpCount == 0)
 	{

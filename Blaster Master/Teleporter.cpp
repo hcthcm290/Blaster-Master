@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Explosive.h"
 #include "Rock.h"
+#include "SoundManager.h"
 
 #define TELEPORTER_TELE 21001
 #define TELEPORTER_START 21002
@@ -36,6 +37,7 @@ void Teleporter::OnCollisionEnter(CollisionEvent e)
 {
 	
 }
+
 void Teleporter::Update(float dt)
 {
 	CGameObject* player = dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
@@ -163,6 +165,8 @@ void Teleporter::Update(float dt)
 void Teleporter::Render()
 {
 	animator->Draw(state, x, y, false);
+	//Enable this when moving : Trung Nguyễn Sound
+	//SoundManager::GetInstance()->PlaySoundW("TeleporterMoving.wav");
 }
 void Teleporter::TakeDamage(int dmg)
 {
@@ -180,4 +184,5 @@ void Teleporter::TakeDamage(int dmg)
 	{
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
+	
 }

@@ -2,6 +2,8 @@
 #include "Animator.h"
 #include "PInput.h"
 #include "Debug.h"
+#include "Grenade.h"
+#include "PlayScene.h"
 #define I_JASON_IDLE_DOWN 29901
 #define I_JASON_IDLE_UP 29902
 #define I_JASON_IDLE_SIDE 29903
@@ -164,6 +166,47 @@ void BigJason::Update(float dt)
 			}
 		}
 		bulletManager->Fire(x, y, dx, dy);
+	}
+	if (DInput::KeyPress(DIK_C)&& keypress)
+	{
+		DynamicObject* obj = NULL;
+		obj = new Grenade(false);
+		obj->SetPosition(x, y);
+		obj->SetVelocity(0, 150);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+		keypress = false;
+	}
+	if (DInput::KeyPress(DIK_V) && keypress)
+	{
+		DynamicObject* obj = NULL;
+		obj = new Grenade(false);
+		obj->SetPosition(x, y+12);
+		obj->SetVelocity(0, -150);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+		keypress = false;
+	}
+	
+	if (DInput::KeyPress(DIK_X) && keypress)
+	{
+		DynamicObject* obj = NULL;
+		obj = new Grenade(true);
+		obj->SetPosition(x, y);
+		obj->SetVelocity(-300, 100);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+		keypress = false;
+	}
+	if (DInput::KeyPress(DIK_N) && keypress)
+	{
+		DynamicObject* obj = NULL;
+		obj = new Grenade(true);
+		obj->SetPosition(x, y);
+		obj->SetVelocity(300, 100);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+		keypress = false;
+	}
+	if (!DInput::KeyPress(DIK_N) && !DInput::KeyPress(DIK_X)&& !DInput::KeyPress(DIK_V)&& !DInput::KeyPress(DIK_C))
+	{
+		keypress = true;
 	}
 }
 

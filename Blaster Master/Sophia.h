@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "Jason.h"
@@ -57,7 +57,7 @@ public:
 	void StateChange();
 	void ShootHoming();
 	void ShootRocket();
-
+	~Sophia();// Trung Nguyễn
 	void TakeDamage(int dmg);
 
 	void Awake(int JasonHealth);

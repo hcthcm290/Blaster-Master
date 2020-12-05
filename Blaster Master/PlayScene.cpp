@@ -40,12 +40,16 @@
 #include "PInput.h"
 #include "ForegroundTile.h"
 #include "Rock.h"
+#include "SoundManager.h"
 
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
+}
+CPlayScene::~CPlayScene() {
+	SoundManager::GetInstance()->Release();
 }
 
 /*
@@ -238,9 +242,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 23:
 	{
-		int rotation = atoi(tokens[3].c_str());
-		obj = new Spike(rotation);
-		obj->SetPosition(x, y);
+		int length = atoi(tokens[3].c_str());
+		obj = new Spike(length);
 		break;
 	}
 	case 30: {
