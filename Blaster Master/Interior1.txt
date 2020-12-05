@@ -87,6 +87,10 @@
 77	30	7.5	1	0	0.6	0.8	36	0	0	A2I2	0	0
 77	33	7.5	-1	0	0.6	0.8	-36	0	0	A2I2	0	0
 
+## GATE OUT
+##	x	y	id_target_scene
+81	4	7	1
+
 ## FREE MOVING AREA
 79	0	9	0	10
 

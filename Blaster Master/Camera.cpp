@@ -34,10 +34,7 @@ void Camera::SnapToBoundary()
 
 void Camera::FollowTarget()
 {
-	if (target == NULL)
-	{
-		target = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	}
+	target = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
 	if (target == NULL) return;
 

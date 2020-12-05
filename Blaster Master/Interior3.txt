@@ -80,7 +80,14 @@
 
 ## CAMERA BOUNDARY LIST
 #	#id_sec	left	top	right	bottom
-76	A2I1_1	0	0	15	30
+76	A2I3_1	0	2	15	31
+
+## GATE OUT
+##	x	y	id_target_scene
+81	7	24	1
+
+## FREE MOVING AREA
+79	0	0	0	0
 
 [DEFAULTCAMERA]
 

@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "InteriorScene.h"
 #include <fstream>
+#include "CameraBoundaryLib.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -259,6 +260,7 @@ void CGame::SwitchScene(int scene_id)
 	/*CTextures::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();*/
+	CameraBoundaryLib::ClearLib();
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];

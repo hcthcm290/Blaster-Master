@@ -6,6 +6,7 @@
 #include "Teleporter.h"
 #include "CollisionSystem.h"
 #include "PInput.h"
+#include "InteriorGateOut.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -124,6 +125,18 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 
 		Camera::GetInstance()->SetFreeInteriorMovingArea(freeMovingAreaInterior);
 
+		return;
+	}
+	case 81:
+	{
+		obj = new InteriorGateOut();
+		x = atof(tokens[1].c_str()) * 16;
+		y = atof(tokens[2].c_str()) * 16;
+		dynamic_cast<InteriorGateOut*>(obj)->SetIDTargetScene(atoi(tokens[3].c_str()));
+		break;
+	}
+	default:
+	{
 		return;
 	}
 	}

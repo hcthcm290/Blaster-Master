@@ -187,7 +187,12 @@
     <ClCompile Include="InteriorScene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="SmallGate.cpp" />
+    <ClCompile Include="InteriorGateOut.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallGate.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -386,6 +391,9 @@
       <Filter>Header Files\Playable</Filter>
     </ClInclude>
     <ClInclude Include="SmallGate.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorGateOut.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
   </ItemGroup>

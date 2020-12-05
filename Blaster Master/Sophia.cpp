@@ -617,17 +617,19 @@ void Sophia::Render()
 
 void Sophia::TakeDamage(int dmg)
 {
-	if (invincible <= 0)
-	{
-		this->HP -= dmg;
-		/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)
-			vx = -150;*/
-		invincible = 500;
-		if (HP < 0)
-		{
-			HP = 0;
-		}
-	}
+	//if (invincible <= 0)
+	//{
+	//	this->HP -= dmg;
+	//	/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)
+	//		vx = -150;*/
+	//	invincible = 500;
+	//	if (HP < 0)
+	//	{
+	//		HP = 0;
+	//	}
+
+	//	DebugOut(L"%d\n", HP);
+	//}
 }
 
 bool Sophia::isInvincible()

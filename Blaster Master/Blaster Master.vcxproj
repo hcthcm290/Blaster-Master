@@ -173,6 +173,7 @@
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="ForegroundTile.cpp" />
+    <ClCompile Include="InteriorGateOut.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SmallGate.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="InteriorGateOut.h" />
     <ClInclude Include="InteriorScene.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
