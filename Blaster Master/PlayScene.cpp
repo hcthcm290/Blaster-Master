@@ -1172,4 +1172,5 @@ void CPlayScene::SwitchScene(int id_target_scene)
 	this->id_target_scene = id_target_scene;
 	this->totalFaded = 0;
 	state = State::_PLAYSCENE_FADDING_OUT;
+	PInput::ClearBuffer();
 }
