@@ -90,4 +90,9 @@ public:
 	{
 		__instance->boundary = boundary;
 	}
+
+	void SetFreeInteriorMovingArea(FRECT rect)
+	{
+		freeMovingInterior = rect;
+	}
 };

@@ -114,6 +114,18 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		obj = bg;
 		break;
 	}
+	case 79:
+	{
+		FRECT freeMovingAreaInterior;
+		freeMovingAreaInterior.left = atof(tokens[1].c_str());
+		freeMovingAreaInterior.top = atof(tokens[2].c_str());
+		freeMovingAreaInterior.right = atof(tokens[3].c_str());
+		freeMovingAreaInterior.bottom = atof(tokens[4].c_str());
+
+		Camera::GetInstance()->SetFreeInteriorMovingArea(freeMovingAreaInterior);
+
+		return;
+	}
 	}
 
 	obj->SetPosition(x, y);
