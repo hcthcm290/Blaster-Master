@@ -27,6 +27,9 @@ void Camera::SnapToBoundary()
 	{
 		y -= cameraRECT.bottom - boundary.bottom;
 	}
+
+	x = int(x);
+	y = int(y);
 }
 
 void Camera::FollowTarget()
@@ -38,8 +41,8 @@ void Camera::FollowTarget()
 
 	if (target == NULL) return;
 
-	float deltaX = target->GetPosition().x - x;
-	float deltaY = target->GetPosition().y - y;
+	int deltaX = target->GetPosition().x - x;
+	int deltaY = target->GetPosition().y - y;
 
 	if (dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene()) != NULL)
 	{

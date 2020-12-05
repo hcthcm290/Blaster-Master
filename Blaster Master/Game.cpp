@@ -33,11 +33,11 @@ void CGame::Init(HWND hWnd)
 	RECT r;
 	GetClientRect(hWnd, &r);	// retrieve Window width & height 
 
-	d3dpp.BackBufferHeight = r.bottom + 1;
-	d3dpp.BackBufferWidth = r.right + 1;
+	d3dpp.BackBufferHeight = r.bottom;
+	d3dpp.BackBufferWidth = r.right;
 
-	screenHeight = r.bottom + 1;
-	screenWidth = r.right + 1;
+	screenHeight = r.bottom;
+	screenWidth = r.right;
 
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
@@ -79,10 +79,10 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	D3DXMatrixIdentity(&mat);
 
 	D3DXMATRIX translate;
-	D3DXMatrixTranslation(&translate, (int)x, (int)y, 0);
+	D3DXMatrixTranslation(&translate, (int)(x), (int)(y), 0);
 
 	D3DXMATRIX toCameraView;
-	D3DXMatrixTranslation(&toCameraView, -(int)Camera::GetInstance()->GetCollisionBox().left, -(int)Camera::GetInstance()->GetCollisionBox().top, 0);
+	D3DXMatrixTranslation(&toCameraView, -Camera::GetInstance()->GetCollisionBox().left, -Camera::GetInstance()->GetCollisionBox().top, 0);
 
 	D3DXMATRIX flip;
 	if (!flipX)
@@ -96,6 +96,14 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 
 	D3DXMATRIX rotate;
 	D3DXMatrixRotationAxis(&rotate, new D3DXVECTOR3(0, 0, 1), angle*3.14/180);
+
+	/*translate = translate * toCameraView;
+
+	for (int i = 1; i <= 4; i++)
+		for (int j = 1; j <= 4; j++)
+		{
+			translate[i, j] = int(translate[i, j]);
+		}*/
 
 	mat *= flip;
 	mat *= rotate;

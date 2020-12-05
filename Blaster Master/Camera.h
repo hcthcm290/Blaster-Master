@@ -59,10 +59,10 @@ public:
 	FRECT GetCollisionBox() 
 	{
 		FRECT colRect;
-		colRect.left = int(x - width / 2);
-		colRect.right = int(x + width / 2);
-		colRect.top = int(y - height / 2);
-		colRect.bottom = int(y + height / 2);
+		colRect.left = (int)(x - width / 2);
+		colRect.right = (int)(x + width / 2);
+		colRect.top = (int)(y - height / 2);
+		colRect.bottom = (int)(y + height / 2);
 
 		return colRect;
 	}
