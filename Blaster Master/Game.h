@@ -28,6 +28,9 @@ class CGame
 	int screenWidth;
 	int screenHeight;
 
+	D3DCOLOR overrideColor;
+	bool beingOverrideColor = false;
+
 public:
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX = false, float angle = 0, D3DCOLOR Color = D3DCOLOR_XRGB(255,255,255));
@@ -45,6 +48,10 @@ public:
 	void SwitchScene(int scene_id);
 
 	static CGame* GetInstance();
+
+	void ToggleOverrideColorOn() { this->beingOverrideColor = true; }
+	void ToggleOverrideColorOff() { this->beingOverrideColor = false; }
+	void SetOverrideColor(D3DCOLOR color) { this->overrideColor = color; }
 
 	~CGame();
 };

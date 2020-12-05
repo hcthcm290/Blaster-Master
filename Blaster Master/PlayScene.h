@@ -37,6 +37,11 @@ protected:
 
 	bool canSpawnPlayer = true;
 
+	// switch scene
+	int id_target_scene;
+	float maxFading = 0.4;
+	float totalFaded = 0;
+
 protected:
 	virtual void _ParseSection_TEXTURES(string line);
 	virtual void _ParseSection_SPRITES(string line);
@@ -60,6 +65,8 @@ protected:
 	void BackupPlayableObject();
 	virtual void UpdateFreePlaying(float dt);
 	virtual void UpdateSwitchSection(float dt);
+	virtual void UpdateFaddingIn(float dt);
+	virtual void UpdateFaddingOut(float dt);
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);
@@ -78,4 +85,5 @@ public:
 	void SetPlayer(DynamicObject* newPlayer) { player = newPlayer; }
 
 	void SwitchSection(BigGate* gate);
+	void SwitchScene(int id_target_scene);
 };

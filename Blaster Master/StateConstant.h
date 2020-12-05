@@ -69,6 +69,8 @@ public:
 #pragma region PlayScene
 	static const int _PLAYSCENE_FREE_PLAYING_ = 27001;
 	static const int _PLAYSCENE_SWITCH_SECTION = 27002;
+	static const int _PLAYSCENE_FADDING_IN = 27003;
+	static const int _PLAYSCENE_FADDING_OUT = 27004;
 #pragma endregion
 
 };

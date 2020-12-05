@@ -19,6 +19,6 @@ void SmallGate::Update(float dt)
 		dynamic_cast<Jason*>(player) != NULL &&
 		CollisionSystem::CheckOverlap(this, player))
 	{
-		CGame::GetInstance()->SwitchScene(id_target_scene);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SwitchScene(this->id_target_scene);
 	}
 }

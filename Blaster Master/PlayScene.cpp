@@ -546,6 +546,9 @@ void CPlayScene::Load()
 
 	BackupPlayableObject();
 
+	totalFaded = 0;
+	state = State::_PLAYSCENE_FADDING_IN;
+
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -931,6 +934,42 @@ void CPlayScene::UpdateSwitchSection(float dt)
 	BackupPlayableObject();
 }
 
+void CPlayScene::UpdateFaddingIn(float dt)
+{
+	UpdateFreePlaying(dt);
+
+	totalFaded += dt;
+	if (totalFaded >= maxFading)
+	{
+		CGame::GetInstance()->ToggleOverrideColorOff();
+		state = State::_PLAYSCENE_FREE_PLAYING_;
+		return;
+	}
+
+	int color = 255 * (totalFaded / maxFading);
+
+	CGame::GetInstance()->ToggleOverrideColorOn();
+	CGame::GetInstance()->SetOverrideColor(D3DCOLOR_ARGB(255, color, color, color));
+}
+
+void CPlayScene::UpdateFaddingOut(float dt)
+{
+	totalFaded += dt;
+	if (totalFaded >= maxFading)
+	{
+		CGame::GetInstance()->ToggleOverrideColorOff();
+		CGame::GetInstance()->SwitchScene(id_target_scene);
+		return;
+	}
+
+	int color = 255 * (1 - totalFaded / maxFading);
+
+	if (color < 70) color = 0;
+
+	CGame::GetInstance()->ToggleOverrideColorOn();
+	CGame::GetInstance()->SetOverrideColor(D3DCOLOR_ARGB(255, color, color, color));
+}
+
 void CPlayScene::Update(DWORD dw_dt)
 {
 	CollisionSystem::ClearPairColObjCache();
@@ -950,6 +989,14 @@ void CPlayScene::Update(DWORD dw_dt)
 	else if (state == State::_PLAYSCENE_SWITCH_SECTION)
 	{
 		UpdateSwitchSection(dt);
+	}
+	else if (state == State::_PLAYSCENE_FADDING_IN)
+	{
+		UpdateFaddingIn(dt);
+	}
+	else if (state == State::_PLAYSCENE_FADDING_OUT)
+	{
+		UpdateFaddingOut(dt);
 	}
 }
 
@@ -1118,4 +1165,11 @@ void CPlayScene::SwitchSection(BigGate* gate)
 	deltaShiftX = 0;
 	deltaShiftY = 0;
 	totalShifting = 0;
+}
+
+void CPlayScene::SwitchScene(int id_target_scene)
+{
+	this->id_target_scene = id_target_scene;
+	this->totalFaded = 0;
+	state = State::_PLAYSCENE_FADDING_OUT;
 }

@@ -14,6 +14,6 @@ void InteriorGateOut::OnCollisionEnter(CollisionEvent e)
 {
     if (dynamic_cast<Playable*>(e.pGameObject) != NULL)
     {
-        CGame::GetInstance()->SwitchScene(id_target_scene);
+        dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SwitchScene(this->id_target_scene);
     }
 }

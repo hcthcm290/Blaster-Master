@@ -67,6 +67,9 @@ void CGame::Init(HWND hWnd)
 
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool flipX, float angle, D3DCOLOR Color)
 {
+	if (this->beingOverrideColor)
+		Color = overrideColor;
+
 	D3DXVECTOR3 p(0, 0, 0);
 	RECT r;
 	r.left = left;
