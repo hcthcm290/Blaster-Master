@@ -26,6 +26,8 @@ protected:
 	DWORD die;
 	Jason_BulletManager* bulletManager = new Jason_BulletManager();
 	bool keypress = true;
+
+	DWORD lastGrenadeTime;
 public:
 	BigJason();
 	void Update(float dt);
