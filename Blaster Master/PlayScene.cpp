@@ -40,6 +40,7 @@
 #include "PInput.h"
 #include "ForegroundTile.h"
 #include "SmallGate.h"
+#include "Eyeball_Spawner.h"
 
 using namespace std;
 
@@ -264,6 +265,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Ladder(height);
 		break;
 	}
+	
 	}
 
 	// General object setup
@@ -566,6 +568,18 @@ void CPlayScene::AddGameObjectToScene(CGameObject* obj)
 		{
 			sceneObjects[mapBlockID].emplace_back(obj);
 		}
+	}
+}
+
+bool CPlayScene::GameObjectIsInScene(CGameObject* obj)
+{
+	std::vector<int> listMapBlockID = GetMapBlockID(obj);
+
+	for (auto mapBlockID : listMapBlockID)
+	{
+		auto e = std::find(sceneObjects[mapBlockID].begin(), sceneObjects[mapBlockID].end(), obj);
+
+		return (e != sceneObjects[mapBlockID].end());
 	}
 }
 

@@ -89,6 +89,10 @@ void BigJason::Update(float dt)
 		currentColor = 0;
 	}
 
+	//check 
+	bulletManager->CheckBullet();
+	bulletManager->CheckCheat();
+
 	//phim bam
 	if (PInput::KeyPressed(LEFT) && !PInput::KeyPressed(RIGHT))
 	{
@@ -139,6 +143,13 @@ void BigJason::Update(float dt)
 		}
 	}
 
+	if (PInput::KeyDown(SHOOT)) {
+		int dx = 0;
+		int dy = 0;
+		if (vx != 0) dx = (vx < 0 ? -1 : 1);
+		else if (vy != 0) dy = (vy < 0 ? -1 : 1);
+		bulletManager->Fire(x, y, dx, dy);
+	}
 }
 
 void BigJason::Render()

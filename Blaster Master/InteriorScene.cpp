@@ -7,6 +7,7 @@
 #include "CollisionSystem.h"
 #include "PInput.h"
 #include "InteriorGateOut.h"
+#include "Eyeball_Spawner.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -113,6 +114,14 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 
 
 		obj = bg;
+		break;
+	}
+	case 9: {
+		int l = atoi(tokens[3].c_str());
+		int t = atoi(tokens[4].c_str());
+		int r = atoi(tokens[5].c_str());
+		int b = atoi(tokens[6].c_str());
+		obj = new EyeballSpawner((float)l, (float)t, (float)r, (float)b);
 		break;
 	}
 	case 79:

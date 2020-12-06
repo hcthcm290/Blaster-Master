@@ -73,4 +73,15 @@ public:
 	static const int _PLAYSCENE_FADDING_OUT = 27004;
 #pragma endregion
 
+#pragma region Explosion Interior
+	static const int _EXPLOSION_INTERIOR_ = 25000;
+#pragma endregion
+
+#pragma region Bullet Jason Interior
+	static const int _BULLET_JASON_INTERIOR_ = 25100;
+#pragma endregion
+
+#pragma region Eyeball
+	static const int _EYEBALL_ = 20900;
+#pragma endregion
 };

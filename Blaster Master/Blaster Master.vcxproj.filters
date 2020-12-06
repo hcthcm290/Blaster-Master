@@ -34,9 +34,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Sprites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,9 +90,6 @@
     </ClCompile>
     <ClCompile Include="Explosive.cpp">
       <Filter>Source Files\Explosion</Filter>
-    </ClCompile>
-    <ClCompile Include="Eyeball.cpp">
-      <Filter>Source Files\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Floater.cpp">
       <Filter>Source Files\Enemy</Filter>
@@ -191,6 +185,30 @@
       <Filter>Source Files\Other</Filter>
     </ClCompile>
     <ClCompile Include="SmallGate.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion_Interior.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet_Jason_Interior.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="Jason_BulletManager_Interior.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="BigJason.cpp">
+      <Filter>Source Files\Playable</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorScene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Eyeball_Linear.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="Eyeball_Spawner.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerItem.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
   </ItemGroup>
@@ -300,9 +318,6 @@
     <ClInclude Include="Explosive.h">
       <Filter>Header Files\Explosion</Filter>
     </ClInclude>
-    <ClInclude Include="Eyeball.h">
-      <Filter>Header Files\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Floater.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
@@ -396,6 +411,21 @@
     <ClInclude Include="InteriorGateOut.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet_Jason_Interior.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion_Interior.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Jason_BulletManager_Interior.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball_Linear.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball_Spawner.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png" />
@@ -463,6 +493,12 @@
     </Filter>
     <Filter Include="Source Files\Scene">
       <UniqueIdentifier>{fdacc922-3093-45f4-93e1-0b287f43aa33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interior">
+      <UniqueIdentifier>{85d5e818-957e-475f-a524-5dcca30bc5a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Interior">
+      <UniqueIdentifier>{282443a2-c37e-4227-a53a-36d30cda1274}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
