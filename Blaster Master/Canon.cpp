@@ -3,9 +3,11 @@
 #include "Canon_Bullet.h"
 #include "Debug.h"
 #include "SoundManager.h"
+#include "InteriorScene.h"
 
 Canon::Canon()
 {
+	HP = 50;
 	animator = new Animator_Canon();
 	animator->AddAnimation(canon);
 	animator->AddAnimation(canonHor);
@@ -14,6 +16,12 @@ Canon::Canon()
 }
 void Canon::Update(float dt)
 {
+	CGameObject* player = dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(8);
+	}
 	if (waitForShot >= 0.6)
 	{
 		if (verFirst)
@@ -60,7 +68,7 @@ void Canon::Update(float dt)
 
 void Canon::Render()
 {
-		animator->Draw(state, x, y, false);
+	animator->Draw(state, x, y, false);
 
 }
 FRECT Canon::GetCollisionBox()

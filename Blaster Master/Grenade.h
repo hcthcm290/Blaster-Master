@@ -17,5 +17,6 @@ public:
 	void Render();
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
+	void DealDamage();
 };
 #pragma once

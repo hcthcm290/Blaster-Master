@@ -184,5 +184,4 @@ void Teleporter::TakeDamage(int dmg)
 	{
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
-	
 }

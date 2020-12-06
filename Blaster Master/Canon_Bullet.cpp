@@ -4,6 +4,7 @@
 #include "Debug.h"
 #include "Canon_Bullet.h"
 #include "Explosive_Cannon_Bullet.h"
+#include "BigJason.h"
 
 Canon_Bullet::Canon_Bullet()
 {
@@ -20,10 +21,11 @@ void Canon_Bullet::Update(float dt)
 {
 	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	/*if (CollisionSystem::CheckOverlap(this, player))
+	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(10);
-	}*/
+		boom = true;
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(8);
+	}
 	if (boom)
 	{
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);

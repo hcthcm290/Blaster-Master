@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "SoundManager.h"
+#include "VisionBox.h"
 
 #pragma region Boom
 	class Small_Boom : public CGameObject
@@ -141,6 +142,7 @@ void Grenade::Update(float dt)
 		boom = true;
 	if (boom)
 	{
+		DealDamage();
 		this->Remove();
 	}
 }
@@ -158,9 +160,8 @@ FRECT Grenade::GetCollisionBox() {
 void Grenade::OnCollisionEnter(CollisionEvent e) {
 	if (dynamic_cast<Enemy*>(e.pGameObject))
 	{
-		//if (livingTine<=0|| boom) 
+		DealDamage();
 		//dynamic_cast<DynamicObject*>(e.pGameObject)->TakeDamage(20);
-		
 	}
 	else
 	{
@@ -170,4 +171,21 @@ void Grenade::OnCollisionEnter(CollisionEvent e) {
 			vy = 0;
 		}
 	}
+}
+
+void Grenade::DealDamage()
+{
+	CGameObject* vision = new VisionBox(x - 16, x + 16, y - 16, y + 16);
+
+	for (auto enemy : dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetOnScreenObjs())
+	{
+		if (dynamic_cast<Enemy*>(enemy) != nullptr)
+		{
+			if (CollisionSystem::CheckOverlap(enemy, vision))
+			{
+				dynamic_cast<DynamicObject*>(enemy)->TakeDamage(10);
+			}
+		}
+	}
+	delete vision;
 }

@@ -34,8 +34,15 @@ void Ship::OnCollisionEnter(CollisionEvent e)
 
 void Ship::Update(float dt)
 {
-	float Character_X = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
-	float Character_Y = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().y;
+	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(8);
+	}
+
+	float Character_X = player->GetPosition().x;
+	float Character_Y = player->GetPosition().y;
 	float min_drc_x = min(abs(x - Character_X), 100);
 	float min_drc_y = min(abs(y - Character_Y), 100);
 	float distance = min(min_drc_x, min_drc_y);
