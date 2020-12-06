@@ -24,10 +24,14 @@
 69	textures\69_JasonBullet.png	255	0	255
 30	textures\30_Lava.png	255	0	255
 31	textures\31_Ladder.png	255	0	255
-23	textures\23_Spike.png	255	255	255
+23	textures\23_Spike.png	255	0	255
+60	textures\60_HealthBar.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+# GUI
+# HEALTHBAR
+16000	0	0	8	49	60
 
 # OBJECT
 # POWER

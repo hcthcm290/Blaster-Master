@@ -15,6 +15,7 @@
 BigJason::BigJason()
 {
 	HP = 40;
+	maxHP = HP;
 	state = I_JASON_IDLE_DOWN;
 	animator = new Animator();
 	animator->AddAnimation(29901);

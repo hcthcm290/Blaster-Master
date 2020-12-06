@@ -26,7 +26,7 @@ private:
 	/// </summary>
 	FRECT freeMovingArea;
 	FRECT freeMovingInterior = FRECT(0, -30, 0, -28);
-	FRECT freeMovingSideview = FRECT(-50, -50, 20, 20);
+	FRECT freeMovingSideview = FRECT(-10, -50, 20, 20);
 
 private:
 	void SnapToBoundary();

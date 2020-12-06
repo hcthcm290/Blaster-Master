@@ -154,9 +154,6 @@
     <ClCompile Include="Ship.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerItem.cpp">
-      <Filter>Source Files\Other Objects</Filter>
-    </ClCompile>
     <ClCompile Include="BigGate.cpp">
       <Filter>Source Files\Gates</Filter>
     </ClCompile>
@@ -210,6 +207,10 @@
     </ClCompile>
     <ClCompile Include="PlayerItem.cpp">
       <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerItem.cpp" />
+    <ClCompile Include="HealthBarGUI.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -425,6 +426,9 @@
     </ClInclude>
     <ClInclude Include="Eyeball_Spawner.h">
       <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBarGUI.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

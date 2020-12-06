@@ -41,6 +41,7 @@
 #include "ForegroundTile.h"
 #include "SmallGate.h"
 #include "Eyeball_Spawner.h"
+#include "HealthBarGUI.h"
 
 using namespace std;
 
@@ -551,6 +552,9 @@ void CPlayScene::Load()
 	totalFaded = 0;
 	state = State::_PLAYSCENE_FADDING_IN;
 
+	HealthBarGUI* hpGUI = new HealthBarGUI();
+	GUIObjects.emplace_back(hpGUI);
+
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -802,6 +806,11 @@ void CPlayScene::UpdateFreePlaying(float dt)
 	ApllyVelocityToGameObjs(dt);
 
 	Camera::GetInstance()->Update(dt);
+
+	for (int i = 0; i < GUIObjects.size(); i++)
+	{
+		GUIObjects[i]->Update(dt);
+	}
 }
 
 void CPlayScene::UpdateSwitchSection(float dt)
@@ -1109,6 +1118,11 @@ void CPlayScene::Render()
 	for (auto tile : foregroundTiles)
 	{
 		tile->Render();
+	}
+
+	for (int i = 0; i < GUIObjects.size(); i++)
+	{
+		GUIObjects[i]->Render();
 	}
 }
 

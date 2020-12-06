@@ -11,6 +11,7 @@ Jason::Jason() {
 	animator = new Animator_Jason();
 	currentState = State::_JASON_IDLE_;
 	HP = 40;
+	maxHP = 40;
 }
 
 Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
@@ -20,6 +21,7 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	this->y = y;
 	this->sophia = sophia;
 	HP = currentHealth;
+	maxHP = HP;
 	switchDelay = GetTickCount64();
 }
 
