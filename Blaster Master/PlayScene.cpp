@@ -73,7 +73,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 
 #define OBJECT_TYPE_PORTAL	50
 
-#define MAX_SCENE_LINE 1024
+#define MAX_SCENE_LINE 2048
 
 #pragma region Parse Scene Info
 void CPlayScene::_ParseSection_TEXTURES(string line)

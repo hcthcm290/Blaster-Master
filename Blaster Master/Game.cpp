@@ -7,6 +7,7 @@
 #include "InteriorScene.h"
 #include <fstream>
 #include "CameraBoundaryLib.h"
+#include "MovieScene.h"
 
 CGame* CGame::__instance = NULL;
 

@@ -182,6 +182,7 @@
     <ClCompile Include="InteriorGateOut.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
     <ClCompile Include="Jason_BulletManager_Interior.cpp" />
+    <ClCompile Include="MovieScene.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SmallGate.cpp" />
     <ClCompile Include="Sophia_Bullet_Rocket.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="InteriorGateOut.h" />
     <ClInclude Include="InteriorScene.h" />
     <ClInclude Include="Jason_BulletManager_Interior.h" />
+    <ClInclude Include="MovieScene.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
     <ClInclude Include="PlayerBullet.h" />
