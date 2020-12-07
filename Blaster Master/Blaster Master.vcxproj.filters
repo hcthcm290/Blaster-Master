@@ -209,11 +209,14 @@
       <Filter>Source Files\Other</Filter>
     </ClCompile>
     <ClCompile Include="PlayerItem.cpp" />
-    <ClCompile Include="HealthBarGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TheEye.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBarGUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticGUI.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -430,11 +433,14 @@
     <ClInclude Include="Eyeball_Spawner.h">
       <Filter>Header Files\Interior</Filter>
     </ClInclude>
-    <ClInclude Include="HealthBarGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TheEye.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBarGUI.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticGUI.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -525,6 +531,12 @@
     </Filter>
     <Filter Include="Source Files\Interior">
       <UniqueIdentifier>{282443a2-c37e-4227-a53a-36d30cda1274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{e6584ec6-3037-441c-a7d8-3ca1b176be30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{a91b27e0-e012-41a0-a990-26b5154f4688}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -177,6 +177,11 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 
 void Jason::Render()
 {
+	if (animator == NULL)
+	{
+		animator = new Animator_Jason;
+	}
+
 	flipX = (horizontalMove != 0 ? horizontalMove == -1 : flipX);
 	SetNewState();
 

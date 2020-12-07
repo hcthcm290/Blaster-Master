@@ -75,4 +75,5 @@ public:
 	void TakeDamage(int dmg);
 
 	int GetState() { return currentState; }
+
 };

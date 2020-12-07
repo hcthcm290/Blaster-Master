@@ -9,6 +9,7 @@
 #include "InteriorGateOut.h"
 #include "Eyeball_Spawner.h"
 #include "TheEye.h"
+#include "HealthBarGUI.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -355,4 +356,10 @@ void InteriorScene::UpdateFaddingOut(float dt)
 
 	CGame::GetInstance()->ToggleOverrideColorOn();
 	CGame::GetInstance()->SetOverrideColor(D3DCOLOR_ARGB(255, color, color, color));
+}
+
+void InteriorScene::InitGUI()
+{
+	HealthBarGUI* hpGUI = new HealthBarGUI();
+	GUIObjects.emplace_back(hpGUI);
 }

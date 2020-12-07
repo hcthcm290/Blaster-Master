@@ -14,4 +14,5 @@ protected:
 	virtual void _ParseSection_OBJECTS(string line);
 	virtual void UpdateSwitchSection(float dt);
 	virtual void UpdateFaddingOut(float dt);
+	virtual void InitGUI();
 };

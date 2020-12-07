@@ -221,6 +221,7 @@
     <ClCompile Include="Sophia_Bullet_1.cpp" />
     <ClCompile Include="Sophia_Bullet_Homing.cpp" />
     <ClCompile Include="Sprites.cpp" />
+    <ClCompile Include="StaticGUI.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -295,6 +296,7 @@
     <ClInclude Include="Spike.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="StateConstant.h" />
+    <ClInclude Include="StaticGUI.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="Teleporter.h" />
     <ClInclude Include="Textures.h" />

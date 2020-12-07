@@ -26,6 +26,7 @@
 31	textures\31_Ladder.png	255	0	255
 23	textures\23_Spike.png	255	0	255
 60	textures\60_HealthBar.png	255	0	255
+61	textures\61_HovText.png	255	0	2555
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -40,6 +41,9 @@
 16006	48	0	56	49	60
 16007	56	0	64	49	60
 16008	64	0	72	49	60
+
+#HOV TEXT
+16100	0	0	8	17	61
 
 # OBJECT
 # POWER

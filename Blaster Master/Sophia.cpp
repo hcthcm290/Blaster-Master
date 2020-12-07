@@ -541,6 +541,11 @@ void Sophia::StateChange()
 
 void Sophia::Render()
 {
+	if (animator == NULL)
+	{
+		animator = new Animator_Sophia();
+	}
+
 	if (state == STATE_SOPHIA_DIE)
 	{
 		animator->Draw(state, x, y - 4, flipX);

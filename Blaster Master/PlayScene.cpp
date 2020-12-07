@@ -42,6 +42,7 @@
 #include "SmallGate.h"
 #include "Eyeball_Spawner.h"
 #include "HealthBarGUI.h"
+#include "StaticGUI.h"
 
 using namespace std;
 
@@ -402,6 +403,15 @@ void CPlayScene::_ParseSection_MERGEDBRICK(string line)
 	}
 }
 
+void CPlayScene::InitGUI()
+{
+	HealthBarGUI* hpGUI = new HealthBarGUI();
+	GUIObjects.emplace_back(hpGUI);
+
+	StaticGUI* hovText = new StaticGUI(16100, D3DXVECTOR2(-108, 1));
+	GUIObjects.emplace_back(hovText);
+}
+
 void CPlayScene::ReloadSceneObject()
 {
 	unordered_map<CGameObject*, int> listObject;
@@ -552,8 +562,7 @@ void CPlayScene::Load()
 	totalFaded = 0;
 	state = State::_PLAYSCENE_FADDING_IN;
 
-	HealthBarGUI* hpGUI = new HealthBarGUI();
-	GUIObjects.emplace_back(hpGUI);
+	InitGUI();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -1146,6 +1155,20 @@ void CPlayScene::Unload()
 	for (auto& obj : listObject)
 	{
 		delete obj.first;
+	}
+
+	unordered_map<DynamicObject*, int> listPlayable;
+	for (auto& block : playableObjects)
+	{
+		for (auto obj : block.second)
+		{
+			listPlayable[dynamic_cast<DynamicObject*>(obj)] = 1;
+		}
+	}
+
+	for (auto& obj : listPlayable)
+	{
+		obj.first->SetAnimator(NULL);
 	}
 
 	onScreenObjs.clear();
