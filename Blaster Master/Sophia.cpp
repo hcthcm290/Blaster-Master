@@ -10,6 +10,7 @@
 #include "VisionBox.h"
 #include "Camera.h"
 #include "PInput.h"
+#include "TheEye.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -63,6 +64,8 @@ Sophia::Sophia()
 	state = STATE_SOPHIA_IDLE;
 	//animator
 	animator = new Animator_Sophia();
+
+	TheEye::GetInstance()->SetSophia(this);
 }
 
 float Sophia::GetEnterGateSpeed()
@@ -618,19 +621,19 @@ void Sophia::Render()
 
 void Sophia::TakeDamage(int dmg)
 {
-	//if (invincible <= 0)
-	//{
-	//	this->HP -= dmg;
-	//	/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)
-	//		vx = -150;*/
-	//	invincible = 500;
-	//	if (HP < 0)
-	//	{
-	//		HP = 0;
-	//	}
+	if (invincible <= 0)
+	{
+		this->HP -= dmg;
+		/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)
+			vx = -150;*/
+		invincible = 500;
+		if (HP < 0)
+		{
+			HP = 0;
+		}
 
-	//	DebugOut(L"%d\n", HP);
-	//}
+		DebugOut(L"%d\n", HP);
+	}
 }
 
 bool Sophia::isInvincible()

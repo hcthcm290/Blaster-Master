@@ -6,12 +6,15 @@
 #include "ColliableBrick.h"
 #include "Sophia.h"
 #include "PInput.h"
+#include "TheEye.h"
 
 Jason::Jason() {
 	animator = new Animator_Jason();
 	currentState = State::_JASON_IDLE_;
 	HP = 40;
 	maxHP = 40;
+
+	TheEye::GetInstance()->SetJason(this);
 }
 
 Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
@@ -20,9 +23,10 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	this->x = x;
 	this->y = y;
 	this->sophia = sophia;
-	HP = currentHealth;
-	maxHP = HP;
+	HP = currentHealth*50/100;
+	maxHP = currentHealth;
 	switchDelay = GetTickCount64();
+	TheEye::GetInstance()->SetJason(this);
 }
 
 void Jason::Update(float dt)

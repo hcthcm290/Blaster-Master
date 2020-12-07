@@ -3,6 +3,8 @@
 #include "PInput.h"
 #include "Debug.h"
 #include "Game.h"
+#include "TheEye.h"
+
 #define I_JASON_IDLE_DOWN 29901
 #define I_JASON_IDLE_UP 29902
 #define I_JASON_IDLE_SIDE 29903
@@ -25,13 +27,15 @@ BigJason::BigJason()
 	animator->AddAnimation(29905);
 	animator->AddAnimation(29906);
 	animator->AddAnimation(29907);
+
+	TheEye::GetInstance()->SetBigJason(this);
 }
 
 void BigJason::Update(float dt)
 {
 	if (DInput::KeyDown(DIK_P))
 	{
-		CGame::GetInstance()->SwitchScene(1);
+		HP -= 10;
 		return;
 	}
 	//sat thuong

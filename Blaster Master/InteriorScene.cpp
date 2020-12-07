@@ -8,6 +8,7 @@
 #include "PInput.h"
 #include "InteriorGateOut.h"
 #include "Eyeball_Spawner.h"
+#include "TheEye.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -84,6 +85,18 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 	case 99:
 		obj = new BigJason();
 		player = dynamic_cast<DynamicObject*>(obj);
+		
+		if (AdaptJasonHealth)
+		{
+			DynamicObject* Jason = TheEye::GetInstance()->GetJason();
+			float JasonHealthPercent = (float)Jason->GetCurrentHP() / Jason->GetMaxHP();
+			player->SetCurrentHP(player->GetMaxHP()*JasonHealthPercent);
+		}
+		else if (ResetHealth)
+		{
+			player->SetCurrentHP(player->GetMaxHP());
+		}
+
 		break;
 	case 76:
 	{
@@ -319,4 +332,27 @@ void InteriorScene::UpdateSwitchSection(float dt)
 
 	AddGameObjectToScene(player);
 	BackupPlayableObject();
+}
+
+void InteriorScene::UpdateFaddingOut(float dt)
+{
+	totalFaded += dt;
+	if (totalFaded >= maxFading)
+	{
+		// sync the health between big-jason and jason before switching scene
+		float BigJasonHealthPercent = (float)player->GetCurrentHP() / player->GetMaxHP();
+		DynamicObject* Jason = TheEye::GetInstance()->GetJason();
+		Jason->SetCurrentHP(Jason->GetMaxHP() * BigJasonHealthPercent);
+
+		CGame::GetInstance()->ToggleOverrideColorOff();
+		CGame::GetInstance()->SwitchScene(id_target_scene);
+		return;
+	}
+
+	int color = 255 * (1 - totalFaded / maxFading);
+
+	if (color < 70) color = 0;
+
+	CGame::GetInstance()->ToggleOverrideColorOn();
+	CGame::GetInstance()->SetOverrideColor(D3DCOLOR_ARGB(255, color, color, color));
 }

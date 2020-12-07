@@ -212,6 +212,9 @@
     <ClCompile Include="HealthBarGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TheEye.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -430,21 +433,40 @@
     <ClInclude Include="HealthBarGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TheEye.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="D:\DOWNLOAD\P2_Jason.png" />
-    <Image Include="map.png" />
     <Image Include="Sprite\FlyingEye.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="D:\DOWNLOAD\P2_Jason.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="game-info.txt" />
-    <Text Include="scene1.txt" />
-    <Text Include="Interior1.txt" />
-    <Text Include="Interior4.txt" />
-    <Text Include="Interior3.txt" />
-    <Text Include="Interior2.txt" />
+    <Text Include="game-info.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Interior1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Interior2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Interior3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Interior4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="scene1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

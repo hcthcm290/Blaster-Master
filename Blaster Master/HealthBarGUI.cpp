@@ -17,6 +17,10 @@ void HealthBarGUI::Update(float dt)
 
 void HealthBarGUI::Render()
 {
+	int spriteOffset = 8 - currentHP * 8 / maxHP;
+
+	if (spriteOffset < 0 || spriteOffset > 8) return;
+
 	D3DXVECTOR3 cameraPosition = Camera::GetInstance()->GetPosition();
-	CSprites::GetInstance()->Get(16000)->Draw(cameraPosition.x + offset.x, cameraPosition.y + offset.y);
+	CSprites::GetInstance()->Get(16000 + spriteOffset)->Draw(cameraPosition.x + offset.x, cameraPosition.y + offset.y);
 }
