@@ -154,9 +154,6 @@
     <ClCompile Include="Ship.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerItem.cpp">
-      <Filter>Source Files\Other Objects</Filter>
-    </ClCompile>
     <ClCompile Include="BigGate.cpp">
       <Filter>Source Files\Gates</Filter>
     </ClCompile>
@@ -198,6 +195,13 @@
     </ClCompile>
     <ClCompile Include="PlayerItem.cpp">
       <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerItem.cpp" />
+    <ClCompile Include="Eyeball_Curved.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet_Eyeball.cpp">
+      <Filter>Source Files\Interior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +410,12 @@
       <Filter>Header Files\Interior</Filter>
     </ClInclude>
     <ClInclude Include="Eyeball_Spawner.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball_Curved.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet_Eyeball.h">
       <Filter>Header Files\Interior</Filter>
     </ClInclude>
   </ItemGroup>

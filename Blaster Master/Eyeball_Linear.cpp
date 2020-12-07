@@ -2,14 +2,21 @@
 #include "Eyeball_Linear.h"
 #include "PlayScene.h"
 #include "Explosion_Interior.h"
+#include "Debug.h"
 
 EyeballLinear::EyeballLinear(float x, float y, int dx, int dy) {
+	//DebugOut(L"%f %f %d %d\n", x, y, dx, dy);
+	animator = new Animator();
+	animator->AddAnimation(State::_EYEBALL_);
+
 	this->SetPosition(x, y);
 	livingTime = LIVING_TIME;
 
 	int iDeg = rand() % 46; //0 -> 45
 	int iDirection = (rand() % 2 ? 1 : -1); // -1 or 1
-	int iInitAngle;
+	//==> -45 -> 45
+
+	float iInitAngle;
 
 	if (dx != 0) { //go horizontal
 		if (dx < 0) { //go left
@@ -27,10 +34,10 @@ EyeballLinear::EyeballLinear(float x, float y, int dx, int dy) {
 			iInitAngle = -90;
 		}
 	}
-
-	float angle = Deg2Rad(iDeg * iDirection + iInitAngle);
-	vx0 = cos(Deg2Rad(angle));
-	vy0 = -sin(Deg2Rad(angle)); //y-axis is flipped
+	float dAngle = iInitAngle + iDeg * iDirection;
+	
+	vx0 = cos(Deg2Rad(dAngle)) * SPEED;
+	vy0 = -sin(Deg2Rad(dAngle)) * SPEED; //y-axis is flipped
 }
 
 
