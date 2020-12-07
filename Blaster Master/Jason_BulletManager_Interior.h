@@ -22,7 +22,7 @@ private:
 public:
 	Jason_BulletManager();
 	int GetLevel() { return level; }
-	void SetLevel(int l) { level = l; }
+	void SetLevel(int l);
 	void CheckBullet();
 	void Fire(int x,int y,int dx, int dy);
 

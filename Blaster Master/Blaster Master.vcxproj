@@ -177,6 +177,7 @@
     <ClCompile Include="Eyeball_Linear.cpp" />
     <ClCompile Include="Eyeball_Spawner.cpp" />
     <ClCompile Include="ForegroundTile.cpp" />
+    <ClCompile Include="GunBarGUI.cpp" />
     <ClCompile Include="HealthBarGUI.cpp" />
     <ClCompile Include="InteriorGateOut.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Explosion_Interior.h" />
     <ClInclude Include="Eyeball_Linear.h" />
     <ClInclude Include="Eyeball_Spawner.h" />
+    <ClInclude Include="GunBarGUI.h" />
     <ClInclude Include="HealthBarGUI.h" />
     <ClInclude Include="InteriorGateOut.h" />
     <ClInclude Include="InteriorScene.h" />

@@ -62,6 +62,9 @@ private:
 	float flipCountDown = 0.25f;
 	#pragma endregion
 
+private:
+	int bulletPower;
+
 public:
 	Jason();
 	Jason(int currentHealth, int x, int y, DynamicObject* sophia);
@@ -73,7 +76,7 @@ public:
 	float GetEnterGateSpeed();
 	void PushBack(int _vx, int _vy);
 	void TakeDamage(int dmg);
-
 	int GetState() { return currentState; }
-
+	void SetBulletPower(int value) { this->bulletPower = value; }
+	int GetBulletPower() { return this->bulletPower; }
 };

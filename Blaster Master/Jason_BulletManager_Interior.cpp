@@ -8,6 +8,20 @@ Jason_BulletManager::Jason_BulletManager() {
 	bullets.clear();
 }
 
+void Jason_BulletManager::SetLevel(int l)
+{
+	if (l < 1)
+	{
+		l = 1;
+	}
+
+	if (l > 8)
+	{
+		l = 8;
+	}
+	level = l;
+}
+
 void Jason_BulletManager::CheckBullet() {
 	for (int i = 0; i < bullets.size(); i++)			
 		if (bullets[i]->IsExploded() 

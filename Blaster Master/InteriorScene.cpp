@@ -10,6 +10,7 @@
 #include "Eyeball_Spawner.h"
 #include "TheEye.h"
 #include "HealthBarGUI.h"
+#include "GunBarGUI.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -340,10 +341,8 @@ void InteriorScene::UpdateFaddingOut(float dt)
 	totalFaded += dt;
 	if (totalFaded >= maxFading)
 	{
-		// sync the health between big-jason and jason before switching scene
-		float BigJasonHealthPercent = (float)player->GetCurrentHP() / player->GetMaxHP();
-		DynamicObject* Jason = TheEye::GetInstance()->GetJason();
-		Jason->SetCurrentHP(Jason->GetMaxHP() * BigJasonHealthPercent);
+		// Notify the big-jason to sync with jason before switching scene
+		dynamic_cast<BigJason*>(player)->NotifySwitchSceneOut();
 
 		CGame::GetInstance()->ToggleOverrideColorOff();
 		CGame::GetInstance()->SwitchScene(id_target_scene);
@@ -362,4 +361,7 @@ void InteriorScene::InitGUI()
 {
 	HealthBarGUI* hpGUI = new HealthBarGUI();
 	GUIObjects.emplace_back(hpGUI);
+
+	GunBarGUI* gunGUI = new GunBarGUI();
+	GUIObjects.emplace_back(gunGUI);
 }

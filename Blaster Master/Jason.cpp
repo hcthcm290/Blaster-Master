@@ -9,6 +9,17 @@
 #include "TheEye.h"
 
 Jason::Jason() {
+
+	Jason* prevJason = TheEye::GetInstance()->GetJason();
+	if (prevJason == NULL)
+	{
+		bulletPower = 0;
+	}
+	else
+	{
+		bulletPower = prevJason->bulletPower;
+	}
+
 	animator = new Animator_Jason();
 	currentState = State::_JASON_IDLE_;
 	HP = 40;
@@ -23,9 +34,20 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	this->x = x;
 	this->y = y;
 	this->sophia = sophia;
-	HP = currentHealth*50/100;
+	HP = currentHealth;
 	maxHP = currentHealth;
 	switchDelay = GetTickCount64();
+
+	Jason* prevJason = TheEye::GetInstance()->GetJason();
+	if (prevJason == NULL)
+	{
+		bulletPower = 0;
+	}
+	else
+	{
+		bulletPower = prevJason->bulletPower;
+	}
+
 	TheEye::GetInstance()->SetJason(this);
 }
 

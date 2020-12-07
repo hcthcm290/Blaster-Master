@@ -34,4 +34,6 @@ public:
 	bool IsInvulnerable();
 	void TakeDamage(int dmg);
 	float GetEnterGateSpeed();
+	int getGunPower() { return this->bulletManager->GetLevel(); }
+	void NotifySwitchSceneOut();
 };

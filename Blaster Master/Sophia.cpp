@@ -111,6 +111,10 @@ void Sophia::OnCollisionEnter(CollisionEvent e)
 
 void Sophia::Update(float dt)
 {
+	if (animator == NULL)
+	{
+		animator = new Animator_Sophia();
+	}
 	if (DInput::KeyDown(DIK_P))
 	{
 		CGame::GetInstance()->SwitchScene(2);

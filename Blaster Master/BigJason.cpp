@@ -29,13 +29,15 @@ BigJason::BigJason()
 	animator->AddAnimation(29907);
 
 	TheEye::GetInstance()->SetBigJason(this);
+
+	bulletManager->SetLevel(TheEye::GetInstance()->GetJason()->GetBulletPower());
 }
 
 void BigJason::Update(float dt)
 {
 	if (DInput::KeyDown(DIK_P))
 	{
-		HP -= 10;
+		this->bulletManager->SetLevel(this->bulletManager->GetLevel() + 1);
 		return;
 	}
 	//sat thuong
@@ -185,4 +187,13 @@ void BigJason::TakeDamage(int dmg)
 float BigJason::GetEnterGateSpeed()
 {
 	return 40;
+}
+
+void BigJason::NotifySwitchSceneOut()
+{
+	float BigJasonHealthPercent = (float)GetCurrentHP() / GetMaxHP();
+	DynamicObject* jason = TheEye::GetInstance()->GetJason();
+	jason->SetCurrentHP(jason->GetMaxHP() * BigJasonHealthPercent);
+
+	dynamic_cast<Jason*>(jason)->SetBulletPower(bulletManager->GetLevel());
 }
