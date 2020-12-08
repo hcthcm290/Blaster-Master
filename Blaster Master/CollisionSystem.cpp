@@ -9,11 +9,17 @@
 #include "Jason.h"
 #include "Debug.h"
 #include "Intangibility.h"
+#include "Sophia.h"
 
 unordered_map<CGameObject*, CGameObject*> CollisionSystem::listPairMessagedColObj;
 
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
+	if (dynamic_cast<Sophia*>(movingObj) != NULL)
+	{
+		DebugOut(L"Delete this");
+	}
+
 	FixPreOverlapped(movingObj, anotherObjs);
 
 	vector<LPCOLLISION> collisions;
@@ -68,7 +74,7 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	auto movingObjVEL = movingObj->GetVelocity();
 	auto movingObjPOS = movingObj->GetPosition();
 
-	movingObj->SetPosition(movingObjPOS.x + nx_pushback * 0.2, movingObjPOS.y + ny_pushback * 0.2);
+	movingObj->SetPosition(movingObjPOS.x + nx_pushback * 0.1, movingObjPOS.y + ny_pushback * 0.1);
 	movingObj->SetVelocity(movingObjVEL.x * dtx_Percent, movingObjVEL.y * dty_Percent);
 
 	if (filteredCol.first.size() != 0)
