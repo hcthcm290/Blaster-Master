@@ -2,6 +2,8 @@
 #include "Animator.h"
 #include "PInput.h"
 #include "Debug.h"
+#include "Grenade.h"
+#include "PlayScene.h"
 #include "Game.h"
 #include "TheEye.h"
 
@@ -31,6 +33,7 @@ BigJason::BigJason()
 	TheEye::GetInstance()->SetBigJason(this);
 
 	bulletManager->SetLevel(TheEye::GetInstance()->GetJason()->GetBulletPower());
+	lastGrenadeTime = GetTickCount();
 }
 
 void BigJason::Update(float dt)
@@ -40,6 +43,10 @@ void BigJason::Update(float dt)
 		this->bulletManager->SetLevel(this->bulletManager->GetLevel() + 1);
 		return;
 	}
+	//check 
+	bulletManager->CheckBullet();
+	bulletManager->CheckCheat();
+
 	//sat thuong
 	if (HP == 0)
 	{
@@ -153,9 +160,71 @@ void BigJason::Update(float dt)
 	if (PInput::KeyDown(SHOOT)) {
 		int dx = 0;
 		int dy = 0;
-		if (vx != 0) dx = (vx < 0 ? -1 : 1);
-		else if (vy != 0) dy = (vy < 0 ? -1 : 1);
+		if (state == I_JASON_WALK_DOWN || state == I_JASON_IDLE_DOWN || state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP)
+		{
+			if (state == I_JASON_WALK_DOWN || state == I_JASON_IDLE_DOWN)
+			{
+				dy = 1;
+			}
+			if (state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP)
+			{
+				dy = -1;
+			}
+		}
+		if (state == I_JASON_WALK_SIDE || state == I_JASON_IDLE_SIDE)
+		{
+			if (flipX)
+			{
+				dx = -1;
+			}
+			else
+			{
+				dx = 1;
+			}
+		}
 		bulletManager->Fire(x, y, dx, dy);
+	}
+	if (PInput::KeyPressed(JUMP) && keypress)
+	{
+		if (GetTickCount() - lastGrenadeTime > 200)
+		{
+			lastGrenadeTime = GetTickCount();
+			DynamicObject* obj = NULL;
+			obj = new Grenade(false);
+			obj->SetPosition(x, y);
+			int dx = 0;
+			int dy = 0;
+			if (state == I_JASON_WALK_DOWN || state == I_JASON_IDLE_DOWN || state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP)
+			{
+				if (state == I_JASON_WALK_DOWN || state == I_JASON_IDLE_DOWN)
+				{
+					dy = 1;
+					obj->SetPosition(x, y + 12);
+				}
+				if (state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP)
+				{
+					dy = -1;
+				}
+			}
+			if (state == I_JASON_WALK_SIDE || state == I_JASON_IDLE_SIDE)
+			{
+				if (flipX)
+				{
+					dx = -1;
+				}
+				else
+				{
+					dx = 1;
+				}
+			}
+			obj->SetVelocity(150 * dx, 150 * dy);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+			keypress = false;
+		}
+	}
+	if(!PInput::KeyPressed(JUMP))
+	{
+		keypress = true;
 	}
 }
 

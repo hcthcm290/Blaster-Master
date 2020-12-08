@@ -4,6 +4,7 @@
 #include "Sophia.h"
 #include "Skull_Bullet.h"
 #include "Explosive.h"
+#include "SoundManager.h"
 
 #define SKULL_BULLET_MOVE 27101;
 
@@ -16,7 +17,10 @@ Skull_Bullet::Skull_Bullet()
 	//boolean
 	ex = false;
 	//animator
+
 	animator->AddAnimation(27101);
+
+	SoundManager::GetInstance()->PlaySoundW("SkullBullet.wav");
 }
 
 FRECT Skull_Bullet::GetCollisionBox()

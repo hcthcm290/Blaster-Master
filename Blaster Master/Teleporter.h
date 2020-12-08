@@ -12,11 +12,13 @@ protected:
 	int sx, sy;
 	int ox, oy;
 	FRECT zone;
+	DWORD start_tele;
 public:
 	Teleporter(FRECT zone);
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	void Update(float dt);
 	void Render();
+	void TakeDamage(int dmg);
 };
 

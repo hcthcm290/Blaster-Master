@@ -43,12 +43,17 @@
 #include "Eyeball_Spawner.h"
 #include "HealthBarGUI.h"
 #include "StaticGUI.h"
+#include "Rock.h"
+#include "SoundManager.h"
 
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
+}
+CPlayScene::~CPlayScene() {
+	SoundManager::GetInstance()->Release();
 }
 
 /*
@@ -252,9 +257,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case 23:
 	{
-		int rotation = atoi(tokens[3].c_str());
-		obj = new Spike(rotation);
-		obj->SetPosition(x, y);
+		int length = atoi(tokens[3].c_str());
+		obj = new Spike(length);
 		break;
 	}
 	case 30: {
@@ -1119,6 +1123,7 @@ void CPlayScene::Render()
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
 	{
+		if (dynamic_cast<Rock*>(onScreenObjs[i]) != NULL) { onScreenObjs[i]->Render(); }
 		if (dynamic_cast<ColliableBrick*>(onScreenObjs[i]) != NULL) continue;
 		onScreenObjs[i]->Render();
 	}

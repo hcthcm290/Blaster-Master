@@ -9,7 +9,7 @@ class Insect : public DynamicObject, public Enemy
 private:
 	//FlipX ( true = right, false = left )
 	bool flipX = false;
-
+	float soundCount = 1;
 	int speed = 20;
 	
 	//behaviour

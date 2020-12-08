@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="AGR_Orb.cpp" />
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Animator_Canon.cpp" />
     <ClCompile Include="Animator_Floater.cpp" />
     <ClCompile Include="Animator_Jumper.cpp" />
     <ClCompile Include="Animator_Mine_Explosion.cpp" />
@@ -173,15 +174,19 @@
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="Bullet_Jason_Interior.cpp" />
+    <ClCompile Include="Canon_Bullet.cpp" />
     <ClCompile Include="Explosion_Interior.cpp" />
     <ClCompile Include="Eyeball_Linear.cpp" />
     <ClCompile Include="Eyeball_Spawner.cpp" />
+    <ClCompile Include="Explosive_Cannon_Bullet.cpp" />
     <ClCompile Include="ForegroundTile.cpp" />
+    <ClCompile Include="Grenade.cpp" />
     <ClCompile Include="GunBarGUI.cpp" />
     <ClCompile Include="HealthBarGUI.cpp" />
     <ClCompile Include="InteriorGateOut.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
     <ClCompile Include="Jason_BulletManager_Interior.cpp" />
+    <ClCompile Include="Rock.cpp" />
     <ClCompile Include="MovieScene.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SmallGate.cpp" />
@@ -235,20 +240,26 @@
   <ItemGroup>
     <ClInclude Include="AGR_Orb.h" />
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="Animator_Canon.h" />
+    <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Jason_Interior.h" />
+    <ClInclude Include="Canon_Bullet.h" />
     <ClInclude Include="Explosion_Interior.h" />
     <ClInclude Include="Eyeball_Linear.h" />
     <ClInclude Include="Eyeball_Spawner.h" />
     <ClInclude Include="GunBarGUI.h" />
     <ClInclude Include="HealthBarGUI.h" />
     <ClInclude Include="InteriorGateOut.h" />
+    <ClInclude Include="Explosive_Cannon_Bullet.h" />
+    <ClInclude Include="Grenade.h" />
     <ClInclude Include="InteriorScene.h" />
     <ClInclude Include="Jason_BulletManager_Interior.h" />
     <ClInclude Include="MovieScene.h" />
+    <ClInclude Include="Rock.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
     <ClInclude Include="PlayerBullet.h" />
@@ -311,6 +322,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\DOWNLOAD\P2_Jason.png" />
+    <Image Include="FlyingEye.png" />
     <Image Include="map.png" />
     <Image Include="Sprite\FlyingEye.png" />
   </ItemGroup>

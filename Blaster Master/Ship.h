@@ -7,9 +7,8 @@
 #include "GameObject.h"
 #include "Enemy.h"
 
-#define shipFly State::_FLOATER_FLY_
-#define	shipIdle State::_FLOATER_IDLE_
-#define	shipSpeed State::_FLOATER_SPEED_
+#define shipFly State::_SHIP_FLY_
+#define	shipIdle State::_SHIP_IDLE_
 
 class Ship : public DynamicObject, public Enemy
 {

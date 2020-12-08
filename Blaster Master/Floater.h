@@ -7,7 +7,7 @@
 #include "Enemy.h"
 
 #define floaterFly State::_FLOATER_FLY_
-#define	floaterIdle State::_FLOATER_IDLE_
+#define	floaterShot State::_FLOATER_SHOT_
 #define	floaterSpeed State::_FLOATER_SPEED_
 
 class Floater : public DynamicObject, public Enemy
@@ -17,7 +17,7 @@ private:
 	bool flip = true;
 	bool trigger, fly = true;
 	int shotCount = 0;
-	float waitForShot = 5;
+	float waitForShot = 4.7,maxWait;
 	float mini_waitForShot = 0.5;
 public:
 	Floater();

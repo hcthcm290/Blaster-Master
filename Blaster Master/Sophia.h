@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "DynamicObject.h"
 #include "RigidBody.h"
 #include "Jason.h"
@@ -43,6 +43,8 @@ class Sophia : public DynamicObject, public Playable
 	int JasonCurrentHealth = 100;
 
 	DWORD switchDelay; //avoid switching back and forth so fast
+
+	bool switching = true;
 public:
 	Sophia();
 
@@ -56,7 +58,7 @@ public:
 	void StateChange();
 	void ShootHoming();
 	void ShootRocket();
-
+	~Sophia();// Trung Nguyễn
 	void TakeDamage(int dmg);
 
 	void Awake(int JasonHealth);

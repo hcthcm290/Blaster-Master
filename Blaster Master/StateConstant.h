@@ -34,10 +34,23 @@ public:
 #pragma endregion
 
 #pragma region Floater
-	static const int _FLOATER_IDLE_ = 20201;
+	static const int _FLOATER_SHOT_ = 20201;
 	static const int _FLOATER_FLY_ = 20202;
 	static const int _FLOATER_SPEED_ = 40;
 	static const int _FLOATER_BULLET_ = 22203;
+#pragma endregion
+#pragma region Ship
+
+	static const int _SHIP_FLY_ = 22702;
+	static const int _SHIP_IDLE_ = 22701;
+
+#pragma endregion
+	
+#pragma region Canon
+	static const int _CANON_ = 21101;
+	static const int _CANON_HOR_ = 21102;
+	static const int _CANON_VER_ = 21103;
+	static const int _CANON_BULLET_ = 211101;
 #pragma endregion
 
 #pragma region Orb
@@ -51,7 +64,15 @@ public:
 	static const int _SPIKE_ = 12301;
 #pragma endregion
 
-	static const int _BULLET_JASON_	=	26901;
+
+#pragma region Bullet
+	static const int _Grenade_ = 126101;
+	static const int _Grenade_Small_Boom = 131301;
+	static const int _Grenade_Big_Boom = 132201;
+	static const int _BULLET_JASON_ = 26901;
+#pragma endregion
+
+	
 #pragma endregion
 
 #pragma region Insect

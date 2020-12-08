@@ -79,7 +79,7 @@ void Mine::OnCollisionEnter(CollisionEvent e)
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 
 		// Play Explosion Sound //
-		//SoundManager::GetInstance()->PlaySoundW("Blaster Master SFX (24).wav");
+		SoundManager::GetInstance()->PlaySoundW("MineWaiting.wav");
 	}
 }
 
@@ -89,6 +89,7 @@ void Mine::TakeDamage(int dmg)
 	if (HP < 0)
 	{
 		HP = 0;
+		SoundManager::GetInstance()->PlaySoundW("MineExplosion.wav");
 	}
 	if (HP == 0)
 	{

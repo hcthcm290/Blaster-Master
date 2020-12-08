@@ -222,6 +222,20 @@
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="MovieScene.cpp" />
+    <ClCompile Include="Rock.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Jason_BulletManager_Interior.cpp" />
+    <ClCompile Include="Bullet_Jason_Interior.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion_Interior.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator_Canon.cpp" />
+    <ClCompile Include="Canon_Bullet.cpp" />
+    <ClCompile Include="Explosive_Cannon_Bullet.cpp" />
+    <ClCompile Include="Grenade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -422,14 +436,16 @@
     <ClInclude Include="InteriorGateOut.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Rock.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Jason_BulletManager_Interior.h" />
+    <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Bullet_Jason_Interior.h">
-      <Filter>Header Files\Interior</Filter>
+      <Filter>Header Files\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Explosion_Interior.h">
-      <Filter>Header Files\Interior</Filter>
-    </ClInclude>
-    <ClInclude Include="Jason_BulletManager_Interior.h">
-      <Filter>Header Files\Interior</Filter>
+      <Filter>Header Files\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Eyeball_Linear.h">
       <Filter>Header Files\Interior</Filter>
@@ -452,17 +468,16 @@
     <ClInclude Include="MovieScene.h">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Animator_Canon.h" />
+    <ClInclude Include="Canon_Bullet.h" />
+    <ClInclude Include="Explosive_Cannon_Bullet.h" />
+    <ClInclude Include="Grenade.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="map.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="D:\DOWNLOAD\P2_Jason.png">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <Image Include="FlyingEye.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game-info.txt">

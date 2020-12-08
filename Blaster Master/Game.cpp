@@ -8,6 +8,7 @@
 #include <fstream>
 #include "CameraBoundaryLib.h"
 #include "MovieScene.h"
+#include "SoundManager.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -170,6 +171,7 @@ CGame::~CGame()
 	if (backBuffer != NULL) backBuffer->Release();
 	if (d3ddv != NULL) d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
+	SoundManager::GetInstance()->Release();
 }
 
 
@@ -268,5 +270,11 @@ void CGame::SwitchScene(int scene_id)
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
+	if (scene_id == 1) //Main scene
+	{
+		SoundManager::GetInstance()->PlaySoundInfinite("ThemeSong.wav");
+	}
+	else //interior 
+		SoundManager::GetInstance()->PlaySoundInfinite("InteriorTheme.wav");
 	s->Load();
 }

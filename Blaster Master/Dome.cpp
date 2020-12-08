@@ -1,9 +1,10 @@
-#include "Dome.h"
+﻿#include "Dome.h"
 #include "ColliableBrick.h"
 #include "CollisionSystem.h"
 #include "PlayScene.h"
 #include <time.h>
 #include "Debug.h"
+#include "SoundManager.h"
 
 Dome::Dome(int id_gravity, int id_direction)
 {
@@ -61,7 +62,12 @@ void Dome::Update(float dt)
 	if (currentState == State::_DOME_WALKING_)
 	{
 		flyReloadTime -= dt;
-
+		soundCount += dt;//Count to play sound : Trung Nguyễn
+		if (soundCount >= 1)
+		{
+			soundCount = 0;
+			SoundManager::GetInstance()->PlaySoundW("DomeWalking.wav");
+		}
 		int width = 15;
 		int height = 15;
 
@@ -81,7 +87,7 @@ void Dome::Update(float dt)
 				currentState = State::_DOME_FLYING_;
 				direction.x = std::abs(vectorToTarget.x)/vectorToTarget.x;
 				direction.y = 0;
-
+				SoundManager::GetInstance()->PlaySoundW("DomeFLying.wav");// Trung Nguyễn
 				startFlying = true;
 			}
 
@@ -90,7 +96,7 @@ void Dome::Update(float dt)
 				currentState = State::_DOME_FLYING_;
 				direction.x = 0;
 				direction.y = std::abs(vectorToTarget.y) / vectorToTarget.y;
-
+				SoundManager::GetInstance()->PlaySoundW("DomeFLying.wav");// Trung Nguyễn
 				startFlying = true;
 			}
 

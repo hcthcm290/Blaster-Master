@@ -4,8 +4,8 @@
 #include "ColliableBrick.h"
 #include "Debug.h"
 #include "Floater.h"
-#include "Orb.h"
 #include "Floater_Bullet.h"
+#include "Utils.h"
 
 Floater::Floater()
 {
@@ -14,10 +14,13 @@ Floater::Floater()
 
 	animator = new Animator_Floater();
 	animator->AddAnimation(floaterFly);
-	animator->AddAnimation(floaterIdle);
-	state = floaterIdle;
+	animator->AddAnimation(floaterShot);
+	state = floaterFly;
 	vx = vy = 0;
 	trigger = false;
+	float randWait = RandomFloat(-1, 1);
+	if (randWait < 0) maxWait = 5;
+	else maxWait = 6;
 }
 void Floater::OnCollisionEnter(CollisionEvent e)
 {
@@ -54,13 +57,13 @@ void Floater::Update(float dt)
 	}
 	float Character_X = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;
 	float Character_Y = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().y;
-	float min_drc_x = min(abs(x - Character_X), 100);
-	float min_drc_y = min(abs(y - Character_Y), 100);
+	float min_drc_x = min(abs(x - Character_X), 75);
+	float min_drc_y = min(abs(y - Character_Y), 75);
 	float distance=  min(min_drc_x,min_drc_y);
 	
-	if (x - 100 <= 0.000001 || y - 100 <= 0.000001)
+	if (x - 75 <= 0.000001 || y - 75 <= 0.000001)
 		trigger = true;
-	if ( distance < 100 )
+	if ( distance < 75)
 		trigger = true;
 
 	if (trigger)
@@ -68,27 +71,37 @@ void Floater::Update(float dt)
 		this->state = floaterFly;
 		if (fly)
 		{
-			vx = -floaterSpeed;
-			vy = floaterSpeed;
+			float randDirx = RandomFloat(-1, 1);
+			float randDiry = RandomFloat(-1, 1);
+			if (randDirx > 0) randDirx = 1;
+			else randDirx = -1;
+			if (randDiry > 0) randDiry = 1;
+			else randDiry = -1;
+			vx = randDirx*floaterSpeed;
+			vy = randDiry*floaterSpeed;
 			fly = false;
 		}
 		waitForShot += dt;
 		mini_waitForShot += dt;
-		if (waitForShot >= 5)
+		
+		if (waitForShot >= maxWait)
 		{
-			shotCount = 2;
+			float randCount = RandomFloat(-1, 1);
+			if (randCount < 0) shotCount = 1;
+			else shotCount = 2;
 			waitForShot = 0;
 			mini_waitForShot = 0;
 		}
 		if (mini_waitForShot>=0.5 && shotCount>0)
 		{
+			this->state = floaterShot;
 			#pragma region Floater_Bullet
 						DynamicObject* obj = NULL;
 						obj = new Floater_Bullet();
 						obj->SetPosition(x, y);
-						float module = sqrt(pow(Character_X - x, 2) + pow(Character_Y - y, 2));
-						float direction_X = float(Character_X - x) / module;
-						float direction_Y = float(Character_Y - y) / module;
+						float modulo = sqrt(pow(Character_X - x, 2) + pow(Character_Y - y, 2));
+						float direction_X = float(Character_X - x) / modulo;
+						float direction_Y = float(Character_Y - y) / modulo;
 						obj->SetVelocity(direction_X * 150, direction_Y * 150);
 						dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
 			#pragma endregion

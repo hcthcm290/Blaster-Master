@@ -13,7 +13,7 @@
 class AGR_Orb : public DynamicObject, public Enemy
 {
 	int state;
-	bool trigger = false;
+	bool trigger = false, fly = true;
 public:
 	AGR_Orb();
 	FRECT GetCollisionBox();

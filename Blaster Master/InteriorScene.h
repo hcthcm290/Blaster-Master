@@ -10,6 +10,7 @@ private:
 public:
 	InteriorScene(int id, LPCWSTR filePath);
 	void Unload();
+	~InteriorScene();
 protected:
 	virtual void _ParseSection_OBJECTS(string line);
 	virtual void UpdateSwitchSection(float dt);

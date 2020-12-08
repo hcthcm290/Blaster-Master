@@ -7,6 +7,7 @@
 #include "Sophia.h"
 #include "PInput.h"
 #include "TheEye.h"
+#include "SoundManager.h"
 
 Jason::Jason() {
 
@@ -37,6 +38,8 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	HP = currentHealth;
 	maxHP = currentHealth;
 	switchDelay = GetTickCount64();
+	
+	SoundManager::GetInstance()->PlaySoundW("swapSophiaAndJason.wav");
 
 	Jason* prevJason = TheEye::GetInstance()->GetJason();
 	if (prevJason == NULL)
@@ -195,6 +198,10 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 	else verticalMove = PInput::KeyPressed(UP) * (-1) + PInput::KeyPressed(DOWN) * 1; //left or right
 
 	attemptJump = PInput::KeyDown(JUMP);
+	if (attemptJump)
+	{
+		SoundManager::GetInstance()->PlaySoundW("JasonJump.wav");
+	}
 }
 
 void Jason::Render()
@@ -364,11 +371,15 @@ float Jason::GetEnterGateSpeed()
 void Jason::TakeDamage(int dmg) {
 	DWORD thisTime = GetTickCount64();
 	if (lastTakeDamage == 0  || thisTime > lastTakeDamage + invulnerableTime) {
+		SoundManager::GetInstance()->PlaySoundW("JasonGotHit_Outside.wav");
 		lastTakeDamage = thisTime;
 		if (invulnerable == -1) {
 			HP -= dmg;
 			if (HP < 0)
+			{
 				HP = 0;
+				SoundManager::GetInstance()->PlaySoundW("JasonDie.wav");
+			}
 			invulnerable = 3;
 		}
 		else invulnerable = -1;
