@@ -246,6 +246,13 @@
     <ClCompile Include="MovieScene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerItem.cpp" />
+    <ClCompile Include="Eyeball_Curved.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet_Eyeball.cpp">
+      <Filter>Source Files\Interior</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -493,6 +500,12 @@
     </ClInclude>
     <ClInclude Include="Jason_BulletManager_Interior.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Eyeball_Curved.h">
+      <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet_Eyeball.h">
+      <Filter>Header Files\Interior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

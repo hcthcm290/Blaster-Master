@@ -11,8 +11,9 @@ private:
 
 	FRECT roomColBox;
 
-	enum DIRECTION { _LEFT, _TOP, _RIGHT, _BOTTOM };
+	enum DIRECTION { GO_LEFT, GO_UP, GO_RIGHT, GO_DOWN };
 					//0		1		2		3
+
 	const int arrDx[4] = { -1,0,1,0 };
 	const int arrDy[4] = { 0,-1,0,1 };
 

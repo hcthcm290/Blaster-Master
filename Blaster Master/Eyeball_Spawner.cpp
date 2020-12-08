@@ -4,6 +4,7 @@
 #include "Eyeball_Linear.h"
 #include "Camera.h"
 #include "PlayScene.h"
+#include "Debug.h"
 
 EyeballSpawner::EyeballSpawner(float left, float top, float right, float bottom) {
 	roomColBox = FRECT(left, top, right, bottom);
@@ -22,26 +23,31 @@ void EyeballSpawner::Update(float dt) {
 			
 			//determine where the eyeball will start
 			float x, y;
-			int direction = rand() % 4;
+			int direction = rand() % 4; //0 -> 3
+
 			switch (static_cast<DIRECTION>(direction)) {
-			case DIRECTION::_LEFT: {
-				x = left;
+			case DIRECTION::GO_LEFT: {
+				x = right; //opposite side
 				y = RandRange(top, bottom);
+				DebugOut(L"LEFT\n");
 				break;
 			}
-			case DIRECTION::_TOP: {
+			case DIRECTION::GO_UP: {
 				x = RandRange(left, right);
-				y = top;
+				y = bottom; //opposite side
+				DebugOut(L"UP\n");
 				break;
 			}
-			case DIRECTION::_RIGHT: {
-				x = right;
+			case DIRECTION::GO_RIGHT: {
+				x = left; //opposite side
 				y = RandRange(top, bottom);
+				DebugOut(L"RIGHT\n");
 				break;
 			}
-			case DIRECTION::_BOTTOM: {
+			case DIRECTION::GO_DOWN: {
 				x = RandRange(left, right);
-				y = bottom;
+				y = top; //opposite side
+				DebugOut(L"DOWN\n");
 				break;
 			}
 			}
@@ -49,6 +55,8 @@ void EyeballSpawner::Update(float dt) {
 			//create new eyeball
 			EyeballLinear* eyeball = new EyeballLinear(x, y, arrDx[direction], arrDy[direction]);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(eyeball);
+
+			DebugOut(L"ok %f %f %d %d\n", x, y, arrDx[direction], arrDy[direction]);
 		}
 	}
 }
@@ -65,6 +73,6 @@ void EyeballSpawner::SetBoundary(FRECT colBox) {
 }
 
 float EyeballSpawner::RandRange(float l, float r) {
-	int d = (int)(r - l + 1);
-	return l + (rand() % d);
+	int d = (int)(r - l + 2); //l -> r
+	return (float)(l + (rand() % d));
 }

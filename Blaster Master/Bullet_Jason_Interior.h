@@ -4,12 +4,14 @@
 #include "CollisionSystem.h"
 #include "StateConstant.h"
 #include "PlayerBullet.h"
+#include "Intangibility.h"
 
 #pragma region Fly Pattern
 //== ABOUT FLY PATTERN ==
 //	Fly Patterns only support bullets make movement due to its current position:
 //  Update Function in FlyPatterns are main controller of the bullet
 
+#pragma region DEFAULT
 //===	DEFAULT	===
 class BulletJasonInteriorFlyPattern {
 protected:
@@ -25,7 +27,9 @@ public:
 	float GetVy() { return vy; }
 	virtual void Update(float dt);
 };
+#pragma endregion
 
+#pragma region STRAIGHT
 //===	STARIGHT 1->4 ===
 class StraightPattern : public BulletJasonInteriorFlyPattern {
 private:
@@ -33,7 +37,9 @@ private:
 public:
 	StraightPattern(float& livingTime, int& speed, int level, int dx, int dy);
 };
+#pragma endregion
 
+#pragma region CIRCLE
 //===	CIRCLE	5->6 ===
 class CirclePattern : public BulletJasonInteriorFlyPattern {
 private:
@@ -51,7 +57,9 @@ public:
 	void Update(float dt);
 	float GetAngle();
 };
+#pragma endregion
 
+#pragma region WAVE
 //===	WAVE 7->8	===
 class WavePattern : public BulletJasonInteriorFlyPattern {
 private:
@@ -79,8 +87,9 @@ public:
 	void Update(float dt);
 };
 #pragma endregion
+#pragma endregion
 
-class BulletJasonInterior : public DynamicObject, public PlayerBullet
+class BulletJasonInterior : public DynamicObject, public PlayerBullet, public Intangibility
 {
 private:
 	int speed;

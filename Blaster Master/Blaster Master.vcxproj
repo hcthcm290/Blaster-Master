@@ -172,10 +172,12 @@
     <ClCompile Include="BigJason.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
+    <ClCompile Include="Bullet_Eyeball.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="Bullet_Jason_Interior.cpp" />
     <ClCompile Include="Canon_Bullet.cpp" />
     <ClCompile Include="Explosion_Interior.cpp" />
+    <ClCompile Include="Eyeball_Curved.cpp" />
     <ClCompile Include="Eyeball_Linear.cpp" />
     <ClCompile Include="Eyeball_Spawner.cpp" />
     <ClCompile Include="Explosive_Cannon_Bullet.cpp" />
@@ -246,9 +248,11 @@
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_Eyeball.h" />
     <ClInclude Include="Bullet_Jason_Interior.h" />
     <ClInclude Include="Canon_Bullet.h" />
     <ClInclude Include="Explosion_Interior.h" />
+    <ClInclude Include="Eyeball_Curved.h" />
     <ClInclude Include="Eyeball_Linear.h" />
     <ClInclude Include="Eyeball_Spawner.h" />
     <ClInclude Include="GunBarGUI.h" />

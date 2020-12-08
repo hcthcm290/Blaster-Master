@@ -1,21 +1,18 @@
 #pragma once
 #include "DynamicObject.h"
 #include "ColliableBrick.h"
+#include "Intangibility.h"
 
-class EyeballMovePath;
-
-class EyeballLinear : public DynamicObject
+class EyeballLinear : public DynamicObject, public Intangibility
 {
 private:
 	const float PI = 3.14;
-	float Deg2Rad(int deg) { return deg * PI / 180; }
+	float Deg2Rad(float deg) { return deg * PI / 180; }
 
-	const int SPEED = 300;
+	const float SPEED = 1e4;
 
 	const float LIVING_TIME = 5; //5 seconds
 	float livingTime;
-
-	float speed;
 	float vx0, vy0;
 
 	ColliableBrick* brick;

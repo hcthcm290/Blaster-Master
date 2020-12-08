@@ -15,6 +15,7 @@
 #include "GunBarGUI.h"
 #include "Rock.h"
 #include  "SoundManager.h"
+#include "Eyeball_Curved.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -168,6 +169,9 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		int b = atoi(tokens[6].c_str());
 		obj = new EyeballSpawner((float)l, (float)t, (float)r, (float)b);
 		break;
+	}
+	case 10: {
+		obj = new EyeballCurved();
 	}
 	case 79:
 	{
