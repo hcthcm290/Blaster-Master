@@ -32,7 +32,16 @@ BigJason::BigJason()
 
 	TheEye::GetInstance()->SetBigJason(this);
 
-	bulletManager->SetLevel(TheEye::GetInstance()->GetJason()->GetBulletPower());
+	Jason* jason = TheEye::GetInstance()->GetJason();
+	if (jason == NULL)
+	{
+		bulletManager->SetLevel(1);
+	}
+	else
+	{
+		bulletManager->SetLevel(TheEye::GetInstance()->GetJason()->GetBulletPower());
+	}
+
 	lastGrenadeTime = GetTickCount();
 }
 
@@ -262,6 +271,9 @@ void BigJason::NotifySwitchSceneOut()
 {
 	float BigJasonHealthPercent = (float)GetCurrentHP() / GetMaxHP();
 	DynamicObject* jason = TheEye::GetInstance()->GetJason();
+
+	if (jason == NULL)	return;
+
 	jason->SetCurrentHP(jason->GetMaxHP() * BigJasonHealthPercent);
 
 	dynamic_cast<Jason*>(jason)->SetBulletPower(bulletManager->GetLevel());

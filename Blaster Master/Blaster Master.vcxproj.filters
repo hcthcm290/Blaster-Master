@@ -221,7 +221,6 @@
     <ClCompile Include="GunBarGUI.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="MovieScene.cpp" />
     <ClCompile Include="Rock.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
@@ -232,10 +231,21 @@
     <ClCompile Include="Explosion_Interior.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Animator_Canon.cpp" />
-    <ClCompile Include="Canon_Bullet.cpp" />
-    <ClCompile Include="Explosive_Cannon_Bullet.cpp" />
-    <ClCompile Include="Grenade.cpp" />
+    <ClCompile Include="Animator_Canon.cpp">
+      <Filter>Source Files\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosive_Cannon_Bullet.cpp">
+      <Filter>Source Files\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="Canon_Bullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Grenade.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MovieScene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -439,8 +449,6 @@
     <ClInclude Include="Rock.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
-    <ClInclude Include="Jason_BulletManager_Interior.h" />
-    <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Bullet_Jason_Interior.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
@@ -468,16 +476,38 @@
     <ClInclude Include="MovieScene.h">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Animator_Canon.h" />
-    <ClInclude Include="Canon_Bullet.h" />
-    <ClInclude Include="Explosive_Cannon_Bullet.h" />
-    <ClInclude Include="Grenade.h" />
+    <ClInclude Include="Animator_Canon.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator_Floater.h">
+      <Filter>Header Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Canon_Bullet.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosive_Cannon_Bullet.h">
+      <Filter>Header Files\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="Grenade.h">
+      <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Jason_BulletManager_Interior.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="FlyingEye.png" />
+    <Image Include="FlyingEye.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="D:\DOWNLOAD\P2_Jason.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="game-info.txt">

@@ -104,7 +104,15 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		if (AdaptJasonHealth)
 		{
 			DynamicObject* Jason = TheEye::GetInstance()->GetJason();
-			float JasonHealthPercent = (float)Jason->GetCurrentHP() / Jason->GetMaxHP();
+			float JasonHealthPercent;
+			if (Jason == NULL)
+			{
+				JasonHealthPercent = 1;
+			}
+			else 
+			{
+				JasonHealthPercent = (float)Jason->GetCurrentHP() / Jason->GetMaxHP();
+			}
 			player->SetCurrentHP(player->GetMaxHP()*JasonHealthPercent);
 		}
 		else if (ResetHealth)
