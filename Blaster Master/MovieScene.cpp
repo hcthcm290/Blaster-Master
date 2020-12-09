@@ -246,6 +246,12 @@ void MovieScene::Update(DWORD dw_dt)
 		return;
 	}
 
+	if (DInput::KeyPress(DIK_RETURN))
+	{
+		CGame::GetInstance()->SwitchScene(this->idBreakOutScene);
+		return;
+	}
+
 	if (countTime >= backgroundColorDelay + backgroundColorLivingTime)
 	{
 		currentBackgroundColorIndex = -1;
