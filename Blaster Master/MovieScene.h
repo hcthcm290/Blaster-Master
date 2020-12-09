@@ -13,6 +13,9 @@ protected:
 	// first is color
 	// second is living time of that color
 	vector<pair<D3DXCOLOR, float>> listBackgroundColor;
+	D3DXCOLOR defaultBackgroundColor;
+	int currentBackgroundColorIndex = -1;
+	float lastColorChoosenTime = -1;
 
 	// delay time count from the beginning of the scene
 	float backgroundColorDelay;
@@ -21,13 +24,16 @@ protected:
 	float backgroundColorLivingTime;
 
 	float timeout;
-	float countTime = 0.0f;
+	float countTime = 0;
+
+	Animator* movieAnimator = new Animator();
 
 protected:
 	virtual void _ParseSection_TEXTURES(std::string line);
 	virtual void _ParseSection_SPRITES(std::string line);
 	virtual void _ParseSection_ANIMATIONS(std::string line);
 	virtual void _ParseSection_OBJECTS(std::string line);
+	virtual void _ParseSection_ListBackgroundColor(std::string line);
 
 public:
 	MovieScene(int id, LPCWSTR filePath);

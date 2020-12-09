@@ -15,11 +15,6 @@ unordered_map<CGameObject*, CGameObject*> CollisionSystem::listPairMessagedColOb
 
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
-	if (dynamic_cast<Sophia*>(movingObj) != NULL)
-	{
-		DebugOut(L"Delete this");
-	}
-
 	FixPreOverlapped(movingObj, anotherObjs);
 
 	vector<LPCOLLISION> collisions;
@@ -125,11 +120,6 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 
 	for (int i=0; i<anotherObjs->size(); i++)
 	{
-		if (dynamic_cast<Sophia_Bullet_1*>(movingObj))
-		{
-			DebugOut(L"This");
-		}
-
 		auto obj = (*anotherObjs)[i];
 
 		if (obj == movingObj) continue;

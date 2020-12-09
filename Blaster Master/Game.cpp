@@ -209,6 +209,8 @@ void CGame::_ParseSection_SCENES(string line)
 	case 2:
 		scene = new InteriorScene(id, path);
 		break;
+	case 3:
+		scene = new MovieScene(id, path);
 	}
 	scenes[id] = scene;
 }

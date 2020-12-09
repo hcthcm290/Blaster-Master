@@ -337,6 +337,7 @@
     <Text Include="Interior3.txt" />
     <Text Include="Interior4.txt" />
     <Text Include="scene1.txt" />
+    <Text Include="TitleScene.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
