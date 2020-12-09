@@ -202,6 +202,13 @@ void SoundManager::PlaySoundInfinite(std::string filename)
     }
 }
 
+void SoundManager::StopSource()
+{
+    if (pSourceVoice != NULL)
+    {
+        pSourceVoice->Stop();
+    }
+}
 void SoundManager::Release()
 {
     if (pSourceVoice != NULL)

@@ -267,13 +267,11 @@ void CGame::SwitchScene(int scene_id)
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
 	CameraBoundaryLib::ClearLib();
-
+	SoundManager::GetInstance()->StopSource();
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
-	if (scene_id == 1) //Main scene
-	{
+	if (scene_id == 1) //Main scene 
 		SoundManager::GetInstance()->PlaySoundInfinite("ThemeSong.wav");
-	}
 	else //interior 
 		SoundManager::GetInstance()->PlaySoundInfinite("InteriorTheme.wav");
 	s->Load();

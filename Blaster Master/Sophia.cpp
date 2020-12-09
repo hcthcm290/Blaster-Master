@@ -78,7 +78,7 @@ float Sophia::GetEnterGateSpeed()
 
 Sophia::~Sophia()
 {
-	SoundManager::GetInstance()->Release();
+	SoundManager::GetInstance()->StopSource();
 }
 FRECT Sophia::GetCollisionBox()
 {
@@ -569,7 +569,6 @@ void Sophia::Render()
 	{
 		animator->Draw(state, x, y - 4, flipX);
 		return;
-		SoundManager::GetInstance()->Release();
 	}
 	if (moving)
 	{

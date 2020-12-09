@@ -24,7 +24,7 @@ InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 }
 InteriorScene::~InteriorScene()
 {
-	SoundManager::GetInstance()->Release();
+	SoundManager::GetInstance()->StopSource();
 }
 
 void InteriorScene::Unload()
