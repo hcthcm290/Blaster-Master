@@ -184,6 +184,7 @@ void MovieScene::Load()
 
 			MovieAnimationID = atoi(tokens[0].c_str());
 
+			this->movieAnimator = new Animator();
 			this->movieAnimator->AddAnimation(MovieAnimationID);
 			break;
 		}
@@ -228,7 +229,9 @@ void MovieScene::Load()
 
 void MovieScene::Unload()
 {
-	
+	this->currentBackgroundColorIndex = -1;
+	this->lastColorChoosenTime = -1;
+	this->countTime = 0;
 }
 
 void MovieScene::Update(DWORD dw_dt)
@@ -246,7 +249,7 @@ void MovieScene::Update(DWORD dw_dt)
 		return;
 	}
 
-	if (DInput::KeyPress(DIK_RETURN))
+	if (DInput::KeyDown(DIK_RETURN))
 	{
 		CGame::GetInstance()->SwitchScene(this->idBreakOutScene);
 		return;
@@ -266,8 +269,6 @@ void MovieScene::Update(DWORD dw_dt)
 		lastColorChoosenTime = countTime;
 		currentBackgroundColorIndex = (currentBackgroundColorIndex + 1) % listBackgroundColor.size();
 	}
-
-	
 }
 
 void MovieScene::Render()

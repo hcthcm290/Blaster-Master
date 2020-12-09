@@ -26,7 +26,7 @@ protected:
 	float timeout;
 	float countTime = 0;
 
-	Animator* movieAnimator = new Animator();
+	Animator* movieAnimator;
 
 protected:
 	virtual void _ParseSection_TEXTURES(std::string line);

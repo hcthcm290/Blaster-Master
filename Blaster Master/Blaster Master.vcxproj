@@ -336,6 +336,7 @@
     <Text Include="Interior2.txt" />
     <Text Include="Interior3.txt" />
     <Text Include="Interior4.txt" />
+    <Text Include="IntroScene.txt" />
     <Text Include="scene1.txt" />
     <Text Include="TitleScene.txt" />
   </ItemGroup>
