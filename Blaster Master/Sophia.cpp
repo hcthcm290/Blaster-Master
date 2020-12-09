@@ -324,7 +324,7 @@ void Sophia::Update(float dt)
 		}
 		else
 		{
-			if (now - start_gunturn > 200)
+			if (now - start_gunturn > 150)
 			{
 				gun_turn = false;
 			}

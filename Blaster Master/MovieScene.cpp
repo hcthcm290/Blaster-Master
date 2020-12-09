@@ -12,7 +12,7 @@
 #define MOVIESCENE_SECTION_OBJECTS	5
 #define MOVIESCENE_SECTION_TIMEOUT 6
 #define MOVIESCENE_SECTION_MOVIEANIMATIONID 7
-#define MOVIESCENE_SECTION_BACKGROUNDANIMATIONID 8
+#define MOVIESCENE_SECTION_BACKGROUNDSPRITEID 8
 
 #define MAX_SCENE_LINE 2048
 
@@ -129,6 +129,12 @@ void MovieScene::Load()
 		if (line == "[TIMEOUT]") {
 			section = MOVIESCENE_SECTION_TIMEOUT; continue;
 		}
+		if (line == "[ANIMATIONID]") {
+			section = MOVIESCENE_SECTION_MOVIEANIMATIONID;
+		}
+		if (line == "[BACKGROUNDSPRITEID]"){
+			section = MOVIESCENE_SECTION_BACKGROUNDSPRITEID;
+		}
 		if (line[0] == '[') { section = MOVIESCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -140,8 +146,7 @@ void MovieScene::Load()
 		case MOVIESCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case MOVIESCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case MOVIESCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
-		case MOVIESCENE_SECTION_TIMEOUT: 
-		{
+		case MOVIESCENE_SECTION_TIMEOUT: {
 			vector<string> tokens = split(line);
 
 			if (tokens.size() == 0) continue;
@@ -149,8 +154,7 @@ void MovieScene::Load()
 			timeout = atof(tokens[0].c_str());
 			break;
 		}
-		case MOVIESCENE_SECTION_MOVIEANIMATIONID:
-		{
+		case MOVIESCENE_SECTION_MOVIEANIMATIONID:{
 			vector<string> tokens = split(line);
 
 			if (tokens.size() == 0) continue;
@@ -158,13 +162,12 @@ void MovieScene::Load()
 			MovieAnimationID = atoi(tokens[0].c_str());
 			break;
 		}
-		case MOVIESCENE_SECTION_BACKGROUNDANIMATIONID:
-		{
+		case MOVIESCENE_SECTION_BACKGROUNDSPRITEID:{
 			vector<string> tokens = split(line);
 
 			if (tokens.size() == 0) continue;
 
-			BackgroundAnimationID = atoi(tokens[0].c_str());
+			BackgroundSpriteID = atoi(tokens[0].c_str());
 			break;
 		}
 		}

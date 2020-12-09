@@ -8,7 +8,17 @@ protected:
 	int MovieAnimationID;
 	int idNextScene; // if timeout, nextScene will be play
 	int idBreakOutScene; // if this scene is set, player can press Enter to go to that scene
-	int BackgroundAnimationID;
+	int BackgroundSpriteID;
+
+	// first is color
+	// second is living time of that color
+	vector<pair<D3DXCOLOR, float>> listBackgroundColor;
+
+	// delay time count from the beginning of the scene
+	float backgroundColorDelay;
+
+	// living time of the background color
+	float backgroundColorLivingTime;
 
 	float timeout;
 	float countTime = 0.0f;
