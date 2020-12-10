@@ -88,7 +88,7 @@ void Ship::Update(float dt)
 
 void Ship::Render()
 {
-	animator->Draw(state, x, y, flip);
+	animator->Draw(state, x, y, !flip);
 }
 
 FRECT Ship::GetCollisionBox()

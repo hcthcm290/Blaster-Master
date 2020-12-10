@@ -45,6 +45,7 @@
 #include "StaticGUI.h"
 #include "Rock.h"
 #include "SoundManager.h"
+#include "Ship.h"
 
 using namespace std;
 
@@ -271,7 +272,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Ladder(height);
 		break;
 	}
-	
+	case 27: {
+		obj = new Ship();
+		break;
+	}
 	}
 
 	// General object setup
@@ -958,6 +962,7 @@ void CPlayScene::UpdateSwitchSection(float dt)
 		auto cameraPosition = Camera::GetInstance()->GetPosition();
 
 		player->SetPosition(playerPosition.x + gate->teleport_delta.x, playerPosition.y + gate->teleport_delta.y);
+		player->SetVelocity(0, 50);
 
 		Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 
