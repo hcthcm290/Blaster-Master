@@ -541,6 +541,12 @@
     <Text Include="scene1.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="TitleScene.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="IntroScene.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
