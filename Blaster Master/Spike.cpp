@@ -14,7 +14,7 @@ FRECT Spike::GetCollisionBox()
 {
 	FRECT colRect;
 	colRect.left = this->x - 8;
-	colRect.right = this->x + 8;
+	colRect.right = this->x + 8 + 16 * (len - 1);
 	colRect.top = this->y - 8;
 	colRect.bottom = this->y + 8;
 	return colRect;
@@ -22,7 +22,6 @@ FRECT Spike::GetCollisionBox()
 
 void Spike::OnCollisionEnter(CollisionEvent e)
 {
-
 }
 
 void Spike::Update(float dt)
@@ -30,7 +29,7 @@ void Spike::Update(float dt)
 	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		//dynamic_cast<DynamicObject*>(player)->TakeDamage(20);
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(30);
 		DebugOut(L"Set Damage for Big Jason, this can be use in both scene \n");
 	}
 }

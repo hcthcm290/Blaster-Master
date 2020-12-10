@@ -603,6 +603,9 @@
 2	1680	960
 2	1680	1024
 
+## LADDER ##
+31	1584	128	13
+
 #CAMERA BOUNDARY LIST
 #	#id_sec	left	top	right	bottom
 76	A2_A	0	175	63	189
