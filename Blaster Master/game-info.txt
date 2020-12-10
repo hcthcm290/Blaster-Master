@@ -15,3 +15,4 @@ start	-1
 5	Interior4.txt	2
 -1	TitleScene.txt	3
 -2	IntroScene.txt	3
+-3	CarScene.txt	3

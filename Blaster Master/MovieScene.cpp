@@ -17,6 +17,7 @@
 #define MOVIESCENE_SECTION_LISTBACKGROUNDCOLOR 9
 #define MOVIESCENE_SECTION_BACKGROUNDCOLORPROPERTY 10
 #define MOVIESCENE_SECTION_IDSCENE 11
+#define MOVIESCENE_SECTION_ANIMATIONOFFSET 12
 
 #define MAX_SCENE_LINE 2048
 
@@ -158,6 +159,9 @@ void MovieScene::Load()
 		if (line == "[IDSCENE]") {
 			section = MOVIESCENE_SECTION_IDSCENE; continue;
 		}
+		if (line == "[ANIMATIONOFFSET]") {
+			section = MOVIESCENE_SECTION_ANIMATIONOFFSET; continue;
+		}
 		if (line[0] == '[') { section = MOVIESCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -217,6 +221,17 @@ void MovieScene::Load()
 			{
 				idBreakOutScene = atoi(tokens[1].c_str());
 			}
+			break;
+		}
+		case MOVIESCENE_SECTION_ANIMATIONOFFSET: {
+			vector<string> tokens = split(line);
+			if (tokens.size() == 0 || tokens[0] == "") continue;
+
+			float offset_x = atof(tokens[0].c_str());
+			float offset_y = atof(tokens[1].c_str());
+
+			animationOffset = D3DXVECTOR2(offset_x, offset_y);
+
 			break;
 		}
 		}
@@ -282,5 +297,5 @@ void MovieScene::Render()
 	{
 		CSprites::GetInstance()->Get(BackgroundSpriteID)->Draw(0, 0, false, 0, defaultBackgroundColor);
 	}
-	movieAnimator->Draw(this->MovieAnimationID, 0, 0, false);
+	movieAnimator->Draw(this->MovieAnimationID, animationOffset.x, animationOffset.y, false);
 }

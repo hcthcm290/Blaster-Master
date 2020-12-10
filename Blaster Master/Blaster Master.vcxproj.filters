@@ -547,6 +547,9 @@
     <Text Include="IntroScene.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="CarScene.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

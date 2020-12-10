@@ -28,6 +28,8 @@ protected:
 
 	Animator* movieAnimator;
 
+	D3DXVECTOR2 animationOffset = D3DXVECTOR2(0, 0);
+
 protected:
 	virtual void _ParseSection_TEXTURES(std::string line);
 	virtual void _ParseSection_SPRITES(std::string line);
