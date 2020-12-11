@@ -226,6 +226,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		bg->shift_direction = D3DXVECTOR2(atoi(tokens[3].c_str()), atoi(tokens[4].c_str()));
 
+		x += bg->shift_direction.x * 4;
+
 		bg->shift_time1 = atof(tokens[5].c_str());
 		bg->shift_time2 = atof(tokens[6].c_str());
 
