@@ -16,7 +16,7 @@
 #include "SoundManager.h"
 
 #define MAX_FRAME_RATE 1000;
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 
 #define ORB_WIDTH 18
 #define ORB_HEIGHT 18

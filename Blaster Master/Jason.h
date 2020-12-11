@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class Jason : public DynamicObject
+class Jason : public DynamicObject, public Playable
 {
 private:
 	//bacic properties
@@ -62,6 +62,9 @@ private:
 	float flipCountDown = 0.25f;
 	#pragma endregion
 
+private:
+	int bulletPower;
+
 public:
 	Jason();
 	Jason(int currentHealth, int x, int y, DynamicObject* sophia);
@@ -70,9 +73,10 @@ public:
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 	virtual bool IsInvulnerable() { return this->invulnerable != -1; }
-
+	float GetEnterGateSpeed();
 	void PushBack(int _vx, int _vy);
 	void TakeDamage(int dmg);
-
 	int GetState() { return currentState; }
+	void SetBulletPower(int value) { this->bulletPower = value; }
+	int GetBulletPower() { return this->bulletPower; }
 };

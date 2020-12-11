@@ -72,3 +72,11 @@ bool PInput::OneOfThoseIsPressed(	bool up,
 	}
 	return false;
 }
+
+void PInput::ClearBuffer()
+{
+	for (int i = 0; i < PINPUT_SIZE; i++)
+	{
+		__instance->Release(i);
+	}
+}

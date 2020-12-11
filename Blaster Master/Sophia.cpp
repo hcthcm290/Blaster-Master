@@ -10,6 +10,7 @@
 #include "VisionBox.h"
 #include "Camera.h"
 #include "PInput.h"
+#include "TheEye.h"
 #include "SoundManager.h"
 
 #define STATE_SOPHIA_IDLE 29801
@@ -40,6 +41,7 @@ Sophia::Sophia()
 	currentColor = 0;
 	//Setup HP
 	HP = 100;
+	maxHP = HP;
 	//sx, sy
 	sx = x;
 	sy = y;
@@ -65,6 +67,13 @@ Sophia::Sophia()
 	animator = new Animator_Sophia();
 	onTheGround = true;
 	start_shift = GetTickCount();
+
+	TheEye::GetInstance()->SetSophia(this);
+}
+
+float Sophia::GetEnterGateSpeed()
+{
+	return 50;
 }
 
 Sophia::~Sophia()
@@ -109,6 +118,16 @@ void Sophia::OnCollisionEnter(CollisionEvent e)
 
 void Sophia::Update(float dt)
 {
+	if (animator == NULL)
+	{
+		animator = new Animator_Sophia();
+	}
+	if (DInput::KeyDown(DIK_P))
+	{
+		CGame::GetInstance()->SwitchScene(2);
+		return;
+	}
+
 	if (HP == 0)
 	{
 		vx = 0;
@@ -197,7 +216,7 @@ void Sophia::Update(float dt)
 		}*/
 
 		vy += 480 * dt;
-		int speed = 150;
+		int speed = 170;
 
 		if (PInput::KeyPressed(LEFT))
 		{
@@ -305,7 +324,7 @@ void Sophia::Update(float dt)
 		}
 		else
 		{
-			if (now - start_gunturn > 200)
+			if (now - start_gunturn > 150)
 			{
 				gun_turn = false;
 			}
@@ -541,6 +560,11 @@ void Sophia::StateChange()
 
 void Sophia::Render()
 {
+	if (animator == NULL)
+	{
+		animator = new Animator_Sophia();
+	}
+
 	if (state == STATE_SOPHIA_DIE)
 	{
 		animator->Draw(state, x, y - 4, flipX);
@@ -633,6 +657,8 @@ void Sophia::TakeDamage(int dmg)
 		{
 			HP = 0;
 		}
+
+		DebugOut(L"%d\n", HP);
 	}
 }
 

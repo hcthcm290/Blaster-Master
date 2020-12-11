@@ -50,6 +50,6 @@ public:
 public:
 	virtual void OnCollisionEnter(CollisionEvent e) {}
 	virtual void OnCollisionExit(CollisionEvent e) {}
-	
+	virtual void OnOverlap(CGameObject* obj);
 };
 

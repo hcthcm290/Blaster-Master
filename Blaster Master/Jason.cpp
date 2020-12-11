@@ -6,12 +6,27 @@
 #include "ColliableBrick.h"
 #include "Sophia.h"
 #include "PInput.h"
+#include "TheEye.h"
 #include "SoundManager.h"
 
 Jason::Jason() {
+
+	Jason* prevJason = TheEye::GetInstance()->GetJason();
+	if (prevJason == NULL)
+	{
+		bulletPower = 0;
+	}
+	else
+	{
+		bulletPower = prevJason->bulletPower;
+	}
+
 	animator = new Animator_Jason();
 	currentState = State::_JASON_IDLE_;
 	HP = 40;
+	maxHP = 40;
+
+	TheEye::GetInstance()->SetJason(this);
 }
 
 Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
@@ -21,9 +36,22 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	this->y = y;
 	this->sophia = sophia;
 	HP = currentHealth;
+	maxHP = currentHealth;
 	switchDelay = GetTickCount64();
 	
 	SoundManager::GetInstance()->PlaySoundW("swapSophiaAndJason.wav");
+
+	Jason* prevJason = TheEye::GetInstance()->GetJason();
+	if (prevJason == NULL)
+	{
+		bulletPower = 0;
+	}
+	else
+	{
+		bulletPower = prevJason->bulletPower;
+	}
+
+	TheEye::GetInstance()->SetJason(this);
 }
 
 void Jason::Update(float dt)
@@ -178,6 +206,11 @@ void Jason::UpdateActionRecord() { //reset key input to catch newest keyboard
 
 void Jason::Render()
 {
+	if (animator == NULL)
+	{
+		animator = new Animator_Jason;
+	}
+
 	flipX = (horizontalMove != 0 ? horizontalMove == -1 : flipX);
 	SetNewState();
 
@@ -304,10 +337,10 @@ FRECT Jason::GetCollisionBox() {
 		case State::_JASON_CMOVE_	: w = 16; h = 8;	break;
 		case State::_JASON_CRAWL_	: w = 16; h = 8;	break;
 		case State::_JASON_DIE_		: w = 16; h = 16;	break;
-		case State::_JASON_IDLE_	: w = 10; h = 17;	break;
+		case State::_JASON_IDLE_	: w = 10; h = 15;	break;
 		case State::_JASON_JUMP_	: w = 10; h = 16;	break;
 		case State::_JASON_SWIM_	: w = 17; h = 12;	break;
-		case State::_JASON_WALK_	: w = 10; h = 16;	break;
+		case State::_JASON_WALK_	: w = 10; h = 15;	break;
 	}
 	return FRECT(x - w / 2, y - h / 2, x + w / 2, y + h / 2);
 }
@@ -328,6 +361,11 @@ void Jason::OnCollisionEnter(CollisionEvent e) {
 
 	//if (e.nx * vx < 0) vx = 0;
 	if (e.ny < 0 ) vy = 0;
+}
+
+float Jason::GetEnterGateSpeed()
+{
+	return 40;
 }
 
 void Jason::TakeDamage(int dmg) {

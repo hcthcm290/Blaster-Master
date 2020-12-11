@@ -1,0 +1,50 @@
+[
+  {
+    "left": 0,
+    "top": 0,
+    "right": 31,
+    "bottom": 3
+  },
+  {
+    "left": 0,
+    "top": 4,
+    "right": 1,
+    "bottom": 32
+  },
+  {
+    "left": 30,
+    "top": 4,
+    "right": 31,
+    "bottom": 32
+  },
+  {
+    "left": 32,
+    "top": 16,
+    "right": 47,
+    "bottom": 19
+  },
+  {
+    "left": 32,
+    "top": 20,
+    "right": 33,
+    "bottom": 32
+  },
+  {
+    "left": 46,
+    "top": 20,
+    "right": 47,
+    "bottom": 32
+  },
+  {
+    "left": 2,
+    "top": 32,
+    "right": 29,
+    "bottom": 32
+  },
+  {
+    "left": 34,
+    "top": 32,
+    "right": 45,
+    "bottom": 32
+  }
+]

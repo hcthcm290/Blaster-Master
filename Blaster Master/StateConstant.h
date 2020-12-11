@@ -90,6 +90,8 @@ public:
 #pragma region PlayScene
 	static const int _PLAYSCENE_FREE_PLAYING_ = 27001;
 	static const int _PLAYSCENE_SWITCH_SECTION = 27002;
+	static const int _PLAYSCENE_FADDING_IN = 27003;
+	static const int _PLAYSCENE_FADDING_OUT = 27004;
 #pragma endregion
 
 #pragma region Explosion Interior
@@ -98,5 +100,13 @@ public:
 
 #pragma region Bullet Jason Interior
 	static const int _BULLET_JASON_INTERIOR_ = 25100;
+#pragma endregion
+
+#pragma region Eyeball
+	static const int _EYEBALL_ = 20900;
+#pragma endregion
+
+#pragma region Eyeball_Bullet
+	static const int _EYEBALL_BULLET_ = 21000;
 #pragma endregion
 };

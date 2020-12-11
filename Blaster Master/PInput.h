@@ -64,4 +64,6 @@ public:
 									bool jump,
 									bool shift,
 									bool enter);
+
+	static void ClearBuffer();
 };

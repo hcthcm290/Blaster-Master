@@ -16,4 +16,5 @@ public:
 	void Render();
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
+	void OnOverlap(CGameObject* obj);
 };

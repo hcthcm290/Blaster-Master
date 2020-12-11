@@ -9,7 +9,7 @@ private:
 	static Camera* __instance;
 	CGameObject* target;
 
-	int width = 258;
+	int width = 256;
 	int height = 224;
 
 	FRECT boundary = FRECT(0, 1008, 1024, 3024);
@@ -24,7 +24,9 @@ private:
 	///				|				|
 	///				|_______________|
 	/// </summary>
-	FRECT freeMovingArea = FRECT(-50, -50, 20, 20);
+	FRECT freeMovingArea;
+	FRECT freeMovingInterior = FRECT(0, -30, 0, -28);
+	FRECT freeMovingSideview = FRECT(-10, -50, 20, 20);
 
 private:
 	void SnapToBoundary();
@@ -57,10 +59,23 @@ public:
 	FRECT GetCollisionBox() 
 	{
 		FRECT colRect;
-		colRect.left = int(x - width / 2);
-		colRect.right = int(x + width / 2);
-		colRect.top = int(y - height / 2);
-		colRect.bottom = int(y + height / 2);
+		colRect.left = (int)(x - width / 2);
+		colRect.right = (int)(x + width / 2);
+		colRect.top = (int)(y - height / 2);
+		colRect.bottom = (int)(y + height / 2);
+
+		return colRect;
+	}
+
+	FRECT GetExpansionCollisionBox()
+	{
+		float expansionRange = 10;
+
+		FRECT colRect;
+		colRect.left = int(x - width / 2) - expansionRange;
+		colRect.right = int(x + width / 2) + expansionRange;
+		colRect.top = int(y - height / 2) - expansionRange;
+		colRect.bottom = int(y + height / 2) + expansionRange;
 
 		return colRect;
 	}
@@ -74,5 +89,10 @@ public:
 	void SetCameraBoundary(FRECT boundary)
 	{
 		__instance->boundary = boundary;
+	}
+
+	void SetFreeInteriorMovingArea(FRECT rect)
+	{
+		freeMovingInterior = rect;
 	}
 };

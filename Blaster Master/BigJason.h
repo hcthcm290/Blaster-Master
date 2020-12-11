@@ -24,6 +24,7 @@ protected:
 	int currentColor = 0;
 	DWORD lastDamageTime;
 	DWORD die;
+private:
 	Jason_BulletManager* bulletManager = new Jason_BulletManager();
 	bool keypress = true;
 
@@ -35,4 +36,7 @@ public:
 	virtual FRECT GetCollisionBox();
 	bool IsInvulnerable();
 	void TakeDamage(int dmg);
+	float GetEnterGateSpeed();
+	int getGunPower() { return this->bulletManager->GetLevel(); }
+	void NotifySwitchSceneOut();
 };

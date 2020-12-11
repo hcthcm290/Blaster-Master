@@ -5,10 +5,13 @@
 #include "Orb.h"
 #include "Jumper.h"
 #include "ColliableBrick.h"
-
+#include "Sophia_Bullet_1.h"
 #include "Jason.h"
 #include "Debug.h"
 #include "Intangibility.h"
+#include "Sophia.h"
+
+unordered_map<CGameObject*, CGameObject*> CollisionSystem::listPairMessagedColObj;
 
 void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObject*>* anotherObjs, float dt)
 {
@@ -66,37 +69,71 @@ void CollisionSystem::DoCollision(DynamicObject* movingObj, std::vector<CGameObj
 	auto movingObjVEL = movingObj->GetVelocity();
 	auto movingObjPOS = movingObj->GetPosition();
 
-	movingObj->SetPosition(movingObjPOS.x + nx_pushback * 0.2, movingObjPOS.y + ny_pushback * 0.2);
+	movingObj->SetPosition(movingObjPOS.x + nx_pushback * 0.1, movingObjPOS.y + ny_pushback * 0.1);
 	movingObj->SetVelocity(movingObjVEL.x * dtx_Percent, movingObjVEL.y * dty_Percent);
 
 	if (filteredCol.first.size() != 0)
 	{
 		for (auto Event : filteredCol.first)
 		{
-			movingObj->OnCollisionEnter(CollisionEvent(Event));
+			if (!IsExistPairColObj(movingObj, Event->obj))
+			{
+				movingObj->OnCollisionEnter(CollisionEvent(Event));
 
-			CollisionEvent e;
-			e.nx = -Event->nx;
-			e.ny = -Event->ny;
-			e.pGameObject = movingObj;
+				CollisionEvent e;
+				e.nx = -Event->nx;
+				e.ny = -Event->ny;
+				e.pGameObject = movingObj;
 
-			Event->obj->OnCollisionEnter(e);
+				Event->obj->OnCollisionEnter(e);
+
+				AddPairColObj(movingObj, Event->obj);
+			}
 		}
 	}
 	if (filteredCol.second.size() != 0)
 	{
 		for (auto Event : filteredCol.second)
 		{
-			movingObj->OnCollisionEnter(CollisionEvent(Event));
+			if (!IsExistPairColObj(movingObj, Event->obj))
+			{
+				movingObj->OnCollisionEnter(CollisionEvent(Event));
 
-			CollisionEvent e;
-			e.nx = -Event->nx;
-			e.ny = -Event->ny;
-			e.pGameObject = movingObj;
+				CollisionEvent e;
+				e.nx = -Event->nx;
+				e.ny = -Event->ny;
+				e.pGameObject = movingObj;
 
-			Event->obj->OnCollisionEnter(e);
+				Event->obj->OnCollisionEnter(e);
+
+				AddPairColObj(movingObj, Event->obj);
+			}
 		}
 	}
+
+
+	// Check overlap after do all collision check
+	auto oldPosition = movingObj->GetPosition();
+	auto velocity = movingObj->GetVelocity();
+
+	movingObj->SetPosition(oldPosition.x + velocity.x * dt,oldPosition.y + velocity.y * dt);
+
+	for (int i=0; i<anotherObjs->size(); i++)
+	{
+		auto obj = (*anotherObjs)[i];
+
+		if (obj == movingObj) continue;
+
+		if (CheckOverlap(movingObj, obj) && !IsExistPairColObj(movingObj, obj))
+		{
+			movingObj->OnOverlap(obj);
+			obj->OnOverlap(movingObj);
+
+			AddPairColObj(movingObj, obj);
+		}
+	}
+
+	movingObj->SetPosition(oldPosition.x, oldPosition.y);
 }
 
 
@@ -105,6 +142,17 @@ bool CollisionSystem::CheckOverlap(CGameObject* obj1, CGameObject* obj2)
 	FRECT obj1_RECT = obj1->GetCollisionBox();
 	FRECT obj2_RECT = obj2->GetCollisionBox();
 
+	if (obj1_RECT.left >= obj2_RECT.right || obj2_RECT.left >= obj1_RECT.right)
+		return false;
+
+	if (obj1_RECT.top >= obj2_RECT.bottom || obj2_RECT.top >= obj1_RECT.bottom)
+		return false;
+
+	return true;
+}
+
+bool CollisionSystem::CheckOverlap(FRECT obj1_RECT, FRECT obj2_RECT)
+{
 	if (obj1_RECT.left >= obj2_RECT.right || obj2_RECT.left >= obj1_RECT.right)
 		return false;
 
@@ -485,4 +533,26 @@ void CollisionSystem::FixPreOverlapped(DynamicObject* movingObj, std::vector<CGa
 
 		movingObj->SetPosition(oldMovingObjPos.x + pushbackVector.first, oldMovingObjPos.y + pushbackVector.second);
 	}
+}
+
+bool CollisionSystem::IsExistPairColObj(CGameObject* first, CGameObject* second)
+{
+	if (listPairMessagedColObj[first] == second)
+	{
+		return true;
+	}
+	if (listPairMessagedColObj[second] == first)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void CollisionSystem::AddPairColObj(CGameObject* first, CGameObject* second)
+{
+	listPairMessagedColObj[first] = second;
+	listPairMessagedColObj[second] = first;
+
+	return;
 }

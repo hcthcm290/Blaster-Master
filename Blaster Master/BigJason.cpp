@@ -4,6 +4,9 @@
 #include "Debug.h"
 #include "Grenade.h"
 #include "PlayScene.h"
+#include "Game.h"
+#include "TheEye.h"
+
 #define I_JASON_IDLE_DOWN 29901
 #define I_JASON_IDLE_UP 29902
 #define I_JASON_IDLE_SIDE 29903
@@ -16,6 +19,7 @@
 BigJason::BigJason()
 {
 	HP = 40;
+	maxHP = HP;
 	state = I_JASON_IDLE_DOWN;
 	animator = new Animator();
 	animator->AddAnimation(29901);
@@ -25,11 +29,29 @@ BigJason::BigJason()
 	animator->AddAnimation(29905);
 	animator->AddAnimation(29906);
 	animator->AddAnimation(29907);
+
+	TheEye::GetInstance()->SetBigJason(this);
+
+	Jason* jason = TheEye::GetInstance()->GetJason();
+	if (jason == NULL)
+	{
+		bulletManager->SetLevel(1);
+	}
+	else
+	{
+		bulletManager->SetLevel(TheEye::GetInstance()->GetJason()->GetBulletPower());
+	}
+
 	lastGrenadeTime = GetTickCount();
 }
 
 void BigJason::Update(float dt)
 {
+	if (DInput::KeyDown(DIK_P))
+	{
+		this->bulletManager->SetLevel(this->bulletManager->GetLevel() + 1);
+		return;
+	}
 	//check 
 	bulletManager->CheckBullet();
 	bulletManager->CheckCheat();
@@ -90,11 +112,15 @@ void BigJason::Update(float dt)
 		currentColor = 0;
 	}
 
+	//check 
+	bulletManager->CheckBullet();
+	bulletManager->CheckCheat();
+
 	//phim bam
 	if (PInput::KeyPressed(LEFT) && !PInput::KeyPressed(RIGHT))
 	{
 		flipX = true;
-		vx = -40;
+		vx = -120;
 		if(!isUpDown)
 			state = I_JASON_WALK_SIDE;
 		isSide = true;
@@ -102,7 +128,7 @@ void BigJason::Update(float dt)
 	else if (PInput::KeyPressed(RIGHT) && !PInput::KeyPressed(LEFT))
 	{
 		flipX = false;
-		vx = 40;
+		vx = 120;
 		if(!isUpDown)
 			state = I_JASON_WALK_SIDE;
 		isSide = true;
@@ -115,14 +141,14 @@ void BigJason::Update(float dt)
 
 	if (PInput::KeyPressed(UP) && !PInput::KeyPressed(DOWN))
 	{
-		vy = -40;
+		vy = -120;
 		isUpDown = true;
 		if (!isSide)
 			state = I_JASON_WALK_UP;
 	}
 	else if (PInput::KeyPressed(DOWN) && !PInput::KeyPressed(UP))
 	{
-		vy = 40;
+		vy = 120;
 		isUpDown = true;
 		if(!isSide)
 			state = I_JASON_WALK_DOWN;
@@ -219,7 +245,7 @@ void BigJason::Render()
 FRECT BigJason::GetCollisionBox()
 {
 	int width = 20;
-	int height = 6;
+	int height = 12;
 
 	// center of collision box is at the shadow of jason
 	int deltaShiftY = 12;
@@ -229,21 +255,26 @@ FRECT BigJason::GetCollisionBox()
 
 bool BigJason::IsInvulnerable()
 {
-	if (invincible <= 0)
-		return false;
-	else
-		return true;
+	return false;
 }
 
 void BigJason::TakeDamage(int dmg)
 {
-	if (invincible <= 0)
-	{
-		this->HP -= dmg;
-		invincible = 500;
-		if (HP < 0)
-		{
-			HP = 0;
-		}
-	}
+}
+
+float BigJason::GetEnterGateSpeed()
+{
+	return 40;
+}
+
+void BigJason::NotifySwitchSceneOut()
+{
+	float BigJasonHealthPercent = (float)GetCurrentHP() / GetMaxHP();
+	DynamicObject* jason = TheEye::GetInstance()->GetJason();
+
+	if (jason == NULL)	return;
+
+	jason->SetCurrentHP(jason->GetMaxHP() * BigJasonHealthPercent);
+
+	dynamic_cast<Jason*>(jason)->SetBulletPower(bulletManager->GetLevel());
 }

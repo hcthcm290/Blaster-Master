@@ -39,8 +39,13 @@
 #include "CameraBoundaryLib.h"
 #include "PInput.h"
 #include "ForegroundTile.h"
+#include "SmallGate.h"
+#include "Eyeball_Spawner.h"
+#include "HealthBarGUI.h"
+#include "StaticGUI.h"
 #include "Rock.h"
 #include "SoundManager.h"
+#include "Ship.h"
 
 using namespace std;
 
@@ -74,7 +79,7 @@ CPlayScene::~CPlayScene() {
 
 #define OBJECT_TYPE_PORTAL	50
 
-#define MAX_SCENE_LINE 1024
+#define MAX_SCENE_LINE 2048
 
 #pragma region Parse Scene Info
 void CPlayScene::_ParseSection_TEXTURES(string line)
@@ -184,6 +189,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		obj = new Sophia();
 		player = dynamic_cast<DynamicObject*>(obj);
+
+		canSpawnPlayer = false;
+
 		break;
 	}
 	case 5:
@@ -218,6 +226,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		bg->shift_direction = D3DXVECTOR2(atoi(tokens[3].c_str()), atoi(tokens[4].c_str()));
 
+		x += bg->shift_direction.x * 4;
+
 		bg->shift_time1 = atof(tokens[5].c_str());
 		bg->shift_time2 = atof(tokens[6].c_str());
 
@@ -232,6 +242,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 
 		obj = bg;
+		break;
+	}
+	case 78:
+	{
+		obj = new SmallGate();
+
+		dynamic_cast<SmallGate*>(obj)->SetIDTargetScene(atoi(tokens[3].c_str()));
+
 		break;
 	}
 	case 0:
@@ -254,6 +272,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 31: {
 		int height = atoi(tokens[3].c_str());
 		obj = new Ladder(height);
+		break;
+	}
+	case 27: {
+		obj = new Ship();
 		break;
 	}
 	}
@@ -333,10 +355,7 @@ void CPlayScene::_ParseSection_MAP(string line)
 				int x_index = tileid % tilesetwidth;
 				int y_index = tileid / tilesetwidth;
 
-				if (CSprites::GetInstance()->Get(tileid) == NULL)
-				{
-					CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
-				}
+				CSprites::GetInstance()->Add(tileid, x_index * tilewidth, y_index * tileheight, (x_index + 1) * tilewidth, (y_index + 1) * tileheight, CTextures::GetInstance()->Get(0));
 
 				ForegroundTile* tile = new ForegroundTile();
 				tile->SetPosition(x * tilewidth, y * tileheight);
@@ -392,6 +411,15 @@ void CPlayScene::_ParseSection_MERGEDBRICK(string line)
 
 		AddGameObjectToScene(brick);
 	}
+}
+
+void CPlayScene::InitGUI()
+{
+	HealthBarGUI* hpGUI = new HealthBarGUI();
+	GUIObjects.emplace_back(hpGUI);
+
+	StaticGUI* hovText = new StaticGUI(16100, D3DXVECTOR2(-108, 1));
+	GUIObjects.emplace_back(hovText);
 }
 
 void CPlayScene::ReloadSceneObject()
@@ -466,6 +494,8 @@ void CPlayScene::HardReloadSceneObject()
 		delete obj.first;
 	}
 
+	canSpawnPlayer = true;
+
 	Load();
 }
 
@@ -527,7 +557,10 @@ void CPlayScene::Load()
 		case SCENE_SECTION_MERGEDBRICK: _ParseSection_MERGEDBRICK(line); break;
 		case SCENE_SECTION_DEFAULTCAMERA: 
 		{
-			if(line != "")	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary(line));
+			// we do not have to use the old way anymore
+			// if(line != "")	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary(line));
+
+			Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 		}
 		}
 	}
@@ -535,6 +568,11 @@ void CPlayScene::Load()
 	f.close();
 
 	BackupPlayableObject();
+
+	totalFaded = 0;
+	state = State::_PLAYSCENE_FADDING_IN;
+
+	InitGUI();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -645,13 +683,18 @@ vector<CGameObject*> CPlayScene::UpdateOnScreenObjs()
 		cameraRECT.right / MAP_BLOCK_WIDTH,
 		cameraRECT.bottom / MAP_BLOCK_HEIGHT);
 
-	auto csu = GetMapBlockID(Camera::GetInstance());
-
 	for (auto mapBlockID : GetMapBlockID(Camera::GetInstance()))
 	{
 		for (auto object : sceneObjects[mapBlockID])
 		{
-			if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
+			if (dynamic_cast<ColliableBrick*>(object))
+			{
+				if (listOnScreenObjs.find(object) == listOnScreenObjs.end())
+				{
+					listOnScreenObjs[object] = object;
+				}
+			}
+			else if (CollisionSystem::CheckOverlap(object, Camera::GetInstance()))
 			{
 				if (listOnScreenObjs.find(object) == listOnScreenObjs.end())
 				{
@@ -782,10 +825,17 @@ void CPlayScene::UpdateFreePlaying(float dt)
 	ApllyVelocityToGameObjs(dt);
 
 	Camera::GetInstance()->Update(dt);
+
+	for (int i = 0; i < GUIObjects.size(); i++)
+	{
+		GUIObjects[i]->Update(dt);
+	}
 }
 
 void CPlayScene::UpdateSwitchSection(float dt)
 {
+	#pragma region Update Enemy Object
+
 	if (dt > 0.1) dt = 0.1;
 
 	if (dt == 0) return;
@@ -818,14 +868,18 @@ void CPlayScene::UpdateSwitchSection(float dt)
 
 	ApllyVelocityToGameObjs(dt);
 
+	#pragma endregion
+
 	countingTime1 += dt;
 
 	RemoveGameObjectFromScene(player);
 
+	float baseMovingSpeed = dynamic_cast<Playable*>(player)->GetEnterGateSpeed();
+
 	if (countingTime1 < gate->shift_time1)
 	{
 		// shifting time 1
-		player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
+		player->SetPosition(player->GetPosition().x + baseMovingSpeed * dt * gate->shift_direction.x, player->GetPosition().y);
 	}
 
 	if (countingTime1 > gate->shift_time1 && countingTime2 == 0)
@@ -864,6 +918,7 @@ void CPlayScene::UpdateSwitchSection(float dt)
 		}
 
 		if (deltaShiftY != 0)
+		// if we still need to shift y-axis
 		{
 			int directionY = deltaShiftY / abs(deltaShiftY);
 
@@ -877,6 +932,7 @@ void CPlayScene::UpdateSwitchSection(float dt)
 			}
 		}
 		else
+		// when we dont need to shift y-axis anymore, shift x-axis
 		{
 			Camera::GetInstance()->SetPosition(cameraPosition.x + gate->shift_direction.x * 150 * dt, cameraPosition.y);
 
@@ -898,17 +954,19 @@ void CPlayScene::UpdateSwitchSection(float dt)
 		// shifting time 2
 		countingTime2 += dt;
 
-		player->SetPosition(player->GetPosition().x + 50 * dt * gate->shift_direction.x, player->GetPosition().y);
+		player->SetPosition(player->GetPosition().x + baseMovingSpeed * dt * gate->shift_direction.x, player->GetPosition().y);
 	}
 
 	if (countingTime2 >= gate->shift_time2)
 	{
-		Camera::GetInstance()->SetCameraBoundary(gate->new_boundary_camera);
 
 		auto playerPosition = player->GetPosition();
 		auto cameraPosition = Camera::GetInstance()->GetPosition();
 
 		player->SetPosition(playerPosition.x + gate->teleport_delta.x, playerPosition.y + gate->teleport_delta.y);
+		player->SetVelocity(0, 50);
+
+		Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 
 		Camera::GetInstance()->SetPosition(cameraPosition.x + gate->teleport_delta.x, cameraPosition.y + gate->teleport_delta.y);
 
@@ -919,8 +977,46 @@ void CPlayScene::UpdateSwitchSection(float dt)
 	BackupPlayableObject();
 }
 
+void CPlayScene::UpdateFaddingIn(float dt)
+{
+	UpdateFreePlaying(dt);
+
+	totalFaded += dt;
+	if (totalFaded >= maxFading)
+	{
+		CGame::GetInstance()->ToggleOverrideColorOff();
+		state = State::_PLAYSCENE_FREE_PLAYING_;
+		return;
+	}
+
+	int color = 255 * (totalFaded / maxFading);
+
+	CGame::GetInstance()->ToggleOverrideColorOn();
+	CGame::GetInstance()->SetOverrideColor(D3DCOLOR_ARGB(255, color, color, color));
+}
+
+void CPlayScene::UpdateFaddingOut(float dt)
+{
+	totalFaded += dt;
+	if (totalFaded >= maxFading)
+	{
+		CGame::GetInstance()->ToggleOverrideColorOff();
+		CGame::GetInstance()->SwitchScene(id_target_scene);
+		return;
+	}
+
+	int color = 255 * (1 - totalFaded / maxFading);
+
+	if (color < 70) color = 0;
+
+	CGame::GetInstance()->ToggleOverrideColorOn();
+	CGame::GetInstance()->SetOverrideColor(D3DCOLOR_ARGB(255, color, color, color));
+}
+
 void CPlayScene::Update(DWORD dw_dt)
 {
+	CollisionSystem::ClearPairColObjCache();
+
 	UpdateOnScreenObjs();
 
 	float dt = (float)(dw_dt);
@@ -936,6 +1032,14 @@ void CPlayScene::Update(DWORD dw_dt)
 	else if (state == State::_PLAYSCENE_SWITCH_SECTION)
 	{
 		UpdateSwitchSection(dt);
+	}
+	else if (state == State::_PLAYSCENE_FADDING_IN)
+	{
+		UpdateFaddingIn(dt);
+	}
+	else if (state == State::_PLAYSCENE_FADDING_OUT)
+	{
+		UpdateFaddingOut(dt);
 	}
 }
 
@@ -1036,6 +1140,11 @@ void CPlayScene::Render()
 	{
 		tile->Render();
 	}
+
+	for (int i = 0; i < GUIObjects.size(); i++)
+	{
+		GUIObjects[i]->Render();
+	}
 }
 
 /*
@@ -1043,13 +1152,38 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	/*for (int i = 0; i < sceneObjects.size(); i++)
-		delete sceneObjects[i];
+	unordered_map<CGameObject*, int> listObject;
 
+	for (auto& block : sceneObjects)
+	{
+		for (auto obj : block.second)
+		{
+			listObject[obj] = 1;
+		}
+		block.second.clear();
+	}
 	sceneObjects.clear();
-	player = NULL;
 
-	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);*/
+	for (auto& obj : listObject)
+	{
+		delete obj.first;
+	}
+
+	unordered_map<DynamicObject*, int> listPlayable;
+	for (auto& block : playableObjects)
+	{
+		for (auto obj : block.second)
+		{
+			listPlayable[dynamic_cast<DynamicObject*>(obj)] = 1;
+		}
+	}
+
+	for (auto& obj : listPlayable)
+	{
+		obj.first->SetAnimator(NULL);
+	}
+
+	onScreenObjs.clear();
 }
 
 void CPlayScene::ReloadBackup()
@@ -1094,4 +1228,12 @@ void CPlayScene::SwitchSection(BigGate* gate)
 	deltaShiftX = 0;
 	deltaShiftY = 0;
 	totalShifting = 0;
+}
+
+void CPlayScene::SwitchScene(int id_target_scene)
+{
+	this->id_target_scene = id_target_scene;
+	this->totalFaded = 0;
+	state = State::_PLAYSCENE_FADDING_OUT;
+	PInput::ClearBuffer();
 }

@@ -1,6 +1,18 @@
 [SETTINGS]
-start	2
+start	-1
 #scene list
 [SCENES]
+#id	file		scene_type
+#scene_type: 
+#	1: basic playscene
+#	2: Interior scene
+#	3: Movie scene
+
 1	scene1.txt	1
 2	Interior1.txt	2
+3	Interior2.txt	2
+4	Interior3.txt	2
+5	Interior4.txt	2
+-1	TitleScene.txt	3
+-2	IntroScene.txt	3
+-3	CarScene.txt	3

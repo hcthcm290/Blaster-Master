@@ -27,8 +27,6 @@ private:
 	IXAudio2MasteringVoice* pMasterVoice = NULL;
 	IXAudio2SourceVoice* pSourceVoice;
 
-	
-
 	static SoundManager* __instance;
 
 	std::string DefaultSoundPath = "Sound\\";

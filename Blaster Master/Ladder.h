@@ -18,6 +18,6 @@ public:
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 
-	LadderPos CheckLadderPos(int jasonState, FRECT jasonColBox                   );
+	LadderPos CheckLadderPos(int jasonState, FRECT jasonColBox);
 };
 

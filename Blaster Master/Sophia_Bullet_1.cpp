@@ -92,6 +92,24 @@ void Sophia_Bullet_1::OnCollisionEnter(CollisionEvent e)
 	}
 }
 
+void Sophia_Bullet_1::OnOverlap(CGameObject* obj)
+{
+	if (dynamic_cast<ColliableBrick*>(obj) != nullptr)
+	{
+		ex = true;
+		explosionOverlap = true;
+	}
+	if (!isHit)
+	{
+		if (dynamic_cast<Enemy*>(obj) != nullptr)
+		{
+			dynamic_cast<DynamicObject*>(obj)->TakeDamage(30);
+			isHit = true;
+			RemoveBullet();
+		}
+	}
+}
+
 void Sophia_Bullet_1::Update(float dt)
 {
 	if (!ex)
@@ -140,7 +158,7 @@ void Sophia_Bullet_1::Explode()
 	}
 	else
 	{
-		if (flipX)
+		if (flipX ^ explosionOverlap)
 		{
 			explode->SetPosition(x + 10, y);
 		}
