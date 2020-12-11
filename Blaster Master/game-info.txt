@@ -4,6 +4,7 @@ start	-1
 [SCENES]
 #id	file		scene_type
 #scene_type: 
+#	0: basic scene
 #	1: basic playscene
 #	2: Interior scene
 #	3: Movie scene
@@ -16,3 +17,4 @@ start	-1
 -1	TitleScene.txt	3
 -2	IntroScene.txt	3
 -3	CarScene.txt	3
+-4	BulletSelectorScene.txt	0

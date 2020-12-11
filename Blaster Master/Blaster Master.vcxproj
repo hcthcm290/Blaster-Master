@@ -169,9 +169,11 @@
     <ClCompile Include="Animator_Jumper.cpp" />
     <ClCompile Include="Animator_Mine_Explosion.cpp" />
     <ClCompile Include="Animator_Sophia.cpp" />
+    <ClCompile Include="BasicScene.cpp" />
     <ClCompile Include="BigJason.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
+    <ClCompile Include="BulletSelector.cpp" />
     <ClCompile Include="Bullet_Eyeball.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
     <ClCompile Include="Bullet_Jason_Interior.cpp" />
@@ -246,8 +248,10 @@
     <ClInclude Include="Animator_Floater.h" />
     <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Animator_Sophia.h" />
+    <ClInclude Include="BasicScene.h" />
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletSelector.h" />
     <ClInclude Include="Bullet_Eyeball.h" />
     <ClInclude Include="Bullet_Jason_Interior.h" />
     <ClInclude Include="Canon_Bullet.h" />

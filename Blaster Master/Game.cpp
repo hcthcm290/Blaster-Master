@@ -203,6 +203,9 @@ void CGame::_ParseSection_SCENES(string line)
 	LPSCENE scene = NULL;
 	switch (sceneType)
 	{
+	case 0:
+		scene = new BasicScene(id, path);
+		break;
 	case 1:
 		scene = new CPlayScene(id, path);
 		break;

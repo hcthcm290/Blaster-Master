@@ -21,83 +21,6 @@
 
 #define MAX_SCENE_LINE 2048
 
-void MovieScene::_ParseSection_TEXTURES(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 5) return; // skip invalid lines
-
-	int texID = atoi(tokens[0].c_str());
-	wstring path = ToWSTR(tokens[1]);
-	int R = atoi(tokens[2].c_str());
-	int G = atoi(tokens[3].c_str());
-	int B = atoi(tokens[4].c_str());
-
-	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
-}
-
-void MovieScene::_ParseSection_SPRITES(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 6) return; // skip invalid lines
-
-	int ID = atoi(tokens[0].c_str());
-	int l = atoi(tokens[1].c_str());
-	int t = atoi(tokens[2].c_str());
-	int r = atoi(tokens[3].c_str());
-	int b = atoi(tokens[4].c_str());
-	int texID = atoi(tokens[5].c_str());
-
-	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
-	if (tex == NULL)
-	{
-		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
-		return;
-	}
-
-	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
-}
-
-void MovieScene::_ParseSection_ANIMATIONS(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
-
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
-	LPANIMATION ani = new CAnimation();
-
-	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
-	{
-		int sprite_id = atoi(tokens[i].c_str());
-		int frame_time = atoi(tokens[i + 1].c_str());
-		ani->Add(sprite_id, frame_time);
-	}
-	CAnimations::GetInstance()->Add(ani_id, ani);
-}
-
-void MovieScene::_ParseSection_OBJECTS(string line)
-{
-	vector<string> tokens = split(line);
-
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
-	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
-
-	int object_type = atoi(tokens[0].c_str());
-	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());
-
-	CGameObject* obj = NULL;
-
-	switch (object_type)
-	{
-	}
-}
-
 void MovieScene::_ParseSection_ListBackgroundColor(std::string line)
 {
 	vector<string> tokens = split(line);
@@ -113,7 +36,7 @@ void MovieScene::_ParseSection_ListBackgroundColor(std::string line)
 
 MovieScene::MovieScene(int id, LPCWSTR filePath)
 	:
-	CScene(id, filePath)
+	BasicScene(id, filePath)
 {
 }
 
@@ -220,6 +143,7 @@ void MovieScene::Load()
 			if (tokens.size() == 2)
 			{
 				idBreakOutScene = atoi(tokens[1].c_str());
+				canBreakOut = true;
 			}
 			break;
 		}
@@ -264,7 +188,7 @@ void MovieScene::Update(DWORD dw_dt)
 		return;
 	}
 
-	if (DInput::KeyDown(DIK_RETURN))
+	if (DInput::KeyDown(DIK_RETURN) && canBreakOut)
 	{
 		CGame::GetInstance()->SwitchScene(this->idBreakOutScene);
 		return;

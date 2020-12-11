@@ -803,6 +803,12 @@ void CPlayScene::UpdateFreePlaying(float dt)
 
 	PInput::Update();
 
+	if (DInput::KeyDown(DIK_RETURN))
+	{
+		CGame::GetInstance()->SwitchScene(-4);
+		return;
+	}
+
 	// Update for all the game object
 	for (int i = 0; i< onScreenObjs.size(); i++)
 	{

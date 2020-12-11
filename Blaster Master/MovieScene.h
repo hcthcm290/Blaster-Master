@@ -1,14 +1,14 @@
 #pragma once
 #include "DynamicObject.h"
-#include "Scene.h"
+#include "BasicScene.h"
 
-class MovieScene : public CScene
+class MovieScene : public BasicScene
 {
 protected:
 	int MovieAnimationID;
 	int idNextScene; // if timeout, nextScene will be play
 	int idBreakOutScene; // if this scene is set, player can press Enter to go to that scene
-	int BackgroundSpriteID;
+	bool canBreakOut = false;
 
 	// first is color
 	// second is living time of that color
@@ -31,10 +31,6 @@ protected:
 	D3DXVECTOR2 animationOffset = D3DXVECTOR2(0, 0);
 
 protected:
-	virtual void _ParseSection_TEXTURES(std::string line);
-	virtual void _ParseSection_SPRITES(std::string line);
-	virtual void _ParseSection_ANIMATIONS(std::string line);
-	virtual void _ParseSection_OBJECTS(std::string line);
 	virtual void _ParseSection_ListBackgroundColor(std::string line);
 
 public:

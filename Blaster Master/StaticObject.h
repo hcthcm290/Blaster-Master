@@ -3,6 +3,7 @@
 
 class StaticObject : public CGameObject
 {
+protected:
 	int spriteID;
 
 public:
