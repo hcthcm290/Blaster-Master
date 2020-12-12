@@ -4,7 +4,7 @@
 
 class Bullet_Eyeball : public DynamicObject {
 private:
-	const float SPEED = 1500;
+	const float SPEED = 3500;
 	float livingTime = 3;
 
 	float vx0;

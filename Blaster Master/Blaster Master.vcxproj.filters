@@ -253,6 +253,9 @@
     <ClCompile Include="Bullet_Eyeball.cpp">
       <Filter>Source Files\Interior</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -506,6 +509,9 @@
     </ClInclude>
     <ClInclude Include="Bullet_Eyeball.h">
       <Filter>Header Files\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Header Files\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

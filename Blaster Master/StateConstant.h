@@ -109,4 +109,10 @@ public:
 #pragma region Eyeball_Bullet
 	static const int _EYEBALL_BULLET_ = 21000;
 #pragma endregion
+
+#pragma region BOSS
+	static const int _BOSS_BODY_ = 28101;
+	static const int _BOSS_ARM_ = 28201;
+	static const int _BOSS_HAND_ = 28202;
+#pragma endregion
 };

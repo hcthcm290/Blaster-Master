@@ -170,6 +170,7 @@
     <ClCompile Include="Animator_Mine_Explosion.cpp" />
     <ClCompile Include="Animator_Sophia.cpp" />
     <ClCompile Include="BigJason.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="Bullet_Eyeball.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="Animator_Mine_Explosion.h" />
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="BigJason.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet_Eyeball.h" />
     <ClInclude Include="Bullet_Jason_Interior.h" />
