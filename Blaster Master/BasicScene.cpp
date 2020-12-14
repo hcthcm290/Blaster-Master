@@ -4,6 +4,7 @@
 #include "Debug.h"
 #include <fstream>
 #include "Camera.h"
+#include "WeaponSelector.h"
 
 #define BASICSCENE_SECTION_UNKNOWN -1
 #define BASICSCENE_SECTION_TEXTURES 1
@@ -78,14 +79,24 @@ void BasicScene::_ParseSection_OBJECTS(std::string line)
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
-	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());
 
 	CGameObject* obj = NULL;
 
+	float x = atof(tokens[1].c_str());
+	float y = atof(tokens[2].c_str());
+
 	switch (object_type)
 	{
+	case 41:
+	{
+		obj = new WeaponSelector();
+		dynamic_cast<StaticObject*>(obj)->SetSpriteID(atoi(tokens[3].c_str()));
+		this->listSceneObject.emplace_back(obj);
+		return;
 	}
+	}
+
+	this->listSceneObject.emplace_back(obj);
 }
 
 BasicScene::BasicScene(int id, LPCWSTR filePath)
@@ -151,6 +162,7 @@ void BasicScene::Load()
 
 void BasicScene::Unload()
 {
+	this->listSceneObject.clear();
 }
 
 void BasicScene::Update(DWORD dw_dt)

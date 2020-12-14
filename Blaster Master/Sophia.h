@@ -45,6 +45,12 @@ class Sophia : public DynamicObject, public Playable
 	DWORD switchDelay; //avoid switching back and forth so fast
 
 	bool switching = true;
+
+	// Weapon type
+	// 1: Homing
+	// 2: Thunder
+	// 3: Rocket
+	int currentWeapon = 1; 
 public:
 	Sophia();
 
@@ -64,5 +70,8 @@ public:
 	void Awake(int JasonHealth);
 	virtual int GetState() { return this->state; }
 	virtual void SetState(int state) { this->state = state; }
+
+	int GetCurrentWeapon() { return this->currentWeapon; }
+	void SetCurrentWeapon(int value) { this->currentWeapon = value; }
 };
 

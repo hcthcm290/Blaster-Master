@@ -46,6 +46,7 @@
 #include "Rock.h"
 #include "SoundManager.h"
 #include "Ship.h"
+#include "IDSceneConstant.h"
 
 using namespace std;
 
@@ -805,7 +806,8 @@ void CPlayScene::UpdateFreePlaying(float dt)
 
 	if (DInput::KeyDown(DIK_RETURN))
 	{
-		CGame::GetInstance()->SwitchScene(-4);
+		
+		CGame::GetInstance()->SwitchScene(IDSceneConstant::WEAPON_SELECTOR_SCENE);
 		return;
 	}
 

@@ -256,7 +256,9 @@
     <ClCompile Include="BasicScene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="BulletSelector.cpp" />
+    <ClCompile Include="WeaponSelector.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -514,8 +516,14 @@
     <ClInclude Include="BasicScene.h">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="BulletSelector.h">
+    <ClInclude Include="WeaponSelector.h">
       <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IDSceneConstant.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

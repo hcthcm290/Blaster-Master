@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include "Scene.h"
 #include "DInput.h"
-
+#include "Stack.h"
 using namespace std;
 
 class CGame
@@ -21,6 +21,7 @@ class CGame
 
 	std::unordered_map<int, LPSCENE> scenes;
 	int current_scene;
+	Stack<int> scene_stack;
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
@@ -52,6 +53,8 @@ public:
 	void ToggleOverrideColorOn() { this->beingOverrideColor = true; }
 	void ToggleOverrideColorOff() { this->beingOverrideColor = false; }
 	void SetOverrideColor(D3DCOLOR color) { this->overrideColor = color; }
+	Stack<int> GetSceneStack();
+	LPSCENE GetScene(int id);
 
 	~CGame();
 };

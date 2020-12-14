@@ -17,4 +17,4 @@ start	-1
 -1	TitleScene.txt	3
 -2	IntroScene.txt	3
 -3	CarScene.txt	3
--4	BulletSelectorScene.txt	0
+-4	WeaponSelectorScene.txt	0

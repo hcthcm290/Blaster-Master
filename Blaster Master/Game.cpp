@@ -165,6 +165,16 @@ LPDIRECT3DTEXTURE9 CGame::LoadTexture(LPCWSTR texturePath, D3DCOLOR transparentC
 }
 
 
+Stack<int> CGame::GetSceneStack()
+{
+	return Stack<int>(this->scene_stack);
+}
+
+LPSCENE CGame::GetScene(int id)
+{
+	return this->scenes[id];
+}
+
 CGame::~CGame()
 {
 	if (spriteHandler != NULL) spriteHandler->Release();
@@ -265,6 +275,12 @@ void CGame::Load(LPCWSTR gameFile)
 void CGame::SwitchScene(int scene_id)
 {
 	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
+
+	if (scene_stack.Contain(scene_id))
+	{
+		scene_stack.PopToValue(scene_id);
+	}
+	scene_stack.Push(scene_id);
 
 	scenes[current_scene]->Unload();;
 

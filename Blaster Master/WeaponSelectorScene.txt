@@ -1,0 +1,15 @@
+[TEXTURES]
+40	textures\40_ChooseWeaponBackground.png	255	0	255
+41	textures\41_WeaponSelector.png	255	0	255
+
+[SPRITES]
+14000	0	0	256	224	40
+14100	0	0	8	16	41
+
+[ANIMATIONS]
+
+[BACKGROUNDSPRITEID]
+14000
+
+[OBJECTS]
+41	0	0	14100
