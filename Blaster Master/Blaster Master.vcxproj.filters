@@ -253,6 +253,9 @@
     <ClCompile Include="Bullet_Eyeball.cpp">
       <Filter>Source Files\Interior</Filter>
     </ClCompile>
+    <ClCompile Include="OutroScene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -507,6 +510,9 @@
     <ClInclude Include="Bullet_Eyeball.h">
       <Filter>Header Files\Interior</Filter>
     </ClInclude>
+    <ClInclude Include="OutroScene.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
@@ -545,6 +551,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="IntroScene.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\..\BlasterMasterTemplate_NMPTGame2020\BlasterMaster\EndingScene.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
