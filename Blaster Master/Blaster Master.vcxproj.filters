@@ -268,7 +268,9 @@
     <ClCompile Include="OutroScene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Sophia_Bullet_Thunder.cpp" />
+    <ClCompile Include="Sophia_Bullet_Thunder.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -544,7 +546,9 @@
     <ClInclude Include="OutroScene.h">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sophia_Bullet_Thunder.h" />
+    <ClInclude Include="Sophia_Bullet_Thunder.h">
+      <Filter>Header Files\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
