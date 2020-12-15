@@ -335,9 +335,20 @@ void Sophia::Update(float dt)
 			if (PInput::KeyPressed(DOWN))
 			{
 				if (now - last_bullet > 300)
-					ShootThunder();
-					//ShootHoming();
-					//ShootRocket();
+				{
+					switch (currentWeapon)
+					{
+					case 1:
+						ShootHoming();
+						break;
+					case 2:
+						ShootThunder();
+						break;
+					case 3:
+						ShootRocket();
+						break;
+					}
+				}
 			}
 			else
 			{
