@@ -340,6 +340,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CarScene.txt" />
+    <Text Include="Font\ChooseWeaponFont.txt" />
     <Text Include="game-info.txt" />
     <Text Include="Interior1.txt" />
     <Text Include="Interior2.txt" />

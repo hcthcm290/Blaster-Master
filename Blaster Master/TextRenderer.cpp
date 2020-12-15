@@ -148,3 +148,34 @@ void TextRenderer::Render(float x, float y)
 		current_x += fontInfo.witdh + fontInfo.character_space_width;
 	}
 }
+
+void TextRenderer::Render(float x, float y, string content)
+{
+	float current_x = x;
+	float current_y = y;
+
+	for (int i = 0; i < content.length(); i++)
+	{
+		if (!charInfo.contains(content[i])) continue; // if we dont have info about that weird character, skip it
+
+		if (content[i] == '\n')
+		{
+			current_x = x;
+			current_y += fontInfo.height + fontInfo.line_spacing_value;
+			continue;
+		}
+
+		if (content[i] == ' ')
+		{
+			current_x += fontInfo.witdh + fontInfo.word_space_width;
+			continue;
+		}
+
+		FRECT cRect = charInfo[content[i]];
+		auto texture = CTextures::GetInstance()->Get(this->textureID);
+
+		CGame::GetInstance()->Draw(current_x, current_y, texture, cRect.left, cRect.top, cRect.right, cRect.bottom);
+
+		current_x += fontInfo.witdh + fontInfo.character_space_width;
+	}
+}

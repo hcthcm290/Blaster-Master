@@ -30,4 +30,5 @@ public:
 	void SetContent(string value);
 	void LoadContent(string filepath);
 	void Render(float x, float y);
+	void Render(float x, float y, string content);
 };

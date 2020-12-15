@@ -3,6 +3,11 @@
 #include "TheEye.h"
 #include "Game.h"
 #include "Debug.h"
+WeaponSelector::WeaponSelector()
+{
+	textRenderer.LoadFont("Font\\ChooseWeaponFont.txt");
+}
+
 void WeaponSelector::Update(float dt)
 {
 	// -1 because sophia weapon index start from 1
@@ -42,9 +47,16 @@ void WeaponSelector::Update(float dt)
 
 void WeaponSelector::Render()
 {
-	if (!showTheSelector) return;
+	if (showTheSelector)
+	{
+		D3DXVECTOR2 currentPos = listPosition[currentPositionIndex];
+		CSprites::GetInstance()->Get(spriteID)->Draw(currentPos.x - offsetX, currentPos.y);
+		CSprites::GetInstance()->Get(spriteID)->Draw(currentPos.x + offsetX, currentPos.y, true);
+	}
 
-	D3DXVECTOR2 currentPos = listPosition[currentPositionIndex];
-	CSprites::GetInstance()->Get(spriteID)->Draw(currentPos.x - offsetX, currentPos.y);
-	CSprites::GetInstance()->Get(spriteID)->Draw(currentPos.x + offsetX, currentPos.y, true);
+	// render the number of weapon left
+	for (int i = 0; i < 3; i++)
+	{
+		textRenderer.Render(listPosition[i].x + textOffset.x, listPosition[i].y + textOffset.y, "20");
+	}
 }
