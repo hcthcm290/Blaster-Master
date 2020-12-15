@@ -173,6 +173,7 @@
     <ClCompile Include="BigJason.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="WeaponSelector.cpp" />
     <ClCompile Include="Bullet_Eyeball.cpp" />
     <ClCompile Include="Bullet_Jason.cpp" />
@@ -253,6 +254,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="IDSceneConstant.h" />
     <ClInclude Include="Stack.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="WeaponSelector.h" />
     <ClInclude Include="Bullet_Eyeball.h" />
     <ClInclude Include="Bullet_Jason_Interior.h" />

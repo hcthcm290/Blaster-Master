@@ -259,6 +259,7 @@
     <ClCompile Include="WeaponSelector.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -524,6 +525,9 @@
     </ClInclude>
     <ClInclude Include="Stack.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
