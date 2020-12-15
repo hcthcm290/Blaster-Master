@@ -50,6 +50,7 @@ protected:
 	virtual void _ParseSection_OBJECTS(string line);
 	virtual void _ParseSection_MAP(string line);
 	virtual void _ParseSection_MERGEDBRICK(string line);
+	virtual void _ParseSection_SHAREDDATA(string line);
 	virtual void InitGUI();
 	void ReloadSceneObject();
 	void HardReloadSceneObject();
