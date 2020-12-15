@@ -1,4 +1,6 @@
 #include "Utils.h"
+#include <sstream>
+#include <iomanip>
 
 vector<string> split(string line, string delimeter)
 {
@@ -67,4 +69,22 @@ std::wstring s2ws(const std::string& s)
 	std::wstring r(buf);
 	delete[] buf;
 	return r;
+}
+
+string IntToString(int x, int length)
+{
+	std::stringstream ss;
+	ss << std::setw(length) << std::setfill('0') << x;
+	std::string result = ss.str();
+
+	return result;
+}
+
+string IntToString(int x)
+{
+	std::stringstream ss;
+	ss << x;
+	std::string result = ss.str();
+
+	return result;
 }

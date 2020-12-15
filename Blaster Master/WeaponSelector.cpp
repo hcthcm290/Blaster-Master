@@ -3,6 +3,8 @@
 #include "TheEye.h"
 #include "Game.h"
 #include "Debug.h"
+#include "Utils.h"
+
 WeaponSelector::WeaponSelector()
 {
 	textRenderer.LoadFont("Font\\ChooseWeaponFont.txt");
@@ -57,6 +59,22 @@ void WeaponSelector::Render()
 	// render the number of weapon left
 	for (int i = 0; i < 3; i++)
 	{
-		textRenderer.Render(listPosition[i].x + textOffset.x, listPosition[i].y + textOffset.y, "20");
+		int value;
+
+		switch (i)
+		{
+		case 0:
+			value = TheEye::GetInstance()->GetSophia()->GetNumberOfHoming();
+			break;
+		case 1:
+			value = TheEye::GetInstance()->GetSophia()->GetNumberOfThunder();
+			break;
+		case 2:
+			value = TheEye::GetInstance()->GetSophia()->GetNumberOfRocket();
+			break;
+		}
+
+		string s_value = IntToString(value, 2);
+		textRenderer.Render(listPosition[i].x + textOffset.x, listPosition[i].y + textOffset.y, s_value);
 	}
 }

@@ -34,9 +34,9 @@ class Sophia : public DynamicObject, public Playable
 	};
 	int currentColor;
 	DWORD lastDamageTime;
-	int Homing = 20;
-	int Thunder = 20;
-	int Rocket = 5;
+	int Homing = 20; // number of homing bullet left
+	int Thunder = 20; // number of thunder bbullet left
+	int Rocket = 5; // number of rocket bullet left
 	DWORD die;
 
 	//JASON
@@ -75,5 +75,11 @@ public:
 
 	int GetCurrentWeapon() { return this->currentWeapon; }
 	void SetCurrentWeapon(int value) { this->currentWeapon = value; }
+	int GetNumberOfHoming() { return this->Homing; }
+	int GetNumberOfThunder() { return this->Thunder; }
+	int GetNumberOfRocket() { return this->Rocket; }
+	void SetNumberOfHoming(int value) { this->Homing = value; }
+	void SetNumberOfThunder(int value) { this->Thunder = value; }
+	void SetNumberOfRocker(int value) { this->Rocket = value; }
 };
 
