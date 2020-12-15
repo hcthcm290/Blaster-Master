@@ -3,6 +3,7 @@
 #include "PlayScene.h"
 #include "Explosion_Interior.h"
 #include "Debug.h"
+#include "BigJason.h"
 
 EyeballLinear::EyeballLinear(float x, float y, int dx, int dy) {
 	//DebugOut(L"%f %f %d %d\n", x, y, dx, dy);
@@ -67,6 +68,10 @@ void EyeballLinear::OnCollisionEnter(CollisionEvent e) {
 			brick = dynamic_cast<ColliableBrick*>(e.pGameObject); //nothing happend
 		}
 		else Die();
+	}
+	if (dynamic_cast<BigJason*>(e.pGameObject)) {
+		dynamic_cast<BigJason*>(e.pGameObject)->TakeDamage(20);
+		Die();
 	}
 }
 

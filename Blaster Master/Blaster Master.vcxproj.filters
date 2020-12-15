@@ -253,6 +253,7 @@
     <ClCompile Include="Bullet_Eyeball.cpp">
       <Filter>Source Files\Interior</Filter>
     </ClCompile>
+    <ClCompile Include="Sophia_Bullet_Thunder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -507,6 +508,7 @@
     <ClInclude Include="Bullet_Eyeball.h">
       <Filter>Header Files\Interior</Filter>
     </ClInclude>
+    <ClInclude Include="Sophia_Bullet_Thunder.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">

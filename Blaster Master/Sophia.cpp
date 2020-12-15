@@ -12,6 +12,7 @@
 #include "PInput.h"
 #include "TheEye.h"
 #include "SoundManager.h"
+#include "Sophia_Bullet_Thunder.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -334,7 +335,8 @@ void Sophia::Update(float dt)
 			if (PInput::KeyPressed(DOWN))
 			{
 				if (now - last_bullet > 300)
-					ShootHoming();
+					ShootThunder();
+					//ShootHoming();
 					//ShootRocket();
 			}
 			else
@@ -409,6 +411,18 @@ void Sophia::ShootHoming()
 		}
 	}
 	delete vision;
+}
+
+void Sophia::ShootThunder()
+{
+	if (Thunder <= 0)
+		return;
+	if ((new Sophia_Bullet_Thunder)->count > 0)
+		return;
+	auto bullet = new Sophia_Bullet_Thunder(true, nullptr);
+	bullet->SetPosition(x , y + 20);
+	Thunder--;
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
 }
 
 void Sophia::ShootRocket()

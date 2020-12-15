@@ -6,6 +6,7 @@
 #include "PlayScene.h"
 #include "ColliableBrick.h"
 #include "Bullet_Eyeball.h"
+#include "BigJason.h"
 
 EyeballCurved::EyeballCurved() {
 	animator = new Animator();
@@ -70,6 +71,9 @@ void EyeballCurved::OnCollisionEnter(CollisionEvent e) {
 		//CheckDirection();
 		if (e.nx != 0) vx0 = -vx0; //horizontal
 		else vy0 = -vy0; //vertical
+	}
+	if (dynamic_cast<BigJason*>(e.pGameObject)) {
+		dynamic_cast<BigJason*>(e.pGameObject)->TakeDamage(20);
 	}
 }
 

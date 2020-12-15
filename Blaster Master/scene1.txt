@@ -28,6 +28,7 @@
 61	textures\61_HovText.png	255	0	2555
 23	textures\23_Spike.png	0	0	0
 27	textures\27_Ship.png	255	0	255
+95	textures\95-Thunder.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -225,6 +226,10 @@
 19603	91	28	97	36	100
 19604	82	19	89	28	100
 19605	0	0	1	1	100
+#Thunder
+19501	0	0	15	32	95
+19502	0	32	15	64	95
+###############
 #Floater_Bullet
 12203	0	0	4	4	22
 #Lava
@@ -429,6 +434,9 @@
 29602	19602	500
 29603	19603	500
 29604	19604	500
+#=====SOPHIA_BULLET_THUNDER=====
+29501	19501	500
+29502	19502	500
 #=====LAVA EFFECT=======
 23001	13001	9999
 #=====LADDER	 =======
