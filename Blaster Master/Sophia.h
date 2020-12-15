@@ -35,6 +35,7 @@ class Sophia : public DynamicObject, public Playable
 	int currentColor;
 	DWORD lastDamageTime;
 	int Homing = 20;
+	int Thunder = 20;
 	int Rocket = 5;
 	DWORD die;
 
@@ -63,6 +64,7 @@ public:
 	void Render();
 	void StateChange();
 	void ShootHoming();
+	void ShootThunder();
 	void ShootRocket();
 	~Sophia();// Trung Nguyễn
 	void TakeDamage(int dmg);
