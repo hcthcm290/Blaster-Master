@@ -239,7 +239,14 @@ void BigJason::Update(float dt)
 
 void BigJason::Render()
 {
-	animator->Draw(state, x, y, !flipX, 0, damageColor[currentColor]);
+	if (state == I_JASON_WALK_DOWN || state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP || state == I_JASON_IDLE_DOWN)
+	{
+		animator->Draw(state, x, y, false, 0, damageColor[currentColor]);
+	}
+	else
+	{
+		animator->Draw(state, x, y, !flipX, 0, damageColor[currentColor]);
+	}
 }
 
 FRECT BigJason::GetCollisionBox()
