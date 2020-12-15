@@ -43,7 +43,7 @@ void WeaponSelector::Update(float dt)
 		Stack<int> scene_stack = CGame::GetInstance()->GetSceneStack();
 		scene_stack.Pop(); // the first pop is to eliminate the select weapon scene
 		int target_scene_id = scene_stack.Pop();
-		CGame::GetInstance()->SwitchScene(target_scene_id);
+		CGame::GetInstance()->SoftSwitchScene(target_scene_id, true, false);
 	}
 }
 

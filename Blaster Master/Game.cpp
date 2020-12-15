@@ -297,3 +297,24 @@ void CGame::SwitchScene(int scene_id)
 		SoundManager::GetInstance()->PlaySoundInfinite("InteriorTheme.wav");
 	s->Load();
 }
+
+void CGame::SoftSwitchScene(int scene_id, bool unloadPrevScene, bool loadNextScene)
+{
+	if (scene_stack.Contain(scene_id))
+	{
+		scene_stack.PopToValue(scene_id);
+	}
+	scene_stack.Push(scene_id);
+
+	if (unloadPrevScene)
+	{
+		scenes[current_scene]->Unload();
+	}
+
+	current_scene = scene_id;
+
+	if (loadNextScene)
+	{
+		scenes[current_scene]->Load();
+	}
+}

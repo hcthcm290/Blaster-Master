@@ -823,7 +823,7 @@ void CPlayScene::UpdateFreePlaying(float dt)
 		(dynamic_cast<Sophia*>(player) != NULL ||
 		dynamic_cast<Jason*>(player) != NULL))
 	{
-		CGame::GetInstance()->SwitchScene(IDSceneConstant::WEAPON_SELECTOR_SCENE);
+		CGame::GetInstance()->SoftSwitchScene(IDSceneConstant::WEAPON_SELECTOR_SCENE, false, true);
 		return;
 	}
 

@@ -47,6 +47,7 @@ public:
 	void Load(LPCWSTR gameFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
+	void SoftSwitchScene(int scene_id, bool unloadPrevScene, bool loadNextScene);
 
 	static CGame* GetInstance();
 
