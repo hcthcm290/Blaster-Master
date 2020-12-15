@@ -43,4 +43,5 @@ public:
 	void PlaySoundW(std::string filename);
 	void PlaySoundInfinite(std::string filename);
 	void Release();
+	void StopSource();
 };

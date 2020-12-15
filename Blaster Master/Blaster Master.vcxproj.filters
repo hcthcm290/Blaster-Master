@@ -265,6 +265,9 @@
     <ClCompile Include="TextRenderer.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="OutroScene.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -537,6 +540,9 @@
     <ClInclude Include="Boss.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="OutroScene.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
@@ -581,6 +587,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Font\ChooseWeaponFont.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\..\BlasterMasterTemplate_NMPTGame2020\BlasterMaster\EndingScene.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

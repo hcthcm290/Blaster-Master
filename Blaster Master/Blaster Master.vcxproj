@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\rapidjson-master\rapidjson-master\include;$(ProjectDir)\rapidjson\rapidjson\include;C:\rapidjson-master\include;D:\Document\NMGame\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\rapidjson-master\rapidjson-master\include;$(ProjectDir)\rapidjson\include;C:\rapidjson-master\include;D:\Document\NMGame\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -192,6 +192,7 @@
     <ClCompile Include="InteriorGateOut.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
     <ClCompile Include="Jason_BulletManager_Interior.cpp" />
+    <ClCompile Include="OutroScene.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="MovieScene.cpp" />
     <ClCompile Include="Ship.cpp" />
@@ -273,6 +274,7 @@
     <ClInclude Include="InteriorScene.h" />
     <ClInclude Include="Jason_BulletManager_Interior.h" />
     <ClInclude Include="MovieScene.h" />
+    <ClInclude Include="OutroScene.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
@@ -343,6 +345,7 @@
   <ItemGroup>
     <Text Include="CarScene.txt" />
     <Text Include="Font\ChooseWeaponFont.txt" />
+    <Text Include="..\..\BlasterMasterTemplate_NMPTGame2020\BlasterMaster\EndingScene.txt" />
     <Text Include="game-info.txt" />
     <Text Include="Interior1.txt" />
     <Text Include="Interior2.txt" />

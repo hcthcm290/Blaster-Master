@@ -25,7 +25,7 @@ void GunBarGUI::Render()
 
 	if (gunPower < 1 || gunPower > 8)
 	{
-		gunPower = TheEye::GetInstance()->GetBigJason()->getGunPower();
+		gunPower = 1;
 	}
 
 	// we need -1 because gunpower start at lv 1
