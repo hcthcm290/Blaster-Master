@@ -15,9 +15,9 @@ void Ladder::Update(float dt) {
 }
 
 void Ladder::Render() {
-	for (int i = 0; i < height; i++) {
-		animator->Draw(State::_LADDER_, x, y + i * 16, false);
-	}
+	//for (int i = 0; i < height; i++) {
+	//	animator->Draw(State::_LADDER_, x, y + i * 16, false);
+	//}
 }
 
 FRECT Ladder::GetCollisionBox() {
@@ -30,7 +30,7 @@ void Ladder::OnCollisionEnter(CollisionEvent e) {
 
 LadderPos Ladder::CheckLadderPos(int jasonState, FRECT jasonColBox) {
 	if (top == NULL) {
-		top = y - 8;
+		top = y - 12;
 		bottom = y + height * 16 - 9; //avoid flicking between body and tail
 	}
 

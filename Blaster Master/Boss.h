@@ -75,6 +75,8 @@ public:
 class BossHand : public DynamicObject //, public Intangibility
 {
 private:
+	float vx_r, vy_r;
+
 	//arm control
 	BossArm* arrBossArm[4];
 

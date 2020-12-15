@@ -52,7 +52,6 @@ void Boss::Render() {
 		arrBossHand[i]->Render(i);
 		//DebugOut(L"%d hand: %f %f\n", i, arrBossHand[i]->GetPosition().x, arrBossHand[i]->GetPosition().y);
 	}
-		
 }
 
 void Boss::CheckFire(float dt) {
@@ -192,7 +191,7 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 	float posY = shoudlerY + DISTANCE * offsetY;
 
 	if ((abs(x - posX) <= EPSILON && abs(y - posY) <= EPSILON)
-		|| (GetDistance(shoudlerX, shoudlerY, x, y) >= DISTANCE)) {
+		|| (GetDistance(shoudlerX, shoudlerY, x, y) >= DISTANCE * sqrt(2))) {
 		//set new offsets
 		offsetX = RandRange(0, 1);
 		offsetY = RandRange(-1, 1);
@@ -214,7 +213,7 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 
 	vx0 *= (vx0 * dx >= 0 ? 1 : -1);
 	vy0 *= (vy0 * dy >= 0 ? 1 : -1);
-	
+
 	UpdateArms(shoudlerX, shoudlerY);
 }
 

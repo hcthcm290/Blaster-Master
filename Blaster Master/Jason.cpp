@@ -112,7 +112,7 @@ void Jason::Update(float dt)
 		vx = horizontalMove * speed;
 		vy -= jumpSpeed * (allowJump && attemptJump);
 		vy += 150 * dt * (ladder == NULL 
-							|| !CollisionSystem::CheckOverlap(ladder, this) 
+							|| !CollisionSystem::CheckOverlap(ladder, this)
 							|| attemptJump == false);
 	}
 	else if (ladderPos == LadderPos::Top) { //TOP OF LADDER
