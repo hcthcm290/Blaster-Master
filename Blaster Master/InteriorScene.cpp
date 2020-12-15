@@ -16,6 +16,7 @@
 #include "Rock.h"
 #include  "SoundManager.h"
 #include "Eyeball_Curved.h"
+#include "Boss.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -192,6 +193,11 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		x = atof(tokens[1].c_str()) * 16;
 		y = atof(tokens[2].c_str()) * 16;
 		dynamic_cast<InteriorGateOut*>(obj)->SetIDTargetScene(atoi(tokens[3].c_str()));
+		break;
+	}
+	case 82: 
+	{
+		obj = new Boss(x, y);
 		break;
 	}
 	default:

@@ -171,6 +171,7 @@
     <ClCompile Include="Animator_Sophia.cpp" />
     <ClCompile Include="BasicScene.cpp" />
     <ClCompile Include="BigJason.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="Animator_Sophia.h" />
     <ClInclude Include="BasicScene.h" />
     <ClInclude Include="BigJason.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="IDSceneConstant.h" />
     <ClInclude Include="Stack.h" />

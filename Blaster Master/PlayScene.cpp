@@ -72,6 +72,7 @@ CPlayScene::~CPlayScene() {
 #define SCENE_SECTION_MAP 7
 #define SCENE_SECTION_MERGEDBRICK 8
 #define SCENE_SECTION_DEFAULTCAMERA 9
+#define SCENE_SECTION_SHAREDDATA 10
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
@@ -414,6 +415,16 @@ void CPlayScene::_ParseSection_MERGEDBRICK(string line)
 	}
 }
 
+void CPlayScene::_ParseSection_SHAREDDATA(string line)
+{
+	LPCWSTR backupFilePath = this->sceneFilePath;
+	this->sceneFilePath = ToLPCWSTR(line);
+
+	Load();
+
+	this->sceneFilePath = backupFilePath;
+}
+
 void CPlayScene::InitGUI()
 {
 	HealthBarGUI* hpGUI = new HealthBarGUI();
@@ -543,6 +554,9 @@ void CPlayScene::Load()
 		if (line == "[DEFAULTCAMERA]")	{
 			section = SCENE_SECTION_DEFAULTCAMERA; continue;
 		}
+		if (line == "[SHAREDDATA]") {
+			section = SCENE_SECTION_SHAREDDATA; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -556,6 +570,7 @@ void CPlayScene::Load()
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		case SCENE_SECTION_MERGEDBRICK: _ParseSection_MERGEDBRICK(line); break;
+		case SCENE_SECTION_SHAREDDATA: _ParseSection_SHAREDDATA(line); break;
 		case SCENE_SECTION_DEFAULTCAMERA: 
 		{
 			// we do not have to use the old way anymore

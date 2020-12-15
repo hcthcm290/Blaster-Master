@@ -89,6 +89,8 @@ void Sophia_Bullet_Homing::Update(float dt)
 {
 	if (!ex)
 	{
+		if (GetTickCount() - last > 5000)
+			ex = true;
 		state = SOPHIA_BULLET_H_LR;
 		up = false;
 		down = false;
