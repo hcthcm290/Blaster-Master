@@ -79,7 +79,7 @@ float Sophia::GetEnterGateSpeed()
 
 Sophia::~Sophia()
 {
-	SoundManager::GetInstance()->StopSource();
+	
 }
 FRECT Sophia::GetCollisionBox()
 {

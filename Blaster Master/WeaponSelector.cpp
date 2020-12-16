@@ -3,6 +3,7 @@
 #include "TheEye.h"
 #include "Game.h"
 #include "Debug.h"
+#include "SoundManager.h"
 WeaponSelector::WeaponSelector()
 {
 	textRenderer.LoadFont("Font\\ChooseWeaponFont.txt");
@@ -41,6 +42,7 @@ void WeaponSelector::Update(float dt)
 		Stack<int> scene_stack = CGame::GetInstance()->GetSceneStack();
 		scene_stack.Pop(); // the first pop is to eliminate the select weapon scene
 		int target_scene_id = scene_stack.Pop();
+		SoundManager::GetInstance()->StopSource();
 		CGame::GetInstance()->SwitchScene(target_scene_id);
 	}
 }
