@@ -18,3 +18,4 @@ start	1
 -2	IntroScene.txt	3
 -3	CarScene.txt	3
 -4	WeaponSelectorScene.txt	0
+-5	LifeLeftScene.txt	0

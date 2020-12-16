@@ -174,6 +174,7 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
+    <ClCompile Include="LifeShowner.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="WeaponSelector.cpp" />
     <ClCompile Include="Bullet_Eyeball.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="IDSceneConstant.h" />
+    <ClInclude Include="LifeShowner.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="WeaponSelector.h" />
@@ -348,14 +350,17 @@
     <Text Include="CarScene.txt" />
     <Text Include="Font\ChooseWeaponFont.txt" />
     <Text Include="..\..\BlasterMasterTemplate_NMPTGame2020\BlasterMaster\EndingScene.txt" />
+    <Text Include="Font\LifeLeftFont.txt" />
     <Text Include="game-info.txt" />
     <Text Include="Interior1.txt" />
     <Text Include="Interior2.txt" />
     <Text Include="Interior3.txt" />
     <Text Include="Interior4.txt" />
     <Text Include="IntroScene.txt" />
+    <Text Include="LifeLeftScene.txt" />
     <Text Include="scene1.txt" />
     <Text Include="TitleScene.txt" />
+    <Text Include="WeaponSelectorScene.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

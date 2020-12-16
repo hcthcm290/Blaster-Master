@@ -271,6 +271,9 @@
     <ClCompile Include="Sophia_Bullet_Thunder.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="LifeShowner.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -549,19 +552,22 @@
     <ClInclude Include="Sophia_Bullet_Thunder.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="LifeShowner.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Images</Filter>
     </Image>
     <Image Include="FlyingEye.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Images</Filter>
     </Image>
     <Image Include="map.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Images</Filter>
     </Image>
     <Image Include="D:\DOWNLOAD\P2_Jason.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Images</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -569,34 +575,43 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Interior1.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Playscene</Filter>
     </Text>
     <Text Include="Interior2.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Playscene</Filter>
     </Text>
     <Text Include="Interior3.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Playscene</Filter>
     </Text>
     <Text Include="Interior4.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Playscene</Filter>
     </Text>
     <Text Include="scene1.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="TitleScene.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Playscene</Filter>
     </Text>
     <Text Include="IntroScene.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\IntroScene</Filter>
     </Text>
     <Text Include="CarScene.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\IntroScene</Filter>
+    </Text>
+    <Text Include="TitleScene.txt">
+      <Filter>Resource Files\IntroScene</Filter>
+    </Text>
+    <Text Include="WeaponSelectorScene.txt">
+      <Filter>Resource Files\SuportScene</Filter>
     </Text>
     <Text Include="Font\ChooseWeaponFont.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Font</Filter>
+    </Text>
+    <Text Include="Font\LifeLeftFont.txt">
+      <Filter>Resource Files\Font</Filter>
     </Text>
     <Text Include="..\..\BlasterMasterTemplate_NMPTGame2020\BlasterMaster\EndingScene.txt">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\OutroScene</Filter>
+    </Text>
+    <Text Include="LifeLeftScene.txt">
+      <Filter>Resource Files\SuportScene</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -662,6 +677,24 @@
     </Filter>
     <Filter Include="Source Files\GUI">
       <UniqueIdentifier>{a91b27e0-e012-41a0-a990-26b5154f4688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Playscene">
+      <UniqueIdentifier>{5a1e3c49-60c1-4d5d-9b1f-00e17c762db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\IntroScene">
+      <UniqueIdentifier>{217f5c4d-ccae-4486-8663-5a54002bbbcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SuportScene">
+      <UniqueIdentifier>{f59afc8b-fdb5-4ba7-acd7-4255514267e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Font">
+      <UniqueIdentifier>{58fffece-1920-46b3-ba3c-38dc16d731af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\OutroScene">
+      <UniqueIdentifier>{fa680b2b-3f26-43eb-96af-34ad56bb10bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images">
+      <UniqueIdentifier>{9cc8e715-5cb7-4b4e-ac18-559988cb639f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

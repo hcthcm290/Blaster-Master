@@ -1,0 +1,22 @@
+[TEXTURE]
+73	textures\110_LifeLeftFont.png	0	0	0
+
+[FONTINFO]
+#width	height	character_space_width	word_space_width	line_space_width
+11	11	2	10	10
+
+[CHARINFO]
+1	0	0	11	11
+2	11	0	22	11
+3	22	0	33	11
+4	33	0	44	11
+5	44	0	55	11
+6	55	0	66	11
+7	66	0	77	11
+8	77	0	88	11
+9	88	0	99	11
+0	99	0	110	11
+L	110	0	119	11
+E	121	0	129	11
+F	132	0	141	11
+T	143	0	152	11

@@ -5,6 +5,7 @@
 #include <fstream>
 #include "Camera.h"
 #include "WeaponSelector.h"
+#include "LifeShowner.h"
 
 #define BASICSCENE_SECTION_UNKNOWN -1
 #define BASICSCENE_SECTION_TEXTURES 1
@@ -94,9 +95,16 @@ void BasicScene::_ParseSection_OBJECTS(std::string line)
 		this->listSceneObject.emplace_back(obj);
 		return;
 	}
+	case 42:
+	{
+		obj = new LifeShowner();
+	}
 	}
 
-	this->listSceneObject.emplace_back(obj);
+	if (obj != NULL)
+	{
+		this->listSceneObject.emplace_back(obj);
+	}
 }
 
 BasicScene::BasicScene(int id, LPCWSTR filePath)
@@ -150,6 +158,11 @@ void BasicScene::Load()
 			std::vector<string> tokens = split(line);
 			if (tokens[0] == "") continue;
 
+			if (atoi(tokens[0].c_str()) == BASICSCENE_INVALID_BACKGROUND_ID)
+			{
+				DebugOut(L"Invalid background id: %d, please try another id\n", atoi(tokens[0].c_str()));
+			}
+
 			this->BackgroundSpriteID = atoi(tokens[0].c_str());
 		}
 		}
@@ -181,7 +194,10 @@ void BasicScene::Update(DWORD dw_dt)
 
 void BasicScene::Render()
 {
-	CSprites::GetInstance()->Get(this->BackgroundSpriteID)->Draw(0, 0);
+	if (this->BackgroundSpriteID != BASICSCENE_INVALID_BACKGROUND_ID)
+	{
+		CSprites::GetInstance()->Get(this->BackgroundSpriteID)->Draw(0, 0);
+	}
 
 	for (int i = 0; i < listSceneObject.size(); i++)
 	{

@@ -2,11 +2,13 @@
 #include "GameObject.h"
 #include "Scene.h"
 
+#define BASICSCENE_INVALID_BACKGROUND_ID -1
+
 class BasicScene : public CScene
 {
 protected:
 	std::vector<CGameObject*> listSceneObject;
-	int BackgroundSpriteID;
+	int BackgroundSpriteID = BASICSCENE_INVALID_BACKGROUND_ID;
 
 protected:
 	virtual void _ParseSection_TEXTURES(std::string line);

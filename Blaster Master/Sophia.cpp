@@ -13,6 +13,7 @@
 #include "TheEye.h"
 #include "SoundManager.h"
 #include "Sophia_Bullet_Thunder.h"
+#include "IDSceneConstant.h"
 
 #define STATE_SOPHIA_IDLE 29801
 #define STATE_SOPHIA_MOVE 29805
@@ -144,6 +145,8 @@ void Sophia::Update(float dt)
 			if (GetTickCount() - die > 500)
 			{
 				state = 20000;
+				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SwitchScene(IDSceneConstant::LIFE_LEFT_SCENE);
+				return;
 			}
 		}
 		return;
@@ -387,7 +390,6 @@ void Sophia::Update(float dt)
 		if(!switching)
 			onTheGround = false;
 	}
-	
 }
 
 void Sophia::ShootHoming()

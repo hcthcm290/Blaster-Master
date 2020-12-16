@@ -176,6 +176,15 @@ void TextRenderer::Render(float x, float y, string content)
 
 		CGame::GetInstance()->Draw(current_x, current_y, texture, cRect.left, cRect.top, cRect.right, cRect.bottom);
 
-		current_x += fontInfo.witdh + fontInfo.character_space_width;
+		if (i != content.length() - 1) // only calculate next position when this is not the last character
+		{
+			int currentLetterWidth = cRect.right - cRect.left;
+
+			cRect = charInfo[content[i + 1]];
+
+			int nextLetterWidth = cRect.right - cRect.left;
+
+			current_x += (float)currentLetterWidth/2 + (float)nextLetterWidth/2 + fontInfo.character_space_width;
+		}
 	}
 }
