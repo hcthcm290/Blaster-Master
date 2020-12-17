@@ -55,7 +55,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 {
 }
 CPlayScene::~CPlayScene() {
-	SoundManager::GetInstance()->Release();
 }
 
 /*

@@ -1,4 +1,4 @@
-#include "WeaponSelector.h"
+ #include "WeaponSelector.h"
 #include "DInput.h"
 #include "TheEye.h"
 #include "Game.h"
@@ -42,7 +42,6 @@ void WeaponSelector::Update(float dt)
 		Stack<int> scene_stack = CGame::GetInstance()->GetSceneStack();
 		scene_stack.Pop(); // the first pop is to eliminate the select weapon scene
 		int target_scene_id = scene_stack.Pop();
-		SoundManager::GetInstance()->StopSource();
 		CGame::GetInstance()->SwitchScene(target_scene_id);
 	}
 }
