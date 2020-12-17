@@ -322,4 +322,15 @@ void CGame::SoftSwitchScene(int scene_id, bool unloadPrevScene, bool loadNextSce
 	{
 		scenes[current_scene]->Load();
 	}
+
+	if (scene_id == 1) //Main scene 
+	{
+		SoundManager::GetInstance()->StopSource();
+		SoundManager::GetInstance()->PlaySoundInfinite("ThemeSong.wav");
+	}
+	else //interior 
+	{
+		SoundManager::GetInstance()->StopSource();
+		SoundManager::GetInstance()->PlaySoundInfinite("InteriorTheme.wav");
+	}
 }

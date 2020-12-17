@@ -141,7 +141,6 @@ SoundManager* SoundManager::GetInstance()
 
 void SoundManager::PlaySoundW(std::string filename)
 {
-    /*
     WAVEFORMATEXTENSIBLE wfx = { 0 };
     XAUDIO2_BUFFER buffer = { 0 };
 
@@ -167,11 +166,9 @@ void SoundManager::PlaySoundW(std::string filename)
     {
         DebugOut(L"Fail to start Source Voice: %d\n", hr);
     }
-    */
 }
 void SoundManager::PlaySoundInfinite(std::string filename)
 {
-    /*
     WAVEFORMATEXTENSIBLE wfx = { 0 };
     XAUDIO2_BUFFER buffer = { 0 };
 
@@ -210,7 +207,6 @@ void SoundManager::PlaySoundInfinite(std::string filename)
     {
         DebugOut(L"Fail to start Source Voice: %d\n", hr);
     }
-    */
 }
 
 void SoundManager::StopSource()
