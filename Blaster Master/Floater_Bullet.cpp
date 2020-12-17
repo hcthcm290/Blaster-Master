@@ -23,7 +23,7 @@ void Floater_Bullet::Update(float dt)
 
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(10);
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(5);
 	}
 	if (boom)
 	{

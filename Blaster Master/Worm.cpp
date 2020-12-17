@@ -64,7 +64,7 @@ void Worm::Update(float dt)
 	}
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(8);
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(3);
 	}
 	vy += 300 * dt;
 	float player_x = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;

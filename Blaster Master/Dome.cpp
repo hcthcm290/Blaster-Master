@@ -56,7 +56,7 @@ void Dome::Update(float dt)
 
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(7);
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(5);
 	}
 
 	if (currentState == State::_DOME_WALKING_)

@@ -41,7 +41,7 @@ Sophia::Sophia()
 	vx = 0;
 	currentColor = 0;
 	//Setup HP
-	HP = 100;
+	HP = 80;
 	maxHP = HP;
 	//sx, sy
 	sx = x;
