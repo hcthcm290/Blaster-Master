@@ -183,7 +183,15 @@ void SoundManager::PlaySoundInfinite(std::string filename)
         DebugOut(L"Fail to load Audio Data file: %d\n", hr);
         return;
     }
+    if (FAILED(hr = XAudio2Create(&pXAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR)))
+    {
+        DebugOut(L"Create XAudio2 Fail: %d\n", hr);
+    }
 
+    if (FAILED(hr = pXAudio2->CreateMasteringVoice(&pMasterVoice)))
+    {
+        DebugOut(L"Create MasterVoice Fail: %d\n", hr);
+    }
     if (FAILED(hr = pXAudio2->CreateSourceVoice(&pSourceVoice, (WAVEFORMATEX*)&wfx)))
     {
         DebugOut(L"Fail to create Source Voice: %d\n", hr);
@@ -210,6 +218,16 @@ void SoundManager::StopSource()
     if (pSourceVoice != NULL)
     {
         pSourceVoice->Stop();
+    }
+
+    if (pMasterVoice != NULL)
+    {
+        pMasterVoice->DestroyVoice();
+    }
+
+    if (pXAudio2 != NULL)
+    {
+        pXAudio2->StopEngine();
     }
 }
 void SoundManager::Release()

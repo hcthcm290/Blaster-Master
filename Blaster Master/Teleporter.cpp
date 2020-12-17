@@ -166,7 +166,7 @@ void Teleporter::Render()
 {
 	animator->Draw(state, x, y, false);
 	//Enable this when moving : Trung Nguyễn Sound
-	//SoundManager::GetInstance()->PlaySoundW("TeleporterMoving.wav");
+	SoundManager::GetInstance()->PlaySoundW("TeleporterMoving.wav");
 }
 void Teleporter::TakeDamage(int dmg)
 {
