@@ -14,10 +14,30 @@ PlayerItem::PlayerItem(ItemType it) {
 
 void PlayerItem::Update(float dt) {	
 	if (livingTime <= 0) {
-		MakeNew();
+		//MakeNew();
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
-	else livingTime -= dt;
+	else
+	{
+		CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+		if (CollisionSystem::CheckOverlap(this, player))
+		{
+			switch (itemType)
+			{
+			case Power: {
+				DynamicObject* temp = dynamic_cast<DynamicObject*>(player);
+				temp->HP += 10;
+				if (temp->HP > temp->maxHP)
+				{
+					temp->HP = temp->maxHP;
+				}
+				break; }
+			}
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+		}
+		livingTime -= dt;
+	}
 }
 
 void PlayerItem::Render() {
@@ -34,12 +54,10 @@ FRECT PlayerItem::GetCollisionBox() {
 }
 
 void PlayerItem::OnCollisionEnter(CollisionEvent e) {
-	if (dynamic_cast<Sophia*>(e.pGameObject) || dynamic_cast<ColliableBrick*>(e.pGameObject)) {
+	/*if (dynamic_cast<Sophia*>(e.pGameObject) || dynamic_cast<ColliableBrick*>(e.pGameObject)) {
 		if (dynamic_cast<Sophia*>(e.pGameObject))
-			DebugOut(L"PONK!\n");
-		MakeNew();
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
-	}
+	}*/
 }
 
 void PlayerItem::MakeNew() {

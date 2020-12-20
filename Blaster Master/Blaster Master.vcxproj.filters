@@ -307,9 +307,6 @@
     <ClInclude Include="Intangibility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RECT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -545,6 +542,9 @@
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Sophia_Bullet_Thunder.h" />
+    <ClInclude Include="PlayerItem.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">

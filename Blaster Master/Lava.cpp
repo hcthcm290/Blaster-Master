@@ -15,7 +15,7 @@ void Lava::Update(float dt) {
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
 		dynamic_cast<DynamicObject*>(player)->TakeDamage(20);
-		ex = true;
+		//ex = true;
 	}
 	flipCountDown -= dt;
 	if (flipCountDown <= 0) {
