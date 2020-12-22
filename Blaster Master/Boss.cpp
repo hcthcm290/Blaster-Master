@@ -29,7 +29,7 @@ Boss::Boss(float x, float y) {
 	float arrShoulderX[] = { rShoulderX(), lShoulderX() };
 	for (int i = 0; i < 2; i++) {
 		arrBossHand[i] = new BossHand(arrShoulderX[i], y);
-		dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(arrBossHand[i]);
+		//dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(arrBossHand[i]);
 	}
 }
 
@@ -41,6 +41,7 @@ void Boss::Update(float dt) {
 	float arrShoulderX[] = { rShoulderX(), lShoulderX() };
 	for (int i = 0; i < 2; i++) {
 		arrBossHand[i]->SetNextPosition(arrShoulderX[i], y, i);
+		arrBossHand[i]->Update(dt);
 	}
 }
 
@@ -52,7 +53,6 @@ void Boss::Render() {
 		arrBossHand[i]->Render(i);
 		//DebugOut(L"%d hand: %f %f\n", i, arrBossHand[i]->GetPosition().x, arrBossHand[i]->GetPosition().y);
 	}
-		
 }
 
 void Boss::CheckFire(float dt) {
@@ -127,7 +127,9 @@ void BossArm::OnCollisionEnter(CollisionEvent e) {
 }
 
 void BossArm::SetDestination(float newX, float newY) {
-	float dx = newX - x;
+	x = newX;
+	y = newY;
+	/*float dx = newX - x;
 	float dy = newY - y;
 
 	if (dx == 0) dx = 1;
@@ -137,7 +139,7 @@ void BossArm::SetDestination(float newX, float newY) {
 	vy0 = dy * vx0 / dx;
 
 	vx0 *= (vx0 * dx >= 0 ? 1 : -1);
-	vy0 *= (vy0 * dy >= 0 ? 1 : -1);
+	vy0 *= (vy0 * dy >= 0 ? 1 : -1);*/
 }
 #pragma endregion
 
@@ -145,6 +147,11 @@ void BossArm::SetDestination(float newX, float newY) {
 /** ===== BOSS HAND ===== **/
 
 BossHand::BossHand(float x, float y) {
+	directionX = 1;
+	directionY = 1;
+
+	freezeX = GetTickCount();
+	freezeY = GetTickCount();
 	//set position first because Hands is initialized due to it
 	this->SetPosition(x, y);
 
@@ -161,9 +168,17 @@ BossHand::BossHand(float x, float y) {
 }
 
 void BossHand::Update(float dt) {
-	float X = (abs(vx0 * dt) >= MIN_MOVEMENT_VELOCITY ? vx0 * dt : 0);
-	float Y = (abs(vy0 * dt) >= MIN_MOVEMENT_VELOCITY ? vy0 * dt : 0);
-	SetVelocity(X, Y);
+	//float X = vx0;//(abs(vx0 * dt) >= MIN_MOVEMENT_VELOCITY ? vx0 * dt : 0);
+	//float Y = vy0;//(abs(vy0 * dt) >= MIN_MOVEMENT_VELOCITY ? vy0 * dt : 0);
+	//SetVelocity(X, Y);
+	x += dt * vx;
+	y += dt * vy;
+	CGameObject* player = dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(2);
+	}
 }
 
 void BossHand::Render() {}
@@ -180,40 +195,212 @@ FRECT BossHand::GetCollisionBox() { //Hand is a bit below its center
 }
 
 void BossHand::OnCollisionEnter(CollisionEvent e) {
-	if (dynamic_cast<ColliableBrick*>(e.pGameObject) != NULL) {
+	/*if (dynamic_cast<ColliableBrick*>(e.pGameObject) != NULL) {
 		if (e.nx != 0) vx0 *= -1;
 		else vy0 *= -1;
-	}
+	}*/
 }
 
 void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
-	//Left Shoulder can only roam on the left, same to the Right Shoulder
-	float posX = shoudlerX + DISTANCE * offsetX * (isLeft ? -1 : 1);
-	float posY = shoudlerY + DISTANCE * offsetY;
+	////Left Shoulder can only roam on the left, same to the Right Shoulder
+	//float posX = shoudlerX + DISTANCE * offsetX * (isLeft ? -1 : 1);
+	//float posY = shoudlerY + DISTANCE * offsetY;
 
-	if ((abs(x - posX) <= EPSILON && abs(y - posY) <= EPSILON)
-		|| (GetDistance(shoudlerX, shoudlerY, x, y) >= DISTANCE)) {
-		//set new offsets
-		offsetX = RandRange(0, 1);
-		offsetY = RandRange(-1, 1);
+	//if ((abs(x - posX) <= EPSILON && abs(y - posY) <= EPSILON)
+	//	|| (GetDistance(shoudlerX, shoudlerY, x, y) >= DISTANCE)) {
+	//	//set new offsets
+	//	offsetX = RandRange(0, 1);
+	//	offsetY = RandRange(-1, 1);
 
-		//re-calculate posX, posY
-		posX = shoudlerX + DISTANCE * offsetX * (isLeft ? -1 : 1);
-		posY = shoudlerY + DISTANCE * offsetY;
+	//	//re-calculate posX, posY
+	//	posX = shoudlerX + DISTANCE * offsetX * (isLeft ? -1 : 1);
+	//	posY = shoudlerY + DISTANCE * offsetY;
+	//}
 
-		DebugOut(L"UPDATED!\n");
+	////DebugOut(L"posX: %f  posY: %f\n", posX, posY);
+
+	//float dx = posX - x;
+	//float dy = posY - y;
+
+	//vx0 = (dx * ARM_SPEED) / sqrt(dx * dx + dy * dy);
+	//vy0 = dy * vx0 / dx;
+
+	//vx0 *= (vx0 * dx >= 0 ? 1 : -1);
+	//vy0 *= (vy0 * dy >= 0 ? 1 : -1);
+	if (!isLeft)
+	{
+		if (x >= shoudlerX + 100)
+		{
+			x = shoudlerX + 100;
+			if (!isFreezeX)
+			{
+				isFreezeX = true;
+				freezeX = GetTickCount();
+				vx = 0;
+				vy = 60 * directionY;
+			}
+			if(GetTickCount() - freezeX > 1000)
+			{
+				vx = -100;
+				directionX = -1;
+			}
+		}
+		else
+		{
+			if (x <= shoudlerX - 20)
+			{
+				x = shoudlerX - 20;
+				if (!isFreezeX)
+				{
+					isFreezeX = true;
+					freezeX = GetTickCount();
+					vx = 0;
+					vy = 60 * directionY;
+				}
+				if (GetTickCount() - freezeX > 1000)
+				{
+					isFreezeX = false;
+					vx = 100;
+					directionX = 1;
+				}
+			}
+			else
+			{
+				if (GetTickCount() - freezeX > 1000)
+				{
+					vx = 60 * directionX;
+					isFreezeX = false;
+				}
+				
+			}
+		}
+		if (y >= shoudlerY + 58)
+		{
+			y = shoudlerY + 58;
+			if (!isFreezeY)
+			{
+				isFreezeY = true;
+				freezeY = GetTickCount();
+				vy = 0;
+				vx = 60 * directionX;
+			}
+			if (GetTickCount() - freezeY > 1000)
+			{
+				isFreezeY = false;
+				vy = -100;
+				directionY = -1;
+			}
+		}
+		else
+		{
+			if (y <= shoudlerY - 58)
+			{
+				y = shoudlerY - 58;
+				if (!isFreezeY)
+				{
+					isFreezeY = true;
+					freezeY = GetTickCount();
+					vy = 0;
+					vx = 60 * directionX;
+				}
+				if (GetTickCount() - freezeY > 1000)
+				{
+					isFreezeY = false;
+					vy = 100;
+					directionY = 1;
+				}
+			}
+			else
+			{
+				if (GetTickCount() - freezeY > 1000)
+				{
+					vy = 60 * directionY;
+					isFreezeY = false;
+				}
+				
+			}
+		}
 	}
-
-	//DebugOut(L"posX: %f  posY: %f\n", posX, posY);
-
-	float dx = posX - x;
-	float dy = posY - y;
-
-	vx0 = (dx * ARM_SPEED) / sqrt(dx * dx + dy * dy);
-	vy0 = dy * vx0 / dx;
-
-	vx0 *= (vx0 * dx >= 0 ? 1 : -1);
-	vy0 *= (vy0 * dy >= 0 ? 1 : -1);
+	else
+	{
+		if (x >= shoudlerX + 20)
+		{
+			x = shoudlerX + 20;
+			if (!isFreezeX)
+			{
+				isFreezeX = true;
+				freezeX = GetTickCount();
+				vx = 0;
+			}
+			if (GetTickCount() - freezeX > 500)
+			{
+				vx = -100;
+				directionX = -1;
+			}
+		}
+		else
+		{
+			if (x <= shoudlerX - 100)
+			{
+				x = shoudlerX - 100;
+				if (!isFreezeX)
+				{
+					isFreezeX = true;
+					freezeX = GetTickCount();
+					vx = 0;
+				}
+				if (GetTickCount() - freezeX > 500)
+				{
+					isFreezeX = false;
+					vx = 100;
+					directionX = 1;
+				}
+			}
+			else
+			{
+				vx = 60 * directionX;
+			}
+		}
+		if (y >= shoudlerY + 58)
+		{
+			y = shoudlerY + 58;
+			if (!isFreezeY)
+			{
+				isFreezeY = true;
+				freezeY = GetTickCount();
+				vy = 0;
+			}
+			if (GetTickCount() - freezeY > 500)
+			{
+				isFreezeY = false;
+				vy = -100;
+				directionY = -1;
+			}
+		}
+		else
+		{
+			if (y <= shoudlerY - 58)
+			{
+				y <= shoudlerY - 58;
+				if (!isFreezeY)
+				{
+					isFreezeY = true;
+					freezeY = GetTickCount();
+					vy = 0;
+				}
+				if (GetTickCount() - freezeY > 500)
+				{
+					isFreezeY = false;
+					vy = 100;
+					directionY = 1;
+				}
+			}
+			else
+			{
+				vy = 60 * directionY;
+			}
+		}
+	}
 	
 	UpdateArms(shoudlerX, shoudlerY);
 }

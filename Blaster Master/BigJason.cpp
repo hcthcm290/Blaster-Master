@@ -262,11 +262,23 @@ FRECT BigJason::GetCollisionBox()
 
 bool BigJason::IsInvulnerable()
 {
-	return false;
+	if (invincible <= 0)
+		return false;
+	else
+		return true;
 }
 
 void BigJason::TakeDamage(int dmg)
 {
+	if (invincible <= 0)
+	{
+		this->HP -= dmg;
+		invincible = 500;
+		if (HP < 0)
+		{
+			HP = 0;
+		}
+	}
 }
 
 float BigJason::GetEnterGateSpeed()

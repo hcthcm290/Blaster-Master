@@ -72,7 +72,7 @@ public:
 
 #pragma region BOSS_HAND
 /** ===== BOSS HAND ===== **/
-class BossHand : public DynamicObject //, public Intangibility
+class BossHand : public DynamicObject, public Intangibility
 {
 private:
 	//arm control
@@ -100,6 +100,10 @@ private:
 	#pragma endregion
 
 	void UpdateArms(float sx, float sy);
+
+	int directionX, directionY;
+	DWORD freezeX, freezeY;
+	bool isFreezeX = false, isFreezeY = false;
 
 public:
 	#pragma region (Deprecated)
