@@ -11,11 +11,14 @@ using namespace std;
 class Jason : public DynamicObject, public Playable
 {
 private:
-	//bacic properties
+	//const
+	const int MAXHP = 40;
+	const int GRAVITY = 300;
 
-	int speed = 100;
-	int jumpSpeed = 100;
-	int flipX = false;
+	//bacic properties
+	const int speed = 5000;
+	const int jumpForce = 150;
+	bool flipX = false;
 
 	DWORD lastFire = 0;
 	float recoilTime = 500;
@@ -38,6 +41,10 @@ private:
 	void SetNewState();
 
 	void Fire();
+
+	//JUMPTIMER - inflict damage if overtime
+	const float MAX_JUMPTIME = 1.0f;
+	float jumpTime = 0;
 
 	DWORD switchDelay; //this avoid switching back and forth too fast 
 
@@ -75,6 +82,8 @@ public:
 	virtual bool IsInvulnerable() { return this->invulnerable != -1; }
 	float GetEnterGateSpeed();
 	void PushBack(int _vx, int _vy);
+
+	//void PushBack(int _vx, int _vy);
 	void TakeDamage(int dmg);
 	int GetState() { return currentState; }
 	void SetBulletPower(int value) { this->bulletPower = value; }

@@ -569,6 +569,12 @@
     <Image Include="D:\DOWNLOAD\P2_Jason.png">
       <Filter>Resource Files\Images</Filter>
     </Image>
+    <Image Include="map.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="D:\DOWNLOAD\P2_Jason.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="game-info.txt">
