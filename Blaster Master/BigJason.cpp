@@ -281,5 +281,10 @@ void BigJason::NotifySwitchSceneOut()
 
 bool BigJason::IsDead()
 {
+	if (DInput::KeyDown(DIK_M))
+	{
+		return true;
+	}
+
 	return false;
 }

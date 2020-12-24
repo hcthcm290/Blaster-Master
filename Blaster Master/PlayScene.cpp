@@ -1248,6 +1248,8 @@ void CPlayScene::ReloadBackup()
 	}
 
 	player = playerBackup;
+
+	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 }
 
 void CPlayScene::HardReload()
