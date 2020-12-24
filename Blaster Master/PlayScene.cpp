@@ -1236,6 +1236,15 @@ void CPlayScene::ReloadBackup()
 		d_backupObj->SetCurrentHP(d_backupObj->GetMaxHP());
 
 		AddGameObjectToScene(backupObj);
+
+		// This part change the Jason in TheEye
+		// This problem is cause because of we create a new Jason everytime Jason jump out of Sophia and we not delete the old Jason*
+		// So, the Jason* when save backup may not be the same as the Jason* at TheEye 
+		// We may fix this in later patch
+		if (dynamic_cast<Jason*>(backupObj) != NULL)
+		{
+			TheEye::GetInstance()->SetJason(dynamic_cast<Jason*>(backupObj));
+		}
 	}
 
 	player = playerBackup;
