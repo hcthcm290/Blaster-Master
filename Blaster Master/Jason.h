@@ -53,6 +53,8 @@ private:
 	};
 	int damageEffectTimer = -999;
 
+	float deathAnimationCountdown;
+
 
 	#pragma region LADDER VARS
 	Ladder* ladder;
@@ -79,4 +81,5 @@ public:
 	int GetState() { return currentState; }
 	void SetBulletPower(int value) { this->bulletPower = value; }
 	int GetBulletPower() { return this->bulletPower; }
+	bool IsDead();
 };

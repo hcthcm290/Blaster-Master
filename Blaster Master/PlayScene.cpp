@@ -47,6 +47,7 @@
 #include "SoundManager.h"
 #include "Ship.h"
 #include "IDSceneConstant.h"
+#include "TheEye.h"
 
 using namespace std;
 
@@ -826,6 +827,14 @@ void CPlayScene::UpdateFreePlaying(float dt)
 		return;
 	}
 
+	if (dynamic_cast<Playable*>(player)->IsDead())
+	{
+		this->ReloadBackup();
+		TheEye::GetInstance()->SetLifeLeft(TheEye::GetInstance()->GetLifeLeft() - 1);
+		CGame::GetInstance()->SoftSwitchScene(IDSceneConstant::LIFE_LEFT_SCENE, false, true);
+		return;
+	}
+
 	// Update for all the game object
 	for (int i = 0; i< onScreenObjs.size(); i++)
 	{
@@ -1223,13 +1232,13 @@ void CPlayScene::ReloadBackup()
 		auto backupObj = backup.first;
 		backupObj->SetPosition(backup.second.first.x, backup.second.first.y);
 		backupObj->SetState(backup.second.second);
+		auto d_backupObj = dynamic_cast<DynamicObject*>(backupObj);
+		d_backupObj->SetCurrentHP(d_backupObj->GetMaxHP());
 
 		AddGameObjectToScene(backupObj);
 	}
 
 	player = playerBackup;
-
-	canSpawnPlayer = true;
 }
 
 void CPlayScene::HardReload()

@@ -68,6 +68,7 @@ public:
 	void ShootRocket();
 	~Sophia();// Trung Nguyễn
 	void TakeDamage(int dmg);
+	bool IsDead();
 
 	void Awake(int JasonHealth);
 	virtual int GetState() { return this->state; }

@@ -19,6 +19,8 @@ private:
 	Jason* jason = NULL;
 	BigJason* bigJason = NULL;
 
+	int lifeLeft = 3;
+
 public:
 	static TheEye* GetInstance();
 
@@ -30,4 +32,7 @@ public:
 
 	void SetBigJason(BigJason* bigJason) { this->bigJason = bigJason; }
 	BigJason* GetBigJason() { return this->bigJason; }
+
+	int GetLifeLeft() { return this->lifeLeft; }
+	void SetLifeLeft(int value) { this->lifeLeft = value; }
 };
