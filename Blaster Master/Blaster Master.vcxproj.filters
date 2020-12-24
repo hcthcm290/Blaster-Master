@@ -274,6 +274,9 @@
     <ClCompile Include="LifeShowner.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverSelector.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -555,6 +558,9 @@
     <ClInclude Include="LifeShowner.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="GameOverSelector.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
@@ -611,6 +617,9 @@
       <Filter>Resource Files\OutroScene</Filter>
     </Text>
     <Text Include="LifeLeftScene.txt">
+      <Filter>Resource Files\SuportScene</Filter>
+    </Text>
+    <Text Include="GameOverScene.txt">
       <Filter>Resource Files\SuportScene</Filter>
     </Text>
   </ItemGroup>

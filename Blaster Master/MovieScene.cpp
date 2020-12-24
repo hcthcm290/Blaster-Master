@@ -6,6 +6,8 @@
 #include "Camera.h"
 #include "Game.h"
 #include <fstream>
+#include "IDSceneConstant.h"
+#include "PlayScene.h"
 
 #define MOVIESCENE_SECTION_UNKNOWN -1
 #define MOVIESCENE_SECTION_TEXTURES 2
@@ -185,6 +187,12 @@ void MovieScene::Update(DWORD dw_dt)
 	if (countTime >= timeout)
 	{
 		CGame::GetInstance()->SwitchScene(this->idNextScene);
+
+		// before switching from movie into playscene, we must show the life left scene
+		if (dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetScene(idNextScene)))
+		{
+			CGame::GetInstance()->SoftSwitchScene(IDSceneConstant::LIFE_LEFT_SCENE, false, true);
+		}
 		return;
 	}
 

@@ -56,6 +56,7 @@ public:
 	void SetOverrideColor(D3DCOLOR color) { this->overrideColor = color; }
 	Stack<int> GetSceneStack();
 	LPSCENE GetScene(int id);
+	void FlushAllSceneData();
 
 	~CGame();
 };

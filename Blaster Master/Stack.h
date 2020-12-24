@@ -14,6 +14,7 @@ public:
 	type Peak();
 	bool Contain(type value);
 	void PopToValue(type value);
+	int Size();
 };
 
 template<class type>
@@ -63,4 +64,10 @@ void Stack<type>::PopToValue(type value)
 	{
 		this->_stack.erase(i, this->_stack.end());
 	}
+}
+
+template<class type>
+inline int Stack<type>::Size()
+{
+	return this->_stack.size();
 }

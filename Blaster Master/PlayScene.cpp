@@ -489,24 +489,7 @@ void CPlayScene::ReloadSceneObject()
 
 void CPlayScene::HardReloadSceneObject()
 {
-	unordered_map<CGameObject*, int> listObject;
-
-	for (auto& block : sceneObjects)
-	{
-		for (auto obj : block.second)
-		{
-			listObject[obj] = 1;
-		}
-		block.second.clear();
-	}
-	sceneObjects.clear();
-
-	for (auto& obj : listObject)
-	{
-		delete obj.first;
-	}
-
-	canSpawnPlayer = true;
+	Unload();
 
 	Load();
 }
@@ -829,10 +812,21 @@ void CPlayScene::UpdateFreePlaying(float dt)
 
 	if (dynamic_cast<Playable*>(player)->IsDead())
 	{
-		this->ReloadBackup();
-		TheEye::GetInstance()->SetLifeLeft(TheEye::GetInstance()->GetLifeLeft() - 1);
-		CGame::GetInstance()->SoftSwitchScene(IDSceneConstant::LIFE_LEFT_SCENE, false, true);
-		return;
+		if (TheEye::GetInstance()->GetLifeLeft() > 0)
+		{
+			this->ReloadBackup();
+			TheEye::GetInstance()->SetLifeLeft(TheEye::GetInstance()->GetLifeLeft() - 1);
+			CGame::GetInstance()->SoftSwitchScene(IDSceneConstant::LIFE_LEFT_SCENE, false, true);
+			return;
+		}
+		else
+		{
+			canSpawnPlayer = true;
+
+			TheEye::GetInstance()->ResetLifeLeft();
+			CGame::GetInstance()->SwitchScene(IDSceneConstant::GAME_OVER_SCENE);
+			return;
+		}
 	}
 
 	// Update for all the game object
@@ -1213,9 +1207,19 @@ void CPlayScene::Unload()
 	for (auto& obj : listPlayable)
 	{
 		obj.first->SetAnimator(NULL);
+
+		if (canSpawnPlayer) delete obj.first;
 	}
 
+	if (canSpawnPlayer) playableObjects.clear();
+
 	onScreenObjs.clear();
+}
+
+void CPlayScene::HardUnload()
+{
+	canSpawnPlayer = true;
+	Unload();
 }
 
 void CPlayScene::ReloadBackup()
@@ -1254,8 +1258,7 @@ void CPlayScene::ReloadBackup()
 
 void CPlayScene::HardReload()
 {
-	onScreenObjs.clear();
-	playableObjects.clear();
+	canSpawnPlayer = true;
 
 	HardReloadSceneObject();
 
