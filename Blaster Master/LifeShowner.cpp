@@ -5,11 +5,14 @@
 LifeShowner::LifeShowner()
 {
 	this->textRenderer.LoadFont("Font\\LifeLeftFont.txt");
+	timeoutCountdown = 1;
 }
 
 void LifeShowner::Update(float dt)
 {
-	if (DInput::KeyDown(DIK_RETURN))
+	timeoutCountdown -= dt;
+
+	if (timeoutCountdown <= 0)
 	{
 		auto scene_stack = CGame::GetInstance()->GetSceneStack();
 
