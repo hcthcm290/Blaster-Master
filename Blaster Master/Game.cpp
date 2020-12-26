@@ -175,6 +175,21 @@ LPSCENE CGame::GetScene(int id)
 	return this->scenes[id];
 }
 
+void CGame::FlushAllSceneData()
+{
+	for (auto scene : this->scenes)
+	{
+		if (dynamic_cast<CPlayScene*>(scene.second))
+		{
+			dynamic_cast<CPlayScene*>(scene.second)->HardUnload();
+		}
+		else
+		{
+			scene.second->Unload();
+		}
+	}
+}
+
 CGame::~CGame()
 {
 	if (spriteHandler != NULL) spriteHandler->Release();

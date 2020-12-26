@@ -373,7 +373,6 @@ void InteriorScene::UpdateSwitchSection(float dt)
 	}
 
 	AddGameObjectToScene(player);
-	BackupPlayableObject();
 }
 
 void InteriorScene::UpdateFaddingOut(float dt)

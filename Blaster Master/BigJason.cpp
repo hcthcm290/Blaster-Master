@@ -278,3 +278,13 @@ void BigJason::NotifySwitchSceneOut()
 
 	dynamic_cast<Jason*>(jason)->SetBulletPower(bulletManager->GetLevel());
 }
+
+bool BigJason::IsDead()
+{
+	if (DInput::KeyDown(DIK_M))
+	{
+		return true;
+	}
+
+	return false;
+}

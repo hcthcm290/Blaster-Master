@@ -27,6 +27,8 @@ Jason::Jason() {
 	maxHP = 40;
 
 	TheEye::GetInstance()->SetJason(this);
+
+	deathAnimationCountdown = 1.7;
 }
 
 Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
@@ -50,6 +52,8 @@ Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
 	{
 		bulletPower = prevJason->bulletPower;
 	}
+
+	deathAnimationCountdown = 1.7;
 
 	TheEye::GetInstance()->SetJason(this);
 }
@@ -84,9 +88,11 @@ void Jason::Update(float dt)
 	}
 	#pragma endregion
 
-	#pragma region DIE ACTION
-	if (HP <= 0) {
+	if (HP <= 0)
+	{
+		vx = 0;
 		vy += GRAVITY * dt; //fall naturally
+		deathAnimationCountdown -= dt;
 		return;
 	}
 	#pragma endregion	
@@ -379,6 +385,9 @@ float Jason::GetEnterGateSpeed()
 
 void Jason::TakeDamage(int dmg) {
 	DWORD thisTime = GetTickCount64();
+	
+	if (HP < 0) return; // if player already out of hp, dont let it take any dmg or anything that relative to that
+
 	if (lastTakeDamage == 0  || thisTime > lastTakeDamage + invulnerableTime) {
 		SoundManager::GetInstance()->PlaySoundW("JasonGotHit_Outside.wav");
 		lastTakeDamage = thisTime;
@@ -386,7 +395,6 @@ void Jason::TakeDamage(int dmg) {
 			HP -= dmg;
 			if (HP < 0)
 			{
-				HP = 0;
 				SoundManager::GetInstance()->PlaySoundW("JasonDie.wav");
 			}
 			invulnerable = 3;
@@ -395,6 +403,13 @@ void Jason::TakeDamage(int dmg) {
 		}
 		else invulnerable = -1;
 	}
+}
+
+bool Jason::IsDead()
+{
+	if (HP <= 0 && deathAnimationCountdown <= 0)
+		return true;
+	return false;
 }
 
 void Jason::Fire() {

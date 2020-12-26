@@ -5,6 +5,7 @@ class LifeShowner : public CGameObject
 {
 private:
 	TextRenderer textRenderer;
+	float timeoutCountdown;
 
 public:
 	LifeShowner();
