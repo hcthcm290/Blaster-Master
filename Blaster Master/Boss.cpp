@@ -34,6 +34,15 @@ Boss::Boss(float x, float y) {
 }
 
 void Boss::Update(float dt) {
+	if (HP <= 0)
+	{
+		dead = true;
+	}
+	if (dead)
+	{
+		SetVelocity(0, 0);
+		return;
+	}
 	CheckFire(dt);
 	SetVelocity(vx0 * dt, vy0 * dt);
 
@@ -41,17 +50,85 @@ void Boss::Update(float dt) {
 	float arrShoulderX[] = { rShoulderX(), lShoulderX() };
 	for (int i = 0; i < 2; i++) {
 		arrBossHand[i]->SetNextPosition(arrShoulderX[i], y, i);
+		arrBossHand[i]->inv = this->inv;
 		arrBossHand[i]->Update(dt);
 	}
 }
 
 void Boss::Render() {
-	animator->Draw(State::_BOSS_BODY_, x, y, false);
+	if (dead)
+	{
+		if (GetTickCount() - last_blink > 300)
+		{
+			switch (inv)
+			{
+			case 5: inv = 4; break;
+			case 4: inv = 3; break;
+			case 3: inv = 2; break;
+			case 2: inv = 1; break;
+			case 1: inv = 0; break;
+			case 0: inv = 5; break;
+			default: inv = 4; break;
+			}
+			//currentColor = 5 - currentColor;
+			last_blink = GetTickCount();
+		}
+		animator->Draw(State::_BOSS_BODY_, x, y, false, 0, deadColor[inv]);
+
+		for (int i = 0; i < 2; i++) {
+			arrBossHand[i]->Render(i);
+			//DebugOut(L"%d hand: %f %f\n", i, arrBossHand[i]->GetPosition().x, arrBossHand[i]->GetPosition().y);
+		}
+		return;
+	}
+	if (inv != -1) {
+		animator->Draw(State::_BOSS_BODY_, x, y, false, 0, Color[inv]);
+		if (GetTickCount64() - last_blink >= 50) {
+			if (GetTickCount64() - startTakeDamage > 150)
+			{
+				inv = -1;
+			}
+			else
+			{
+				last_blink = GetTickCount64();
+				switch (inv)
+				{
+				case 1: inv = 0; break;
+				case 0: inv = 1; break;
+				}
+			}
+		}
+	}
+	else
+	{
+		animator->Draw(State::_BOSS_BODY_, x, y, false, 0);
+	}
 	//DebugOut(L"Body: %f %f\n", x, y);
 	//draw BossArms and BossHands
 	for (int i = 0; i < 2; i++) {
 		arrBossHand[i]->Render(i);
 		//DebugOut(L"%d hand: %f %f\n", i, arrBossHand[i]->GetPosition().x, arrBossHand[i]->GetPosition().y);
+	}
+}
+
+void Boss::TakeDamage(int dmg)
+{
+	this->HP -= dmg;
+	startTakeDamage = GetTickCount();
+	last_blink = GetTickCount();
+	inv = 1;
+	if (HP < 0)
+	{
+		HP = 0;
+	}
+	if (HP == 0)
+	{
+		/*auto explode = new Explosive();
+		explode->SetPosition(x, y);
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);
+		if (this != dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer())
+			SoundManager::GetInstance()->PlaySoundW("EnemyDie.wav");
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);*/
 	}
 }
 
@@ -106,6 +183,10 @@ BossArm::BossArm() {
 }
 
 void BossArm::Update(float dt) {
+	if (dead)
+	{
+		return;
+	}
 	//avoid object shaking 
 	float X = (abs(vx0 * dt) >= MIN_MOVEMENT_VELOCITY ? vx0 * dt : 0);
 	float Y = (abs(vy0 * dt) >= MIN_MOVEMENT_VELOCITY ? vy0 * dt : 0);
@@ -115,7 +196,13 @@ void BossArm::Update(float dt) {
 void BossArm::Render() {}
 
 void BossArm::Render(bool flipX) {
-	animator->Draw(State::_BOSS_ARM_, x, y , flipX);
+	if (inv != -1) {
+		animator->Draw(State::_BOSS_ARM_, x, y, flipX, 0, Color[inv]);
+	}
+	else
+	{
+		animator->Draw(State::_BOSS_ARM_, x, y, flipX);
+	}
 }
 
 FRECT BossArm::GetCollisionBox() {
@@ -168,6 +255,10 @@ BossHand::BossHand(float x, float y) {
 }
 
 void BossHand::Update(float dt) {
+	if (dead)
+	{
+		return;
+	}
 	//float X = vx0;//(abs(vx0 * dt) >= MIN_MOVEMENT_VELOCITY ? vx0 * dt : 0);
 	//float Y = vy0;//(abs(vy0 * dt) >= MIN_MOVEMENT_VELOCITY ? vy0 * dt : 0);
 	//SetVelocity(X, Y);
@@ -184,10 +275,17 @@ void BossHand::Update(float dt) {
 void BossHand::Render() {}
 
 void BossHand::Render(bool flipX) {
+
 	for (int i = 0; i < 4; i++) {
 		arrBossArm[i]->Render(flipX);
 	}
-	animator->Draw(State::_BOSS_HAND_, x , y + 6, flipX);
+	if (inv != -1) {
+		animator->Draw(State::_BOSS_HAND_, x, y + 6, flipX, 0, Color[inv]);
+	}
+	else
+	{
+		animator->Draw(State::_BOSS_HAND_, x, y + 6, flipX);
+	}
 }
 
 FRECT BossHand::GetCollisionBox() { //Hand is a bit below its center
@@ -411,6 +509,7 @@ void BossHand::UpdateArms(float sx, float sy) {
 
 	for (int i = 0; i < 4; i++) {
 		arrBossArm[i]->SetDestination(sx + dx * (i + 1), sy + dy * (i + 1));
+		arrBossArm[i]->inv = this->inv;
 	}
 }
 #pragma endregion

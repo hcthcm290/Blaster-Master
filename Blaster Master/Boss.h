@@ -11,7 +11,7 @@ class BossHand;
 
 #pragma region BOSS
 /** ===== BOSS ===== **/
-const float BOSS_MAX_HEALTH = 2000;
+const float BOSS_MAX_HEALTH = 100;//2000;
 const float BOSS_SPEED = 1000;
 const float BOSS_FIRE_COOLDOWN = 2;
 const float BOSS_FIRE_SPEED = 0.25;
@@ -19,8 +19,23 @@ const float BOSS_FIRE_SPEED = 0.25;
 class Boss : public DynamicObject, public Enemy 
 {
 private:
+	bool dead = false;
 	//velocity
 	float vx0, vy0;
+
+	static constexpr D3DCOLOR Color[] = {
+	D3DCOLOR_ARGB(128,255,255,255),
+	D3DCOLOR_ARGB(128,0,0,0)
+	};
+
+	static constexpr D3DCOLOR deadColor[] = {
+	D3DCOLOR_ARGB(255,255,0,0),
+	D3DCOLOR_ARGB(128,0,0,0),
+	D3DCOLOR_ARGB(255,0,255,0),
+	D3DCOLOR_ARGB(128,0,0,0),
+	D3DCOLOR_ARGB(255,0,0,255),
+	D3DCOLOR_ARGB(128,0,0,0),
+	};
 
 	//sub-gameObjects
 	//<[0] means RIGHT> - and - <[1] means LEFT>
@@ -44,6 +59,8 @@ public:
 
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
+
+	void TakeDamage(int dmg);
 };
 #pragma endregion
 
@@ -54,7 +71,12 @@ const float MIN_MOVEMENT_VELOCITY = 5;
 class BossArm : public DynamicObject, public Intangibility
 {
 private:
+	bool dead = false;
 	float vx0, vy0;
+	static constexpr D3DCOLOR Color[] = {
+	D3DCOLOR_ARGB(128,255,255,255),
+	D3DCOLOR_ARGB(128,0,0,0)
+	};
 public:
 	#pragma region (Deprecated)
 	void Render();
@@ -77,6 +99,13 @@ class BossHand : public DynamicObject, public Intangibility
 private:
 	//arm control
 	BossArm* arrBossArm[4];
+
+	bool dead = false;
+
+	static constexpr D3DCOLOR Color[] = {
+	D3DCOLOR_ARGB(128,255,255,255),
+	D3DCOLOR_ARGB(128,0,0,0)
+	};
 
 	//offset due to shoulder
 	const float DISTANCE = 60;
