@@ -5,6 +5,7 @@
 #include "StaticObject.h"
 #include "BigGate.h"
 #include "ForegroundTile.h"
+#include "IDSceneConstant.h"
 
 #define MAP_BLOCK_WIDTH 256
 #define MAP_BLOCK_HEIGHT 256

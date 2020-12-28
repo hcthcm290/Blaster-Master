@@ -3,7 +3,7 @@
 
 class Animator
 {
-public:
+protected:
 	int curFrame = 0;
 	int curAnimationID = -1;
 

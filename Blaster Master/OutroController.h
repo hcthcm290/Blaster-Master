@@ -26,8 +26,9 @@ private:
 
 	#pragma region CameraController
 	
-	float cameraMovingSpeed = 50;
-	int cameraLimitRight = 1533; // camera's CollisionBox.right cannot get over this value;
+	float cameraMovingSpeed = 30;
+	float cameraMovingDelay = 2.8;
+	int cameraLimitRight = 382; // camera's CollisionBox.right cannot get over this value;
 	float cameraShakingDuration = 3.8;
 	float cameraShakingInterval = 0.02;
 	float cameraDelayShaking = 1.2;
