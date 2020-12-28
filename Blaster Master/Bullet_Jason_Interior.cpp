@@ -7,6 +7,8 @@
 #include "PlayScene.h"
 #include "Explosion_Interior.h"
 #include "Rock.h"
+#include "Camera.h"
+#include "VisionBox.h"
 
 BulletJasonInterior::BulletJasonInterior(int dx, int dy, int level) {
 	//if no horizontal either vertical, ignore this construction
@@ -49,6 +51,15 @@ void BulletJasonInterior::Update(float dt) {
 
 	//decreasing colorDelay for changing-color effect (apply in GetColor() )
 	colorDelay -= dt;
+	CGameObject* iBullet = new VisionBox(x - vx * dt, x + vx * dt, y - vy * dt, y + vy * dt);
+	FRECT camera = Camera::GetInstance()->GetCollisionBox();
+	FRECT me = iBullet->GetCollisionBox();
+	if (me.right <= camera.left || me.left >= camera.right || me.bottom <= camera.top)
+	{
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+		exploded = true;
+	}
+	delete(iBullet);
 }
 
 void BulletJasonInterior::Render() {
