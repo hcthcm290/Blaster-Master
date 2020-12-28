@@ -275,6 +275,7 @@
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="OutroController.cpp" />
+    <ClCompile Include="CreditController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -559,6 +560,9 @@
     <ClInclude Include="OutroController.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
+    <ClInclude Include="CreditController.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Sprite\FlyingEye.png">
@@ -624,6 +628,15 @@
       <Filter>Resource Files\SuportScene</Filter>
     </Text>
     <Text Include="OutroScene.txt">
+      <Filter>Resource Files\OutroScene</Filter>
+    </Text>
+    <Text Include="CreditScene.txt">
+      <Filter>Resource Files\OutroScene</Filter>
+    </Text>
+    <Text Include="Font\CreditFont.txt">
+      <Filter>Resource Files\Font</Filter>
+    </Text>
+    <Text Include="CreditContent.txt">
       <Filter>Resource Files\OutroScene</Filter>
     </Text>
   </ItemGroup>

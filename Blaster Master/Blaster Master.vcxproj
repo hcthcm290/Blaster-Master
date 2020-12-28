@@ -174,6 +174,7 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BigGate.cpp" />
+    <ClCompile Include="CreditController.cpp" />
     <ClCompile Include="GameOverSelector.cpp" />
     <ClCompile Include="LifeShowner.cpp" />
     <ClCompile Include="OutroController.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="BigJason.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="CreditController.h" />
     <ClInclude Include="GameOverSelector.h" />
     <ClInclude Include="IDSceneConstant.h" />
     <ClInclude Include="LifeShowner.h" />
@@ -350,7 +352,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CarScene.txt" />
+    <Text Include="CreditContent.txt" />
+    <Text Include="CreditScene.txt" />
     <Text Include="Font\ChooseWeaponFont.txt" />
+    <Text Include="Font\CreditFont.txt" />
     <Text Include="Font\LifeLeftFont.txt" />
     <Text Include="game-info.txt" />
     <Text Include="GameOverScene.txt" />

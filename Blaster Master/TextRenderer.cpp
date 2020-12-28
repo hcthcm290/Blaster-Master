@@ -103,7 +103,7 @@ void TextRenderer::LoadContent(string filepath)
 	content.clear();
 
 	ifstream f;
-	f.open(font_filepath);
+	f.open(filepath);
 
 	string buffer;
 	
@@ -125,8 +125,6 @@ void TextRenderer::Render(float x, float y)
 
 	for (int i = 0; i < content.length(); i++)
 	{
-		if (!charInfo.contains(content[i])) continue; // if we dont have info about that weird character, skip it
-
 		if (content[i] == '\n')
 		{
 			current_x = x;
@@ -139,6 +137,8 @@ void TextRenderer::Render(float x, float y)
 			current_x += fontInfo.witdh + fontInfo.word_space_width;
 			continue;
 		}
+
+		if (!charInfo.contains(content[i])) continue; // if we dont have info about that weird character, skip it
 
 		FRECT cRect = charInfo[content[i]];
 		auto texture = CTextures::GetInstance()->Get(this->textureID);
