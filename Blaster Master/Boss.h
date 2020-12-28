@@ -71,17 +71,26 @@ const float MIN_MOVEMENT_VELOCITY = 5;
 class BossArm : public DynamicObject, public Intangibility
 {
 private:
-	bool dead = false;
+
 	float vx0, vy0;
 	static constexpr D3DCOLOR Color[] = {
 	D3DCOLOR_ARGB(128,255,255,255),
 	D3DCOLOR_ARGB(128,0,0,0)
+	};
+	static constexpr D3DCOLOR deadColor[] = {
+	D3DCOLOR_ARGB(255,255,0,0),
+	D3DCOLOR_ARGB(128,0,0,0),
+	D3DCOLOR_ARGB(255,0,255,0),
+	D3DCOLOR_ARGB(128,0,0,0),
+	D3DCOLOR_ARGB(255,0,0,255),
+	D3DCOLOR_ARGB(128,0,0,0),
 	};
 public:
 	#pragma region (Deprecated)
 	void Render();
 	#pragma endregion
 
+	bool dead = false;
 	BossArm();
 	void Update(float dt);
 	void Render(bool flipX);
@@ -100,11 +109,17 @@ private:
 	//arm control
 	BossArm* arrBossArm[4];
 
-	bool dead = false;
-
 	static constexpr D3DCOLOR Color[] = {
 	D3DCOLOR_ARGB(128,255,255,255),
 	D3DCOLOR_ARGB(128,0,0,0)
+	};
+	static constexpr D3DCOLOR deadColor[] = {
+	D3DCOLOR_ARGB(255,255,0,0),
+	D3DCOLOR_ARGB(128,0,0,0),
+	D3DCOLOR_ARGB(255,0,255,0),
+	D3DCOLOR_ARGB(128,0,0,0),
+	D3DCOLOR_ARGB(255,0,0,255),
+	D3DCOLOR_ARGB(128,0,0,0),
 	};
 
 	//offset due to shoulder
@@ -139,6 +154,7 @@ public:
 	void Render();
 	#pragma endregion
 
+	bool dead = false;
 	BossHand(float x, float y);
 	void Update(float dt);
 	void Render(bool flipX);

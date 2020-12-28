@@ -39,4 +39,5 @@ public:
 	float GetEnterGateSpeed();
 	int getGunPower() { return this->bulletManager->GetLevel(); }
 	void NotifySwitchSceneOut();
+	void ChangeGunLevel(int levelchange);
 };

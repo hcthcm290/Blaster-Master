@@ -297,3 +297,8 @@ void BigJason::NotifySwitchSceneOut()
 
 	dynamic_cast<Jason*>(jason)->SetBulletPower(bulletManager->GetLevel());
 }
+
+void BigJason::ChangeGunLevel(int levelchange)
+{
+	bulletManager->SetLevel(bulletManager->GetLevel() + levelchange);
+}

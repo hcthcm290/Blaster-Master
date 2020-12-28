@@ -34,9 +34,7 @@ class Sophia : public DynamicObject, public Playable
 	};
 	int currentColor;
 	DWORD lastDamageTime;
-	int Homing = 20;
-	int Thunder = 20;
-	int Rocket = 5;
+	
 	DWORD die;
 
 	//JASON
@@ -54,6 +52,10 @@ class Sophia : public DynamicObject, public Playable
 	int currentWeapon = 1; 
 public:
 	Sophia();
+
+	int Homing = 20;
+	int Thunder = 20;
+	int Rocket = 5;
 
 	bool isInvincible();
 	virtual bool IsInvulnerable() { return isInvincible(); }

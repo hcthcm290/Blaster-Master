@@ -24,6 +24,7 @@ Boss::Boss(float x, float y) {
 	//animator initialization
 	animator = new Animator();
 	animator->AddAnimation(State::_BOSS_BODY_);
+	animator->AddAnimation(28203);
 
 	//initiate Boss Hands
 	float arrShoulderX[] = { rShoulderX(), lShoulderX() };
@@ -68,17 +69,19 @@ void Boss::Render() {
 			case 2: inv = 1; break;
 			case 1: inv = 0; break;
 			case 0: inv = 5; break;
-			default: inv = 4; break;
+			default: inv = 5; break;
 			}
 			//currentColor = 5 - currentColor;
 			last_blink = GetTickCount();
 		}
-		animator->Draw(State::_BOSS_BODY_, x, y, false, 0, deadColor[inv]);
-
 		for (int i = 0; i < 2; i++) {
+			arrBossHand[i]->inv = this->inv;
+			arrBossHand[i]->dead = true;
 			arrBossHand[i]->Render(i);
 			//DebugOut(L"%d hand: %f %f\n", i, arrBossHand[i]->GetPosition().x, arrBossHand[i]->GetPosition().y);
 		}
+		animator->Draw(28203, x, y, false, 0, deadColor[inv]);
+		
 		return;
 	}
 	if (inv != -1) {
@@ -196,6 +199,11 @@ void BossArm::Update(float dt) {
 void BossArm::Render() {}
 
 void BossArm::Render(bool flipX) {
+	if (dead)
+	{
+		animator->Draw(State::_BOSS_ARM_, x, y, flipX, 0, deadColor[inv]);
+		return;
+	}
 	if (inv != -1) {
 		animator->Draw(State::_BOSS_ARM_, x, y, flipX, 0, Color[inv]);
 	}
@@ -275,7 +283,15 @@ void BossHand::Update(float dt) {
 void BossHand::Render() {}
 
 void BossHand::Render(bool flipX) {
-
+	if (dead) {
+		animator->Draw(State::_BOSS_HAND_, x, y + 6, flipX, 0, deadColor[inv]);
+		for (int i = 0; i < 4; i++) {
+			arrBossArm[i]->dead = true;
+			arrBossArm[i]->inv = this->inv;
+			arrBossArm[i]->Render(flipX);
+		}
+		return;
+	}
 	for (int i = 0; i < 4; i++) {
 		arrBossArm[i]->Render(flipX);
 	}
