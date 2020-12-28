@@ -176,6 +176,7 @@
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="GameOverSelector.cpp" />
     <ClCompile Include="LifeShowner.cpp" />
+    <ClCompile Include="OutroController.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="WeaponSelector.cpp" />
     <ClCompile Include="Bullet_Eyeball.cpp" />
@@ -194,7 +195,6 @@
     <ClCompile Include="InteriorGateOut.cpp" />
     <ClCompile Include="InteriorScene.cpp" />
     <ClCompile Include="Jason_BulletManager_Interior.cpp" />
-    <ClCompile Include="OutroScene.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="MovieScene.cpp" />
     <ClCompile Include="Ship.cpp" />
@@ -261,6 +261,7 @@
     <ClInclude Include="GameOverSelector.h" />
     <ClInclude Include="IDSceneConstant.h" />
     <ClInclude Include="LifeShowner.h" />
+    <ClInclude Include="OutroController.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="WeaponSelector.h" />
@@ -279,7 +280,6 @@
     <ClInclude Include="InteriorScene.h" />
     <ClInclude Include="Jason_BulletManager_Interior.h" />
     <ClInclude Include="MovieScene.h" />
-    <ClInclude Include="OutroScene.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="MineBullet.h" />
@@ -351,7 +351,6 @@
   <ItemGroup>
     <Text Include="CarScene.txt" />
     <Text Include="Font\ChooseWeaponFont.txt" />
-    <Text Include="..\..\BlasterMasterTemplate_NMPTGame2020\BlasterMaster\EndingScene.txt" />
     <Text Include="Font\LifeLeftFont.txt" />
     <Text Include="game-info.txt" />
     <Text Include="GameOverScene.txt" />
@@ -361,6 +360,7 @@
     <Text Include="Interior4.txt" />
     <Text Include="IntroScene.txt" />
     <Text Include="LifeLeftScene.txt" />
+    <Text Include="OutroScene.txt" />
     <Text Include="scene1.txt" />
     <Text Include="TitleScene.txt" />
     <Text Include="WeaponSelectorScene.txt" />

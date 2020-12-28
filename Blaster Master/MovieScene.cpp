@@ -166,6 +166,8 @@ void MovieScene::Load()
 	f.close();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+
+	Camera::GetInstance()->SetPosition(0, 0);
 }
 
 void MovieScene::Unload()
@@ -182,7 +184,6 @@ void MovieScene::Update(DWORD dw_dt)
 	if (dt > 0.1) dt = 0.1;
 
 	countTime += dt;
-	DebugOut(L"Counttime: %f\n", countTime);
 
 	if (countTime >= timeout)
 	{
@@ -216,18 +217,30 @@ void MovieScene::Update(DWORD dw_dt)
 		lastColorChoosenTime = countTime;
 		currentBackgroundColorIndex = (currentBackgroundColorIndex + 1) % listBackgroundColor.size();
 	}
+
+	for (auto object : this->listSceneObject)
+	{
+		object->Update(dt);
+	}
 }
 
 void MovieScene::Render()
 {
-	Camera::GetInstance()->SetPosition(0, 0);
-	if (currentBackgroundColorIndex != -1)
+	if (BackgroundSpriteID != BASICSCENE_INVALID_BACKGROUND_ID)
 	{
-		CSprites::GetInstance()->Get(BackgroundSpriteID)->Draw(0, 0, false, 0, listBackgroundColor[currentBackgroundColorIndex].first);
-	}
-	else
-	{
-		CSprites::GetInstance()->Get(BackgroundSpriteID)->Draw(0, 0, false, 0, defaultBackgroundColor);
+		if (currentBackgroundColorIndex != -1)
+		{
+			CSprites::GetInstance()->Get(BackgroundSpriteID)->Draw(0, 0, false, 0, listBackgroundColor[currentBackgroundColorIndex].first);
+		}
+		else
+		{
+			CSprites::GetInstance()->Get(BackgroundSpriteID)->Draw(0, 0, false, 0, defaultBackgroundColor);
+		}
 	}
 	movieAnimator->Draw(this->MovieAnimationID, animationOffset.x, animationOffset.y, false);
+
+	for (auto object : this->listSceneObject)
+	{
+		object->Render();
+	}
 }

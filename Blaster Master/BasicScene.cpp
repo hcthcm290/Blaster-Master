@@ -7,6 +7,7 @@
 #include "WeaponSelector.h"
 #include "LifeShowner.h"
 #include "GameOverSelector.h"
+#include "OutroController.h"
 
 #define BASICSCENE_SECTION_UNKNOWN -1
 #define BASICSCENE_SECTION_TEXTURES 1
@@ -104,6 +105,11 @@ void BasicScene::_ParseSection_OBJECTS(std::string line)
 	case 113:
 	{
 		obj = new GameOverSelector();
+		break;
+	}
+	case 114:
+	{
+		obj = new OutroController();
 		break;
 	}
 	}

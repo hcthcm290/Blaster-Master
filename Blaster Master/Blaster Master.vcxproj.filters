@@ -265,9 +265,6 @@
     <ClCompile Include="TextRenderer.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="OutroScene.cpp">
-      <Filter>Source Files\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Sophia_Bullet_Thunder.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
@@ -277,6 +274,7 @@
     <ClCompile Include="GameOverSelector.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="OutroController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -549,9 +547,6 @@
     <ClInclude Include="Boss.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="OutroScene.h">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Sophia_Bullet_Thunder.h">
       <Filter>Header Files\Bullet</Filter>
     </ClInclude>
@@ -560,6 +555,9 @@
     </ClInclude>
     <ClInclude Include="GameOverSelector.h">
       <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="OutroController.h">
+      <Filter>Header Files\Other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -619,14 +617,14 @@
     <Text Include="Font\LifeLeftFont.txt">
       <Filter>Resource Files\Font</Filter>
     </Text>
-    <Text Include="..\..\BlasterMasterTemplate_NMPTGame2020\BlasterMaster\EndingScene.txt">
-      <Filter>Resource Files\OutroScene</Filter>
-    </Text>
     <Text Include="LifeLeftScene.txt">
       <Filter>Resource Files\SuportScene</Filter>
     </Text>
     <Text Include="GameOverScene.txt">
       <Filter>Resource Files\SuportScene</Filter>
+    </Text>
+    <Text Include="OutroScene.txt">
+      <Filter>Resource Files\OutroScene</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -705,11 +703,11 @@
     <Filter Include="Resource Files\Font">
       <UniqueIdentifier>{58fffece-1920-46b3-ba3c-38dc16d731af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\OutroScene">
-      <UniqueIdentifier>{fa680b2b-3f26-43eb-96af-34ad56bb10bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Images">
       <UniqueIdentifier>{9cc8e715-5cb7-4b4e-ac18-559988cb639f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\OutroScene">
+      <UniqueIdentifier>{925fd813-6b17-4809-8c5d-59451f6e8e3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
