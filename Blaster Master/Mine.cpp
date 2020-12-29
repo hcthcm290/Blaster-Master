@@ -9,6 +9,7 @@
 #include "Explosive.h"
 #include "Playable.h"
 #include "PlayerBullet.h"
+#include "PlayerItem.h"
 
 Mine::Mine()
 {
@@ -93,6 +94,13 @@ void Mine::TakeDamage(int dmg)
 	}
 	if (HP == 0)
 	{
+		srand((int)time(0));
+		if ((rand() % 3) == 0)
+		{
+			PlayerItem* newPlayerItem = new PlayerItem(Power);
+			newPlayerItem->SetPosition(x, y);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newPlayerItem);
+		}
 		auto explode = new Explosive();
 		explode->SetPosition(x, y);
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);

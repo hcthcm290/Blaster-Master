@@ -11,9 +11,9 @@ protected:
 	float vy = 0;
 
 	Animator* animator = new Animator();
-	int maxHP;
 
 public:
+	int maxHP;
 	int HP = 0;
 	int inv;
 	DWORD last_blink;

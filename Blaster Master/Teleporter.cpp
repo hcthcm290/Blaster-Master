@@ -6,6 +6,7 @@
 #include "Explosive.h"
 #include "Rock.h"
 #include "SoundManager.h"
+#include "PlayerItem.h"
 
 #define TELEPORTER_TELE 21001
 #define TELEPORTER_START 21002
@@ -182,6 +183,13 @@ void Teleporter::TakeDamage(int dmg)
 	}
 	if (HP == 0)
 	{
+		srand((int)time(0));
+		if ((rand() % 3) == 0)
+		{
+			PlayerItem* newPlayerItem = new PlayerItem(Power);
+			newPlayerItem->SetPosition(x, y);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newPlayerItem);
+		}
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
 }

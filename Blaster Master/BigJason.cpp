@@ -239,7 +239,14 @@ void BigJason::Update(float dt)
 
 void BigJason::Render()
 {
-	animator->Draw(state, x, y, !flipX, 0, damageColor[currentColor]);
+	if (state == I_JASON_WALK_DOWN || state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP || state == I_JASON_IDLE_DOWN)
+	{
+		animator->Draw(state, x, y, false, 0, damageColor[currentColor]);
+	}
+	else
+	{
+		animator->Draw(state, x, y, !flipX, 0, damageColor[currentColor]);
+	}
 }
 
 FRECT BigJason::GetCollisionBox()
@@ -255,11 +262,23 @@ FRECT BigJason::GetCollisionBox()
 
 bool BigJason::IsInvulnerable()
 {
-	return false;
+	if (invincible <= 0)
+		return false;
+	else
+		return true;
 }
 
 void BigJason::TakeDamage(int dmg)
 {
+	if (invincible <= 0)
+	{
+		this->HP -= dmg;
+		invincible = 500;
+		if (HP < 0)
+		{
+			HP = 0;
+		}
+	}
 }
 
 float BigJason::GetEnterGateSpeed()
@@ -287,4 +306,9 @@ bool BigJason::IsDead()
 	}
 
 	return false;
+}
+
+void BigJason::ChangeGunLevel(int levelchange)
+{
+	bulletManager->SetLevel(bulletManager->GetLevel() + levelchange);
 }

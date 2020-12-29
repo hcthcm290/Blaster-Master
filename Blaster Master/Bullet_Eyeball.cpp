@@ -26,6 +26,22 @@ Bullet_Eyeball::Bullet_Eyeball(float x, float y) {
 }
 
 void Bullet_Eyeball::Update(float dt) {
+	if (livingTime < 0)
+	{
+		Explode();
+		return;
+	}
+	else
+	{
+		livingTime -= dt*1000;
+	}
+	CGameObject* player = dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(2);
+		Explode();
+	}
 	SetVelocity(vx0 * dt, vy0 * dt);
 }
 
@@ -38,8 +54,7 @@ FRECT Bullet_Eyeball::GetCollisionBox() {
 }
 
 void Bullet_Eyeball::OnCollisionEnter(CollisionEvent e) {
-	if (dynamic_cast<Playable*>(e.pGameObject) != NULL
-		|| dynamic_cast<ColliableBrick*>(e.pGameObject) != NULL) {
+	if (dynamic_cast<ColliableBrick*>(e.pGameObject) != NULL) {
 		Explode();
 	}
 }

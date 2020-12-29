@@ -27,7 +27,7 @@ void MineBullet::Update(float dt)
 		// Set Dmg and push back player //
 		if (!dynamic_cast<Playable*>(player)->IsInvulnerable())
 		{
-			dynamic_cast<DynamicObject*>(player)->TakeDamage(14);
+			dynamic_cast<DynamicObject*>(player)->TakeDamage(10);
 			// Remove bullet from scene //
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 		}

@@ -3,6 +3,7 @@
 #include "PlayScene.h"
 #include "Debug.h"
 #include "SoundManager.h"
+#include "PlayerItem.h"
 
 DynamicObject::DynamicObject()
 {
@@ -30,6 +31,14 @@ void DynamicObject::TakeDamage(int dmg)
     }
     if (HP == 0)
     {
+        srand((int)time(0));
+        if ((rand() % 3) == 0)
+        {
+            PlayerItem* newPlayerItem = new PlayerItem(Power);
+            newPlayerItem->SetPosition(x, y);
+            dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newPlayerItem);
+        }
+
         auto explode = new Explosive();
         explode->SetPosition(x, y);
         dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);

@@ -40,4 +40,5 @@ public:
 	int getGunPower() { return this->bulletManager->GetLevel(); }
 	void NotifySwitchSceneOut();
 	bool IsDead();
+	void ChangeGunLevel(int levelchange);
 };
