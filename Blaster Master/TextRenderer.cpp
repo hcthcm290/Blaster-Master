@@ -3,6 +3,8 @@
 #include <fstream>
 #include "Utils.h"
 #include "Textures.h"
+#include "CollisionSystem.h"
+#include "Camera.h"
 
 #define FONTFILE_SECTION_UNKNOWN -1
 #define FONTFILE_SECTION_TEXTURE 1
@@ -65,7 +67,7 @@ void TextRenderer::LoadFont(string font_filepath)
 
 			CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
 
-			this->textureID = texID;
+			this->texture = CTextures::GetInstance()->Get(texID);
 
 			break;
 		}
@@ -141,40 +143,16 @@ void TextRenderer::Render(float x, float y)
 		if (!charInfo.contains(content[i])) continue; // if we dont have info about that weird character, skip it
 
 		FRECT cRect = charInfo[content[i]];
-		auto texture = CTextures::GetInstance()->Get(this->textureID);
 
-		CGame::GetInstance()->Draw(current_x, current_y, texture, cRect.left, cRect.top, cRect.right, cRect.bottom);
-
-		current_x += fontInfo.witdh + fontInfo.character_space_width;
-	}
-}
-
-void TextRenderer::Render(float x, float y, string content)
-{
-	float current_x = x;
-	float current_y = y;
-
-	for (int i = 0; i < content.length(); i++)
-	{
-		if (!charInfo.contains(content[i])) continue; // if we dont have info about that weird character, skip it
-
-		if (content[i] == '\n')
+		float cWidth = cRect.right - cRect.left;
+		float cHeight = cRect.bottom - cRect.top;
+		FRECT cColBox = FRECT(current_x - cWidth / 2, current_y - cHeight / 2, current_x + cWidth / 2, current_y + cHeight / 2);
+		if (CollisionSystem::CheckOverlap(cColBox, Camera::GetInstance()->GetCollisionBox()))
 		{
-			current_x = x;
-			current_y += fontInfo.height + fontInfo.line_spacing_value;
-			continue;
+			auto game = CGame::GetInstance();
+
+			game->Draw(current_x, current_y, texture, cRect.left, cRect.top, cRect.right, cRect.bottom);
 		}
-
-		if (content[i] == ' ')
-		{
-			current_x += fontInfo.witdh + fontInfo.word_space_width;
-			continue;
-		}
-
-		FRECT cRect = charInfo[content[i]];
-		auto texture = CTextures::GetInstance()->Get(this->textureID);
-
-		CGame::GetInstance()->Draw(current_x, current_y, texture, cRect.left, cRect.top, cRect.right, cRect.bottom);
 
 		if (i != content.length() - 1) // only calculate next position when this is not the last character
 		{
@@ -184,7 +162,17 @@ void TextRenderer::Render(float x, float y, string content)
 
 			int nextLetterWidth = cRect.right - cRect.left;
 
-			current_x += (float)currentLetterWidth/2 + (float)nextLetterWidth/2 + fontInfo.character_space_width;
+			current_x += (float)currentLetterWidth / 2 + (float)nextLetterWidth / 2 + fontInfo.character_space_width;
 		}
 	}
+}
+
+void TextRenderer::Render(float x, float y, string content)
+{
+	string tempContent = this->content;
+
+	this->content = content;
+	Render(x, y);
+
+	this->content = tempContent;
 }
