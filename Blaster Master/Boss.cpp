@@ -29,7 +29,7 @@ Boss::Boss(float x, float y) {
 	//initiate Boss Hands
 	float arrShoulderX[] = { rShoulderX(), lShoulderX() };
 	for (int i = 0; i < 2; i++) {
-		arrBossHand[i] = new BossHand(arrShoulderX[i], y);
+		arrBossHand[i] = new BossHand(arrShoulderX[i], y - 5);
 		//dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(arrBossHand[i]);
 	}
 }
@@ -50,7 +50,7 @@ void Boss::Update(float dt) {
 	//hand control
 	float arrShoulderX[] = { rShoulderX(), lShoulderX() };
 	for (int i = 0; i < 2; i++) {
-		arrBossHand[i]->SetNextPosition(arrShoulderX[i], y, i);
+		arrBossHand[i]->SetNextPosition(arrShoulderX[i], y - 5, i);
 		arrBossHand[i]->inv = this->inv;
 		arrBossHand[i]->Update(dt);
 	}
@@ -343,17 +343,17 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 	//vy0 *= (vy0 * dy >= 0 ? 1 : -1);
 	if (!isLeft)
 	{
-		if (x >= shoudlerX + 100)
+		if (x >= shoudlerX + 60)
 		{
-			x = shoudlerX + 100;
+			x = shoudlerX + 60;
 			if (!isFreezeX)
 			{
 				isFreezeX = true;
 				freezeX = GetTickCount();
 				vx = 0;
-				vy = 60 * directionY;
+				vy = 100 * directionY;
 			}
-			if(GetTickCount() - freezeX > 1000)
+			if(GetTickCount() - freezeX > 600)
 			{
 				vx = -100;
 				directionX = -1;
@@ -361,17 +361,17 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 		}
 		else
 		{
-			if (x <= shoudlerX - 20)
+			if (x <= shoudlerX - 10)
 			{
-				x = shoudlerX - 20;
+				x = shoudlerX - 10;
 				if (!isFreezeX)
 				{
 					isFreezeX = true;
 					freezeX = GetTickCount();
 					vx = 0;
-					vy = 60 * directionY;
+					vy = 100 * directionY;
 				}
-				if (GetTickCount() - freezeX > 1000)
+				if (GetTickCount() - freezeX > 600)
 				{
 					isFreezeX = false;
 					vx = 100;
@@ -380,25 +380,25 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 			}
 			else
 			{
-				if (GetTickCount() - freezeX > 1000)
+				if (GetTickCount() - freezeX > 600)
 				{
-					vx = 60 * directionX;
+					vx = 100 * directionX;
 					isFreezeX = false;
 				}
 				
 			}
 		}
-		if (y >= shoudlerY + 58)
+		if (y >= shoudlerY + 70)
 		{
-			y = shoudlerY + 58;
+			y = shoudlerY + 70;
 			if (!isFreezeY)
 			{
 				isFreezeY = true;
 				freezeY = GetTickCount();
 				vy = 0;
-				vx = 60 * directionX;
+				vx = 100 * directionX;
 			}
-			if (GetTickCount() - freezeY > 1000)
+			if (GetTickCount() - freezeY > 600)
 			{
 				isFreezeY = false;
 				vy = -100;
@@ -407,17 +407,17 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 		}
 		else
 		{
-			if (y <= shoudlerY - 58)
+			if (y <= shoudlerY - 70)
 			{
-				y = shoudlerY - 58;
+				y = shoudlerY - 70;
 				if (!isFreezeY)
 				{
 					isFreezeY = true;
 					freezeY = GetTickCount();
 					vy = 0;
-					vx = 60 * directionX;
+					vx = 100 * directionX;
 				}
-				if (GetTickCount() - freezeY > 1000)
+				if (GetTickCount() - freezeY > 600)
 				{
 					isFreezeY = false;
 					vy = 100;
@@ -426,25 +426,26 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 			}
 			else
 			{
-				if (GetTickCount() - freezeY > 1000)
+				if (GetTickCount() - freezeY > 600)
 				{
-					vy = 60 * directionY;
+					vy = 100 * directionY;
 					isFreezeY = false;
 				}
-				
+
 			}
 		}
 	}
 	else
 	{
-		if (x >= shoudlerX + 20)
+		if (x >= shoudlerX + 10)
 		{
-			x = shoudlerX + 20;
+			x = shoudlerX + 10;
 			if (!isFreezeX)
 			{
 				isFreezeX = true;
 				freezeX = GetTickCount();
 				vx = 0;
+				vy = 100 * directionY;
 			}
 			if (GetTickCount() - freezeX > 500)
 			{
@@ -454,14 +455,15 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 		}
 		else
 		{
-			if (x <= shoudlerX - 100)
+			if (x <= shoudlerX - 60)
 			{
-				x = shoudlerX - 100;
+				x = shoudlerX - 60;
 				if (!isFreezeX)
 				{
 					isFreezeX = true;
 					freezeX = GetTickCount();
 					vx = 0;
+					vy = 100 * directionY;
 				}
 				if (GetTickCount() - freezeX > 500)
 				{
@@ -472,19 +474,24 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 			}
 			else
 			{
-				vx = 60 * directionX;
+				if (GetTickCount() - freezeX > 600)
+				{
+					vx = 100 * directionX;
+					isFreezeX = false;
+				}
 			}
 		}
-		if (y >= shoudlerY + 58)
+		if (y >= shoudlerY + 70)
 		{
-			y = shoudlerY + 58;
+			y = shoudlerY + 70;
 			if (!isFreezeY)
 			{
 				isFreezeY = true;
 				freezeY = GetTickCount();
 				vy = 0;
+				vx = 100 * directionX;
 			}
-			if (GetTickCount() - freezeY > 500)
+			if (GetTickCount() - freezeY > 600)
 			{
 				isFreezeY = false;
 				vy = -100;
@@ -493,16 +500,17 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 		}
 		else
 		{
-			if (y <= shoudlerY - 58)
+			if (y <= shoudlerY - 70)
 			{
-				y <= shoudlerY - 58;
+				y = shoudlerY - 70;
 				if (!isFreezeY)
 				{
 					isFreezeY = true;
 					freezeY = GetTickCount();
 					vy = 0;
+					vx = 100 * directionX;
 				}
-				if (GetTickCount() - freezeY > 500)
+				if (GetTickCount() - freezeY > 600)
 				{
 					isFreezeY = false;
 					vy = 100;
@@ -511,7 +519,12 @@ void BossHand::SetNextPosition(float shoudlerX, float shoudlerY, bool isLeft) {
 			}
 			else
 			{
-				vy = 60 * directionY;
+				if (GetTickCount() - freezeY > 600)
+				{
+					vy = 100 * directionY;
+					isFreezeY = false;
+				}
+
 			}
 		}
 	}
@@ -523,9 +536,53 @@ void BossHand::UpdateArms(float sx, float sy) {
 	float dx = (x - sx) / 5;
 	float dy = (y - sy) / 5;
 
+	ChainArm(arrBossArm[3], this);
+	for (int i = 3; i >= 1; i--) {
+		ChainArm(arrBossArm[i - 1], arrBossArm[i]);
+	}
+	ChainArm(arrBossArm[0], sx, sy);
+	for (int i = 0; i < 3; i++) {
+		ChainArm(arrBossArm[i + 1], arrBossArm[i]);
+	}
 	for (int i = 0; i < 4; i++) {
-		arrBossArm[i]->SetDestination(sx + dx * (i + 1), sy + dy * (i + 1));
 		arrBossArm[i]->inv = this->inv;
 	}
 }
 #pragma endregion
+
+void BossHand::ChainArm(BossArm* arm, BossHand* hand)
+{
+	float distance = 15;
+	float tempX = CalculateDistance(arm->GetX(), hand->GetX(), distance);
+	float tempY = CalculateDistance(arm->GetY(), hand->GetY(), distance);
+	arm->SetDestination(tempX, tempY);
+
+}
+
+void BossHand::ChainArm(BossArm* arm, float sx, float sy)
+{
+	float tempX = CalculateDistance(arm->GetX(), sx, 0);
+	float tempY = CalculateDistance(arm->GetY(), sy, 5);
+	arm->SetDestination(tempX, tempY);
+}
+
+void BossHand::ChainArm(BossArm* arm, BossArm* armcheck)
+{
+	float distance = 15;
+	float tempX = CalculateDistance(arm->GetX(), armcheck->GetX(), distance);
+	float tempY = CalculateDistance(arm->GetY(), armcheck->GetY(), distance);
+	arm->SetDestination(tempX, tempY);
+}
+
+float BossHand::CalculateDistance(float a, float b, float d)
+{
+	if (a - b > d)
+	{
+		return b + d;
+	}
+	if (a - b < -d)
+	{
+		return b - d;
+	}
+	return a;
+}

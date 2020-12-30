@@ -48,8 +48,8 @@ private:
 	void Fire();
 
 	//BossHand Controller
-	float lShoulderX() { return x - 16; }
-	float rShoulderX() { return x + 16; }
+	float lShoulderX() { return x - 20; }
+	float rShoulderX() { return x + 20; }
 
 public: 
 	Boss(float x, float y);
@@ -96,6 +96,9 @@ public:
 	void Render(bool flipX);
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
+
+	float GetX() { return this->x; };
+	float GetY() { return this->y; };
 
 	void SetDestination(float newX, float newY);
 };
@@ -161,6 +164,15 @@ public:
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 
+	float GetX() { return this->x; };
+	float GetY() { return this->y; };
+
 	void SetNextPosition(float shoulderX, float shoulderY, bool isLeft);
+
+	//
+	void ChainArm(BossArm* arm, BossHand* hand);
+	void ChainArm(BossArm* arm, float sx, float sy);
+	void ChainArm(BossArm* arm, BossArm* armcheck);
+	float CalculateDistance(float a, float b, float d);
 };
 #pragma endregion
