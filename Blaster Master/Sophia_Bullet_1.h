@@ -17,6 +17,16 @@ protected:
 	bool isHit = false;
 	bool explosionOverlap = false;
 
+	bool upgraded = false;
+	static constexpr D3DCOLOR Color[] = {
+	D3DCOLOR_ARGB(255,255,0,0),
+	D3DCOLOR_ARGB(255,255,255,255),
+	D3DCOLOR_ARGB(255,255,255,0),
+	D3DCOLOR_ARGB(255,0,255,0),
+	D3DCOLOR_ARGB(255,255,255,255),
+	D3DCOLOR_ARGB(255,0,0,255),
+	};
+
 public:
 	static int count;
 	Sophia_Bullet_1();
@@ -29,5 +39,6 @@ public:
 	void Render();
 	void RemoveBullet();
 
+	bool isWallBreak() { return upgraded; }
 };
 
