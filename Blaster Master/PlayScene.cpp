@@ -1149,10 +1149,7 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	if (!DInput::KeyPress(DIK_B))
-	{
-		mapBackground->Render();
-	}
+	
 
 	for (int i = 0; i < onScreenObjs.size(); i++)
 	{
@@ -1170,6 +1167,12 @@ void CPlayScene::Render()
 	for (int i = 0; i < GUIObjects.size(); i++)
 	{
 		GUIObjects[i]->Render();
+	}
+
+	if (!DInput::KeyPress(DIK_B))
+	{
+		mapBackground->SetZIndex(0.4);
+		mapBackground->Render();
 	}
 }
 

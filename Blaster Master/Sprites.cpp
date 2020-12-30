@@ -21,10 +21,10 @@ CSprites* CSprites::GetInstance()
 	return __instance;
 }
 
-void CSprite::Draw(float x, float y, bool flipX, float rotation, D3DCOLOR Color)
+void CSprite::Draw(float x, float y, bool flipX, float rotation, D3DCOLOR Color, float z_index)
 {
 	CGame* game = CGame::GetInstance();
-	game->Draw(x, y, texture, left, top, right, bottom, flipX, rotation, Color);
+	game->Draw(x, y, texture, left, top, right, bottom, flipX, rotation, Color, z_index);
 }
 
 void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
@@ -55,11 +55,11 @@ void CAnimation::Add(int spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
-int CAnimation::Render(int currentFrame, float x, float y, bool flipX, float rotation, D3DCOLOR Color)
+int CAnimation::Render(int currentFrame, float x, float y, bool flipX, float rotation, D3DCOLOR Color, float z_index)
 {
 	if (currentFrame >= 0 && currentFrame < frames.size())
 	{
-		frames[currentFrame]->GetSprite()->Draw(x, y, flipX, rotation, Color);
+		frames[currentFrame]->GetSprite()->Draw(x, y, flipX, rotation, Color, z_index);
 	}
 
 	DWORD now = GetTickCount64();

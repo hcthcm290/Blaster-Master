@@ -18,7 +18,7 @@ class CSprite
 public:
 	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 
-	void Draw(float x, float y, bool flipX = false, float rotation = 0, D3DCOLOR Color = D3DCOLOR_XRGB(255, 255, 255));
+	void Draw(float x, float y, bool flipX = false, float rotation = 0, D3DCOLOR Color = D3DCOLOR_XRGB(255, 255, 255), float z_index = 0.5);
 };
 
 typedef CSprite* LPSPRITE;
@@ -65,7 +65,7 @@ public:
 	CAnimation(CAnimation& anim);
 	CAnimation(int defaultTime = 0) { this->defaultTime = defaultTime; lastFrameTime = -1; }
 	void Add(int spriteId, DWORD time = 0);
-	int Render(int currentFrame, float x, float y, bool flipX = false, float rotation = 0, D3DCOLOR Color = D3DCOLOR_XRGB(255, 255, 255));
+	int Render(int currentFrame, float x, float y, bool flipX = false, float rotation = 0, D3DCOLOR Color = D3DCOLOR_XRGB(255, 255, 255), float z_index = 0.5f);
 };
 
 typedef CAnimation* LPANIMATION;
