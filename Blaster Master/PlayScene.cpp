@@ -401,10 +401,10 @@ void CPlayScene::_ParseSection_MERGEDBRICK(string line)
 		ColliableBrick* brick = new ColliableBrick();
 		
 		FRECT brickRECT = FRECT(
-			object["left"].GetInt(),
-			object["top"].GetInt(),
-			object["right"].GetInt(),
-			object["bottom"].GetInt()
+			object["left"].GetDouble(),
+			object["top"].GetDouble(),
+			object["right"].GetDouble(),
+			object["bottom"].GetDouble()
 		);
 
 		brick->SetPosition((brickRECT.right + brickRECT.left) / 2 * 16, (brickRECT.bottom + brickRECT.top) / 2 * 16);
@@ -558,8 +558,6 @@ void CPlayScene::Load()
 		{
 			// we do not have to use the old way anymore
 			// if(line != "")	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::getCameraBoundary(line));
-
-			Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 		}
 		}
 	}
@@ -570,6 +568,8 @@ void CPlayScene::Load()
 
 	totalFaded = 0;
 	state = State::_PLAYSCENE_FADDING_IN;
+
+	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 
 	InitGUI();
 

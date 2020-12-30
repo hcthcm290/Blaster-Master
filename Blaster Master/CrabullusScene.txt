@@ -1,0 +1,23 @@
+[TEXTURES]
+-1	textures\CrabullusSceneBackground.png	255	0	255
+
+[SPRITES]
+## MAP BACKGROUND 
+-1	0	0	256	224	-1
+
+[SHAREDDATA]
+Interior-Area2_Shared_Data.txt
+
+[OBJECTS]
+-1	0	0
+82	150	50
+99	150	150
+
+## CAMERA BOUNDARY LIST
+#	#id_sec	left	top	right	bottom
+76	A2BS	0	0	15	13
+
+[DEFAULTCAMERA]
+
+[MERGEDBRICK]
+Boss_merged.json

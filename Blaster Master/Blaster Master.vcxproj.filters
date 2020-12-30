@@ -644,6 +644,9 @@
     <Text Include="CreditContent.txt">
       <Filter>Resource Files\OutroScene</Filter>
     </Text>
+    <Text Include="CrabullusScene.txt">
+      <Filter>Resource Files\Playscene</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

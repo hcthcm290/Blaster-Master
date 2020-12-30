@@ -1,0 +1,26 @@
+[
+    {
+        "left": 0,
+        "top": -0.5,
+        "right": 15,
+        "bottom": -0.5
+    },
+    {
+        "left": 0,
+        "top": 13.5,
+        "right": 15,
+        "bottom": 13.5
+    },
+    {
+        "left": -0.5,
+        "top": 0,
+        "right": -0.5,
+        "bottom": 13
+    },
+    {
+        "left": 15.5,
+        "top": 0,
+        "right": 15.5,
+        "bottom": 13
+    }
+]
