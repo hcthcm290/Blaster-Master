@@ -15,6 +15,7 @@ class CGameObject
 protected:
 	float x;
 	float y;
+	float z_index = 0.5;
 
 protected:
 	int currentState;
@@ -38,6 +39,8 @@ public:
 	virtual int GetState() { return this->currentState; }
 
 	D3DVECTOR GetPosition();
+	float GetZIndex();
+	void SetZIndex(float value);
 
 	CGameObject();
 

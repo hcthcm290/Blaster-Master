@@ -16,6 +16,16 @@ D3DVECTOR CGameObject::GetPosition()
 	return position;
 }
 
+float CGameObject::GetZIndex()
+{
+	return this->z_index;
+}
+
+void CGameObject::SetZIndex(float value)
+{
+	this->z_index = value;
+}
+
 CGameObject::CGameObject()
 {
 	x = y = 0;

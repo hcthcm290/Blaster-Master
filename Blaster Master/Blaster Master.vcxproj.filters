@@ -274,8 +274,12 @@
     <ClCompile Include="GameOverSelector.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="OutroController.cpp" />
-    <ClCompile Include="CreditController.cpp" />
+    <ClCompile Include="CreditController.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="OutroController.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -639,6 +643,9 @@
     </Text>
     <Text Include="CreditContent.txt">
       <Filter>Resource Files\OutroScene</Filter>
+    </Text>
+    <Text Include="CrabullusScene.txt">
+      <Filter>Resource Files\Playscene</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

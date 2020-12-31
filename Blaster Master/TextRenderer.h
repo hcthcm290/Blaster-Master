@@ -18,7 +18,7 @@ private:
 	string font_filepath;
 	string content;
 
-	int textureID;
+	LPDIRECT3DTEXTURE9 texture;
 
 	unordered_map<char, FRECT> charInfo;
 	FontInfo fontInfo;

@@ -100,8 +100,8 @@ void Render()
     {
         // Clear back buffer with a color
         d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
-
-        spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+        
+        spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_BACKTOFRONT);
 
         //orb->Render();
         //jumper->Render();
