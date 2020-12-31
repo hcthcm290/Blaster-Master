@@ -37,6 +37,8 @@ private:
 	D3DCOLOR_ARGB(128,0,0,0),
 	};
 
+	DWORD lastex;
+
 	//sub-gameObjects
 	//<[0] means RIGHT> - and - <[1] means LEFT>
 	BossHand* arrBossHand[2];
@@ -176,3 +178,13 @@ public:
 	float CalculateDistance(float a, float b, float d);
 };
 #pragma endregion
+
+class ExplosiveBoss : public DynamicObject
+{
+private:
+	DWORD creationTime;
+public:
+	ExplosiveBoss(int x, int y);
+	void Render();
+	void Update(float dt);
+};

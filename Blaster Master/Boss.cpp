@@ -5,11 +5,16 @@
 #include "InteriorScene.h"
 #include "Playable.h"
 #include "Debug.h"
+#include "VisionBox.h"
 
 #pragma region Boss
 /** ===== BOSS ===== **/
 
 Boss::Boss(float x, float y) {
+	CGameObject* obj = new VisionBox(0,255,120,121);
+	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+
+	lastex = GetTickCount();
 	//set position first because Hands is initialized due to it
 	this->SetPosition(x, y);
 
@@ -73,6 +78,16 @@ void Boss::Render() {
 			}
 			//currentColor = 5 - currentColor;
 			last_blink = GetTickCount();
+		}
+		//srand((int)time(0));
+		if (GetTickCount() - lastex > 500)
+		{
+			int tempx = rand() % 250;
+			int tempy = rand() % 100;
+			DebugOut(L"%d", tempx);
+			CGameObject* obj = new ExplosiveBoss(tempx, tempy);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
+			lastex = GetTickCount();
 		}
 		for (int i = 0; i < 2; i++) {
 			arrBossHand[i]->inv = this->inv;
@@ -169,6 +184,11 @@ FRECT Boss::GetCollisionBox() {
 
 void Boss::OnCollisionEnter(CollisionEvent e) {
 	if (dynamic_cast<ColliableBrick*>(e.pGameObject) != NULL) {
+		//do bounce effect if touch walls
+		if (e.nx != 0) vx0 *= -1;
+		else vy0 *= -1;
+	}
+	if (dynamic_cast<VisionBox*>(e.pGameObject) != NULL) {
 		//do bounce effect if touch walls
 		if (e.nx != 0) vx0 *= -1;
 		else vy0 *= -1;
@@ -585,4 +605,24 @@ float BossHand::CalculateDistance(float a, float b, float d)
 		return b - d;
 	}
 	return a;
+}
+
+ExplosiveBoss::ExplosiveBoss(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+
+	animator->AddAnimation(22001);
+	creationTime = GetTickCount();
+}
+
+void ExplosiveBoss::Update(float dt)
+{
+	if(GetTickCount() - creationTime > 500)
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+}
+
+void ExplosiveBoss::Render()
+{
+	animator->Draw(22001, x, y, false);
 }
