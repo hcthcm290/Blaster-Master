@@ -1171,7 +1171,7 @@ void CPlayScene::Render()
 
 	if (!DInput::KeyPress(DIK_B))
 	{
-		mapBackground->SetZIndex(0.4);
+		mapBackground->SetZIndex(0);
 		mapBackground->Render();
 	}
 }

@@ -17,6 +17,7 @@
 #include  "SoundManager.h"
 #include "Eyeball_Curved.h"
 #include "Boss.h"
+#include "BossArea.h"
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -25,6 +26,20 @@ InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 }
 InteriorScene::~InteriorScene()
 {
+}
+
+void InteriorScene::SwitchSection(BigGate* gate)
+{
+	if (isFightingBoss) return; // if player is fighting boss, we block the way out
+
+	this->gate = gate;
+	this->state = State::_PLAYSCENE_SWITCH_SECTION;
+	countingTime1 = 0;
+	countingTime2 = 0;
+	shiftingCamera = false;
+	deltaShiftX = 0;
+	deltaShiftY = 0;
+	totalShifting = 0;
 }
 
 void InteriorScene::Unload()
@@ -99,6 +114,8 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 	case 99:
+		if (!canSpawnPlayer) return;
+
 		obj = new BigJason();
 		player = dynamic_cast<DynamicObject*>(obj);
 		
@@ -197,6 +214,40 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 	case 82: 
 	{
 		obj = new Boss(x, y);
+		break;
+	}
+	case 121:
+	{
+		obj = new BossArea();
+
+		BossArea* bossArea = dynamic_cast<BossArea*>(obj);
+
+		x = atof(tokens[1].c_str());
+		y = atof(tokens[2].c_str());
+
+		int width = atoi(tokens[3].c_str());
+		int height = atoi(tokens[4].c_str());
+
+		int backgroundAnimID = atoi(tokens[5].c_str());
+		D3DXVECTOR2 backgroundAnimPos = D3DXVECTOR2(atoi(tokens[6].c_str()), atoi(tokens[7].c_str()));
+
+		int foregroundAnimID = atoi(tokens[8].c_str());
+		D3DXVECTOR2 foregroundAnimPos = D3DXVECTOR2(atoi(tokens[9].c_str()), atoi(tokens[10].c_str()));
+
+		int blackscreenSpriteID = atoi(tokens[11].c_str());
+
+		D3DXVECTOR2 bossInitPos = D3DXVECTOR2(atoi(tokens[12].c_str()), atoi(tokens[13].c_str()));
+
+		bossArea->SetPosition(x, y);
+		bossArea->SetWidth(width);
+		bossArea->SetHeight(height);
+		bossArea->SetBackgroundAnimationID(backgroundAnimID);
+		bossArea->SetBackgroundPosition(backgroundAnimPos);
+		bossArea->SetForegroundAnimationID(foregroundAnimID);
+		bossArea->SetForegroundPosition(foregroundAnimPos);
+		bossArea->SetBlackscreenSpriteID(blackscreenSpriteID);
+		bossArea->SetBossInitPosition(bossInitPos);
+
 		break;
 	}
 	default:
@@ -373,6 +424,7 @@ void InteriorScene::UpdateSwitchSection(float dt)
 	}
 
 	AddGameObjectToScene(player);
+	BackupPlayableObject();
 }
 
 void InteriorScene::UpdateFaddingOut(float dt)
