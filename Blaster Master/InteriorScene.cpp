@@ -42,6 +42,37 @@ void InteriorScene::SwitchSection(BigGate* gate)
 	totalShifting = 0;
 }
 
+void InteriorScene::Render()
+{
+	for (int i = 0; i < onScreenObjs.size(); i++)
+	{
+		if (dynamic_cast<Rock*>(onScreenObjs[i]) != NULL) { onScreenObjs[i]->Render(); }
+		if (dynamic_cast<ColliableBrick*>(onScreenObjs[i]) != NULL) continue;
+		onScreenObjs[i]->Render();
+	}
+	
+	if (!isFightingBoss)
+	{
+		auto foregroundTiles = GetOnScreenForeGroundTiles();
+		for (auto tile : foregroundTiles)
+		{
+			tile->SetZIndex(0.7);
+			tile->Render();
+		}
+	}
+	
+	for (int i = 0; i < GUIObjects.size(); i++)
+	{
+		GUIObjects[i]->Render();
+	}
+	
+	if (!isFightingBoss)
+	{
+		mapBackground->SetZIndex(0);
+		mapBackground->Render();
+	}
+}
+
 void InteriorScene::Unload()
 {
 	unordered_map<CGameObject*, int> listObject;

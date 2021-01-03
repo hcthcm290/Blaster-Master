@@ -19,7 +19,7 @@ protected:
 	int height;
 
 	float Countime; // count total time have passed since player enter the boss area, reset when player exit the area
-	float MaxCountime = 10; // when Countime reach MaxCountime, boss appear
+	float MaxCountime = 8; // when Countime reach MaxCountime, boss appear
 
 	bool bossSpawned = false;
 
@@ -28,8 +28,13 @@ protected:
 	Animator backgroundAnimator;
 	Animator foregroundAnimator;
 
+private:
+	int blackscreenAlphaValue;
+
 protected:
-	const float delayFlashing = 0;
+	const float delayFlashing = 0.4;
+	const float delayFadding = 5.8;
+	const float faddingTime = 0.4;
 
 public:
 	void SetWidth(int value) { this->width = value; }

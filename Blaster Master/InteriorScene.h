@@ -16,6 +16,7 @@ public:
 	~InteriorScene();
 	void SwitchSection(BigGate* gate);
 	void SetFightingBoss(bool value) { this->isFightingBoss = value; }
+	virtual void Render();
 
 protected:
 	virtual void _ParseSection_OBJECTS(string line);

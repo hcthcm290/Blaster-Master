@@ -1149,8 +1149,6 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	
-
 	for (int i = 0; i < onScreenObjs.size(); i++)
 	{
 		if (dynamic_cast<Rock*>(onScreenObjs[i]) != NULL) { onScreenObjs[i]->Render(); }
