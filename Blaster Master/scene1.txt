@@ -17,7 +17,7 @@
 71	textures\71_BlackBullet.png	255	0	255
 13	textures\13_MineBullet.png	255	0	255
 14	textures\14_MineExplosion.png	255	0	255
--1	textures\level2-side.png	255	0	255
+-1	textures\Area2.png	255	0	255
 22	textures\22_FloaterBullet.png	255	0	255
 15	textures\Items_Objects.png	255	0	255
 69	textures\69_JasonBullet.png	255	0	255
