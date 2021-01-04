@@ -44,10 +44,11 @@
 #include "HealthBarGUI.h"
 #include "StaticGUI.h"
 #include "Rock.h"
-#include "SoundManager.h"
+#include "Sound.h"
 #include "Ship.h"
 #include "IDSceneConstant.h"
 #include "TheEye.h"
+#include "Sound.h"
 
 using namespace std;
 
@@ -502,6 +503,43 @@ void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
+
+	DebugOut(L"[INFO] Start loading sound resources from : /Sound \n");
+	Sound::getInstance()->loadSound((char*)"Sound/3Missile.wav","3Missile");
+	Sound::getInstance()->loadSound((char*)"Sound/BigObjectJump.wav", "BigObjectJump");
+	Sound::getInstance()->loadSound((char*)"Sound/BossEnter.wav", "BossEnter");
+	Sound::getInstance()->loadSound((char*)"Sound/DomeFLying.wav", "DomeFLying");
+	Sound::getInstance()->loadSound((char*)"Sound/DomeWalking.wav", "DomeWalking");
+	Sound::getInstance()->loadSound((char*)"Sound/DontKnow.wav", "DontKnow");
+	Sound::getInstance()->loadSound((char*)"Sound/EnemyDie.wav", "EnemyDie");
+	Sound::getInstance()->loadSound((char*)"Sound/EnemyOnHit.wav", "EnemyOnHit");
+	Sound::getInstance()->loadSound((char*)"Sound/Explosive_bullet.wav", "Explosive_bullet");
+	Sound::getInstance()->loadSound((char*)"Sound/EyeballSHOT.wav", "EyeballSHOT");
+	Sound::getInstance()->loadSound((char*)"Sound/FullHeath.wav", "FullHeath");
+	Sound::getInstance()->loadSound((char*)"Sound/Grenade.wav", "Grenade");
+	Sound::getInstance()->loadSound((char*)"Sound/HomingMissile.wav", "HomingMissile");
+	Sound::getInstance()->loadSound((char*)"Sound/Insect.wav", "Insect");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonBullet.wav", "JasonBullet");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonDie.wav", "JasonDie");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonGotHit_Interior.wav", "JasonGotHit_Interior");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonGotHit_Outside.wav", "JasonGotHit_Outside");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonJump.wav", "JasonJump");
+	Sound::getInstance()->loadSound((char*)"Sound/JumperJump.wav", "JumperJump");
+	Sound::getInstance()->loadSound((char*)"Sound/MineExplosion.wav", "MineExplosion");
+	Sound::getInstance()->loadSound((char*)"Sound/MineWaiting.wav", "MineWaiting");
+	Sound::getInstance()->loadSound((char*)"Sound/PowerUp.wav", "PowerUp");
+	Sound::getInstance()->loadSound((char*)"Sound/SkullBullet.wav", "SkullBullet");
+	Sound::getInstance()->loadSound((char*)"Sound/SophiaBullet.wav", "SophiaBullet"); 
+	Sound::getInstance()->loadSound((char*)"Sound/swapSophiaAndJason.wav", "swapSophiaAndJason");
+	Sound::getInstance()->loadSound((char*)"Sound/SophiaGoingSmall.wav", "SophiaGoingSmall");
+	Sound::getInstance()->loadSound((char*)"Sound/SophiaDie.wav", "SophiaDie");
+	Sound::getInstance()->loadSound((char*)"Sound/InteriorTheme.wav", "InteriorTheme");
+	Sound::getInstance()->loadSound((char*)"Sound/ThemeSong.wav", "ThemeSong");
+	Sound::getInstance()->loadSound((char*)"Sound/WormMoving_CannonShot_TeleporterShot.wav", "WormMoving_CannonShot_TeleporterShot");
+	Sound::getInstance()->loadSound((char*)"Sound/TeleporterMoving.wav","TeleporterMoving");
+	Sound::getInstance()->loadSound((char*)"Sound/enter.wav", "enter");
+	Sound::getInstance()->loadSound((char*)"Sound/intro.wav", "intro");
+	
 	ifstream f;
 	f.open(sceneFilePath);
 

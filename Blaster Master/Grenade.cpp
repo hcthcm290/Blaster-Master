@@ -9,7 +9,7 @@
 #include "Utils.h"
 #include <cstdlib>
 #include <ctime>
-#include "SoundManager.h"
+#include "Sound.h"
 #include "VisionBox.h"
 
 #pragma region Boom
@@ -118,7 +118,7 @@ Grenade::Grenade(bool check)
 {
 	this->Horizontal = check;
 	this->PlayerY = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().y +10;
-	SoundManager::GetInstance()->PlaySoundW("Grenade.wav");
+	Sound::getInstance()->play("Grenade",false,1);
 }
 void Grenade::Remove()
 {

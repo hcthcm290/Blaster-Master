@@ -2,7 +2,7 @@
 #include "Animator_Canon.h"
 #include "Canon_Bullet.h"
 #include "Debug.h"
-#include "SoundManager.h"
+#include "Sound.h"
 #include "InteriorScene.h"
 
 Canon::Canon()
@@ -59,7 +59,7 @@ void Canon::Update(float dt)
 			#pragma endregion
 		}
 		waitForShot = 0;
-		SoundManager::GetInstance()->PlaySoundW("WormMoving_CannonShot_TeleporterShot.wav");
+		Sound::getInstance()->play("WormMoving_CannonShot_TeleporterShot",false,1);
 	}
 	if (waitForShot>=0.2)
 	this->state = canon;

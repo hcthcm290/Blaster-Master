@@ -14,9 +14,10 @@
 #include "HealthBarGUI.h"
 #include "GunBarGUI.h"
 #include "Rock.h"
-#include  "SoundManager.h"
 #include "Eyeball_Curved.h"
 #include "Boss.h"
+#include "Debug.h"
+
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
 	:
@@ -90,7 +91,7 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		zone.right = atoi(tokens[5].c_str()) * 16 + 8;
 		zone.bottom = atoi(tokens[6].c_str()) * 16 + 8;
 		obj = new Teleporter(zone);
-
+		//DebugOut(L"%d", zone.right);
 		break;
 	}
 	case 16:

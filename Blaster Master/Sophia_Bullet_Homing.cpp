@@ -7,7 +7,7 @@
 #include "Camera.h"
 #include "Enemy.h"
 #include "VisionBox.h"
-#include "SoundManager.h"
+#include "Sound.h"
 
 #define SOPHIA_BULLET_H_LR 29601
 #define SOPHIA_BULLET_H_UP 29603
@@ -49,7 +49,7 @@ Sophia_Bullet_Homing::Sophia_Bullet_Homing(bool flipX, DynamicObject* target)
 	count++;
 	vx = 0;
 	vy = 0;
-	SoundManager::GetInstance()->PlaySoundW("HomingMissile.wav");
+	Sound::getInstance()->play("HomingMissile",false,1);
 }
 
 FRECT Sophia_Bullet_Homing::GetCollisionBox()

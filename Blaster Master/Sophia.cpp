@@ -11,7 +11,7 @@
 #include "Camera.h"
 #include "PInput.h"
 #include "TheEye.h"
-#include "SoundManager.h"
+#include "Sound.h"
 #include "Sophia_Bullet_Thunder.h"
 #include "IDSceneConstant.h"
 
@@ -137,7 +137,7 @@ void Sophia::Update(float dt)
 		if (state != STATE_SOPHIA_DIE && state != 20000)
 		{
 			state = STATE_SOPHIA_DIE;
-			SoundManager::GetInstance()->PlaySoundW("SophiaDie.wav");
+			Sound::getInstance()->play("SophiaDie",false,1);
 			die = GetTickCount();
 		}
 		else
@@ -281,7 +281,7 @@ void Sophia::Update(float dt)
 
 		if (PInput::KeyPressed(JUMP) && canJump)
 		{
-			SoundManager::GetInstance()->PlaySoundW("BigObjectJump.wav");
+			Sound::getInstance()->play("BigObjectJump",false,1);
 			vy = -240;
 			onTheGround = false;
 			canJump = false;
@@ -675,7 +675,7 @@ void Sophia::TakeDamage(int dmg)
 	if (invincible <= 0)
 	{
 		this->HP -= dmg;
-		SoundManager::GetInstance()->PlaySoundW("JasonGotHit_Outside.wav");
+		Sound::getInstance()->play("JasonGotHit_Outside",false,1);
 		/*if (state == STATE_SOPHIA_IDLE || state == STATE_SOPHIA_IDLE_90)
 			vx = -150;*/
 		invincible = 500;
@@ -710,7 +710,7 @@ bool Sophia::isInvincible()
 }
 
 void Sophia::Awake(int JasonHealth) {
-	SoundManager::GetInstance()->PlaySoundW("swapSophiaAndJason.wav");
+	Sound::getInstance()->play("swapSophiaAndJason",false,1);
 	state = STATE_SOPHIA_SHIFT;
 	switchDelay = GetTickCount64();
 	JasonCurrentHealth = JasonHealth;

@@ -6,7 +6,7 @@
 #include "Orb.h"
 #include "Utils.h"
 #include "Explosive.h"
-#include "SoundManager.h"
+#include "Sound.h"
 
 Jumper::Jumper()
 {
@@ -83,7 +83,7 @@ void Jumper::Update(float dt)
 		DebugOut(L"Jump %d", jumpCount);
 		canJump = true;
 		mini_waitForJump = -99;
-		SoundManager::GetInstance()->PlaySoundW("JumperJump.wav");
+		Sound::getInstance()->play("JumperJump",false,1);
 	}
 	if (jumpCount == 0)
 	{

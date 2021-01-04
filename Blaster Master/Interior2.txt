@@ -12,6 +12,10 @@ Interior-Area2_Shared_Data.txt
 -1	376	256
 99	64	160
 
+#Eyeball
+30	272	272
+29	272	272	6	11	23	24
+
 ## CAMERA BOUNDARY LIST
 #	#id_sec	left	top	right	bottom
 76	A2I2_1	0	3	31	32

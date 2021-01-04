@@ -1,5 +1,5 @@
 [SETTINGS]
-start	-8
+start	-7
 #scene list
 [SCENES]
 #id	file		scene_type

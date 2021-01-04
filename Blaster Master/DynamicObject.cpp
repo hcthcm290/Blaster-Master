@@ -2,7 +2,7 @@
 #include "Explosive.h"
 #include "PlayScene.h"
 #include "Debug.h"
-#include "SoundManager.h"
+#include "Sound.h"
 #include "PlayerItem.h"
 
 DynamicObject::DynamicObject()
@@ -43,7 +43,7 @@ void DynamicObject::TakeDamage(int dmg)
         explode->SetPosition(x, y);
         dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);
         if (this != dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer())
-            SoundManager::GetInstance()->PlaySoundW("EnemyDie.wav");
+            Sound::getInstance()->play("EnemyDie.wav",false,1);
         dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
     }
 }

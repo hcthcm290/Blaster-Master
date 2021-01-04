@@ -4,7 +4,7 @@
 #include "PlayScene.h"
 #include <time.h>
 #include "Debug.h"
-#include "SoundManager.h"
+#include "Sound.h"
 
 Dome::Dome(int id_gravity, int id_direction)
 {
@@ -66,7 +66,7 @@ void Dome::Update(float dt)
 		if (soundCount >= 1)
 		{
 			soundCount = 0;
-			SoundManager::GetInstance()->PlaySoundW("DomeWalking.wav");
+			Sound::getInstance()->play("DomeWalking",false,1);
 		}
 		int width = 15;
 		int height = 15;
@@ -87,7 +87,7 @@ void Dome::Update(float dt)
 				currentState = State::_DOME_FLYING_;
 				direction.x = std::abs(vectorToTarget.x)/vectorToTarget.x;
 				direction.y = 0;
-				SoundManager::GetInstance()->PlaySoundW("DomeFLying.wav");// Trung Nguyễn
+				Sound::getInstance()->play("DomeFLying",false,1);// Trung Nguyễn
 				startFlying = true;
 			}
 
@@ -96,7 +96,7 @@ void Dome::Update(float dt)
 				currentState = State::_DOME_FLYING_;
 				direction.x = 0;
 				direction.y = std::abs(vectorToTarget.y) / vectorToTarget.y;
-				SoundManager::GetInstance()->PlaySoundW("DomeFLying.wav");// Trung Nguyễn
+				Sound::getInstance()->play("DomeFLying",false,1);// Trung Nguyễn
 				startFlying = true;
 			}
 

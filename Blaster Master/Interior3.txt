@@ -12,6 +12,15 @@ Interior-Area2_Shared_Data.txt
 -1	120	248
 99	112	384
 
+#Teleporter
+10	192	432	9	22	12	28
+10	48	240	2	14	12	18
+10	176	96	10	3	12	10
+
+#CANON
+11	80	352
+11	160	224
+
 ## CAMERA BOUNDARY LIST
 #	#id_sec	left	top	right	bottom
 76	A2I3_1	0	2	15	31
