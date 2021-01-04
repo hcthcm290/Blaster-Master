@@ -1149,8 +1149,6 @@ void CPlayScene::ApllyVelocityToGameObjs(float dt)
 
 void CPlayScene::Render()
 {
-	
-
 	for (int i = 0; i < onScreenObjs.size(); i++)
 	{
 		if (dynamic_cast<Rock*>(onScreenObjs[i]) != NULL) { onScreenObjs[i]->Render(); }
@@ -1171,7 +1169,7 @@ void CPlayScene::Render()
 
 	if (!DInput::KeyPress(DIK_B))
 	{
-		mapBackground->SetZIndex(0.4);
+		mapBackground->SetZIndex(0);
 		mapBackground->Render();
 	}
 }

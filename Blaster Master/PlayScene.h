@@ -90,6 +90,6 @@ public:
 	DynamicObject* GetPlayer() { return player; }
 	void SetPlayer(DynamicObject* newPlayer) { player = newPlayer; }
 
-	void SwitchSection(BigGate* gate);
+	virtual void SwitchSection(BigGate* gate);
 	void SwitchScene(int id_target_scene);
 };

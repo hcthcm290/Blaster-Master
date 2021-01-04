@@ -302,7 +302,7 @@ bool BigJason::IsDead()
 {
 	if (DInput::KeyDown(DIK_M))
 	{
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SwitchScene(IDSceneConstant::OUTRO_SCENE);
+		return true;
 	}
 
 	return false;

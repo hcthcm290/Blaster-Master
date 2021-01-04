@@ -141,7 +141,7 @@ SoundManager* SoundManager::GetInstance()
 
 void SoundManager::PlaySoundW(std::string filename)
 {
-    WAVEFORMATEXTENSIBLE wfx = { 0 };
+    /*WAVEFORMATEXTENSIBLE wfx = { 0 };
     XAUDIO2_BUFFER buffer = { 0 };
 
     HRESULT hr;
@@ -165,11 +165,11 @@ void SoundManager::PlaySoundW(std::string filename)
     if (FAILED(hr = pSourceVoice->Start(0)))
     {
         DebugOut(L"Fail to start Source Voice: %d\n", hr);
-    }
+    }*/
 }
 void SoundManager::PlaySoundInfinite(std::string filename)
 {
-    WAVEFORMATEXTENSIBLE wfx = { 0 };
+    /*WAVEFORMATEXTENSIBLE wfx = { 0 };
     XAUDIO2_BUFFER buffer = { 0 };
 
     HRESULT hr;
@@ -206,12 +206,12 @@ void SoundManager::PlaySoundInfinite(std::string filename)
     if (FAILED(hr = pSourceVoice->SetVolume(0.5)))
     {
         DebugOut(L"Fail to start Source Voice: %d\n", hr);
-    }
+    }*/
 }
 
 void SoundManager::StopSource()
 {
-    if (pSourceVoice != NULL)
+    /*if (pSourceVoice != NULL)
     {
         pSourceVoice->Stop();
     }
@@ -224,7 +224,7 @@ void SoundManager::StopSource()
     if (pXAudio2 != NULL)
     {
         pXAudio2->StopEngine();
-    }
+    }*/
 }
 void SoundManager::Release()
 {
