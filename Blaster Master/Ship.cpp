@@ -43,41 +43,46 @@ void Ship::Update(float dt)
 
 	float Character_X = player->GetPosition().x;
 	float Character_Y = player->GetPosition().y;
-	float min_drc_x = min(abs(x - Character_X), 100);
-	float min_drc_y = min(abs(y - Character_Y), 100);
-	float distance = min(min_drc_x, min_drc_y);
+	float distance = min(abs(x - Character_X), 200);
 
-	if (x - 100 <= 0.000001 || y - 100 <= 0.000001)
+	if (x - 200 <= 0.000001)
 		trigger = true;
-	if (distance < 100)
+	if (distance < 200)
 		trigger = true;
-
+	if (y < Character_Y)
+		canShot = true;
+	else
+	{
+		canShot = false;
+		waitForShot = 2;
+	}
 	if (trigger)
 	{
 		this->state = shipFly;
 		if (fly)
 		{
-			vx = -100;
+			vx = -80;
 			fly = false;
 		}
 		waitForShot += dt;
 		mini_waitForShot += dt;
-		if (waitForShot >= 2)
+		if (waitForShot >= 2 && canShot)
 		{
 			shotCount = 4;
 			waitForShot = 0;
 			mini_waitForShot = 0;
+			canShot = false;
 		}
-		if (mini_waitForShot >= 0.2 && shotCount > 0)
+		if (mini_waitForShot >= 0.3 && shotCount > 0)
 		{
 #pragma region Ship_Bullet
 			DynamicObject* obj = NULL;
 			obj = new Floater_Bullet();
 			obj->SetPosition(x, y);
-			float module = sqrt(pow(Character_X - x, 2) + pow(Character_Y - y, 2));
-			float direction_X = float(Character_X - x) / module;
-			float direction_Y = float(Character_Y - y) / module;
-			obj->SetVelocity(direction_X * 150, direction_Y * 150);
+			float modulo = sqrt(pow(Character_X - x, 2) + pow(Character_Y - y, 2));
+			float direction_X = float(Character_X - x) / modulo;
+			float direction_Y = float(Character_Y - y) / modulo;
+			obj->SetVelocity(direction_X * 100, direction_Y * 100);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
 #pragma endregion
 			shotCount--;

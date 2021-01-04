@@ -137,7 +137,7 @@ void Jason::Update(float dt)
 		x = ladder->GetPosition().x;
 		vx = 0;
 		if (verticalMove != 0) { //move
-			vy = verticalMove * speed / 5;
+			vy = verticalMove * dt * speed / 5;
 			flipCountDown -= dt;
 			if (flipCountDown <= 0) {
 				flipX = !flipX;
