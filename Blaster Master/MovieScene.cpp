@@ -6,6 +6,8 @@
 #include "Camera.h"
 #include "Game.h"
 #include <fstream>
+#include "IDSceneConstant.h"
+#include "PlayScene.h"
 
 #define MOVIESCENE_SECTION_UNKNOWN -1
 #define MOVIESCENE_SECTION_TEXTURES 2
@@ -164,6 +166,8 @@ void MovieScene::Load()
 	f.close();
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+
+	Camera::GetInstance()->SetPosition(0, 0);
 }
 
 void MovieScene::Unload()
@@ -180,11 +184,16 @@ void MovieScene::Update(DWORD dw_dt)
 	if (dt > 0.1) dt = 0.1;
 
 	countTime += dt;
-	DebugOut(L"Counttime: %f\n", countTime);
 
 	if (countTime >= timeout)
 	{
 		CGame::GetInstance()->SwitchScene(this->idNextScene);
+
+		// before switching from movie into playscene, we must show the life left scene
+		if (dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetScene(idNextScene)))
+		{
+			CGame::GetInstance()->SoftSwitchScene(IDSceneConstant::LIFE_LEFT_SCENE, false, true);
+		}
 		return;
 	}
 
@@ -208,18 +217,30 @@ void MovieScene::Update(DWORD dw_dt)
 		lastColorChoosenTime = countTime;
 		currentBackgroundColorIndex = (currentBackgroundColorIndex + 1) % listBackgroundColor.size();
 	}
+
+	for (auto object : this->listSceneObject)
+	{
+		object->Update(dt);
+	}
 }
 
 void MovieScene::Render()
 {
-	Camera::GetInstance()->SetPosition(0, 0);
-	if (currentBackgroundColorIndex != -1)
+	if (BackgroundSpriteID != BASICSCENE_INVALID_BACKGROUND_ID)
 	{
-		CSprites::GetInstance()->Get(BackgroundSpriteID)->Draw(0, 0, false, 0, listBackgroundColor[currentBackgroundColorIndex].first);
-	}
-	else
-	{
-		CSprites::GetInstance()->Get(BackgroundSpriteID)->Draw(0, 0, false, 0, defaultBackgroundColor);
+		if (currentBackgroundColorIndex != -1)
+		{
+			CSprites::GetInstance()->Get(BackgroundSpriteID)->Draw(0, 0, false, 0, listBackgroundColor[currentBackgroundColorIndex].first);
+		}
+		else
+		{
+			CSprites::GetInstance()->Get(BackgroundSpriteID)->Draw(0, 0, false, 0, defaultBackgroundColor);
+		}
 	}
 	movieAnimator->Draw(this->MovieAnimationID, animationOffset.x, animationOffset.y, false);
+
+	for (auto object : this->listSceneObject)
+	{
+		object->Render();
+	}
 }

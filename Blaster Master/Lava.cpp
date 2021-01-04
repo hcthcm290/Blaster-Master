@@ -1,5 +1,7 @@
 #include "Lava.h"
 #include "StateConstant.h"
+#include "PlayScene.h"
+#include "CollisionSystem.h"
 
 Lava::Lava(int length) {
 	animator = new Animator();
@@ -8,6 +10,13 @@ Lava::Lava(int length) {
 }
 
 void Lava::Update(float dt) {
+	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (CollisionSystem::CheckOverlap(this, player))
+	{
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(20);
+		//ex = true;
+	}
 	flipCountDown -= dt;
 	if (flipCountDown <= 0) {
 		flipCountDown = 20;

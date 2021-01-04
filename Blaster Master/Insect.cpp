@@ -21,7 +21,7 @@ void Insect::Update(float dt)
 
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(7);
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(5);
 	}
 	//reset some variable
 	ColX = 0;

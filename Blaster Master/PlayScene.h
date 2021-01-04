@@ -5,6 +5,7 @@
 #include "StaticObject.h"
 #include "BigGate.h"
 #include "ForegroundTile.h"
+#include "IDSceneConstant.h"
 
 #define MAP_BLOCK_WIDTH 256
 #define MAP_BLOCK_HEIGHT 256
@@ -81,6 +82,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+	void HardUnload();
 
 	void ReloadBackup();
 	void HardReload();

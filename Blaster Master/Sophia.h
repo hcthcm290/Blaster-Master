@@ -34,14 +34,12 @@ class Sophia : public DynamicObject, public Playable
 	};
 	int currentColor;
 	DWORD lastDamageTime;
-	int Homing = 20; // number of homing bullet left
-	int Thunder = 20; // number of thunder bbullet left
-	int Rocket = 5; // number of rocket bullet left
+	
 	DWORD die;
 
 	//JASON
 	Jason* jason;
-	int JasonCurrentHealth = 100;
+	int JasonCurrentHealth = 40;
 
 	DWORD switchDelay; //avoid switching back and forth so fast
 
@@ -54,6 +52,10 @@ class Sophia : public DynamicObject, public Playable
 	int currentWeapon = 1; 
 public:
 	Sophia();
+
+	int Homing = 20;
+	int Thunder = 20;
+	int Rocket = 5;
 
 	bool isInvincible();
 	virtual bool IsInvulnerable() { return isInvincible(); }
@@ -68,6 +70,7 @@ public:
 	void ShootRocket();
 	~Sophia();// Trung Nguyễn
 	void TakeDamage(int dmg);
+	bool IsDead();
 
 	void Awake(int JasonHealth);
 	virtual int GetState() { return this->state; }

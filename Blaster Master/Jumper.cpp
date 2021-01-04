@@ -49,7 +49,7 @@ void Jumper::Update(float dt)
 
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(7);
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(5);
 	}
 
 	float Character_X = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x;

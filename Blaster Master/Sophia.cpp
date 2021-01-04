@@ -42,8 +42,8 @@ Sophia::Sophia()
 	vx = 0;
 	currentColor = 0;
 	//Setup HP
-	HP = 100;
-	maxHP = HP;
+	HP = 80;
+	maxHP = 80;
 	//sx, sy
 	sx = x;
 	sy = y;
@@ -145,7 +145,7 @@ void Sophia::Update(float dt)
 			if (GetTickCount() - die > 500)
 			{
 				state = 20000;
-				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SwitchScene(IDSceneConstant::LIFE_LEFT_SCENE);
+				invincible = 0;
 				return;
 			}
 		}
@@ -686,6 +686,19 @@ void Sophia::TakeDamage(int dmg)
 
 		DebugOut(L"%d\n", HP);
 	}
+}
+
+bool Sophia::IsDead()
+{
+	if (HP == 0)
+	{
+		if(state == 20000) // state 20000: sohpia die and finish play death's animation
+		{
+			return true;
+		}
+		return false;
+	}
+	return false;
 }
 
 bool Sophia::isInvincible()

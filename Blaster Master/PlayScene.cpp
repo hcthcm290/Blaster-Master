@@ -47,6 +47,7 @@
 #include "SoundManager.h"
 #include "Ship.h"
 #include "IDSceneConstant.h"
+#include "TheEye.h"
 
 using namespace std;
 
@@ -488,24 +489,7 @@ void CPlayScene::ReloadSceneObject()
 
 void CPlayScene::HardReloadSceneObject()
 {
-	unordered_map<CGameObject*, int> listObject;
-
-	for (auto& block : sceneObjects)
-	{
-		for (auto obj : block.second)
-		{
-			listObject[obj] = 1;
-		}
-		block.second.clear();
-	}
-	sceneObjects.clear();
-
-	for (auto& obj : listObject)
-	{
-		delete obj.first;
-	}
-
-	canSpawnPlayer = true;
+	Unload();
 
 	Load();
 }
@@ -824,6 +808,25 @@ void CPlayScene::UpdateFreePlaying(float dt)
 	{
 		CGame::GetInstance()->SoftSwitchScene(IDSceneConstant::WEAPON_SELECTOR_SCENE, false, true);
 		return;
+	}
+
+	if (dynamic_cast<Playable*>(player)->IsDead())
+	{
+		if (TheEye::GetInstance()->GetLifeLeft() > 0)
+		{
+			this->ReloadBackup();
+			TheEye::GetInstance()->SetLifeLeft(TheEye::GetInstance()->GetLifeLeft() - 1);
+			CGame::GetInstance()->SoftSwitchScene(IDSceneConstant::LIFE_LEFT_SCENE, false, true);
+			return;
+		}
+		else
+		{
+			canSpawnPlayer = true;
+
+			TheEye::GetInstance()->ResetLifeLeft();
+			CGame::GetInstance()->SwitchScene(IDSceneConstant::GAME_OVER_SCENE);
+			return;
+		}
 	}
 
 	// Update for all the game object
@@ -1204,9 +1207,19 @@ void CPlayScene::Unload()
 	for (auto& obj : listPlayable)
 	{
 		obj.first->SetAnimator(NULL);
+
+		if (canSpawnPlayer) delete obj.first;
 	}
 
+	if (canSpawnPlayer) playableObjects.clear();
+
 	onScreenObjs.clear();
+}
+
+void CPlayScene::HardUnload()
+{
+	canSpawnPlayer = true;
+	Unload();
 }
 
 void CPlayScene::ReloadBackup()
@@ -1223,19 +1236,29 @@ void CPlayScene::ReloadBackup()
 		auto backupObj = backup.first;
 		backupObj->SetPosition(backup.second.first.x, backup.second.first.y);
 		backupObj->SetState(backup.second.second);
+		auto d_backupObj = dynamic_cast<DynamicObject*>(backupObj);
+		d_backupObj->SetCurrentHP(d_backupObj->GetMaxHP());
 
 		AddGameObjectToScene(backupObj);
+
+		// This part change the Jason in TheEye
+		// This problem is cause because of we create a new Jason everytime Jason jump out of Sophia and we not delete the old Jason*
+		// So, the Jason* when save backup may not be the same as the Jason* at TheEye 
+		// We may fix this in later patch
+		if (dynamic_cast<Jason*>(backupObj) != NULL)
+		{
+			TheEye::GetInstance()->SetJason(dynamic_cast<Jason*>(backupObj));
+		}
 	}
 
 	player = playerBackup;
 
-	canSpawnPlayer = true;
+	Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
 }
 
 void CPlayScene::HardReload()
 {
-	onScreenObjs.clear();
-	playableObjects.clear();
+	canSpawnPlayer = true;
 
 	HardReloadSceneObject();
 

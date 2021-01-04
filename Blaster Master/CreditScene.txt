@@ -1,0 +1,25 @@
+[TEXTURES]
+118	textures\ending\118_CreditBackground.png	255	0	255
+-1	textures\ending\EndingObjects.png	255	0	255
+
+[SPRITES]
+111800	0	0	256	224	118
+112000	2	31	73	86	-1
+
+[ANIMATIONS]
+211800	111800	20000
+
+[OBJECTS]
+115	0	0
+
+[ANIMATIONID]
+211800
+
+[ANIMATIONOFFSET]
+0	0
+
+[TIMEOUT]
+60000
+
+[IDSCENE]
+-1
