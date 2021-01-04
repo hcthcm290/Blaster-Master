@@ -14,7 +14,7 @@ class Ship : public DynamicObject, public Enemy
 {
 private:
 	int state;
-	bool flip = true;
+	bool flip = true, canShot = false;
 	bool trigger, fly = true;
 	int shotCount = 0;
 	float waitForShot = 5;

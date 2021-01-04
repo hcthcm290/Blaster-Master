@@ -10,6 +10,7 @@ class Ladder : public DynamicObject
 private:
 	int height;
 	float top, bottom;
+	bool canIn;
 public:
 	Ladder(int h);
 	void Update(float dt);
