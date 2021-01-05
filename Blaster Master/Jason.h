@@ -88,6 +88,7 @@ public:
 	//void PushBack(int _vx, int _vy);
 	void TakeDamage(int dmg);
 	int GetState() { return currentState; }
+	void SetState(int state) { this->currentState = state; }
 	void SetBulletPower(int value) { this->bulletPower = value; }
 	int GetBulletPower() { return this->bulletPower; }
 	bool IsDead();

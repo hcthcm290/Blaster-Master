@@ -28,7 +28,7 @@ Jason::Jason() {
 
 	TheEye::GetInstance()->SetJason(this);
 
-	deathAnimationCountdown = 1.7;
+	deathAnimationCountdown = 1.9;
 }
 
 Jason::Jason(int currentHealth, int x, int y, DynamicObject* sophia) {
@@ -94,6 +94,10 @@ void Jason::Update(float dt)
 		vy += GRAVITY * dt; //fall naturally
 		deathAnimationCountdown -= dt;
 		return;
+	}
+	else
+	{
+		deathAnimationCountdown = 1.9;
 	}
 	#pragma endregion	
 
