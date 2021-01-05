@@ -107,6 +107,7 @@ void Jason::Update(float dt)
 			ladderPos = ladder->CheckLadderPos(currentState, GetCollisionBox());
 		}
 		else {
+			ladder->isOut = false;
 			ladder = NULL;
 		}
 	}
