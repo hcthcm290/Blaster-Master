@@ -13,7 +13,7 @@
 100	textures\100-stuff.png	255	0	255
 81	textures\B-BossBody.png	255	0	255
 82	textures\B-BossHand.png	255	0	255
-16	textures\16_Rock.png	255	0	255
+16	textures\16-Rock.png	255	0	255
 
 [SPRITES]
 # GUI
