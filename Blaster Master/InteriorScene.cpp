@@ -67,7 +67,7 @@ void InteriorScene::Render()
 		GUIObjects[i]->Render();
 	}
 	
-	if (!isFightingBoss)
+	if (!isFightingBoss && !DInput::KeyPress(DIK_B))
 	{
 		mapBackground->SetZIndex(0);
 		mapBackground->Render();

@@ -15,10 +15,10 @@ Spike_Interior::Spike_Interior(int w,int h)
 FRECT Spike_Interior::GetCollisionBox()
 {
 	FRECT colRect;
-	colRect.left = this->x - 8;
-	colRect.right = this->x + 8 + 16 * (width - 1);
-	colRect.top = this->y - 8;
-	colRect.bottom = this->y + 8 + 16 * (height - 1);
+	colRect.left = this->x - 0;
+	colRect.right = this->x + 0 + 16 * (width - 1);
+	colRect.top = this->y - 0;
+	colRect.bottom = this->y + 0 + 16 * (height - 1);
 	return colRect;
 }
 
@@ -31,7 +31,7 @@ void Spike_Interior::Update(float dt)
 	CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	if (CollisionSystem::CheckOverlap(this, player))
 	{
-		dynamic_cast<DynamicObject*>(player)->TakeDamage(20);
+		dynamic_cast<DynamicObject*>(player)->TakeDamage(5);
 	}
 }
 
