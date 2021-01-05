@@ -4,7 +4,7 @@ BreakableWall::BreakableWall()
 {
 	//set HP
 	HP = 40;
-	SetSpriteID(1);
+	SetSpriteID(11701);
 }
 
 FRECT BreakableWall::GetCollisionBox()
@@ -24,7 +24,7 @@ void BreakableWall::OnCollisionEnter(CollisionEvent e)
 
 void BreakableWall::Update(float dt)
 {
-
+	
 }
 
 void BreakableWall::TakeDamage(int dmg)
@@ -38,4 +38,9 @@ void BreakableWall::TakeDamage(int dmg)
 	{
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 	}
+}
+
+void BreakableWall::Render()
+{
+	CSprites::GetInstance()->Get(11701)->Draw(x, y, false, 0, D3DCOLOR_XRGB(255, 255, 255), this->z_index);
 }

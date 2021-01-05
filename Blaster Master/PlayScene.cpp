@@ -50,6 +50,7 @@
 #include "IDSceneConstant.h"
 #include "TheEye.h"
 #include "Sound.h"
+#include "BreakableWall.h"
 
 using namespace std;
 
@@ -1195,6 +1196,7 @@ void CPlayScene::Render()
 	for (int i = 0; i < onScreenObjs.size(); i++)
 	{
 		if (dynamic_cast<Rock*>(onScreenObjs[i]) != NULL) { onScreenObjs[i]->Render(); }
+		if (dynamic_cast<BreakableWall*>(onScreenObjs[i]) != NULL) { onScreenObjs[i]->Render(); }
 		if (dynamic_cast<ColliableBrick*>(onScreenObjs[i]) != NULL) continue;
 		onScreenObjs[i]->Render();
 	}

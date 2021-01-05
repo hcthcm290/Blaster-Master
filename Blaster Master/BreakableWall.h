@@ -12,5 +12,6 @@ public:
 	void OnCollisionEnter(CollisionEvent e);
 	void Update(float dt);
 	void TakeDamage(int dmg);
+	void Render();
 };
 
