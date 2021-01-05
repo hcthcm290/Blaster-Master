@@ -11,7 +11,7 @@
 /** ===== BOSS ===== **/
 
 Boss::Boss(float x, float y) {
-	CGameObject* obj = new VisionBox(0,255,120,121);
+	CGameObject* obj = new VisionBox(48*16,63*16,10*16,10*16+2);
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
 
 	lastex = GetTickCount();
@@ -80,10 +80,10 @@ void Boss::Render() {
 			last_blink = GetTickCount();
 		}
 		//srand((int)time(0));
-		if (GetTickCount() - lastex > 500)
+		if (GetTickCount() - lastex > 200)
 		{
-			int tempx = rand() % 250;
-			int tempy = rand() % 100;
+			int tempx = x + rand() % 100 - 50;
+			int tempy = y + rand() % 100 - 50;
 			DebugOut(L"%d", tempx);
 			CGameObject* obj = new ExplosiveBoss(tempx, tempy);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
