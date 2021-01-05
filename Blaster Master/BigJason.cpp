@@ -61,6 +61,7 @@ void BigJason::Update(float dt)
 	{
 		vx = 0;
 		vy = 0;
+		invincible = 0;
 
 		if (state != I_JASON_DIE && state != 20000)
 		{
@@ -69,13 +70,14 @@ void BigJason::Update(float dt)
 		}
 		else
 		{
-			if (GetTickCount() - die > 600)
+			if (GetTickCount() - die > 3200)
 			{
 				state = 20000;
 			}
 		}
 		return;
 	}
+
 	if (invincible >= 0)
 	{
 		invincible -= dt * 1000;
@@ -300,7 +302,7 @@ void BigJason::NotifySwitchSceneOut()
 
 bool BigJason::IsDead()
 {
-	if (DInput::KeyDown(DIK_M))
+	if (HP == 0 && state == 20000)
 	{
 		return true;
 	}

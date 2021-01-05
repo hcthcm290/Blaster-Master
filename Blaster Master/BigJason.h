@@ -41,4 +41,6 @@ public:
 	void NotifySwitchSceneOut();
 	bool IsDead();
 	void ChangeGunLevel(int levelchange);
+	void SetState(int state) { this->state = state; }
+	int GetState() { return this->state; }
 };

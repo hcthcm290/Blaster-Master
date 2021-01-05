@@ -366,6 +366,7 @@
     <Text Include="Font\LifeLeftFont.txt" />
     <Text Include="game-info.txt" />
     <Text Include="GameOverScene.txt" />
+    <Text Include="Interior-Area2_Shared_Data.txt" />
     <Text Include="Interior1.txt" />
     <Text Include="Interior2.txt" />
     <Text Include="Interior3.txt" />

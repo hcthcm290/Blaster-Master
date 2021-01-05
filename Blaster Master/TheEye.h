@@ -19,8 +19,8 @@ private:
 	Jason* jason = NULL;
 	BigJason* bigJason = NULL;
 
-	int lifeLeft = 1;
-	int maxLifeLeft = 3;
+	int lifeLeft = 2;
+	int maxLifeLeft = 2;
 
 public:
 	static TheEye* GetInstance();
