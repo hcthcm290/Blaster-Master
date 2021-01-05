@@ -3,7 +3,7 @@
 #include "BigJason.h"
 #include "Camera.h"
 #include "Canon.h"
-#include "Spike.h"
+#include "Spike_Interior.h"
 #include "CameraBoundaryLib.h"
 #include "Teleporter.h"
 #include "CollisionSystem.h"
@@ -139,8 +139,9 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 	}
 	case 23:
 	{
-		int length = atoi(tokens[3].c_str());
-		obj = new Spike(length);
+		int w = atoi(tokens[3].c_str());
+		int h = atoi(tokens[4].c_str());
+		obj = new Spike_Interior(w,h);
 		break;
 	}
 	case 77:

@@ -354,6 +354,7 @@ void SoundManager(int scene)
 		Sound::getInstance()->stop("ThemeSong");
 		break;
 	case IDSceneConstant::OUTRO_SCENE:
+		Sound::getInstance()->stop("ThemeSong");
 		Sound::getInstance()->play("EndingTheme",false,1);
 		break;
 	default:
