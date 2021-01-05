@@ -35,6 +35,7 @@
 #include "Skull_Bullet.h"
 #include "PlayerItem.h"
 #include "Lava.h"
+#include "BreakableWall.h"
 #include "Ladder.h"
 #include "CameraBoundaryLib.h"
 #include "PInput.h"
@@ -279,6 +280,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case 27: {
 		obj = new Ship();
+		break;
+	}
+	case 17: {
+		obj = new BreakableWall();
 		break;
 	}
 	}
