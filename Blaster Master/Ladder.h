@@ -10,6 +10,9 @@ class Ladder : public DynamicObject
 private:
 	int height;
 	float top, bottom;
+	bool canIn;
+	bool isLeft, isRight;
+
 public:
 	Ladder(int h);
 	void Update(float dt);
@@ -19,5 +22,7 @@ public:
 	void OnCollisionEnter(CollisionEvent e);
 
 	LadderPos CheckLadderPos(int jasonState, FRECT jasonColBox);
+
+	bool isOut = false;
 };
 

@@ -183,5 +183,27 @@ void Sophia_Bullet_1::Render()
 	{
 		Explode();
 	}
-	animator->Draw(state, x, y, flipX);
+	if (upgraded)
+	{
+		if (GetTickCount() - last_blink > 50)
+		{
+			switch (inv)
+			{
+			case 5: inv = 4; break;
+			case 4: inv = 3; break;
+			case 3: inv = 2; break;
+			case 2: inv = 1; break;
+			case 1: inv = 0; break;
+			case 0: inv = 5; break;
+			default: inv = 0; break;
+			}
+			//currentColor = 5 - currentColor;
+			last_blink = GetTickCount();
+		}
+		animator->Draw(state, x, y, flipX, 0 , Color[inv]);
+	}
+	else
+	{
+		animator->Draw(state, x, y, flipX);
+	}
 }
