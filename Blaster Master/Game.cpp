@@ -1,3 +1,4 @@
+#include "Sound.h"
 #include "Debug.h"
 #include "Game.h"
 #include "Utils.h"
@@ -8,7 +9,7 @@
 #include <fstream>
 #include "CameraBoundaryLib.h"
 #include "MovieScene.h"
-#include "SoundManager.h"
+
 
 CGame* CGame::__instance = NULL;
 
@@ -64,6 +65,47 @@ void CGame::Init(HWND hWnd)
 	OutputDebugString(L"[INFO] InitGame done;\n");
 
 	DInput::GetInstance()->Init(hWnd);
+	
+	#pragma region SoundLoad
+	DebugOut(L"[INFO] Start loading sound resources from : /Sound \n");
+	Sound::getInstance()->loadSound((char*)"Sound/3Missile.wav", "3Missile");
+	Sound::getInstance()->loadSound((char*)"Sound/BigObjectJump.wav", "BigObjectJump");
+	Sound::getInstance()->loadSound((char*)"Sound/BossEnter.wav", "BossEnter");
+	Sound::getInstance()->loadSound((char*)"Sound/DomeFLying.wav", "DomeFLying");
+	Sound::getInstance()->loadSound((char*)"Sound/DomeWalking.wav", "DomeWalking");
+	Sound::getInstance()->loadSound((char*)"Sound/DontKnow.wav", "DontKnow");
+	Sound::getInstance()->loadSound((char*)"Sound/EnemyDie.wav", "EnemyDie");
+	Sound::getInstance()->loadSound((char*)"Sound/EnemyOnHit.wav", "EnemyOnHit");
+	Sound::getInstance()->loadSound((char*)"Sound/Explosive_bullet.wav", "Explosive_bullet");
+	Sound::getInstance()->loadSound((char*)"Sound/EyeballSHOT.wav", "EyeballSHOT");
+	Sound::getInstance()->loadSound((char*)"Sound/FullHeath.wav", "FullHeath");
+	Sound::getInstance()->loadSound((char*)"Sound/Grenade.wav", "Grenade");
+	Sound::getInstance()->loadSound((char*)"Sound/HomingMissile.wav", "HomingMissile");
+	Sound::getInstance()->loadSound((char*)"Sound/Insect.wav", "Insect");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonBullet.wav", "JasonBullet");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonDie.wav", "JasonDie");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonGotHit_Interior.wav", "JasonGotHit_Interior");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonGotHit_Outside.wav", "JasonGotHit_Outside");
+	Sound::getInstance()->loadSound((char*)"Sound/JasonJump.wav", "JasonJump");
+	Sound::getInstance()->loadSound((char*)"Sound/JumperJump.wav", "JumperJump");
+	Sound::getInstance()->loadSound((char*)"Sound/MineExplosion.wav", "MineExplosion");
+	Sound::getInstance()->loadSound((char*)"Sound/MineWaiting.wav", "MineWaiting");
+	Sound::getInstance()->loadSound((char*)"Sound/PowerUp.wav", "PowerUp");
+	Sound::getInstance()->loadSound((char*)"Sound/SkullBullet.wav", "SkullBullet");
+	Sound::getInstance()->loadSound((char*)"Sound/SophiaBullet.wav", "SophiaBullet");
+	Sound::getInstance()->loadSound((char*)"Sound/swapSophiaAndJason.wav", "swapSophiaAndJason");
+	Sound::getInstance()->loadSound((char*)"Sound/SophiaGoingSmall.wav", "SophiaGoingSmall");
+	Sound::getInstance()->loadSound((char*)"Sound/SophiaDie.wav", "SophiaDie");
+	Sound::getInstance()->loadSound((char*)"Sound/InteriorTheme.wav", "InteriorTheme");
+	Sound::getInstance()->loadSound((char*)"Sound/EndingTheme.wav", "EndingTheme");
+	Sound::getInstance()->loadSound((char*)"Sound/WormMoving_CannonShot_TeleporterShot.wav", "WormMoving_CannonShot_TeleporterShot");
+	Sound::getInstance()->loadSound((char*)"Sound/TeleporterMoving.wav", "TeleporterMoving");
+	Sound::getInstance()->loadSound((char*)"Sound/enter.wav", "enter");
+	Sound::getInstance()->loadSound((char*)"Sound/intro.wav", "intro");
+	Sound::getInstance()->loadSound((char*)"Sound/Thunder.wav", "Thunder");
+	Sound::getInstance()->loadSound((char*)"Sound/ThemeSong.wav", "ThemeSong");
+#pragma endregion
+
 }
 
 
@@ -196,7 +238,7 @@ CGame::~CGame()
 	if (backBuffer != NULL) backBuffer->Release();
 	if (d3ddv != NULL) d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
-	SoundManager::GetInstance()->Release();
+	//SoundManager::GetInstance()->Release();
 }
 
 
@@ -286,7 +328,38 @@ void CGame::Load(LPCWSTR gameFile)
 
 	SwitchScene(current_scene);
 }
-
+void SoundManager(int scene)
+{
+	switch (scene)
+	{
+	case (IDSceneConstant::TITLE_SCENE):
+		Sound::getInstance()->play("intro", true, 0);
+		break;
+	case (IDSceneConstant::CAR_SCENE):
+		Sound::getInstance()->stop("intro");
+		Sound::getInstance()->play("enter", true, 0);
+		break;
+	case (IDSceneConstant::AREA2_SCENE):
+		Sound::getInstance()->stop("enter");
+		Sound::getInstance()->play("ThemeSong", true, 0);
+		break;
+	case (IDSceneConstant::WEAPON_SELECTOR_SCENE):
+		//Sound::getInstance()->setVolume(0, "ThemeSong");
+		Sound::getInstance()->play("MineWaiting", false, 1);
+		break;
+	case (IDSceneConstant::LIFE_LEFT_SCENE):
+		Sound::getInstance()->stop("ThemeSong");
+		break;
+	case IDSceneConstant::GAME_OVER_SCENE:
+		Sound::getInstance()->stop("ThemeSong");
+		break;
+	case IDSceneConstant::OUTRO_SCENE:
+		Sound::getInstance()->play("EndingTheme",false,1);
+		break;
+	default:
+		break;
+	}
+}
 void CGame::SwitchScene(int scene_id)
 {
 	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
@@ -305,16 +378,7 @@ void CGame::SwitchScene(int scene_id)
 	CameraBoundaryLib::ClearLib();
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
-	if (scene_id == 1) //Main scene 
-	{
-		SoundManager::GetInstance()->StopSource();
-		SoundManager::GetInstance()->PlaySoundInfinite("ThemeSong.wav");
-	}
-	else //interior 
-	{
-		SoundManager::GetInstance()->StopSource();
-		SoundManager::GetInstance()->PlaySoundInfinite("InteriorTheme.wav");
-	}
+	SoundManager(scene_id);
 	s->Load();
 }
 
@@ -337,15 +401,9 @@ void CGame::SoftSwitchScene(int scene_id, bool unloadPrevScene, bool loadNextSce
 	{
 		scenes[current_scene]->Load();
 	}
-
-	if (scene_id == 1) //Main scene 
-	{
-		SoundManager::GetInstance()->StopSource();
-		SoundManager::GetInstance()->PlaySoundInfinite("ThemeSong.wav");
-	}
-	else //interior 
-	{
-		SoundManager::GetInstance()->StopSource();
-		SoundManager::GetInstance()->PlaySoundInfinite("InteriorTheme.wav");
-	}
+	SoundManager(scene_id);
+}
+HWND CGame::GetCurrentHWND() 
+{
+	return this->hWnd;
 }

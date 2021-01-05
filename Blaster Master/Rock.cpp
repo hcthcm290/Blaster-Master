@@ -3,8 +3,8 @@
 Rock::Rock()
 {
 	//set HP
-	HP = 40;
-	SetSpriteID(1);
+	HP = 1;
+	SetSpriteID(11601);
 }
 
 FRECT Rock::GetCollisionBox()

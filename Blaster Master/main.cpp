@@ -13,7 +13,7 @@
 #include <cstdio>
 #include <vector>
 #include "Camera.h"
-#include "SoundManager.h"
+#include "Sound.h"
 
 #define MAX_FRAME_RATE 1000;
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
@@ -37,7 +37,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 {
     switch (message) {
     case WM_DESTROY:
-        SoundManager::GetInstance()->Release();
         PostQuitMessage(0);
         break;
     default:

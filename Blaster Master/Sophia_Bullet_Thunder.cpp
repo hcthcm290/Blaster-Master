@@ -7,7 +7,7 @@
 #include "Camera.h"
 #include "Enemy.h"
 #include "VisionBox.h"
-#include "SoundManager.h"
+#include "Sound.h"
 
 #define SOPHIA_BULLET_T_1 29501
 #define SOPHIA_BULLET_T_2 29502
@@ -29,6 +29,7 @@ Sophia_Bullet_Thunder::Sophia_Bullet_Thunder()
 	//animator
 	animator->AddAnimation(29501);
 	animator->AddAnimation(29502);
+	Sound::getInstance()->play("Thunder",false,1);
 }
 
 Sophia_Bullet_Thunder::Sophia_Bullet_Thunder(bool flipX, Sophia_Bullet_Thunder* lastThunder)

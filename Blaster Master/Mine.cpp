@@ -5,7 +5,7 @@
 #include "PlayScene.h"
 #include "Utils.h"
 #include "MineBullet.h"
-#include "SoundManager.h"
+#include "Sound.h"
 #include "Explosive.h"
 #include "Playable.h"
 #include "PlayerBullet.h"
@@ -80,7 +80,7 @@ void Mine::OnCollisionEnter(CollisionEvent e)
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 
 		// Play Explosion Sound //
-		SoundManager::GetInstance()->PlaySoundW("MineWaiting.wav");
+		Sound::getInstance()->play("MineWaiting",false,1);
 	}
 }
 
@@ -90,7 +90,7 @@ void Mine::TakeDamage(int dmg)
 	if (HP < 0)
 	{
 		HP = 0;
-		SoundManager::GetInstance()->PlaySoundW("MineExplosion.wav");
+		Sound::getInstance()->play("MineExplosion",false,1);
 	}
 	if (HP == 0)
 	{

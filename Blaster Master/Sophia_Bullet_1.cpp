@@ -8,7 +8,7 @@
 #include "Camera.h"
 #include "Enemy.h"
 #include "ColliableBrick.h"
-#include "SoundManager.h"
+#include "Sound.h"
 
 #define SOPHIA_BULLET_LR 29701
 #define SOPHIA_BULLET_UP 29702
@@ -49,7 +49,7 @@ Sophia_Bullet_1::Sophia_Bullet_1(bool up, bool flipX)
 	//boolean
 	ex = false;
 	count++;
-	SoundManager::GetInstance()->PlaySoundW("SophiaBullet.wav");
+	Sound::getInstance()->play("SophiaBullet",false,1);
 }
 
 FRECT Sophia_Bullet_1::GetCollisionBox()
@@ -168,7 +168,7 @@ void Sophia_Bullet_1::Explode()
 		}
 	}
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);
-	SoundManager::GetInstance()->PlaySoundW("EnemyOnHit.wav");
+	Sound::getInstance()->play("EnemyOnHit",false,1);
 	RemoveBullet();
 }
 void Sophia_Bullet_1::RemoveBullet()

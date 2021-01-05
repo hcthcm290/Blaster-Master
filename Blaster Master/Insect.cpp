@@ -5,7 +5,7 @@
 #include "ColliableBrick.h"
 #include "PlayScene.h"
 #include "CollisionSystem.h"
-#include "SoundManager.h"
+#include "Sound.h"
 
 Insect::Insect() {
 	//set HP
@@ -44,7 +44,7 @@ void Insect::Update(float dt)
 			//do Sound
 		if (soundCount >= 1)
 		{
-			SoundManager::GetInstance()->PlaySoundW("Insect.wav");
+			Sound::getInstance()->play("Insect",false,1);
 			soundCount = 0;
 		}
 		break;

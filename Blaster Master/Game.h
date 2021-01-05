@@ -50,7 +50,7 @@ public:
 	void SoftSwitchScene(int scene_id, bool unloadPrevScene, bool loadNextScene);
 
 	static CGame* GetInstance();
-
+	HWND GetCurrentHWND();
 	void ToggleOverrideColorOn() { this->beingOverrideColor = true; }
 	void ToggleOverrideColorOff() { this->beingOverrideColor = false; }
 	void SetOverrideColor(D3DCOLOR color) { this->overrideColor = color; }

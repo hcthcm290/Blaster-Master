@@ -5,8 +5,8 @@
 #include "Debug.h"
 #include "Explosive.h"
 #include "Rock.h"
-#include "SoundManager.h"
 #include "PlayerItem.h"
+#include "Sound.h"
 
 #define TELEPORTER_TELE 21001
 #define TELEPORTER_START 21002
@@ -55,6 +55,8 @@ void Teleporter::Update(float dt)
 		if (state == TELEPORTER_CD)
 		{
 			state = TELEPORTER_START;
+			//Enable this when moving : Trung Nguyễn Sound
+			Sound::getInstance()->play("TeleporterMoving",false, 1);
 			start_tele = GetTickCount();
 			invincible = false;
 		}
@@ -166,8 +168,7 @@ void Teleporter::Update(float dt)
 void Teleporter::Render()
 {
 	animator->Draw(state, x, y, false);
-	//Enable this when moving : Trung Nguyễn Sound
-	SoundManager::GetInstance()->PlaySoundW("TeleporterMoving.wav");
+	
 }
 void Teleporter::TakeDamage(int dmg)
 {

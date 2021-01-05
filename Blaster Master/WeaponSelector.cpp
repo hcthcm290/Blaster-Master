@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Debug.h"
 #include "Utils.h"
+#include "Sound.h"
 
 WeaponSelector::WeaponSelector()
 {
@@ -26,10 +27,12 @@ void WeaponSelector::Update(float dt)
 	{
 		currentPositionIndex = currentPositionIndex - 1;
 		DebugOut(L"Left press\n");
+		Sound::getInstance()->play("JasonBullet", false, 1);
 	}
 	if (DInput::KeyDown(DIK_RIGHT))
 	{
 		currentPositionIndex = currentPositionIndex + 1;
+		Sound::getInstance()->play("JasonBullet", false, 1);
 	}
 
 	if (currentPositionIndex < 0) currentPositionIndex = 0;
@@ -40,6 +43,8 @@ void WeaponSelector::Update(float dt)
 
 	if (DInput::KeyDown(DIK_RETURN))
 	{
+		Sound::getInstance()->play("MineWaiting", false, 1);
+		//Sound::getInstance()->setVolume(100, "ThemeSong");
 		Stack<int> scene_stack = CGame::GetInstance()->GetSceneStack();
 		scene_stack.Pop(); // the first pop is to eliminate the select weapon scene
 		int target_scene_id = scene_stack.Pop();
