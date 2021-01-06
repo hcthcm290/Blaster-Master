@@ -32,7 +32,7 @@ void Worm::OnCollisionEnter(CollisionEvent e)
 	{
 		if (e.nx != 0 && onTheGround)
 		{
-			vy = -50;
+			vy = -100;
 			Sound::getInstance()->play("BigObjectJump",false,1);
 			onTheGround = false;
 			if (flipX)
