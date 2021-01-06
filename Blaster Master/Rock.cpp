@@ -1,5 +1,7 @@
 #include "Rock.h"
 #include "InteriorScene.h"
+#include <time.h>
+#include "PlayerItem.h"
 Rock::Rock()
 {
 	//set HP
@@ -36,6 +38,23 @@ void Rock::TakeDamage(int dmg)
     }
     if (HP == 0)
     {
+        srand((int)time(0));
+        int temp = rand() % 8;
+        if (temp == 0)
+        {
+            PlayerItem* newPlayerItem = new PlayerItem(Power);
+            newPlayerItem->SetPosition(x, y);
+            dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newPlayerItem);
+        }
+        else
+        {
+            if (temp == 1)
+            {
+                PlayerItem* newPlayerItem = new PlayerItem(Gun);
+                newPlayerItem->SetPosition(x, y);
+                dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newPlayerItem);
+            }
+        }
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
     }
 }
