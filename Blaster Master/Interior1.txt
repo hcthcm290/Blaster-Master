@@ -10,8 +10,7 @@ Interior-Area2_Shared_Data.txt
 
 [OBJECTS]
 -1	504	242
-99	960	352
-#82	960	352
+99	64	96
 
 #EYEBALL_SPAWNER: id	x	y	left	top	right	down
 29	624	320	33	14	47	27

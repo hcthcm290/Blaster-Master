@@ -40,8 +40,8 @@ Interior-Area2_Shared_Data.txt
 
 [OBJECTS]
 -1	760	768
-#99	112	1408
-99	880	352
+99	112	1408
+#99	880	352
 
 #boss area
 #id	x	y	w	h	ba_id	b_x	b_y	fo_id	f_x	f_y	bl_id	bs_x	bs_y
