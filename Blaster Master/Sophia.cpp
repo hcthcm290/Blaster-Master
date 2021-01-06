@@ -364,6 +364,10 @@ void Sophia::Update(float dt)
 						up = true;
 					}
 					auto bullet = new Sophia_Bullet_1(up, !flipX);
+					if (isUpgraded)
+					{
+						bullet->upgraded = true;
+					}
 					//adjust x,y for more realistic firing
 					if (state != STATE_SOPHIA_FALL_90 && state != STATE_SOPHIA_IDLE_90 && state != STATE_SOPHIA_JUMP_90 && state != STATE_SOPHIA_MOVE_90) {
 						bullet->SetPosition(x + (flipX ? -20 : 20), y - 3.5f);

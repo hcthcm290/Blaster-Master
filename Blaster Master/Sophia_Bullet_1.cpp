@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "ColliableBrick.h"
 #include "Sound.h"
+#include "BreakableWall.h"
 
 #define SOPHIA_BULLET_LR 29701
 #define SOPHIA_BULLET_UP 29702
@@ -68,7 +69,7 @@ FRECT Sophia_Bullet_1::GetCollisionBox()
 	}
 	colRect.left = this->x - width / 2;
 	colRect.right = this->x + width / 2;
-	colRect.top = this->y - height / 2;
+	colRect.top = this->y - height / 2 + 2.5;
 	colRect.bottom = this->y + height / 2;
 	return colRect;
 }
@@ -77,6 +78,13 @@ void Sophia_Bullet_1::OnCollisionEnter(CollisionEvent e)
 {
 	//CGameObject* player = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	//e.pGameObject lay va cham goi ham tinh sat thuong
+	if (dynamic_cast<BreakableWall*>(e.pGameObject) != nullptr)
+	{
+		ex = true;
+		explosionOverlap = true;
+		if (this->upgraded == true)
+			dynamic_cast<BreakableWall*>(e.pGameObject)->TakeDamage(100);
+	}
 	if (dynamic_cast<ColliableBrick*>(e.pGameObject) != nullptr)
 	{
 		ex = true;
@@ -94,6 +102,13 @@ void Sophia_Bullet_1::OnCollisionEnter(CollisionEvent e)
 
 void Sophia_Bullet_1::OnOverlap(CGameObject* obj)
 {
+	if (dynamic_cast<BreakableWall*>(obj) != nullptr)
+	{
+		ex = true;
+		explosionOverlap = true;
+		if(this->upgraded == true)
+			dynamic_cast<BreakableWall*>(obj)->TakeDamage(100);
+	}
 	if (dynamic_cast<ColliableBrick*>(obj) != nullptr)
 	{
 		ex = true;
