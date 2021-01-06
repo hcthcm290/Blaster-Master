@@ -52,8 +52,10 @@ void PlayerItem::Update(float dt) {
 			break; }
 			case BossDrop: {
 				TheEye::GetInstance()->GetSophia()->isUpgraded = true;
+				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(player);
 				player->SetPosition(8*16,85*16);
 				Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
+				dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(player);
 				break;
 			}
 			}

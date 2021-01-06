@@ -16,7 +16,7 @@ enum ItemType {
 class PlayerItem : public DynamicObject
 {
 private:
-	float livingTime = 15000; //15 second
+	float livingTime = 15; //15 second
 	ItemType itemType;
 	int iITemType = 0;
 
