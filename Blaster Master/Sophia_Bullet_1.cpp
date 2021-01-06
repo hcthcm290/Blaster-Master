@@ -81,7 +81,6 @@ void Sophia_Bullet_1::OnCollisionEnter(CollisionEvent e)
 	if (dynamic_cast<BreakableWall*>(e.pGameObject) != nullptr)
 	{
 		ex = true;
-		explosionOverlap = true;
 		if (this->upgraded == true)
 			dynamic_cast<BreakableWall*>(e.pGameObject)->TakeDamage(100);
 	}
