@@ -5,7 +5,7 @@
 LifeShowner::LifeShowner()
 {
 	this->textRenderer.LoadFont("Font\\LifeLeftFont.txt");
-	timeoutCountdown = 1;
+	timeoutCountdown = 3;
 }
 
 void LifeShowner::Update(float dt)
