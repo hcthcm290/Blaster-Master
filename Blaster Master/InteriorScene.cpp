@@ -18,6 +18,7 @@
 #include "Boss.h"
 #include "BossArea.h"
 #include "Debug.h"
+#include "PlayerItem.h"
 
 
 InteriorScene::InteriorScene(int id, LPCWSTR filePath)
@@ -281,6 +282,11 @@ void InteriorScene::_ParseSection_OBJECTS(string line)
 		bossArea->SetBlackscreenSpriteID(blackscreenSpriteID);
 		bossArea->SetBossInitPosition(bossInitPos);
 
+		break;
+	}
+	case 0:
+	{
+		obj = new PlayerItem(static_cast<ItemType>(atof(tokens[3].c_str())));
 		break;
 	}
 	default:
