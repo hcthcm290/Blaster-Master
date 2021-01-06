@@ -280,6 +280,7 @@ void BigJason::TakeDamage(int dmg)
 		{
 			HP = 0;
 		}
+
 	}
 }
 

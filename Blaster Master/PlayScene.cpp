@@ -259,8 +259,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 	case 0:
-		obj = new PlayerItem();
+	{
+		obj = new PlayerItem(static_cast<ItemType>(atof(tokens[3].c_str())));
 		break;
+	}
 	case 901:
 		obj = new AGR_Orb();
 		break;
