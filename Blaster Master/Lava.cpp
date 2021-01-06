@@ -26,7 +26,7 @@ void Lava::Update(float dt) {
 
 void Lava::Render() {
 	for (int i = 0; i < length; i++) {
-		animator->Draw(State::_LAVA_, x + i * 16, y, flipX);
+		animator->Draw(State::_LAVA_, x + i * 16, y, flipX, 0, D3DCOLOR_XRGB(255, 255, 255), 0.4);
 	}
 }
 
