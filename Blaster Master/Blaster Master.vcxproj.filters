@@ -287,6 +287,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BossArea.cpp" />
+    <ClCompile Include="Spike_Interior.cpp" />
+    <ClCompile Include="GiantGate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -583,6 +585,10 @@
     </ClInclude>
     <ClInclude Include="Sound.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike_Interior.h" />
+    <ClInclude Include="GiantGate.h">
+      <Filter>Header Files\Other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

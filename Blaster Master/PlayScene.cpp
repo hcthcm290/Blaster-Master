@@ -51,6 +51,7 @@
 #include "TheEye.h"
 #include "Sound.h"
 #include "BreakableWall.h"
+#include "GiantGate.h"
 
 using namespace std;
 
@@ -286,6 +287,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case 17: {
 		obj = new BreakableWall();
 		break;
+	}
+	case 122:
+	{
+		obj = new GiantGate();
+		GiantGate* giantGate = dynamic_cast<GiantGate*>(obj);
+
+		x *= 16;
+		y *= 16;
+
+		giantGate->SetIDTargetScene(atoi(tokens[3].c_str()));
 	}
 	}
 

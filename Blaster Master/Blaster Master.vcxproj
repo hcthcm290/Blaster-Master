@@ -178,6 +178,7 @@
     <ClCompile Include="BigGate.cpp" />
     <ClCompile Include="CreditController.cpp" />
     <ClCompile Include="GameOverSelector.cpp" />
+    <ClCompile Include="GiantGate.cpp" />
     <ClCompile Include="LifeShowner.cpp" />
     <ClCompile Include="OutroController.cpp" />
     <ClCompile Include="Sound.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CreditController.h" />
     <ClInclude Include="GameOverSelector.h" />
+    <ClInclude Include="GiantGate.h" />
     <ClInclude Include="IDSceneConstant.h" />
     <ClInclude Include="LifeShowner.h" />
     <ClInclude Include="OutroController.h" />
