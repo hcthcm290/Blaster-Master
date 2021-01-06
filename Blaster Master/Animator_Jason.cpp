@@ -14,5 +14,5 @@ Animator_Jason::Animator_Jason() {
 }
 
 void Animator_Jason::Draw(int animationID, float x, float y, bool flipX) {
-	curFrame = animationSet[animationID]->Render(curFrame, x, y, flipX);
+	curFrame = animationSet[animationID]->Render(curFrame, x, y, flipX, 0, D3DCOLOR_XRGB(255, 255, 255), 0.6);
 }
