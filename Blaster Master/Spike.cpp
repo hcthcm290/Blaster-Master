@@ -37,9 +37,9 @@ void Spike::Update(float dt)
 void Spike::Render()
 {
 
-	for (int i = 0; i < len; i++) {
-		CSprites::GetInstance()->Get(State::_SPIKE_)->Draw(x+i*16, y, false);
-	}
+	
+		CSprites::GetInstance()->Get(State::_SPIKE_)->Draw(x, y, false);
+	
 	
 }
 

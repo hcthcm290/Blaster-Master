@@ -53,6 +53,8 @@ class Sophia : public DynamicObject, public Playable
 public:
 	Sophia();
 
+	bool isUpgraded = false;
+
 	int Homing = 20;
 	int Thunder = 20;
 	int Rocket = 5;

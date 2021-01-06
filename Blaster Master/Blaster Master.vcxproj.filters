@@ -666,6 +666,7 @@
     <Text Include="Interior-Area2_Shared_Data.txt">
       <Filter>Resource Files\Playscene</Filter>
     </Text>
+    <Text Include="Interior-Area2_Shared_Data.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

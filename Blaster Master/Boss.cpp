@@ -6,12 +6,13 @@
 #include "Playable.h"
 #include "Debug.h"
 #include "VisionBox.h"
+#include "PlayerItem.h"
 
 #pragma region Boss
 /** ===== BOSS ===== **/
 
 Boss::Boss(float x, float y) {
-	CGameObject* obj = new VisionBox(0,255,120,121);
+	CGameObject* obj = new VisionBox(48*16,63*16,10*16,10*16+2);
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
 
 	lastex = GetTickCount();
@@ -40,14 +41,25 @@ Boss::Boss(float x, float y) {
 }
 
 void Boss::Update(float dt) {
-	if (HP <= 0)
-	{
-		dead = true;
-	}
 	if (dead)
 	{
 		SetVelocity(0, 0);
+		if (GetTickCount() - deadTime > 5000)
+		{
+			//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this->arrBossHand[0]);
+			//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this->arrBossHand[1]);
+			PlayerItem* newPlayerItem = new PlayerItem(BossDrop);
+			newPlayerItem->SetPosition(x, y);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newPlayerItem);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+			dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene())->SetFightingBoss(false);
+		}
 		return;
+	}
+	if (HP <= 0)
+	{
+		dead = true;
+		deadTime = GetTickCount();
 	}
 	CheckFire(dt);
 	SetVelocity(vx0 * dt, vy0 * dt);
@@ -80,11 +92,10 @@ void Boss::Render() {
 			last_blink = GetTickCount();
 		}
 		//srand((int)time(0));
-		if (GetTickCount() - lastex > 500)
+		if (GetTickCount() - lastex > 200)
 		{
-			int tempx = rand() % 250;
-			int tempy = rand() % 100;
-			DebugOut(L"%d", tempx);
+			int tempx = x + rand() % 100 - 50;
+			int tempy = y + rand() % 100 - 50;
 			CGameObject* obj = new ExplosiveBoss(tempx, tempy);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
 			lastex = GetTickCount();
