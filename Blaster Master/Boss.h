@@ -20,6 +20,7 @@ class Boss : public DynamicObject, public Enemy
 {
 private:
 	bool dead = false;
+	DWORD deadTime;
 	//velocity
 	float vx0, vy0;
 

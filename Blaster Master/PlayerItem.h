@@ -10,6 +10,7 @@ enum ItemType {
 	HomingMissle = State::_P_ITEM_HOMING_MISSLE_,
 	MultiWarhead = State::_P_ITEM_MULTI_WARHEAD_,
 	ThunderBreak = State::_P_ITEM_THUNDER_BREAK_,
+	BossDrop = 20007,
 }; 
 
 class PlayerItem : public DynamicObject

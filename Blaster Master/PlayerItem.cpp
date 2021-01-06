@@ -4,6 +4,9 @@
 #include "Sophia.h"
 #include "PlayScene.h"
 #include "BigJason.h"
+#include "TheEye.h"
+#include "Camera.h"
+#include "CameraBoundaryLib.h"
 
 PlayerItem::PlayerItem() {
 	itemType = static_cast<ItemType>(rand() % 6 + 20001);
@@ -35,34 +38,24 @@ void PlayerItem::Update(float dt) {
 				}
 				break; }
 			case HomingMissle: {
-				for (auto temp : dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetOnScreenObjs())
-				{
-					if(dynamic_cast<Sophia*>(temp) != nullptr)
-						dynamic_cast<Sophia*>(temp)->Homing += 4;
-					break;
-				}
+				TheEye::GetInstance()->GetSophia()->Homing += 15;
 				break; }
 			case ThunderBreak: {
-				for (auto temp : dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetOnScreenObjs())
-				{
-					if (dynamic_cast<Sophia*>(temp) != nullptr)
-						dynamic_cast<Sophia*>(temp)->Thunder += 4;
-					break;
-				}
+				TheEye::GetInstance()->GetSophia()->Thunder += 15;
 				break; }
 			case MultiWarhead: {
-				for (auto temp : dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetOnScreenObjs())
-				{
-					if (dynamic_cast<Sophia*>(temp) != nullptr)
-						dynamic_cast<Sophia*>(temp)->Rocket += 4;
-					break;
-				}
+				TheEye::GetInstance()->GetSophia()->Rocket += 15;
 				break; }
 			case Gun: {
-				
 				if (dynamic_cast<BigJason*>(player) != nullptr)
 					dynamic_cast<BigJason*>(player)->ChangeGunLevel(+1);
 			break; }
+			case BossDrop: {
+				TheEye::GetInstance()->GetSophia()->isUpgraded = true;
+				player->SetPosition(8*16,85*16);
+				Camera::GetInstance()->SetCameraBoundary(CameraBoundaryLib::GetCameraBoundary(player));
+				break;
+			}
 			}
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 		}

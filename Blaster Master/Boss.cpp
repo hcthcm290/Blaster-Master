@@ -6,6 +6,7 @@
 #include "Playable.h"
 #include "Debug.h"
 #include "VisionBox.h"
+#include "PlayerItem.h"
 
 #pragma region Boss
 /** ===== BOSS ===== **/
@@ -40,14 +41,25 @@ Boss::Boss(float x, float y) {
 }
 
 void Boss::Update(float dt) {
-	if (HP <= 0)
-	{
-		dead = true;
-	}
 	if (dead)
 	{
 		SetVelocity(0, 0);
+		if (GetTickCount() - deadTime > 5000)
+		{
+			//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this->arrBossHand[0]);
+			//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this->arrBossHand[1]);
+			PlayerItem* newPlayerItem = new PlayerItem(BossDrop);
+			newPlayerItem->SetPosition(x, y);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newPlayerItem);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+			dynamic_cast<InteriorScene*>(CGame::GetInstance()->GetCurrentScene())->SetFightingBoss(false);
+		}
 		return;
+	}
+	if (HP <= 0)
+	{
+		dead = true;
+		deadTime = GetTickCount();
 	}
 	CheckFire(dt);
 	SetVelocity(vx0 * dt, vy0 * dt);
@@ -84,7 +96,6 @@ void Boss::Render() {
 		{
 			int tempx = x + rand() % 100 - 50;
 			int tempy = y + rand() % 100 - 50;
-			DebugOut(L"%d", tempx);
 			CGameObject* obj = new ExplosiveBoss(tempx, tempy);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
 			lastex = GetTickCount();
