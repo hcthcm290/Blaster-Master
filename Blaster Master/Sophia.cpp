@@ -385,6 +385,7 @@ void Sophia::Update(float dt)
 		if (onTheGround && PInput::KeyDown(SHIFT) && (GetTickCount64() - switchDelay >= 1000))
 		{
 			jason = new Jason(JasonCurrentHealth, x, y - 10, this);
+			jason->SetCurrentHP(jason->GetMaxHP());
 
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetPlayer(jason);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(jason);
