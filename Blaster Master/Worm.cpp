@@ -9,7 +9,7 @@
 Worm::Worm()
 {
 	//set HP
-	HP = 40;
+	HP = 30;
 	//boolean
 	flipX = false;
 	//animator

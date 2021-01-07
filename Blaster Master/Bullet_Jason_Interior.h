@@ -95,7 +95,7 @@ private:
 	int speed;
 
 	//DAMAGE
-	const int BASE_DAMAGE = 10;
+	const int BASE_DAMAGE = 20;
 	const int UPGRADE_DAMAGE = 5;
 	int damage;
 

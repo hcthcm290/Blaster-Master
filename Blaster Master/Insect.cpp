@@ -9,7 +9,7 @@
 
 Insect::Insect() {
 	//set HP
-	HP = 50;
+	HP = 30;
 
 	animator = new Animator();
 	animator->AddAnimation(State::_INSECT_);

@@ -9,7 +9,7 @@
 Dome::Dome(int id_gravity, int id_direction)
 {
 	//set HP
-	HP = 60;
+	HP = 30;
 
 	animator->AddAnimation(20401);
 	animator->AddAnimation(20402);
