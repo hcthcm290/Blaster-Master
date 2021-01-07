@@ -1,8 +1,9 @@
 #pragma once
 #include "DynamicObject.h"
+#include "Enemy.h"
 #include "Camera.h"
 
-class EyeballCurved : public DynamicObject
+class EyeballCurved : public Enemy, public DynamicObject
 {
 private:
 	const float PI = 3.14;
@@ -55,7 +56,7 @@ public:
 
 	void Update(float dt);
 	void Render();
-
+	void TakeDamage(int dmg);
 	FRECT GetCollisionBox();
 	void OnCollisionEnter(CollisionEvent e);
 };

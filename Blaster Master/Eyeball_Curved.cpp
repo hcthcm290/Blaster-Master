@@ -7,6 +7,7 @@
 #include "ColliableBrick.h"
 #include "Bullet_Eyeball.h"
 #include "BigJason.h"
+#include "PlayerItem.h"
 
 EyeballCurved::EyeballCurved() {
 	animator = new Animator();
@@ -169,4 +170,25 @@ void EyeballCurved::SetStartVelocity() {
 		vy0 = (direction.first == _UP ? -1 : 1) * speed;
 	}
 	//DebugOut(L"vx0: %f vy0: %f \n", vx0, vy0);
+}
+void EyeballCurved::TakeDamage(int dmg) {
+	this->HP -= dmg;
+	startTakeDamage = GetTickCount();
+	last_blink = GetTickCount();
+	inv = 1;
+	if (HP < 0)
+	{
+		HP = 0;
+	}
+	if (HP == 0)
+	{
+		srand((int)time(0));
+		if ((rand() % 3) == 0)
+		{
+			PlayerItem* newPlayerItem = new PlayerItem(Power);
+			newPlayerItem->SetPosition(x, y);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(newPlayerItem);
+		}
+		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	}
 }

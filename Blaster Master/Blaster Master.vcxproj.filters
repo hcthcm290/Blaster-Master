@@ -240,9 +240,6 @@
     <ClCompile Include="Canon_Bullet.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Grenade.cpp">
-      <Filter>Source Files\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="MovieScene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
@@ -289,6 +286,9 @@
     <ClCompile Include="BossArea.cpp" />
     <ClCompile Include="Spike_Interior.cpp" />
     <ClCompile Include="GiantGate.cpp" />
+    <ClCompile Include="Grenade.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -528,9 +528,6 @@
     <ClInclude Include="Explosive_Cannon_Bullet.h">
       <Filter>Header Files\Explosion</Filter>
     </ClInclude>
-    <ClInclude Include="Grenade.h">
-      <Filter>Header Files\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Jason_BulletManager_Interior.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -589,6 +586,9 @@
     <ClInclude Include="Spike_Interior.h" />
     <ClInclude Include="GiantGate.h">
       <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Grenade.h">
+      <Filter>Header Files\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

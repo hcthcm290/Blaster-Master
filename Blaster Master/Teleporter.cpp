@@ -7,6 +7,7 @@
 #include "Rock.h"
 #include "PlayerItem.h"
 #include "Sound.h"
+#include "Bullet_Eyeball.h"
 
 #define TELEPORTER_TELE 21001
 #define TELEPORTER_START 21002
@@ -59,6 +60,8 @@ void Teleporter::Update(float dt)
 			Sound::getInstance()->play("TeleporterMoving",false, 1);
 			start_tele = GetTickCount();
 			invincible = false;
+			Bullet_Eyeball* bullet = new Bullet_Eyeball(GetPosition().x, GetPosition().y);
+			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(bullet);
 		}
 		else
 		{
