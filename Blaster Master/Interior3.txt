@@ -20,6 +20,11 @@ Interior-Area2_Shared_Data.txt
 #CANON
 11	80	352
 11	160	224
+#PowerUp
+0	80	48	20001
+0	96	48	20001
+0	80	64	20006
+0	96	64	20004
 
 ## CAMERA BOUNDARY LIST
 #	#id_sec	left	top	right	bottom

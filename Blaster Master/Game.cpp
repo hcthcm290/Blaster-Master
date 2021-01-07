@@ -342,6 +342,7 @@ void SoundManager(int scene)
 	case (IDSceneConstant::AREA2_SCENE):
 		Sound::getInstance()->stop("enter");
 		Sound::getInstance()->play("ThemeSong", true, 0);
+		Sound::getInstance()->setVolume(95, "ThemeSong");
 		break;
 	case (IDSceneConstant::WEAPON_SELECTOR_SCENE):
 		//Sound::getInstance()->setVolume(0, "ThemeSong");
