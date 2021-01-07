@@ -22,5 +22,5 @@ void HealthBarGUI::Render()
 	if (spriteOffset < 0 || spriteOffset > 8) return;
 
 	D3DXVECTOR3 cameraPosition = Camera::GetInstance()->GetPosition();
-	CSprites::GetInstance()->Get(16000 + spriteOffset)->Draw(cameraPosition.x + offset.x, cameraPosition.y + offset.y);
+	CSprites::GetInstance()->Get(16000 + spriteOffset)->Draw(cameraPosition.x + offset.x, cameraPosition.y + offset.y, false, 0, D3DCOLOR_XRGB(255, 255, 255), 1);
 }
