@@ -859,9 +859,7 @@ void CPlayScene::UpdateFreePlaying(float dt)
 
 	PInput::Update();
 
-	if (DInput::KeyDown(DIK_RETURN) &&
-		(dynamic_cast<Sophia*>(player) != NULL ||
-		dynamic_cast<Jason*>(player) != NULL))
+	if (DInput::KeyDown(DIK_RETURN))
 	{
 		CGame::GetInstance()->SoftSwitchScene(IDSceneConstant::WEAPON_SELECTOR_SCENE, false, true);
 		return;
