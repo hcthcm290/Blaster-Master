@@ -289,6 +289,9 @@
     <ClCompile Include="BossArea.cpp" />
     <ClCompile Include="Spike_Interior.cpp" />
     <ClCompile Include="GiantGate.cpp" />
+    <ClCompile Include="GarbageBin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PInput.h">
@@ -589,6 +592,9 @@
     <ClInclude Include="Spike_Interior.h" />
     <ClInclude Include="GiantGate.h">
       <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="GarbageBin.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

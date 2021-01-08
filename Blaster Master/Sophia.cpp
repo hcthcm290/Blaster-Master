@@ -355,7 +355,7 @@ void Sophia::Update(float dt)
 			}
 			else
 			{
-				if (now - last_bullet > 300 && (new Sophia_Bullet_1)->count < 3)
+				if (now - last_bullet > 300 && Sophia_Bullet_1::count < 3)
 				{
 					last_bullet = now;
 					bool up = false;
