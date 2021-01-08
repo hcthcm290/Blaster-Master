@@ -159,6 +159,8 @@ void Sophia_Bullet_1::Update(float dt)
 		iBullet->SetPosition(x + vx * dt, y + vy * dt);
 		FRECT camera = Camera::GetInstance()->GetCollisionBox();
 		FRECT me = iBullet->GetCollisionBox();
+		delete iBullet;
+		iBullet = nullptr;
 		if (me.right <= camera.left || me.left >= camera.right || me.bottom <= camera.top)
 			RemoveBullet();
 	}
