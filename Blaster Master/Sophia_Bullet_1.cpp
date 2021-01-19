@@ -10,6 +10,7 @@
 #include "ColliableBrick.h"
 #include "Sound.h"
 #include "BreakableWall.h"
+#include "GarbageBin.h"
 
 #define SOPHIA_BULLET_LR 29701
 #define SOPHIA_BULLET_UP 29702
@@ -158,6 +159,8 @@ void Sophia_Bullet_1::Update(float dt)
 		iBullet->SetPosition(x + vx * dt, y + vy * dt);
 		FRECT camera = Camera::GetInstance()->GetCollisionBox();
 		FRECT me = iBullet->GetCollisionBox();
+		delete iBullet;
+		iBullet = nullptr;
 		if (me.right <= camera.left || me.left >= camera.right || me.bottom <= camera.top)
 			RemoveBullet();
 	}
@@ -189,6 +192,7 @@ void Sophia_Bullet_1::RemoveBullet()
 {
 	count--;
 	dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
+	GarbageBin::GetInstance()->AddToGarbageBin(this);
 }
 
 void Sophia_Bullet_1::Render()

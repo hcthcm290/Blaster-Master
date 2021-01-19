@@ -52,6 +52,7 @@
 #include "Sound.h"
 #include "BreakableWall.h"
 #include "GiantGate.h"
+#include "GarbageBin.h"
 
 using namespace std;
 
@@ -1121,6 +1122,11 @@ void CPlayScene::Update(DWORD dw_dt)
 	else if (state == State::_PLAYSCENE_FADDING_OUT)
 	{
 		UpdateFaddingOut(dt);
+	}
+
+	if (GarbageBin::GetInstance()->NumberOfTrash() > TrashThreshold)
+	{
+		GarbageBin::GetInstance()->CleanGarbageBin();
 	}
 }
 

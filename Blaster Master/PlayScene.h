@@ -12,6 +12,9 @@
 
 class CPlayScene : public CScene
 {
+private:
+	const int TrashThreshold = 3;
+
 protected:
 	DynamicObject* player;
 	DynamicObject* playerBackup;
