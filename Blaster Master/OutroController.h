@@ -19,7 +19,7 @@ private:
 	int mountainSpriteID = 111700;
 	int mountainFallingSpeed = 7;
 	int mountainLifetime = 4;
-	int mountainDelayFalling = 1;
+	int mountainDelayFalling = 1.8;
 	D3DXVECTOR2 mountainPosition = D3DXVECTOR2(2, 12);
 
 	#pragma endregion
@@ -27,7 +27,7 @@ private:
 	#pragma region CameraController
 	
 	float cameraMovingSpeed = 30;
-	float cameraMovingDelay = 2.8;
+	float cameraMovingDelay = 5;
 	int cameraLimitRight = 382; // camera's CollisionBox.right cannot get over this value;
 	float cameraShakingDuration = 3.8;
 	float cameraShakingInterval = 0.02;
