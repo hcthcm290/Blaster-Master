@@ -14,7 +14,10 @@ GarbageBin* GarbageBin::GetInstance()
 
 void GarbageBin::AddToGarbageBin(CGameObject* object)
 {
-    storage.emplace_back(object);
+    if (!IsExistInGarbageBin(object))
+    {
+        storage.emplace_back(object);
+    }
 }
 
 /// <summary>

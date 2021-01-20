@@ -8,6 +8,7 @@
 #include <fstream>
 #include "IDSceneConstant.h"
 #include "PlayScene.h"
+#include "Sound.h"
 
 #define MOVIESCENE_SECTION_UNKNOWN -1
 #define MOVIESCENE_SECTION_TEXTURES 2
@@ -187,7 +188,12 @@ void MovieScene::Update(DWORD dw_dt)
 
 	if (countTime >= timeout)
 	{
+		if (dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetScene(idNextScene)))
+		{
+			Sound::getInstance()->mute();
+		}
 		CGame::GetInstance()->SwitchScene(this->idNextScene);
+		Sound::getInstance()->unMute();
 
 		// before switching from movie into playscene, we must show the life left scene
 		if (dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetScene(idNextScene)))
