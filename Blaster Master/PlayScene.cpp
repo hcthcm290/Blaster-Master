@@ -1124,10 +1124,6 @@ void CPlayScene::Update(DWORD dw_dt)
 		UpdateFaddingOut(dt);
 	}
 
-	if (GarbageBin::GetInstance()->NumberOfTrash() > TrashThreshold)
-	{
-		GarbageBin::GetInstance()->CleanGarbageBin();
-	}
 }
 
 void CPlayScene::ApllyVelocityToGameObjs(float dt)
@@ -1234,6 +1230,12 @@ void CPlayScene::Render()
 		mapBackground->SetZIndex(0);
 		mapBackground->Render();
 	}
+
+	if (GarbageBin::GetInstance()->NumberOfTrash() > TrashThreshold)
+	{
+		GarbageBin::GetInstance()->CleanGarbageBin();
+	}
+
 }
 
 /*

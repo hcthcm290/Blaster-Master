@@ -13,7 +13,7 @@
 class CPlayScene : public CScene
 {
 private:
-	const int TrashThreshold = 3;
+	const int TrashThreshold = 10;
 
 protected:
 	DynamicObject* player;
