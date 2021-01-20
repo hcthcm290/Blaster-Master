@@ -45,6 +45,7 @@ private:
 	static Sound* instance;
 	IDirectSound8* pDevice;
 	IDirectSoundBuffer* primaryBuffer;
+	std::string previousSound;
 	std::map<std::string, IDirectSoundBuffer8*> soundBufferMap;
 	bool isMute;
 };

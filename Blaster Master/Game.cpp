@@ -361,6 +361,18 @@ void SoundManager(int scene)
 	default:
 		break;
 	}
+
+	std::vector<int> listInteriorSceneID;
+	listInteriorSceneID.emplace_back(2);
+	listInteriorSceneID.emplace_back(3);
+	listInteriorSceneID.emplace_back(4);
+	listInteriorSceneID.emplace_back(5);
+
+	// check for the interior scene
+	if (std::find(listInteriorSceneID.begin(), listInteriorSceneID.end(), scene) != listInteriorSceneID.end())
+	{
+		Sound::getInstance()->play("ThemeSong", true, 1);
+	}
 }
 void CGame::SwitchScene(int scene_id)
 {

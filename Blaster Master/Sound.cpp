@@ -187,6 +187,14 @@ void Sound::play(std::string name, bool infiniteLoop, int times)
 	{
 		return;
 	}
+	if (name == previousSound)
+	{
+		return;
+	}
+	else
+	{
+		previousSound = name;
+	}
 	std::map< std::string, IDirectSoundBuffer8*> ::iterator it;
 	it = soundBufferMap.find(name);
 	if (it == soundBufferMap.end())
@@ -222,6 +230,7 @@ void Sound::stop(std::string name)
 			return;
 		else it->second->Stop();
 	}
+	previousSound = "";
 }
 
 void Sound::setVolume(float percentage, std::string name)
