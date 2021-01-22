@@ -1231,11 +1231,6 @@ void CPlayScene::Render()
 		mapBackground->Render();
 	}
 
-	if (GarbageBin::GetInstance()->NumberOfTrash() > TrashThreshold)
-	{
-		GarbageBin::GetInstance()->CleanGarbageBin();
-	}
-
 }
 
 /*

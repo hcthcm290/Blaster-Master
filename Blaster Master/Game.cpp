@@ -335,6 +335,7 @@ void SoundManager(int scene)
 	switch (scene)
 	{
 	case (IDSceneConstant::TITLE_SCENE):
+		Sound::getInstance()->stop("");
 		Sound::getInstance()->play("intro", true, 0);
 		break;
 	case (IDSceneConstant::CAR_SCENE):
