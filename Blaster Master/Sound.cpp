@@ -187,7 +187,7 @@ void Sound::play(std::string name, bool infiniteLoop, int times)
 	{
 		return;
 	}
-	if (name == previousSound)
+	if (name == previousSound && infiniteLoop == true)
 	{
 		return;
 	}
