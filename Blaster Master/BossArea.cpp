@@ -4,6 +4,7 @@
 #include "Boss.h"
 #include "InteriorScene.h"
 #include "Debug.h"
+#include "Sound.h"
 
 FRECT BossArea::GetCollisionBox()
 {
@@ -14,8 +15,13 @@ void BossArea::Update(float dt)
 {
     if (CollisionSystem::CheckOverlap(this, dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()))
     {
+        if (Countime == 0)
+        {
+            Sound::getInstance()->play("BossEnter", true, 1);
+            Sound::getInstance()->stop("ThemeSong");
+        }
         Countime += dt;
-
+        
         if (Countime >= delayFadding && Countime < delayFadding + faddingTime / 2)
         {
             // fadding black
@@ -33,7 +39,8 @@ void BossArea::Update(float dt)
         }
         else if (Countime > MaxCountime && !bossSpawned)
         {
-
+            Sound::getInstance()->play("ThemeSong", true, 1);
+            Sound::getInstance()->stop("BossEnter");
             CGameObject* boss = new Boss(BossInitPosition.x, BossInitPosition.y);
             dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(boss);
 

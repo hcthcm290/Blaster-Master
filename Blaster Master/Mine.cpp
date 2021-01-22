@@ -23,7 +23,12 @@ Mine::Mine()
 
 void Mine::Update(float dt)
 {
-
+	waiting += dt;
+	if (waiting>=1)
+	{
+		Sound::getInstance()->play("MineWaiting", false, 1);
+		waiting = 0;
+	}
 }
 
 void Mine::Render()
@@ -80,7 +85,7 @@ void Mine::OnCollisionEnter(CollisionEvent e)
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this);
 
 		// Play Explosion Sound //
-		Sound::getInstance()->play("MineWaiting",false,1);
+		
 	}
 }
 

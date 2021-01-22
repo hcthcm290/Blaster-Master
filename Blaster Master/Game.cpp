@@ -71,6 +71,7 @@ void CGame::Init(HWND hWnd)
 	Sound::getInstance()->loadSound((char*)"Sound/3Missile.wav", "3Missile");
 	Sound::getInstance()->loadSound((char*)"Sound/BigObjectJump.wav", "BigObjectJump");
 	Sound::getInstance()->loadSound((char*)"Sound/BossEnter.wav", "BossEnter");
+	Sound::getInstance()->loadSound((char*)"Sound/BossDie.wav", "BossDie");
 	Sound::getInstance()->loadSound((char*)"Sound/DomeFLying.wav", "DomeFLying");
 	Sound::getInstance()->loadSound((char*)"Sound/DomeWalking.wav", "DomeWalking");
 	Sound::getInstance()->loadSound((char*)"Sound/DontKnow.wav", "DontKnow");
@@ -103,6 +104,7 @@ void CGame::Init(HWND hWnd)
 	Sound::getInstance()->loadSound((char*)"Sound/enter.wav", "enter");
 	Sound::getInstance()->loadSound((char*)"Sound/intro.wav", "intro");
 	Sound::getInstance()->loadSound((char*)"Sound/Thunder.wav", "Thunder");
+	Sound::getInstance()->loadSound((char*)"Sound/DontKnow.wav", "DontKnow");
 	Sound::getInstance()->loadSound((char*)"Sound/ThemeSong.wav", "ThemeSong");
 #pragma endregion
 

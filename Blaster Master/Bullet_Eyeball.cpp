@@ -4,11 +4,12 @@
 #include "Playable.h"
 #include "ColliableBrick.h"
 #include "Explosion_Interior.h"
+#include "Sound.h"
 
 Bullet_Eyeball::Bullet_Eyeball(float x, float y) {
 	animator = new Animator();
 	animator->AddAnimation(State::_EYEBALL_BULLET_);
-
+	Sound::getInstance()->play("EyeballSHOT", false, 1);
 	this->SetPosition(x, y);
 
 	float dx = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().x - x;

@@ -7,7 +7,7 @@ class Mine : public DynamicObject, public Enemy
 private:
 	bool active = false;
 	int damage = 10;
-
+	float waiting = 0;
 public:
 	Mine();
 	void Update(float dt);

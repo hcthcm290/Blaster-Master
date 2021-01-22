@@ -114,10 +114,10 @@
 			}
 	};
 #pragma endregion
-Grenade::Grenade(bool check)
+Grenade::Grenade(bool check,float playery)
 {
 	this->Horizontal = check;
-	this->PlayerY = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition().y +10;
+	this->PlayerY = playery;
 	Sound::getInstance()->play("Grenade",false,1);
 }
 void Grenade::Remove()
@@ -138,7 +138,7 @@ void Grenade::Update(float dt)
 	}
 	else
 		livingTime -= dt;
-	if (y >= PlayerY && Horizontal)
+	if (y >= (PlayerY+6) && Horizontal)
 		boom = true;
 	if (boom)
 	{

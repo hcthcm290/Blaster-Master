@@ -9,8 +9,11 @@
 #include "Rock.h"
 #include "Camera.h"
 #include "VisionBox.h"
+#include "Sound.h"
 
 BulletJasonInterior::BulletJasonInterior(int dx, int dy, int level) {
+	Sound::getInstance()->play("DontKnow", false, 1);
+	Sound::getInstance()->setVolume(100, "DontKnow");
 	//if no horizontal either vertical, ignore this construction
 	if ((dy == 0 && dx == 0) || (dy != 0 && dx !=0)) {
 		DebugOut(L"BulletJasonInterior is invalid\n");

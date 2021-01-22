@@ -6,6 +6,7 @@
 #include "PlayScene.h"
 #include "Game.h"
 #include "TheEye.h"
+#include "Sound.h"
 
 #define I_JASON_IDLE_DOWN 29901
 #define I_JASON_IDLE_UP 29902
@@ -18,7 +19,7 @@
 
 BigJason::BigJason()
 {
-	HP = 100;
+	HP = 1000;
 	maxHP = HP;
 	state = I_JASON_IDLE_DOWN;
 	animator = new Animator();
@@ -201,15 +202,18 @@ void BigJason::Update(float dt)
 		{
 			lastGrenadeTime = GetTickCount();
 			DynamicObject* obj = NULL;
-			obj = new Grenade(false);
+			if (state == I_JASON_WALK_SIDE || state == I_JASON_IDLE_SIDE)
+			obj = new Grenade(true,y);
+			else obj = new Grenade(false,y);
 			obj->SetPosition(x, y);
 			int dx = 0;
-			int dy = 0;
+			int dy = 1;
+			float sizeVelo = 1;
 			if (state == I_JASON_WALK_DOWN || state == I_JASON_IDLE_DOWN || state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP)
 			{
 				if (state == I_JASON_WALK_DOWN || state == I_JASON_IDLE_DOWN)
 				{
-					dy = 1;
+					
 					obj->SetPosition(x, y + 12);
 				}
 				if (state == I_JASON_WALK_UP || state == I_JASON_IDLE_UP)
@@ -227,8 +231,9 @@ void BigJason::Update(float dt)
 				{
 					dx = 1;
 				}
+				sizeVelo = 0.14;
 			}
-			obj->SetVelocity(150 * dx, 150 * dy);
+			obj->SetVelocity(150 * dx, 150*sizeVelo * dy);
 			dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(obj);
 			keypress = false;
 		}
@@ -274,6 +279,7 @@ void BigJason::TakeDamage(int dmg)
 {
 	if (invincible <= 0)
 	{
+		Sound::getInstance()->play("JasonGotHit_Interior",false,1);
 		this->HP -= dmg;
 		invincible = 500;
 		if (HP < 0)

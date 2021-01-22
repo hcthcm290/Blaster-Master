@@ -7,6 +7,7 @@
 #include "TheEye.h"
 #include "Camera.h"
 #include "CameraBoundaryLib.h"
+#include "Sound.h"
 
 PlayerItem::PlayerItem() {
 	itemType = static_cast<ItemType>(rand() % 6 + 20001);
@@ -27,6 +28,7 @@ void PlayerItem::Update(float dt) {
 
 		if (CollisionSystem::CheckOverlap(this, player))
 		{
+			Sound::getInstance()->play("PowerUp", false, 1);
 			switch (itemType)
 			{
 			case Power: {
@@ -35,6 +37,7 @@ void PlayerItem::Update(float dt) {
 				if (temp->HP > temp->maxHP)
 				{
 					temp->HP = temp->maxHP;
+					Sound::getInstance()->play("FullHeath", false, 1);
 				}
 				break; }
 			case HomingMissle: {

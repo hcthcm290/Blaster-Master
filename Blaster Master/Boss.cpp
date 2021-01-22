@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Sound.h"
 #include "Boss.h"
 #include "ColliableBrick.h"
 #include "InteriorScene.h"
@@ -46,6 +46,8 @@ void Boss::Update(float dt) {
 		SetVelocity(0, 0);
 		if (GetTickCount() - deadTime > 5000)
 		{
+			Sound::getInstance()->stop("BossDie");
+			Sound::getInstance()->play("ThemeSong", true, 1);
 			//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this->arrBossHand[0]);
 			//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->RemoveGameObjectFromScene(this->arrBossHand[1]);
 			PlayerItem* newPlayerItem = new PlayerItem(BossDrop);
@@ -152,6 +154,8 @@ void Boss::TakeDamage(int dmg)
 	}
 	if (HP == 0)
 	{
+		Sound::getInstance()->stop("ThemeSong");
+		Sound::getInstance()->play("BossDie", true, 1);
 		/*auto explode = new Explosive();
 		explode->SetPosition(x, y);
 		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->AddGameObjectToScene(explode);

@@ -3,6 +3,7 @@
 #include "Jason_BulletManager_Interior.h"
 #include "InteriorScene.h"
 #include "Debug.h"
+#include "Sound.h"
 
 Jason_BulletManager::Jason_BulletManager() {
 	bullets.clear();
@@ -30,7 +31,6 @@ void Jason_BulletManager::CheckBullet() {
 }
 
 void Jason_BulletManager::Fire(int x, int y, int dx, int dy) {
-
 	if (bullets.size() >= MAX_BULLET[level]) {
 		return;
 		DebugOut(L"WAIT\n");

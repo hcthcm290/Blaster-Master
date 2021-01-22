@@ -1,6 +1,7 @@
 #pragma once
 #include "StaticObject.h"
 #include "Animator.h"
+#include "Sound.h"
 
 // Flashing area in Interior
 // When player hit the BossArea, it start flashing and move player to Boss scene

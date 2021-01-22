@@ -6,12 +6,12 @@
 class Grenade : public DynamicObject, public PlayerBullet
 {
 private:
-	float livingTime = 0.25;
+	float livingTime = 0.3;
 	float PlayerY;
 	bool Horizontal = false;
 	bool boom = false;
 public:
-	Grenade(bool);
+	Grenade(bool,float);
 	void Remove();
 	void Update(float dt);
 	void Render();
